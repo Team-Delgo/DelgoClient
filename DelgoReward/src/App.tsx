@@ -1,0 +1,23 @@
+import React, { useEffect } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import './App.scss';
+import CalendarPage from './pages/CalendarPage';
+
+
+function App() {
+  const queryClient = new QueryClient();
+  const location = useLocation();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Routes location={location}>
+        <Route path="/" element={<CalendarPage/>}/>
+      </Routes>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

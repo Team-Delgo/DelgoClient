@@ -1,0 +1,111 @@
+[33mcommit 224780c0f69a132721afd72a1b4edc86bf142da9[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Fri Mar 18 17:53:10 2022 +0900
+
+    Ref UserInfo & ValidCheck
+
+[33mcommit 526580babbbda79dbd608ce8ce58666bc141ec2b[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Fri Mar 18 14:57:24 2022 +0900
+
+    Ref userinfo ref->state, state 통합
+
+[33mcommit aa23bf53c691ab06977c950f69e4e167abcce86e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Thu Mar 17 19:58:31 2022 +0900
+
+    Fix merge
+
+[33mcommit 7bf278a97d1b67ae76d42b0dd734e56f57435ed5[m
+Merge: 221cf76 13ac460
+Author: ckrb63 <cksr1@naver.com>
+Date:   Thu Mar 17 19:55:59 2022 +0900
+
+    merge
+
+[33mcommit 221cf764f1b361376080340f6231930fab031cac[m[33m ([m[1;31morigin/chankyu-signup[m[33m, [m[1;32mchankyu-signup[m[33m)[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Thu Mar 17 19:49:53 2022 +0900
+
+    Fix userinfo
+
+[33mcommit 13ac46072ab909be3df05c2d501444c3ff86f9e4[m
+Merge: 84aecdf a158bf0
+Author: jung seok woo <ingal777@naver.com>
+Date:   Thu Mar 17 19:43:26 2022 +0900
+
+    Merge pull request #1 from Team-Delgo/seokwoo
+    
+    Seokwoo
+
+[33mcommit dc9ff2ab4a57b0c9d0f8fa5fe976736b4b5dd3b1[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Thu Mar 17 13:15:20 2022 +0900
+
+    Ref terms, color, toast, classnames
+
+[33mcommit 03c5c539c2f4980d1afe0dec44fcbab1ed4ec716[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Wed Mar 16 23:03:02 2022 +0900
+
+    ADD userInfo
+
+[33mcommit a158bf025873414a841b5907de7f72829705f60c[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Wed Mar 16 19:54:50 2022 +0900
+
+    Docs eslintrc 수정
+
+[33mcommit f9e811f21ede7f5bff8c4ae6c7eabb6d7fef5932[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Wed Mar 16 13:23:27 2022 +0900
+
+    Design main page 수정
+
+[33mcommit b0b955b762f183e498debc67f45ddb8ffb9bab3f[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Wed Mar 16 01:25:12 2022 +0900
+
+    Fix terms, verifyphone
+
+[33mcommit 177d194a94659ed81eff817b3aedf181d1de1f68[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Wed Mar 16 01:10:34 2022 +0900
+
+    ADD termDetailPage
+
+[33mcommit 14614be8916374df8bc0221738f1475d7daa7e1a[m[33m ([m[1;32msign-up[m[33m)[m
+Author: ckrb63 <cksr1@naver.com>
+Date:   Tue Mar 15 23:08:36 2022 +0900
+
+    ADD terms & phoneverify
+
+[33mcommit 1aa8406b9f2b72ff0eeab757c1537873cb1bcdfe[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Tue Mar 15 17:32:23 2022 +0900
+
+    ADD homepage ui + public->assert->images에 샘플이미지 삽입
+
+[33mcommit 84aecdf00a00b4617c3f650cb6b49ff5775de5aa[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Tue Mar 15 15:54:43 2022 +0900
+
+    eslintrtc수정
+
+[33mcommit 0070e4353a6e0cde3ac9c7d54f72041eef8c5664[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Tue Mar 15 09:02:06 2022 +0900
+
+    redux redux-toolkit redux persist scss 적용
+
+[33mcommit 07697fcc41b93aed1c0649c1ed58b16b873a7eef[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Mon Mar 14 23:13:13 2022 +0900
+
+    redux , redux-toolkit ,scss 적용
+
+[33mcommit 055e22002ddec025acf803002f42f0d065fed332[m
+Author: 정석우 <ingal777@naver.com>
+Date:   Mon Mar 14 23:12:55 2022 +0900
+
+    redux , redux-toolkit ,scss 적용
