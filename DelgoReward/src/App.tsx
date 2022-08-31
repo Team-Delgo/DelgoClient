@@ -11,6 +11,8 @@ function App() {
   const queryClient = new QueryClient();
   const location = useLocation();
 
+  console.log(process.env.REACT_APP_NCP_CLIENT_ID);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
