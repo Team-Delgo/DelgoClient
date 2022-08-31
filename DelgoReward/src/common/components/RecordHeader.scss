@@ -3,7 +3,12 @@
   padding: 6px 20px;
   display: flex;
   justify-content: space-evenly;
-  border-bottom: 1px solid #e5e5e5;
+  &-wrapper{
+    img{
+      margin-left: 20px;
+      margin-top: 50px;
+    }
+  }
   &-item{
     width: 15vw;
     text-align: center;
