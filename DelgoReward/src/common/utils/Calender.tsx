@@ -132,6 +132,8 @@ function Calender() {
   <div className="day">토</div>
 </div>
 
+  console.log(process.env.REACT_APP_NCP_CLIENT_ID);
+
   return (
     <div className="calender">
       
