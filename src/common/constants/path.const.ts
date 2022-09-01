@@ -1,5 +1,4 @@
 export const ROOT_PATH = '/';
-export const EDITOR_NOTE_PATH = '/editor-note/:id';
 export const MY_ACCOUNT_PATH = {
   MAIN: '/user/myaccount',
   COUPON: '/user/myaccount/coupon',
@@ -33,11 +32,10 @@ export const SIGN_UP_PATH = {
   },
 };
 export const MY_STORAGE_PATH = '/my-storage';
-export const WHERE_TO_GO_PATH = '/where-to-go';
-export const DETAIL_PLACE_PATH = {
-  MAIN: '/detail-place/:placeId',
-  REVIEWS: '/detail-place/:placeId/reviews',
-  ROOMTYPES: '/detail-place/:placeId/:roomTypeId',
+
+export const CAMERA_PATH = {
+  MAIN: '/camera',
+  CAPTURE: '/camera/captureImg',
 };
 export const REVIEW_WRITING_PATH = '/review-writing/:reservationId';
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
