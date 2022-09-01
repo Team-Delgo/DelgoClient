@@ -1,6 +1,6 @@
 import React from "react";
-import RecordHeader from "../common/components/RecordHeader";
-import Calender from "../common/utils/Calender";
+import RecordHeader from "../../common/components/RecordHeader";
+import Calender from "../../common/utils/Calender";
 
 function CalendarPage() {
     return <>
