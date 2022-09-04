@@ -3,6 +3,7 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import errorSlice from './slice/errorSlice';
+import deviceSlice from './slice/deviceSlice';
 
 
 const persistConfig = {
@@ -11,15 +12,16 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  error:errorSlice
+  error: errorSlice,
+  device: deviceSlice
 });
 
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
-  reducer: { persist: persistedReducer},
-  devTools: process.env.NODE_ENV !== 'production', 
+  reducer: { persist: persistedReducer },
+  devTools: process.env.NODE_ENV !== 'production',
 });
 export type RootState = ReturnType<typeof store.getState>
 export default store;

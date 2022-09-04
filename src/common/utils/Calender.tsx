@@ -18,7 +18,7 @@ Calender.defaultProps = {
 
 function Calender() {
   const dispatch = useDispatch();
-
+  console.log('1');
   const getNextYear = (currentMonth: number, currentYear: number, add: number) => {
     if (currentMonth + add > 12) {
       return currentYear + 1;

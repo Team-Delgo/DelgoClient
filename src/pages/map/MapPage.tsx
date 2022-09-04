@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import RecordHeader from "../common/components/RecordHeader";
+import RecordHeader from "../../common/components/RecordHeader";
 import "./MapPage.scss";
+<<<<<<< HEAD:DelgoReward/src/pages/MapPage.tsx
 import park from "./park.jpg";
+=======
+>>>>>>> 5544c96320d4d306babacc17548aad610c600a20:src/pages/map/MapPage.tsx
 
 function MapPage() {
   const mapElement = useRef(null);
@@ -25,7 +28,7 @@ function MapPage() {
       icon: {
           content: [
             `<div class="pin">`,
-              `<img src=${park} alt="pin"/>`,
+              `<img src=${`${process.env.PUBLIC_URL}/assets/park.jpg`} alt="pin"/>`,
             `</div>`
           ].join(''),
           size: new naver.maps.Size(100, 100),
