@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from "react";
+import FooterNavigation from "../../common/components/FooterNavigation";
 import RecordHeader from "../../common/components/RecordHeader";
 import "./MapPage.scss";
-<<<<<<< HEAD:DelgoReward/src/pages/MapPage.tsx
 import park from "./park.jpg";
-=======
->>>>>>> 5544c96320d4d306babacc17548aad610c600a20:src/pages/map/MapPage.tsx
+import { dummyData } from "./dummypin";
 
 function MapPage() {
   const mapElement = useRef(null);
@@ -12,7 +11,7 @@ function MapPage() {
 
   useEffect(() => {
     if(!mapElement.current || !naver) return;
-    const location = new window.naver.maps.LatLng(37.5656, 126.9769);
+    const location = new window.naver.maps.LatLng(dummyData[0].lat, dummyData[0].lng);
     const mapOptions: naver.maps.MapOptions = {
       center: location,
       zoom: 17,
@@ -22,22 +21,28 @@ function MapPage() {
       // },
     };
     const map = new naver.maps.Map(mapElement.current, mapOptions);
-    const markerOptions = {
-      position: location,
-      map,
-      icon: {
-          content: [
-            `<div class="pin">`,
-              `<img src=${`${process.env.PUBLIC_URL}/assets/park.jpg`} alt="pin"/>`,
-            `</div>`
-          ].join(''),
-          size: new naver.maps.Size(100, 100),
-          origin: new naver.maps.Point(0, 0),
-      }
-  };
+
+    dummyData.forEach((data)=>{
+      const markerOptions = {
+        position: new window.naver.maps.LatLng(data.lat, data.lng),
+        map,
+        icon: {
+            content: [
+              `<div class="pin" style="z-index:${data.id}">`,
+                `<img src=${data.photo} style="z-index:${data.id+1}" alt="pin"/>`,
+              `</div>`
+            ].join(''),
+            size: new naver.maps.Size(100, 100),
+            origin: new naver.maps.Point(0, 0),
+        }
+    };
+    const marker = new naver.maps.Marker(markerOptions);
+    })
+
+    
   
     
-    const marker = new naver.maps.Marker(markerOptions);
+    
   }, []);
 
   const mapStyle = {
@@ -48,6 +53,7 @@ function MapPage() {
   return <div>
     <RecordHeader/>
     <div ref={mapElement} style={mapStyle} />
+    <FooterNavigation/>
   </div>
 }
 

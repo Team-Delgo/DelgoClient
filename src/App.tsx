@@ -10,6 +10,7 @@ import CameraPage from './pages/camera/CameraPage';
 import CapturePage from './pages/camera/capture/CapturePage';
 import { deviceAction } from './redux/slice/deviceSlice';
 import {CAMERA_PATH} from './common/constants/path.const'
+import Photo from './pages/photo/Photo';
 
 function App() {
   const queryClient = new QueryClient();
@@ -33,7 +34,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
         <Route path="/" element={<MapPage />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/photo" element={<Photo/>}/>
         <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
       </Routes>
