@@ -36,6 +36,7 @@ export const MY_STORAGE_PATH = '/my-storage';
 export const CAMERA_PATH = {
   MAIN: '/camera',
   CAPTURE: '/camera/captureImg',
+  CATEGORY: '/camera/captureImg/category',
 };
 export const REVIEW_WRITING_PATH = '/review-writing/:reservationId';
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
