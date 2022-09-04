@@ -8,6 +8,7 @@ import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
 import CapturePage from './pages/camera/capture/CapturePage';
+import CaptureCategoryPage from './pages/camera/capture/CaptureCategoryPage';
 import { deviceAction } from './redux/slice/deviceSlice';
 import {CAMERA_PATH} from './common/constants/path.const'
 import Photo from './pages/photo/Photo';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/photo" element={<Photo/>}/>
         <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
+        <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
       </Routes>
     </QueryClientProvider>
   );
