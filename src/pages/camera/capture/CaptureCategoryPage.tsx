@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
-import { ReactComponent as PrevArrowWhite } from '../../../common/icons/prev-arrow-white.svg';
+import PrevArrowWhite from '../../../common/icons/prev-arrow-white.svg';
 import { CAMERA_PATH } from '../../../common/constants/path.const'
 import BottomButton from '../../../common/components/BottomButton';
 import './CaptureCategoryPage.scss';
@@ -54,7 +54,13 @@ function CaptureCategoryPage() {
   return (
     <div className="capture-category-page-background">
       <img className="captured-img" src={state.img} height={220} width={280} alt="caputeImg" />
-      <PrevArrowWhite className="capture-page-prev-arrow" onClick={moveToPreviousPage} />
+      <img
+        src={PrevArrowWhite}
+        className="capture-page-prev-arrow"
+        alt="capture-page-prev-arrow"
+        aria-hidden="true"
+        onClick={moveToPreviousPage}
+      />
       <main className="capture-img-record">
         <header className="capture-img-record-container">
           <div className={`capture-img-record-body-${category}`} aria-hidden="true" onClick={moveToPreviousPage}>

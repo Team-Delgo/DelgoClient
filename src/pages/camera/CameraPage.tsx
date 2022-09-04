@@ -27,10 +27,20 @@ function CameraPage() {
     }
   };
 
+  const moveToPreviousPage = () => {
+    navigate("/map");
+  };
+
 
   return (
     <div className="camera-page-backround">
-      <img src={PrevArrowBlack} className="camera-page-prev-arrow" alt="camera-page-prev-arrow" />
+      <img
+        src={PrevArrowBlack}
+        className="camera-page-prev-arrow"
+        alt="camera-page-prev-arrow"
+        aria-hidden="true"
+        onClick={moveToPreviousPage}
+      />
       <img
         src={CameraTransition}
         className="camera-transition-button"
