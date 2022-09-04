@@ -1,20 +1,32 @@
-.recordHeader{
+.recordHeader {
   margin: 42px 20px 20px 20px;
   padding: 6px 20px;
   display: flex;
   justify-content: space-evenly;
-  &-wrapper{
-    img{
+
+  &-wrapper {
+    background-color: white;
+    height: 20vh;
+    width: 100%;
+    &.fixed{
+      position: fixed;
+    }
+    z-index: 9999;
+
+    img {
       margin-left: 20px;
       margin-top: 50px;
     }
   }
-  &-item{
+
+  &-item {
     width: 15vw;
     text-align: center;
-    &.select{
+
+    &.select {
       position: relative;
-      &::after{
+
+      &::after {
         position: absolute;
         bottom: -9px;
         left: 0;

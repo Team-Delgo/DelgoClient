@@ -17,8 +17,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
-        <Route path="/" element={<MapPage/>}/>
-        <Route path="/map" element={<CalendarPage/>}/>
+        <Route path="/map" element={<MapPage/>}/>
+        <Route path="/calendar" element={<CalendarPage/>}/>
       </Routes>
     </QueryClientProvider>
   );
