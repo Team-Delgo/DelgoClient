@@ -52,6 +52,9 @@ function CameraPage() {
         ref={cameraRef}
         className="web-camera"
         screenshotFormat="image/jpeg"
+        height={window.innerWidth}
+        width={window.innerWidth}
+        forceScreenshotSourceSize
         videoConstraints={{
           facingMode: { exact: webCameraMode },
         }}
