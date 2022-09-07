@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import FooterNavigation from "../../common/components/FooterNavigation";
 import RecordHeader from "../../common/components/RecordHeader";
 import "./MapPage.scss";
@@ -7,10 +8,14 @@ import { dummyData } from "./dummypin";
 
 function MapPage() {
   const mapElement = useRef(null);
+  const navigate = useNavigate();
 
+  const pinButtonHandler = () => {
+    console.log(1);
+  };
 
   useEffect(() => {
-    if(!mapElement.current || !naver) return;
+    if (!mapElement.current || !naver) return;
     const location = new window.naver.maps.LatLng(dummyData[0].lat, dummyData[0].lng);
     const mapOptions: naver.maps.MapOptions = {
       center: location,
@@ -22,27 +27,23 @@ function MapPage() {
     };
     const map = new naver.maps.Map(mapElement.current, mapOptions);
 
-    dummyData.forEach((data)=>{
+    dummyData.forEach((data) => {
       const markerOptions = {
         position: new window.naver.maps.LatLng(data.lat, data.lng),
         map,
         icon: {
-            content: [
-              `<div class="pin" style="z-index:${data.id}">`,
-                `<img src=${data.photo} style="z-index:${data.id+1}" alt="pin"/>`,
-              `</div>`
-            ].join(''),
-            size: new naver.maps.Size(100, 100),
-            origin: new naver.maps.Point(0, 0),
+          content: [
+            `<div class="pin" style="z-index:${data.id}">`,
+            `<img src=${data.photo} style="z-index:${data.id + 1}" alt="pin"/>`,
+            `</div>`
+          ].join(''),
+          size: new naver.maps.Size(100, 100),
+          origin: new naver.maps.Point(0, 0),
         }
-    };
-    const marker = new naver.maps.Marker(markerOptions);
+      };
+      const marker = new naver.maps.Marker(markerOptions);
+      marker.addListener('click', () => { navigate(`/post/?userId=${1}&postId=${data.id}`) });
     })
-
-    
-  
-    
-    
   }, []);
 
   const mapStyle = {
@@ -51,9 +52,9 @@ function MapPage() {
   }
 
   return <div>
-    <RecordHeader/>
+    <RecordHeader />
     <div ref={mapElement} style={mapStyle} />
-    <FooterNavigation/>
+    <FooterNavigation />
   </div>
 }
 
