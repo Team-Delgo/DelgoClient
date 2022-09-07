@@ -53,7 +53,7 @@ function CaptureCategoryPage() {
 
   return (
     <div className="capture-category-page-background">
-      <img className="captured-img" src={state.img} height={220} width={280} alt="caputeImg" />
+      <img className="captured-img" src={state.img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
       <img
         src={PrevArrowWhite}
         className="capture-page-prev-arrow"
