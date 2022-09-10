@@ -33,12 +33,13 @@ export const SIGN_UP_PATH = {
 };
 export const MY_STORAGE_PATH = '/my-storage';
 
+export const HOME_PATH = '/home'
+
 export const CAMERA_PATH = {
   MAIN: '/camera',
   CAPTURE: '/camera/captureImg',
   CATEGORY: '/camera/captureImg/category',
-};
-export const REVIEW_WRITING_PATH = '/review-writing/:reservationId';
+}
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';
 export const APPLE_REDIRECT_HANDLE_PATH = '/oauth/callback/apple';

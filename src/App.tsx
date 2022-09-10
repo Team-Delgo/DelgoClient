@@ -3,15 +3,17 @@ import axios, { AxiosResponse } from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import './App.scss';
+import { deviceAction } from './redux/slice/deviceSlice';
+import { CAMERA_PATH, HOME_PATH } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
 import CapturePage from './pages/camera/capture/CapturePage';
 import CaptureCategoryPage from './pages/camera/capture/CaptureCategoryPage';
-import { deviceAction } from './redux/slice/deviceSlice';
-import {CAMERA_PATH} from './common/constants/path.const'
 import Photo from './pages/photo/Photo';
+import HomePage from './pages/home/HomePage';
+import './App.scss';
+
 
 function App() {
   const queryClient = new QueryClient();
@@ -20,13 +22,11 @@ function App() {
 
   console.log(process.env.REACT_APP_NCP_CLIENT_ID);
 
-
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
     if (varUA.indexOf('android') > -1) {
       dispatch(deviceAction.android());
-    }
-    else if (varUA.indexOf('iphone') > -1 || varUA.indexOf('ipad') > -1 || varUA.indexOf('ipod') > -1) {
+    } else if (varUA.indexOf('iphone') > -1 || varUA.indexOf('ipad') > -1 || varUA.indexOf('ipod') > -1) {
       dispatch(deviceAction.ios());
     }
   }, []);
@@ -36,8 +36,9 @@ function App() {
       <Routes location={location}>
         <Route path="/" element={<MapPage />} />
         <Route path="/map" element={<MapPage />} />
+        <Route path={HOME_PATH} element={<HomePage />} />
         <Route path="/calendar" element={<CalendarPage />} />
-        <Route path="/photo" element={<Photo/>}/>
+        <Route path="/photo" element={<Photo />} />
         <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
