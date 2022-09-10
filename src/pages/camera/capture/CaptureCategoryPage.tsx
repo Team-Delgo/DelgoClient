@@ -44,7 +44,7 @@ function CaptureCategoryPage() {
   };
 
   const handleReviewWrite = useCallback((e) => {
-    setReviewText(e.target.value.trim());
+    setReviewText(e.target.value);
   }, []);
 
   const submitReview = () => {
@@ -74,9 +74,9 @@ function CaptureCategoryPage() {
             className="review-content"
             placeholder="남기고 싶은 기록을 작성해주세요"
             onChange={handleReviewWrite}
-            maxLength={199}
+            maxLength={200}
           />
-          <div className="review-content-length">{rivewText.replace(/ /g, '').length}/200</div>
+          <div className="review-content-length">{rivewText.length}/200</div>
         </body>
       </main>
       <div aria-hidden="true" onClick={submitReview}>
