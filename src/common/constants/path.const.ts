@@ -40,6 +40,13 @@ export const CAMERA_PATH = {
   CAPTURE: '/camera/captureImg',
   CATEGORY: '/camera/captureImg/category',
 }
+
+export const RECORD_PATH = {
+  PHOTO: '/photo',
+  CALENDAR: '/calendar',
+  MAP: '/map'
+}
+
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';
 export const APPLE_REDIRECT_HANDLE_PATH = '/oauth/callback/apple';

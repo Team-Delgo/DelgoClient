@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { deviceAction } from './redux/slice/deviceSlice';
-import { CAMERA_PATH, HOME_PATH } from './common/constants/path.const';
+import { CAMERA_PATH, HOME_PATH, RECORD_PATH, ROOT_PATH } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
@@ -34,11 +34,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
-        <Route path="/" element={<MapPage />} />
-        <Route path="/map" element={<MapPage />} />
         <Route path={HOME_PATH} element={<HomePage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
-        <Route path="/photo" element={<Photo />} />
+        <Route path={ROOT_PATH} element={<HomePage />} />
+        <Route path={RECORD_PATH.MAP} element={<MapPage />} />
+        <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
+        <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
         <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />

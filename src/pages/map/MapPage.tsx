@@ -11,6 +11,7 @@ function MapPage() {
   const mapElement = useRef(null);
   const navigate = useNavigate();
   const [mungple, setMungple] = useState('ON');
+  const [isLoading, setIsLoading] = useState(true);
   const [globarMap, setGlobarMap] = useState<naver.maps.Map>();
   const [currentLocation, setCurrentLocation] = useState({lat:dummyData[0].lat, lng:dummyData[0].lng, zoom:17});
 
@@ -67,6 +68,7 @@ function MapPage() {
     })
   }
     setGlobarMap(map);
+    setIsLoading(false);
   }, [mungple]);
 
   const mapStyle = {
@@ -88,7 +90,7 @@ function MapPage() {
   return <div>
     <RecordHeader />
     <div ref={mapElement} style={mapStyle} >
-      <div aria-hidden="true" onClick={mungpleButtonHandler} className="mungplace-toggle" >{`멍플 ${mungple}`}</div>
+      {!isLoading && <div aria-hidden="true" onClick={mungpleButtonHandler} className="mungplace-toggle" >{`멍플 ${mungple}`}</div>}
     </div>
     <FooterNavigation />
   </div>
