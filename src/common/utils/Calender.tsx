@@ -95,21 +95,22 @@ function Calender() {
       const condition = i >= firstDateIndex && i <= lastDateIndex;
       const keyCondition = condition ? 'this' : 'other';
       const id = `${currentYear}${currentMonth}${rdate} ${keyCondition}`;
+      const achieve = i % 4 === 0;
 
-      
 
       return (
         <div
           key={id}
           className={classNames(
             'date-day',
-            { able: condition, circle: even},
+            { able: condition, circle: even },
           )}
           id={id}
           aria-hidden="true"
         >
           {date}
-          {even && <img src={park} alt="park" className='date-day-after' />}
+          {achieve && <div className='date-day-achieve' />}
+          {even &&<img src={park} alt="park" className='date-day-after' />}
 
         </div>
       );
@@ -123,22 +124,22 @@ function Calender() {
 
 
   const weekDay = <div className="day-header">
-  <div className="day sun">일</div>
-  <div className="day">월</div>
-  <div className="day">화</div>
-  <div className="day">수</div>
-  <div className="day">목</div>
-  <div className="day">금</div>
-  <div className="day">토</div>
-</div>
+    <div className="day sun">일</div>
+    <div className="day">월</div>
+    <div className="day">화</div>
+    <div className="day">수</div>
+    <div className="day">목</div>
+    <div className="day">금</div>
+    <div className="day">토</div>
+  </div>
 
   console.log(process.env.REACT_APP_NCP_CLIENT_ID);
 
   return (
     <div className="calender">
-      
+
       <div className="date-wrapper">
-        
+
         <div className="current-month">{`${datesElement0.currentYear}.${datesElement0.currentMonth}`}</div>
         {weekDay}
         <div className="date">{datesElement0.datesElement}</div>

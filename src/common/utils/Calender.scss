@@ -98,6 +98,19 @@
     text-align: center;
     visibility: hidden;
 
+
+
+    &-achieve{
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-20px);
+      width: 10px;
+      height: 10px;
+      background-color: #ff9162;
+      border-radius: 100%;
+    }
+
     &.able {
       visibility: visible;
     }
