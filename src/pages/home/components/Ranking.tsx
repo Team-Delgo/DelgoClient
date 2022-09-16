@@ -40,7 +40,7 @@ function Ranking() {
           <div className="home-page-dog-history-body-ranking-detail-container" key={data.id}>
             <div className="home-page-dog-history-body-ranking-detail-rank">{index + 1}</div>
             <div className="home-page-dog-history-body-ranking-detail-dog-profile">
-              <img src={data.img} alt="copy url" />
+              <img src={data.img} alt="dog-img-url" />
               <div className="home-page-dog-history-body-ranking-detail-dog-profile-name-point">
                 <div>{data.name}</div>
                 <div>{data.point}p</div>
