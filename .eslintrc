@@ -24,6 +24,7 @@
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx",".scss"] }
     ],
-    "jsx-a11y/no-noninteractive-element-interactions": 0
+    "react/jsx-boolean-value": ["error", "never", { "ignore": ["value"]}],
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
   }
 }

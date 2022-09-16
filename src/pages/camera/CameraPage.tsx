@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { useNavigate } from 'react-router-dom';
 import { CAMERA_PATH } from '../../common/constants/path.const'
@@ -11,6 +11,7 @@ function CameraPage() {
   const [webCameraMode, setWwebCameraMode] = useState('user');
   const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
+
 
   const captureImg = () => {
     if (cameraRef.current) {
@@ -28,7 +29,7 @@ function CameraPage() {
   };
 
   const moveToPreviousPage = () => {
-    navigate("/map");
+    navigate('/map');
   };
 
 
@@ -48,18 +49,20 @@ function CameraPage() {
         aria-hidden="true"
         onClick={swtichCamera}
       />
-      <Webcam
-        ref={cameraRef}
-        className="web-camera"
-        screenshotFormat="image/jpeg"
-        forceScreenshotSourceSize
-        mirrored
-        width={window.innerWidth}
-        videoConstraints={{
-          facingMode: { exact: webCameraMode },
-          aspectRatio: 1 / 1,
-        }}
-      />
+      {cameraRef === null ? null : (
+        <Webcam
+          ref={cameraRef}
+          className="web-camera"
+          screenshotFormat="image/jpeg"
+          forceScreenshotSourceSize
+          mirrored={webCameraMode === 'user'}
+          width={window.innerWidth}
+          videoConstraints={{
+            facingMode: { exact: webCameraMode },
+            aspectRatio: 1 / 1,
+          }}
+        />
+      )}
       <img
         src={CameraButton}
         className="camera-capture-button"
@@ -71,4 +74,4 @@ function CameraPage() {
   );
 }
 
-export default CameraPage
+export default CameraPage;
