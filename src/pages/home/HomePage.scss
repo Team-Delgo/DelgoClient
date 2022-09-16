@@ -8,8 +8,8 @@
     }
 }
 .home-page-dog-history-body{
-    padding: 50px 5% 0 5%;
     &-activity-log{
+        padding: 50px 5% 0 5%;
         font-weight: 500;
         padding-bottom: 100px;
         &-title{
@@ -40,11 +40,50 @@
                 background-color: #474747;
                 border-radius: 38px;
                 margin: 10px 5px 0 0;
+                font-size: 16px;
+                &-label{
+                    color:#000000;
+                    font-weight: 500;
+                }
+                &-count{
+                    font-weight: 700;
+                }
+            }
+            &-walk{
+                &-count{
+                    color: #4A8C48;
+                }
+            }
+            &-cafe{
+                &-count{
+                    color: #8E6947;
+                }
+            }
+            &-restaurant{
+                &-count{
+                    color: #AD912B;
+                }
+            }
+            &-hospital{
+                &-count{
+                    color: #8269CB;
+                }
+            }
+            &-beauty{
+                &-count{
+                    color: #328995;
+                }
+            }
+            &-bath{
+                &-count{
+                    color: #B4588F;
+                }
             }
         }
     }
     &-ranking{
         &-title{
+            padding: 0 5% 20px 5%;
             font-weight: 500;
             font-size: 20px;
             color:black;
@@ -52,7 +91,6 @@
         &-summary{
             height: 76px;
             background: #565656;
-            margin: 30px -5%;
             &-first-line{
                 display: flex;
                 justify-content: space-between;
@@ -75,8 +113,47 @@
             &-second-line{
                 font-weight: 500;
                 font-size: 12px;
-                padding-left: 5%;
+                padding: 2px 0 0 5%;
                 color: #C4C4C4;
+            }
+        }
+        &-detail{
+            height: 235px;
+            padding: 20px 5% 0 5%;
+            background: #F3F3F3;
+            &-container{
+                display: flex;
+                justify-content : center;
+                align-items : center;
+                .home-page-dog-history-body-ranking-detail-rank{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    margin-right: 20px;
+                    color: white;
+                    background: #565656;
+                }
+                .home-page-dog-history-body-ranking-detail-dog-profile{
+                    display: flex;
+                    width: 75vw;
+                    height: 49px;
+                    background: #FFFFFF;
+                    border-radius: 4px;
+                    margin-bottom: 7px;
+                    &-name-point{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        color:#474747;
+                        font-size: 16px;
+                        font-weight: 700;
+                        width: 100%;
+                        padding: 0 7%;
+                    }
+                }
             }
         }
     }

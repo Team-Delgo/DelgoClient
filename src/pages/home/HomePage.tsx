@@ -9,10 +9,8 @@ function HomePage() {
   return (
     <>
       <Profile />
-      <body className="home-page-dog-history-body">
-        <ActivityLog />
-        <Ranking />
-      </body>
+      <ActivityLog />
+      <Ranking />
       <FooterNavigation />
     </>
   );
