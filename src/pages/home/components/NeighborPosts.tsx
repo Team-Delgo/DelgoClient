@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { POSTS_PATH } from '../../../common/constants/path.const';
 
 const posts = [
   {
@@ -22,17 +24,26 @@ const posts = [
 ];
 
 function NeighborPosts() {
+  const navigate = useNavigate();
+  const moveToPostsPage = () => {
+    navigate(POSTS_PATH);
+  };
   return (
     <div className="home-page-neighbord-posts">
-      <header className="home-page-neighbord-posts-title">우리동네 멍멍이들의 하루</header>
-      <div className="home-page-neighbord-posts-container">
+      <header className="home-page-neighbord-posts-header">
+        <div className="home-page-neighbord-posts-header-title">우리동네 멍멍이들의 하루</div>
+        <div className="home-page-neighbord-posts-header-all" aria-hidden="true" onClick={moveToPostsPage}>
+          전체보기
+        </div>
+      </header>
+      <main className="home-page-neighbord-posts-container">
         {posts.map((post) => (
           <div className="home-page-neighbord-post" key={post.id}>
-            <div className="img-overLay"/>
+            <div className="img-overLay" />
             <img src={post.img} alt="post-img" />
           </div>
         ))}
-      </div>
+      </main>
     </div>
   );
 }

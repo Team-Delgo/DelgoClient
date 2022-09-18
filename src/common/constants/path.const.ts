@@ -33,7 +33,7 @@ export const SIGN_UP_PATH = {
 };
 export const MY_STORAGE_PATH = '/my-storage';
 
-export const HOME_PATH = '/home'
+export const POSTS_PATH = '/posts';
 
 export const CAMERA_PATH = {
   MAIN: '/camera',

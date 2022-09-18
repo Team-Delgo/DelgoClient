@@ -190,11 +190,25 @@
 .home-page-neighbord-posts {
     margin: 0 5% 20px 5%;
 
-    &-title {
+    &-header {
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 30px;
         font-weight: bold;
-        font-size: 20px;
-        color: black;
+
+        &-title {
+            font-size: 20px;
+            color: black;
+        }
+
+        &-all {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #8A8A8A;
+
+        }
     }
 
     &-container {
