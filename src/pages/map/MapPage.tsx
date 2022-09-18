@@ -10,7 +10,8 @@ import park from "./park.jpg";
 import { dummyData } from "./dummypin";
 import { dummyMungple } from "./dummymungple";
 import { getMapData } from "../../common/api/record";
-import {Mungple, Cert} from "./MapType";
+import { Mungple, Cert } from "./MapType";
+import { markerRender } from "./MarkerRender";
 
 function MapPage() {
   const mapElement = useRef(null);
@@ -22,6 +23,7 @@ function MapPage() {
   const [certNormalList, setCertNormalList] = useState<Cert[]>([]);
   const [certMungpleList, setCertMungpleList] = useState<Cert[]>([]);
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
+  const [currentZoom, setCurrnetZoom] = useState({ zoom: 2, size: 70 });
   const [currentLocation, setCurrentLocation] = useState({ lat: dummyData[0].lat, lng: dummyData[0].lng, zoom: 17 });
 
   const pinButtonHandler = () => {
@@ -31,20 +33,18 @@ function MapPage() {
   let map: naver.maps.Map;
 
   const getMapPageData = async () => {
-    await getMapData(0,(response:AxiosResponse)=>{
-      const {code, data} = response.data;
-      console.log(data);
+    await getMapData(0, (response: AxiosResponse) => {
+      const { code, data } = response.data;
       setCertMungpleList(data.certMungpleList);
       setCertNormalList(data.certNormalList);
       setMungpleList(data.mungpleList);
-    },dispatch);
+    }, dispatch);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getMapPageData();
-  },[]);
+  }, []);
 
-  console.log(certMungpleList, certNormalList, mungpleList);
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
@@ -60,7 +60,6 @@ function MapPage() {
     map = new naver.maps.Map(mapElement.current, mapOptions);
 
     certNormalList.forEach((data) => {
-      console.log(parseFloat(data.latitude),parseFloat(data.longitude));
 
       const markerOptions = {
         // position: new window.naver.maps.LatLng(parseFloat(data.longitude), parseFloat(data.latitude)),
@@ -68,11 +67,11 @@ function MapPage() {
         map,
         icon: {
           content: [
-            `<div class="pin" style="z-index:${data.certificationId}">`,
+            `<div class="pin${currentZoom.zoom}" style="z-index:${data.certificationId}">`,
             `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
             `</div>`
           ].join(''),
-          size: new naver.maps.Size(100, 100),
+          size: new naver.maps.Size(currentZoom.size, currentZoom.size),
           origin: new naver.maps.Point(0, 0),
         }
       };
@@ -87,11 +86,11 @@ function MapPage() {
         map,
         icon: {
           content: [
-            `<div class="pin mungplepin" style="z-index:${data.certificationId}">`,
+            `<div class="pin${currentZoom.zoom} mungplepin" style="z-index:${data.certificationId}">`,
             `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
             `</div>`
           ].join(''),
-          size: new naver.maps.Size(100, 100),
+          size: new naver.maps.Size(currentZoom.size, currentZoom.size),
           origin: new naver.maps.Point(0, 0),
         }
       };
@@ -102,7 +101,7 @@ function MapPage() {
     if (mungple === 'ON') {
       mungpleList.forEach((data) => {
         const markerOptions = {
-          position: new window.naver.maps.LatLng(parseFloat(data.latitude),parseFloat(data.longitude)),
+          position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
           map,
           icon: {
             content: [
@@ -117,10 +116,16 @@ function MapPage() {
     }
     setGlobarMap(map);
     setIsLoading(false);
-    naver.maps.Event.addListener(map, 'zoom_changed', ()=>{
-      console.log(map.getZoom());
+    naver.maps.Event.addListener(map, 'zoom_changed', () => {
+      console.log(currentLocation);
+      const location = map.getCenter();
+      const zoom = map.getZoom();
+      if (zoom > 20) setCurrnetZoom({ zoom: 3, size: 100 });
+      else if (zoom > 10) setCurrnetZoom({ zoom: 2, size: 70 });
+      else setCurrnetZoom({ zoom: 1, size: 50 });
+      setCurrentLocation({ lat: location.y, lng: location.x, zoom });
     })
-  }, [mungple,mungpleList,certMungpleList,certNormalList]);
+  }, [mungple, mungpleList, certMungpleList, certNormalList, currentZoom]);
 
   const mapStyle = {
     width: '100vw',
