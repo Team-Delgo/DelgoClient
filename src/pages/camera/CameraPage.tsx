@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
-import { CAMERA_PATH, HOME_PATH } from '../../common/constants/path.const';
+import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
@@ -22,7 +22,7 @@ function CameraPage() {
   }, []);
 
   const moveToPreviousPage = () => {
-    navigate(HOME_PATH);
+    navigate(ROOT_PATH);
   };
 
   const swtichCamera = () => {
