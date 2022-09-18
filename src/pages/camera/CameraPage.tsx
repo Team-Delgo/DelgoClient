@@ -1,23 +1,28 @@
-import React, { useEffect, useRef, useState } from "react";
-import Webcam from "react-webcam";
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
-import { CAMERA_PATH,HOME_PATH } from '../../common/constants/path.const'
+import { CAMERA_PATH, HOME_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
-import CameraButton  from '../../common/icons/camera-button.svg';
-import "./CameraPage.scss";
+import CameraButton from '../../common/icons/camera-button.svg';
+import { uploadAction } from '../../redux/slice/uploadSlice';
+import { dateAction } from '../../redux/slice/dateSlice';
+import './CameraPage.scss';
 
 function CameraPage() {
   const [webCameraMode, setWwebCameraMode] = useState('user');
+  const [capturedImg, setCapturedImg] = useState('');
   const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(uploadAction.setUploadInit);
+  }, []);
 
-  const captureImg = () => {
-    if (cameraRef.current) {
-      const imageSrc = cameraRef.current.getScreenshot();
-      navigate(CAMERA_PATH.CAPTURE, { state: { img: imageSrc } });
-    }
+  const moveToPreviousPage = () => {
+    navigate(HOME_PATH);
   };
 
   const swtichCamera = () => {
@@ -28,10 +33,45 @@ function CameraPage() {
     }
   };
 
-  const moveToPreviousPage = () => {
-    navigate(HOME_PATH);
+  const captureImg = () => {
+    if (cameraRef.current) {
+      const imageSrc = cameraRef.current.getScreenshot();
+      dispatch(uploadAction.setImg({ img: imageSrc }));
+      getUserLocation();
+    }
   };
 
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          dispatch(
+            uploadAction.setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+          );
+          getDate();
+        },
+        function (error) {
+          console.error(error);
+        },
+        {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity,
+        },
+      );
+    } else {
+      alert('GPS를 지원하지 않습니다');
+    }
+  };
+
+  const getDate = () => {
+    dispatch(dateAction.setDate());
+    moveToNextPage();
+  };
+
+  const moveToNextPage = () => {
+    navigate(CAMERA_PATH.CAPTURE);
+  };
 
   return (
     <div className="camera-page-backround">

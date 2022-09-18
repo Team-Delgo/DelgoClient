@@ -39,6 +39,7 @@ export const CAMERA_PATH = {
   MAIN: '/camera',
   CAPTURE: '/camera/captureImg',
   CATEGORY: '/camera/captureImg/category',
+  RESULT: '/camera/captureImg/result',
 }
 
 export const RECORD_PATH = {
