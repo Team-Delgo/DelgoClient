@@ -1,18 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import BottomButton from '../../../common/components/BottomButton';
-import { CAMERA_PATH } from '../../../common/constants/path.const';
-import CaptureResultHeader from '../components/CaptureResultHeader';
-import CaptureResultMain from '../components/CaptureResultMain';
-import './CaptureResult.scss';
 
-function CaptureResult() {
+function CaptureResultMain() {
   const [category, setCategory] = useState('');
   const navigate = useNavigate();
   const { img, title, content, categoryKo } = useSelector((state: RootState) => state.persist.upload);
-  const { date, time, weekDay } = useSelector((state: RootState) => state.persist.date);
 
   useEffect(() => {
     if (categoryKo === '산책') {
@@ -32,19 +27,23 @@ function CaptureResult() {
     }
   }, []);
 
-  const moveToCategoryPage = () => {
-    navigate(CAMERA_PATH.CATEGORY);
-  };
-
   const submitReview = () => {
     console.log(1);
   };
+
   return (
-    <>
-    <CaptureResultHeader/>
-    <CaptureResultMain/>
-    </>
+    <main className="capture-img-result-main">
+      <img className="captured-img" src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
+      <header className="capture-img-result-main-header">
+        <div className="capture-img-result-main-header-title">{title}</div>
+        <div className={`capture-img-result-main-header-${category}`}>{categoryKo}</div>
+      </header>
+      <body className="capture-img-result-main-content">{content}</body>
+      <footer aria-hidden="true" onClick={submitReview}>
+        <BottomButton text="작성 완료" />
+      </footer>
+    </main>
   );
 }
 
-export default CaptureResult;
+export default CaptureResultMain;
