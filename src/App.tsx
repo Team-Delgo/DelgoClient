@@ -10,6 +10,7 @@ import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
 import CapturePage from './pages/camera/capture/CapturePage';
 import CaptureCategoryPage from './pages/camera/capture/CaptureCategoryPage';
+import CaptureResultPage from './pages/camera/capture/CaptureResult'
 import Photo from './pages/photo/Photo';
 import HomePage from './pages/home/HomePage';
 import './App.scss';
@@ -42,6 +43,7 @@ function App() {
         <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
+        <Route path={CAMERA_PATH.RESULT} element={<CaptureResultPage />} />
       </Routes>
     </QueryClientProvider>
   );

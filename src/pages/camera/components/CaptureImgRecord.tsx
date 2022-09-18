@@ -1,17 +1,16 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
-
-interface capturedImgType {
-  img: string;
-}
+import { uploadAction } from '../../../redux/slice/uploadSlice';
 
 function CaptureImgRecord() {
   const navigate = useNavigate();
-  const state = useLocation().state as capturedImgType;
+  const dispatch = useDispatch();
 
   const moveToCategoryPage = (category: string) => (e: React.MouseEvent) => {
-    navigate(CAMERA_PATH.CATEGORY, { state: { img: state.img, category } });
+    dispatch(uploadAction.setCategory({ category }));
+    navigate(CAMERA_PATH.CATEGORY);
   };
   return (
     <div className="capture-img-record">
