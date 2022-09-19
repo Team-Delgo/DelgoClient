@@ -1,0 +1,17 @@
+.photo{
+  background-color: #474747;
+  &-category{
+    display: flex;
+    white-space: nowrap;
+    overflow: scroll;
+    &-button{
+      display: inline-block;
+      margin: 16px;
+      width: 69px;
+      height: 69px;
+      border-radius: 100%;
+      background-color: aquamarine;
+
+    }
+  }
+}

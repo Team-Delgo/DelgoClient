@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as Exit } from '../icons/exit.svg';
 import './Calender.scss';
 import park from "./park.jpg";
+import { getCalendarData } from '../api/record';
+import { DateType } from "./CalendarType";
 
 interface CalenderProps {
   closeCalender: () => void;
@@ -18,7 +20,7 @@ Calender.defaultProps = {
 
 function Calender() {
   const dispatch = useDispatch();
-  console.log('1');
+  const [dateList, setDateList] = useState<DateType[]>([]);
   const getNextYear = (currentMonth: number, currentYear: number, add: number) => {
     if (currentMonth + add > 12) {
       return currentYear + 1;
@@ -35,6 +37,12 @@ function Calender() {
     return today;
   };
 
+  useEffect(() => {
+    getCalendarData(0, (response: AxiosResponse) => {
+      const { code, data } = response.data;
+      setDateList(data);
+    }, dispatch);
+  }, []);
 
 
   const getDateContext = (prev: number) => {
@@ -83,7 +91,7 @@ function Calender() {
       currentMonth = `0${currentMonth}`;
     }
 
-    let even = false;
+
 
     const datesElement = dates.map((date, i) => {
       let rdate: string | number = date;
@@ -91,11 +99,20 @@ function Calender() {
         rdate = date.toString();
         rdate = `0${date}`;
       }
-      even = !even;
       const condition = i >= firstDateIndex && i <= lastDateIndex;
-      const keyCondition = condition ? 'this' : 'other';
-      const id = `${currentYear}${currentMonth}${rdate} ${keyCondition}`;
+      const id = condition ? `${currentYear}-${currentMonth}-${rdate}` : `f${currentYear}-${currentMonth}-${rdate}`;
+
       const achieve = i % 4 === 0;
+      let isCertificated = false;
+      let imageSrc;
+      // let dateId;
+      dateList.forEach((date) => {
+        if (date.date === id) {
+          isCertificated = true;
+          imageSrc = date.dateList[0].photoUrl;
+          console.log(date);
+        }
+      });
 
 
       return (
@@ -103,14 +120,15 @@ function Calender() {
           key={id}
           className={classNames(
             'date-day',
-            { able: condition, circle: even },
+            { able: condition, circle: isCertificated },
           )}
           id={id}
           aria-hidden="true"
+          onClick={isCertificated ? () => { console.log()} : undefined}
         >
           {date}
-          {achieve && <div className='date-day-achieve' />}
-          {even &&<img src={park} alt="park" className='date-day-after' />}
+          {/* {achieve && <div className='date-day-achieve' />} */}
+          {isCertificated && <img src={imageSrc} alt="park" className='date-day-after' />}
 
         </div>
       );
@@ -133,7 +151,6 @@ function Calender() {
     <div className="day">토</div>
   </div>
 
-  console.log(process.env.REACT_APP_NCP_CLIENT_ID);
 
   return (
     <div className="calender">
