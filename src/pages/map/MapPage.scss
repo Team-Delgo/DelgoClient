@@ -5,8 +5,8 @@
 
 .pin1 {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 13px;
+  height: 13px;
   display: flex;
   z-index: 100;
   justify-content: center;
@@ -18,8 +18,8 @@
   img {
     position: absolute;
     z-index: 10;
-    width: 45px;
-    height: 45px;
+    width: 0px;
+    height: 0px;
     border-radius: 100%;
   }
 
