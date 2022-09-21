@@ -23,8 +23,9 @@ function MapPage() {
   const [certNormalList, setCertNormalList] = useState<Cert[]>([]);
   const [certMungpleList, setCertMungpleList] = useState<Cert[]>([]);
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
-  const [currentZoom, setCurrnetZoom] = useState({ zoom: 2, size: 70 });
-  const [currentLocation, setCurrentLocation] = useState({ lat: dummyData[0].lat, lng: dummyData[0].lng, zoom: 17 });
+  const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
+  const [test, setTest] = useState({ value: 1 });
+  const [currentLocation, setCurrentLocation] = useState({ lat: dummyData[0].lat, lng: dummyData[0].lng, zoom: 17, option: { zoom: 2, size: 70 } });
 
   const pinButtonHandler = () => {
     console.log(1);
@@ -38,6 +39,7 @@ function MapPage() {
       setCertMungpleList(data.certMungpleList);
       setCertNormalList(data.certNormalList);
       setMungpleList(data.mungpleList);
+      console.log(response.data);
     }, dispatch);
   };
 
@@ -59,19 +61,19 @@ function MapPage() {
     };
     map = new naver.maps.Map(mapElement.current, mapOptions);
 
+    if (mungple === "OFF") {
     certNormalList.forEach((data) => {
-
       const markerOptions = {
         // position: new window.naver.maps.LatLng(parseFloat(data.longitude), parseFloat(data.latitude)),
         position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
         map,
         icon: {
           content: [
-            `<div class="pin${currentZoom.zoom}" style="z-index:${data.certificationId}">`,
+            `<div class="pin${currentLocation.option.zoom}" style="z-index:${data.certificationId}">`,
             `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
             `</div>`
           ].join(''),
-          size: new naver.maps.Size(currentZoom.size, currentZoom.size),
+          size: new naver.maps.Size(currentLocation.option.size, currentLocation.option.size),
           origin: new naver.maps.Point(0, 0),
         }
       };
@@ -86,19 +88,19 @@ function MapPage() {
         map,
         icon: {
           content: [
-            `<div class="pin${currentZoom.zoom} mungplepin" style="z-index:${data.certificationId}">`,
+            `<div class="pin${currentLocation.option.zoom} mungplepin" style="z-index:${data.certificationId}">`,
             `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
             `</div>`
           ].join(''),
-          size: new naver.maps.Size(currentZoom.size, currentZoom.size),
+          size: new naver.maps.Size(currentLocation.option.size, currentLocation.option.size),
           origin: new naver.maps.Point(0, 0),
         }
       };
       const marker = new naver.maps.Marker(markerOptions);
       marker.addListener('click', () => { navigate(`/post/?userId=${1}&postId=${data.certificationId}`) });
     })
-
-    if (mungple === 'ON') {
+    }
+    else if (mungple === 'ON') {
       mungpleList.forEach((data) => {
         const markerOptions = {
           position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
@@ -117,25 +119,31 @@ function MapPage() {
     setGlobarMap(map);
     setIsLoading(false);
     naver.maps.Event.addListener(map, 'zoom_changed', () => {
-      console.log(currentLocation);
-      const location = map.getCenter();
-      const zoom = map.getZoom();
-      if (zoom > 20) setCurrnetZoom({ zoom: 3, size: 100 });
-      else if (zoom > 10) setCurrnetZoom({ zoom: 2, size: 70 });
-      else setCurrnetZoom({ zoom: 1, size: 50 });
-      setCurrentLocation({ lat: location.y, lng: location.x, zoom });
+      setTimeout(() => {
+        const location = map.getCenter();
+        const zoom = map.getZoom();
+        let option: { size: number, zoom: number } = { zoom: 2, size: 70 };
+        if (zoom > 20) option = { zoom: 3, size: 100 };
+        else if (zoom > 10) option = { zoom: 2, size: 70 };
+        else option = { zoom: 1, size: 50 };
+        setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
+      }, 200)
     })
-  }, [mungple, mungpleList, certMungpleList, certNormalList, currentZoom]);
+  }, [mungple, mungpleList, certMungpleList, certNormalList, currentLocation]);
 
   const mapStyle = {
     width: '100vw',
     height: '80vh',
   }
 
+  // console.log(globarMap?.getCenter(), globarMap?.getZoom());
+
   const mungpleButtonHandler = () => {
     const location = globarMap?.getCenter();
     const zoom = globarMap!.getZoom();
-    setCurrentLocation({ lat: location!.y, lng: location!.x, zoom })
+    setCurrentLocation((prev) => {
+      return { ...prev, lat: location!.y, lng: location!.x, zoom };
+    })
     if (mungple === 'ON')
       setMungple('OFF');
     else {
