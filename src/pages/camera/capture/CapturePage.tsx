@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect, useState} from 'react';
 import CaptureImgRecord from '../components/CaptureImgRecord';
 import CaptureImg from '../components/CaptureImg';
 import './CapturePage.scss';

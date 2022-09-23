@@ -7,7 +7,6 @@ import CameraTransition from '../../common/icons/camera-transition.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
-import { dateAction } from '../../redux/slice/dateSlice';
 import './CameraPage.scss';
 
 function CameraPage() {
@@ -36,6 +35,7 @@ function CameraPage() {
   const captureImg = () => {
     if (cameraRef.current) {
       const imageSrc = cameraRef.current.getScreenshot();
+      console.log(imageSrc);
       dispatch(uploadAction.setImg({ img: imageSrc }));
       getUserLocation();
     }
@@ -48,7 +48,7 @@ function CameraPage() {
           dispatch(
             uploadAction.setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
           );
-          getDate();
+          moveToNextPage();
         },
         function (error) {
           console.error(error);
@@ -64,10 +64,6 @@ function CameraPage() {
     }
   };
 
-  const getDate = () => {
-    dispatch(dateAction.setDate());
-    moveToNextPage();
-  };
 
   const moveToNextPage = () => {
     navigate(CAMERA_PATH.CAPTURE);

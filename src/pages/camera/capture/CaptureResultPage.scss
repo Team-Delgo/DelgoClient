@@ -1,7 +1,8 @@
 .capture-img-result {
     &-header {
-        display: flex;
-        justify-content: space-between;
+        position: relative;
+        // display: flex;
+        // justify-content: space-between;
         font-size: 16px;
         font-weight: bold;
         padding: 10vh 5% 10px 5%;
@@ -11,7 +12,10 @@
         }
 
         &-correction {
-            color: #8A8A8A
+            position: absolute;
+            right: 15px;
+            bottom: 10px;
+            color: #8A8A8A;
         }
 
     }
