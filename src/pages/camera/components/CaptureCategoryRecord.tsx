@@ -61,12 +61,18 @@ function CaptureCategoryRecord() {
         photo: img,
       },
       (response: AxiosResponse) => {
-        // const { code, codeMsg } = response.data;
+        const { code, codeMsg , data } = response.data;
         console.log(response);
-        // if (code === 200) {
-        //   dispatch(uploadAction.setTitleContent({ title: placeName, content: certificationPostContent }));
-        //   navigate(CAMERA_PATH.RESULT);
-        // }
+        if (code === 200) {
+          dispatch(
+            uploadAction.setTitleContentRegistDt({
+              title: placeName,
+              content: certificationPostContent,
+              registDt: data.registDt,
+            }),
+          );
+          navigate(CAMERA_PATH.RESULT);
+        }
       },
     );
   };

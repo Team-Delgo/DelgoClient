@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { StringLiteral } from 'typescript';
 import axiosInstance from './interceptors';
 
 async function registerCertificationPost(
@@ -15,6 +14,7 @@ async function registerCertificationPost(
   },
   success: (data: AxiosResponse) => void,
 ) {
+  console.log(data)
   const accessToken = localStorage.getItem('accessToken') || '';
   const result = await axiosInstance.post(`/certification/register`, {
     userId: data.userId,
@@ -23,7 +23,7 @@ async function registerCertificationPost(
     placeName: data.placeName,
     description: data.description,
     latitude: data.latitude,
-    longitude: data.latitude,
+    longitude: data.longitude,
     photo: data.photo,
   });
   success(result);
