@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useErrorHandlers } from './useErrorHandlers';

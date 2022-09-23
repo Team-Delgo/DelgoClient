@@ -7,6 +7,7 @@ const initialState = {
   categoryKo: '',
   title:'',
   content:'',
+  registDt:''
 };
 
 const uploadSlice = createSlice({
@@ -28,6 +29,7 @@ const uploadSlice = createSlice({
         categoryKo: '',
         title: '',
         content: '',
+        registDt:''
       };
     },
     setCategory(state, action) {
@@ -36,14 +38,15 @@ const uploadSlice = createSlice({
         categoryKo: action.payload.category,
       };
     },
-    setTitleContent(state, action) {
+    setTitleContentRegistDt(state, action) {
       return {
         ...state,
         title: action.payload.title,
         content: action.payload.content,
+        registDt: action.payload.registDt,
       };
     },
-    setUploadInit(state, action) {
+    setUploadInit() {
       return {
         ...initialState,
       };
