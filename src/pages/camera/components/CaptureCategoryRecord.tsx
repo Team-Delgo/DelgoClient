@@ -1,19 +1,20 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { AxiosResponse } from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import BottomButton from '../../../common/components/BottomButton';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
+import { registerCertificationPost } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
 
 function CaptureCategoryRecord() {
   const [category, setCategory] = useState('');
-  const [reviewTitle, setReviewTitle] = useState('');
-  const [reviewContent, setReviewContent] = useState('');
-  const [reviewCompleteAlert, setReviewCompleteAlert] = useState(false);
-  const [reviewTextLengthLimitAlert, setReviewTextLengthLimitAlert] = useState(false);
-  const [reviewImgExtensionAlert, setReviewImgExtensionAlert] = useState(false);
-  const categoryKo = useSelector((state: RootState) => state.persist.upload.categoryKo);
+  const [placeName, setPlaceName] = useState('');
+  const [certificationPostContent, setCertificationPostContent] = useState('');
+  const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
+  const [certificationPostContentLengthLimitAlert, setCertificationPostContentLengthLimitAlert] = useState(false);
+  const { categoryKo, img, latitude, longitude } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,16 +41,34 @@ function CaptureCategoryRecord() {
   };
 
   const writeTitle = useCallback((e) => {
-    setReviewTitle(e.target.value);
+    setPlaceName(e.target.value);
   }, []);
 
   const writeContent = useCallback((e) => {
-    setReviewContent(e.target.value);
+    setCertificationPostContent(e.target.value);
   }, []);
 
-  const submitReview = () => {
-    dispatch(uploadAction.setTitleContent({ title: reviewTitle, content: reviewContent }));
-    navigate(CAMERA_PATH.RESULT);
+  const uploadCertificationPost = () => {
+    registerCertificationPost(
+      {
+        userId: 0,
+        categoryCode: 'CA0002',
+        mungpleId: 0,
+        placeName,
+        description: certificationPostContent,
+        latitude: latitude.toString(),
+        longitude: longitude.toString(),
+        photo: img,
+      },
+      (response: AxiosResponse) => {
+        // const { code, codeMsg } = response.data;
+        console.log(response);
+        // if (code === 200) {
+        //   dispatch(uploadAction.setTitleContent({ title: placeName, content: certificationPostContent }));
+        //   navigate(CAMERA_PATH.RESULT);
+        // }
+      },
+    );
   };
 
   return (
@@ -74,10 +93,10 @@ function CaptureCategoryRecord() {
             onChange={writeContent}
             maxLength={200}
           />
-          <div className="review-content-length">{reviewContent.length}/200</div>
+          <div className="review-content-length">{certificationPostContent.length}/200</div>
         </body>
       </main>
-      <footer aria-hidden="true" onClick={submitReview}>
+      <footer aria-hidden="true" onClick={uploadCertificationPost}>
         <BottomButton text="작성 완료" />
       </footer>
     </>

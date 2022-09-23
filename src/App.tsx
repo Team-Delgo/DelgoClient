@@ -10,7 +10,7 @@ import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
 import CapturePage from './pages/camera/capture/CapturePage';
 import CaptureCategoryPage from './pages/camera/capture/CaptureCategoryPage';
-import CaptureResultPage from './pages/camera/capture/CaptureResult';
+import CaptureResultPage from './pages/camera/capture/CaptureResultPage';
 import Photo from './pages/photo/Photo';
 import HomePage from './pages/home/HomePage';
 import PostsPage from './pages/post/PostsPage';
