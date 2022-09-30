@@ -1,12 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useQuery } from 'react-query';
 import BottomButton from '../../../common/components/BottomButton';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
-import { registerCertificationPost } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
+import { getMungPlaceList } from '../../../common/api/certification';
+import { GET_MUNG_PLACE_LIST, CACHE_TIME, STALE_TIME } from '../../../common/constants/queryKey.const';
+import MagnifyingGlass from '../../../common/icons/magnifying-glass.svg';
 
 interface categoryType {
   산책: string;
@@ -17,6 +20,19 @@ interface categoryType {
   병원: string;
   기타: string;
   [prop: string]: any;
+}
+
+interface MungPlaceType {
+  categoryCode: string;
+  geoCode: string;
+  jibunAddress: string;
+  latitude: string;
+  longitude: string;
+  mungpleId: number;
+  p_geoCode: string;
+  placeName: string;
+  registDt: string;
+  roadAddress: string;
 }
 
 const categoryCode: categoryType = {
@@ -39,54 +55,37 @@ const categoryEnglish: categoryType = {
   기타: 'etc',
 };
 
-function CaptureCategoryRecord() {
+function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
   const [certificationPostContentLengthLimitAlert, setCertificationPostContentLengthLimitAlert] = useState(false);
-  const { categoryKo, img, latitude, longitude } = useSelector((state: RootState) => state.persist.upload);
+  const categoryKo = useSelector((state: RootState) => state.persist.upload.categoryKo);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { isLoading: getMungPlaceListIsLoading, data: mungPlaceList } = useQuery(
+    GET_MUNG_PLACE_LIST,
+    () => getMungPlaceList(categoryCode[categoryKo]),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      //   onError: (error: any) => {
+      //     useErrorHandlers(dispatch, error);
+      //   },
+    },
+  );
+
   const moveToPreviousPage = () => {
-    navigate(CAMERA_PATH.LOCATION);
+    navigate(CAMERA_PATH.CAPTURE);
   };
 
   const writeTitle = useCallback((e) => {
     setPlaceName(e.target.value);
   }, []);
 
-  const writeContent = useCallback((e) => {
-    setCertificationPostContent(e.target.value);
-  }, []);
-
-  const uploadCertificationPost = () => {
-    registerCertificationPost(
-      {
-        userId: 0,
-        categoryCode: categoryCode[categoryKo],
-        mungpleId: 0,
-        placeName,
-        description: certificationPostContent,
-        latitude: latitude.toString(),
-        longitude: longitude.toString(),
-        photo: img,
-      },
-      (response: AxiosResponse) => {
-        const { code, codeMsg, data } = response.data;
-        console.log(response);
-        if (code === 200) {
-          dispatch(
-            uploadAction.setTitleContentRegistDt({
-              title: placeName,
-              content: certificationPostContent,
-              registDt: data.registDt,
-            }),
-          );
-          navigate(CAMERA_PATH.RESULT);
-        }
-      },
-    );
+  const moveToCategoryPage = () => {
+    navigate(CAMERA_PATH.CATEGORY);
   };
 
   return (
@@ -109,20 +108,20 @@ function CaptureCategoryRecord() {
             placeholder="여기는 어디인가요? (ex: 델고커피)"
             onChange={writeTitle}
           />
-          <textarea
-            className="review-content"
-            placeholder="남기고 싶은 기록을 작성해주세요"
-            onChange={writeContent}
-            maxLength={200}
-          />
-          <div className="review-content-length">{certificationPostContent.length}/200</div>
+          <img className="magnifying-glass-img" src={MagnifyingGlass} alt="magnifying-glass-img" />
+          {mungPlaceList?.data.map((place: MungPlaceType) => (
+            <div>
+              <div>{place.placeName}</div>
+              <div>{place.roadAddress}</div>
+            </div>
+          ))}
         </body>
       </main>
-      <footer aria-hidden="true" onClick={uploadCertificationPost}>
-        <BottomButton text="작성 완료" />
+      <footer aria-hidden="true" onClick={moveToCategoryPage}>
+        <BottomButton text="다음" color="#C4C4C4" />
       </footer>
     </>
   );
 }
 
-export default CaptureCategoryRecord;
+export default CaptureLocationRecord;

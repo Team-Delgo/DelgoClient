@@ -21,7 +21,7 @@ function CaptureImgRecord() {
 
   const moveToCategoryPage = (category: string) => (e: React.MouseEvent) => {
     dispatch(uploadAction.setCategory({ category }));
-    navigate(CAMERA_PATH.CATEGORY);
+    navigate(CAMERA_PATH.LOCATION);
   };
 
   const closeBottomSheet = () => {

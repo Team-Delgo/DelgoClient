@@ -36,33 +36,9 @@ function CameraPage() {
     if (cameraRef.current) {
       const imageSrc = cameraRef.current.getScreenshot();
       dispatch(uploadAction.setImg({ img: imageSrc }));
-      getUserLocation();
+      moveToNextPage();
     }
   };
-
-  const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          dispatch(
-            uploadAction.setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
-          );
-          moveToNextPage();
-        },
-        function (error) {
-          console.error(error);
-        },
-        {
-          enableHighAccuracy: false,
-          maximumAge: 0,
-          timeout: Infinity,
-        },
-      );
-    } else {
-      alert('GPS를 지원하지 않습니다');
-    }
-  };
-
 
   const moveToNextPage = () => {
     navigate(CAMERA_PATH.CAPTURE);

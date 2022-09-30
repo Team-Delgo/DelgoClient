@@ -1,11 +1,17 @@
-import React from 'react'
+import React from 'react';
 import './BottomButton.scss';
 
-function BottomButton(props: { text: string }) {
-  const { text } = props;
-  return (
-    <div className="bottom-button">{text}</div>
-  )
+interface BottomButtonProps {
+  text: string;
+  [prop: string]: string;
 }
 
-export default BottomButton
+function BottomButton({ text, color = '#474747' }: BottomButtonProps) {
+  return (
+    <div className="bottom-button" style={{ backgroundColor: color }}>
+      {text}
+    </div>
+  );
+}
+
+export default BottomButton;
