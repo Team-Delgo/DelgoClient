@@ -63,7 +63,7 @@ function CaptureCategoryRecord() {
   const uploadCertificationPost = () => {
     registerCertificationPost(
       {
-        userId: 0,
+        userId: 1,
         categoryCode: categoryCode[categoryKo],
         mungpleId: 0,
         placeName,

@@ -3,10 +3,16 @@ import axiosInstance from './interceptors';
 
 async function getMungPlaceList(categoryCode: string) {
   const accessToken = localStorage.getItem('accessToken') || '';
-  console.log(categoryCode)
   const { data } = await axios.get(
     `${process.env.REACT_APP_API_URL}/mungple/data-category?categoryCode=${categoryCode}`,
   );
+  return data;
+}
+
+async function getCertificationDataCount(userId: number) {
+  const accessToken = localStorage.getItem('accessToken') || '';
+
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/data-count?userId=${userId}`);
   return data;
 }
 
@@ -39,4 +45,4 @@ async function registerCertificationPost(
   success(result);
 }
 
-export { getMungPlaceList, registerCertificationPost };
+export { getMungPlaceList,getCertificationDataCount, registerCertificationPost };
