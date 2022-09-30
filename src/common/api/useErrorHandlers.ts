@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { errorActions } from '../../redux/slice/errorSlice';
 
 function useErrorHandlers(dispatch: any, error: AxiosError) {
-  // const dispatch = useDispatch();
   dispatch(errorActions.setError());
   if (error.response) {
     console.log(error.response);
