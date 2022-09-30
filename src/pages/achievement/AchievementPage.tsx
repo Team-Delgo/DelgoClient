@@ -1,16 +1,27 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import AchievementBath from '../../common/icons/achievement-bath.svg';
 import AchievementBeauty from '../../common/icons/achievement-beauty.svg';
 import AchievementCafe from '../../common/icons/achievement-cafe.svg';
 import Point from '../../common/icons/point.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
-import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
+import { ROOT_PATH } from '../../common/constants/path.const';
 import AchievementHospital from '../../common/icons/achievement-hospital.svg';
 import AchievementRestorant from '../../common/icons/achievement-restorant.svg';
 import AchievementWalk from '../../common/icons/achievement-walk.svg';
 import FooterNavigation from '../../common/components/FooterNavigation';
+import { getAchievementList } from '../../common/api/achievement';
+import { GET_ACHIEVEMENT_LIST, CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import './AchievementPage.scss';
+
+interface AchievementType {
+  achievementsId: number;
+  imgUrl: string;
+  isMungple: number;
+  name: string;
+  registDt: string;
+}
 
 const achievements = [
   { id: 0, url: AchievementBath },
@@ -24,6 +35,18 @@ const achievements = [
 function AchievementPage() {
   const navigate = useNavigate();
 
+  const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
+    GET_ACHIEVEMENT_LIST,
+    () => getAchievementList(1),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      //   onError: (error: any) => {
+      //     useErrorHandlers(dispatch, error);
+      //   },
+    },
+  );
+
   const moveHomePage = () => {
     navigate(ROOT_PATH);
   };
@@ -33,7 +56,7 @@ function AchievementPage() {
       <header className="achievement-page-header">
         <img
           src={PrevArrowBlack}
-          // className="camera-page-prev-arrow"
+          className="achievement-page-header-prev-arrow"
           alt="achievement-page-prev-arrow"
           aria-hidden="true"
           onClick={moveHomePage}
@@ -71,9 +94,9 @@ function AchievementPage() {
       <body className="achievement-page-body">
         <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
         <div className="achievement-page-body-achievements-images">
-          {achievements.map((achievement) => (
-            <div className="achievement-page-body-achievements-image" key={achievement.id}>
-              <img src={achievement.url} alt="post-img" />
+          {ahievementList?.data.map((achievement: AchievementType) => (
+            <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
+              <img src={achievement.imgUrl} alt="post-img" />
             </div>
           ))}
         </div>
