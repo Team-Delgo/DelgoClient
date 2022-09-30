@@ -1,11 +1,59 @@
 .home-page-dog-history-header {
-    height: 420px;
     background-color: #474747;
-    padding: 0 5%;
-
+    padding: 5% 0 0 5%;
+    &-logo{
+        padding-top: 40px;
+    }
     &-profile {
+        display: flex;
         height: 70px;
-        padding-top: 30px;
+        margin-top: 30px;
+        
+        &-detail{
+            padding: 0 5% 0 4%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            &-first{
+                color:#8A8A8A;
+                font-size: 12px;
+            }
+            &-second{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                color:#FFFFFF;
+                font-size: 24px;
+            }
+            &-third{
+                display: flex;
+                justify-content: space-between;
+                color:#8A8A8A;
+                font-size: 14px;   
+                &-point{
+                    font-size: 12px;
+                    color: #FFFFFF;
+                }       
+            }
+        }
+    }
+    &-achievements{
+        margin-top: 8%;
+        padding-bottom: 5%;
+        font-size: 14px;
+        color:#8A8A8A;
+        &-images{
+        padding-right: 5%;
+        // overflow: scroll;
+        // overflow: auto;
+        // white-space: nowrap;
+        img{
+            width: 33%;
+            // height: 177px;
+        }
+        }
     }
 }
 
@@ -41,15 +89,15 @@
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
-                width: 100px;
-                height: 48px;
+                width: 100%;
+                height: 44px;
                 background-color: #474747;
-                border-radius: 38px;
+                border-radius: 2px;
                 margin: 10px 5px 0 0;
                 font-size: 16px;
 
                 &-label {
-                    color: #000000;
+                    color: #FFFFFF;
                     font-weight: 500;
                 }
 
@@ -60,37 +108,37 @@
 
             &-walk {
                 &-count {
-                    color: #4A8C48;
+                    color: #91CF9B;
                 }
             }
 
             &-cafe {
                 &-count {
-                    color: #8E6947;
+                    color: #CCB7A3;
                 }
             }
 
             &-restaurant {
                 &-count {
-                    color: #AD912B;
+                    color: #FFE58A;
                 }
             }
 
             &-hospital {
                 &-count {
-                    color: #8269CB;
+                    color: #FFCCE8;
                 }
             }
 
             &-beauty {
                 &-count {
-                    color: #328995;
+                    color: #BEF0F7;
                 }
             }
 
             &-bath {
                 &-count {
-                    color: #B4588F;
+                    color: #DACDFF;
                 }
             }
         }
@@ -214,26 +262,24 @@
     &-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        row-gap: 20px;
-        column-gap: 15px;
+        column-gap: 20px;
         .home-page-neighbord-post {
-            border-radius: 7px;
             position: relative;
             img {
                 width: 100%;
-                height: 100%;
-                border-radius: 7px;
+                height: 162px;
+                border-radius: 10px;
             }
-
             .img-overLay {
                 position: absolute;
                 width: 100%;
-                height: 100%;
+                height: 162px;
                 background-color: rgba(112, 111, 111, 0.5);
                 top: 0px;
                 opacity: 1;
                 transition: all 0.5s;
                 z-index: 10;
+                border-radius: 10px;
             }
 
             .img-overLay:active {

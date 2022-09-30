@@ -1,0 +1,109 @@
+.achievement-page {
+    &-header {
+        padding: 5% 5% 0 5%;
+        background-color: #F2F2F2;
+
+        &-logo {
+            padding-top: 40px;
+        }
+
+        &-profile {
+            display: flex;
+            height: 78px;
+            margin-top: 30px;
+            background-color: #FFFFFF;
+
+            img {
+                width: 52px;
+                height: 52px;
+            }
+
+            &-detail {
+                padding: 0 5% 0 4%;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                &-first {
+                    display: flex;
+                    justify-content: space-between;
+                    color: #8A8A8A;
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+
+                &-second {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    color: #474747;
+                    font-weight: 700;
+                    font-size: 24px;
+
+                    &-point {
+                        font-size: 12px;
+                        color: #000000;
+                    }
+                }
+            }
+        }
+
+        &-achievements {
+            &-representative {
+                display: flex;
+                justify-content: space-between;
+                color: #000000;
+                padding: 30px 0  10px 0;
+                &-text {
+                    font-weight: 600;
+                    font-size: 14px;
+                }
+
+                &-button {
+                    font-size: 10px;
+                }
+
+                &-sub-text {
+                    font-size: 10px;
+                    padding-bottom: 10px;
+                }
+            }
+
+            &-images {
+                display: flex;
+                justify-content: space-between;
+                .achievement-page-header-achievements-image{
+                    width: 100%;
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+
+    &-body {
+        margin: 5% 5% 0 5%;
+
+        &-achievements-title {
+            padding-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000
+        }
+
+        &-achievements-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            .achievement-page-body-achievements-image{
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}

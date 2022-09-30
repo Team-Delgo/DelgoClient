@@ -11,13 +11,13 @@ const sheetSnapPoints = [window.innerHeight - window.innerWidth + 5, 0, 0, 0];
 function CaptureImgRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isOpen, setOpen] = React.useState(false);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      setOpen(true);
+      setBottomSheetIsOpen(true);
     }, 1000);
-  }, [isOpen]);
+  }, [bottomSheetIsOpen]);
 
   const moveToCategoryPage = (category: string) => (e: React.MouseEvent) => {
     dispatch(uploadAction.setCategory({ category }));
@@ -25,11 +25,11 @@ function CaptureImgRecord() {
   };
 
   const closeBottomSheet = () => {
-    setOpen(false);
+    setBottomSheetIsOpen(false);
   };
 
   return (
-    <Sheet isOpen={isOpen} onClose={closeBottomSheet} snapPoints={sheetSnapPoints}>
+    <Sheet isOpen={bottomSheetIsOpen} onClose={closeBottomSheet} snapPoints={sheetSnapPoints}>
       <Sheet.Container style={sheetStyle}>
         <Sheet.Content>
           <div className="capture-img-record">

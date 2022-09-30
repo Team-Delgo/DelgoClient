@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { deviceAction } from './redux/slice/deviceSlice';
-import { CAMERA_PATH, RECORD_PATH, ROOT_PATH, POSTS_PATH } from './common/constants/path.const';
+import { CAMERA_PATH, RECORD_PATH, ROOT_PATH, POSTS_PATH, ACHIEVEMENT_PATH } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
@@ -14,6 +14,7 @@ import CaptureResultPage from './pages/camera/capture/CaptureResultPage';
 import Photo from './pages/photo/Photo';
 import HomePage from './pages/home/HomePage';
 import PostsPage from './pages/post/PostsPage';
+import AchievementPage from './pages/achievement/AchievementPage';
 import './App.scss';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
         <Route path={CAMERA_PATH.RESULT} element={<CaptureResultPage />} />
         <Route path={POSTS_PATH} element={<PostsPage />} />
+        <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />
       </Routes>
     </QueryClientProvider>
   );

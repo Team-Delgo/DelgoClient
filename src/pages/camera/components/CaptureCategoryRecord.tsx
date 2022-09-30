@@ -8,8 +8,39 @@ import { registerCertificationPost } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
 
+
+interface categoryType {
+  산책: string;
+  카페: string;
+  식당: string;
+  목욕: string;
+  미용: string;
+  병원: string;
+  기타: string;
+  [prop: string]: any;
+}
+
+const categoryCode: categoryType = {
+  산책: 'CA0001',
+  카페: 'CA0002',
+  식당: 'CA0003',
+  목욕: 'CA0004',
+  미용: 'CA0005',
+  병원: 'CA0006',
+  기타: 'CA9999'
+};
+
+const categoryEnglish: categoryType = {
+  산책: 'walk',
+  카페: 'cafe',
+  식당: 'restaurant',
+  목욕: 'hospital',
+  미용: 'beauty',
+  병원: 'bath',
+  기타: 'etc',
+};
+
 function CaptureCategoryRecord() {
-  const [category, setCategory] = useState('');
   const [placeName, setPlaceName] = useState('');
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
@@ -17,24 +48,6 @@ function CaptureCategoryRecord() {
   const { categoryKo, img, latitude, longitude } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (categoryKo === '산책') {
-      setCategory('walk');
-    } else if (categoryKo === '카페') {
-      setCategory('cafe');
-    } else if (categoryKo === '식당') {
-      setCategory('restaurant');
-    } else if (categoryKo === '병원') {
-      setCategory('hospital');
-    } else if (categoryKo === '미용') {
-      setCategory('beauty');
-    } else if (categoryKo === '목욕') {
-      setCategory('bath');
-    } else {
-      setCategory('etc');
-    }
-  }, []);
 
   const moveToPreviousPage = () => {
     navigate(CAMERA_PATH.CAPTURE);
@@ -49,10 +62,11 @@ function CaptureCategoryRecord() {
   }, []);
 
   const uploadCertificationPost = () => {
+    console.log(categoryCode[categoryKo])
     registerCertificationPost(
       {
         userId: 0,
-        categoryCode: 'CA0002',
+        categoryCode: categoryCode[categoryKo],
         mungpleId: 0,
         placeName,
         description: certificationPostContent,
@@ -81,9 +95,9 @@ function CaptureCategoryRecord() {
     <>
       <main className="capture-img-record">
         <header className="capture-img-record-container">
-          <div className={`capture-img-record-body-${category}`} aria-hidden="true" onClick={moveToPreviousPage}>
-            <div className={`capture-img-record-body-${category}-label`}>{categoryKo}</div>
-            <div className={`capture-img-record-body-${category}-count`}>다시선택</div>
+          <div className={`capture-img-record-body-${categoryEnglish[categoryKo]}`} aria-hidden="true" onClick={moveToPreviousPage}>
+            <div className={`capture-img-record-body-${categoryEnglish[categoryKo]}-label`}>{categoryKo}</div>
+            <div className={`capture-img-record-body-${categoryEnglish[categoryKo]}-count`}>다시선택</div>
           </div>
         </header>
         <body className="review-container">

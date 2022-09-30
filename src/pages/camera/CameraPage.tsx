@@ -35,7 +35,6 @@ function CameraPage() {
   const captureImg = () => {
     if (cameraRef.current) {
       const imageSrc = cameraRef.current.getScreenshot();
-      console.log(imageSrc);
       dispatch(uploadAction.setImg({ img: imageSrc }));
       getUserLocation();
     }
