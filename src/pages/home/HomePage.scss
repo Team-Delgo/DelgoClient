@@ -59,9 +59,8 @@
 
 .home-page-dog-history-body {
     &-activity-log {
-        padding: 50px 5% 0 5%;
+        padding: 50px 5% 80px 5%;
         font-weight: bold;
-        padding-bottom: 100px;
 
         &-title {
             line-height: 30px;
@@ -72,7 +71,7 @@
         &-sub-title {
             font-size: 14px;
             color: #8A8A8A;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         &-line {
@@ -188,9 +187,9 @@
         }
 
         &-detail {
-            height: 235px;
-            padding: 20px 5% 0 5%;
-            background: '#F3F3F3';
+            padding: 20px 5% 20px 5%;
+            margin-bottom: 80px;
+            background: #F3F3F3;
 
             &-container {
                 display: flex;

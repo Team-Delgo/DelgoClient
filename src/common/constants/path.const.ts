@@ -39,6 +39,7 @@ export const CAMERA_PATH = {
   MAIN: '/camera',
   CAPTURE: '/camera/captureImg',
   CATEGORY: '/camera/captureImg/category',
+  LOCATION: '/camera/captureImg/location',
   RESULT: '/camera/captureImg/result',
 }
 
@@ -53,10 +54,4 @@ export const ACHIEVEMENT_PATH = '/achievement'
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';
 export const APPLE_REDIRECT_HANDLE_PATH = '/oauth/callback/apple';
-export const RESERVATION_PATH = {
-  RESERVATION: '/reservation/:placeId/:roomTypeId/:startDate/:endDate',
-  RESERVATION_WAITING: '/reservation-waiting/:placeId/:roomTypeId/:startDate/:endDate',
-  RESERVATION_CONFIRM: '/reservation-confirm/:bookingId',
-  RESERVATION_CANCLE: '/reservation-cancle/:bookingId',
-  RESERVATION_HISTORY: '/reservation-history/:bookingId',
-};
+
