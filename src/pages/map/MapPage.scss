@@ -3,6 +3,31 @@
   height: 400px;
 }
 
+.userLocation{
+  width: 50px;
+  background-color: white;
+  border: 2px solid #ececec;
+  border-radius: 5px;
+  height: 50px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  left: 12px;
+  top: 15px;
+  img{
+    width: 80%;
+  }
+}
+
+.userMarker{
+  width: 15px;
+  height: 30px;
+  background-color: red;
+  z-index: 9999;
+}
+
 .pin1 {
   position: absolute;
   width: 13px;
@@ -23,31 +48,8 @@
     border-radius: 100%;
   }
 
-  &::after {
-    border-top: 5px solid white;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 0px solid transparent;
-    content: "";
-    position: absolute;
-    top: 69px;
-  }
-
-  &::before {
-    border-top: 5px solid black;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 0px solid transparent;
-    content: "";
-    position: absolute;
-    top: 70px;
-  }
-
   &.mungplepin{
     background-color: #ff9162;
-    &::after {
-      border-top: 5px solid #ff9162;
-    }
   }
 }
 
@@ -175,3 +177,4 @@
 .mungpleOff{
   background-color: #c9c5c5;
 }
+
