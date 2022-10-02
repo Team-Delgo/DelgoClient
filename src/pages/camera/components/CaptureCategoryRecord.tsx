@@ -44,7 +44,7 @@ function CaptureCategoryRecord() {
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
   const [certificationPostContentLengthLimitAlert, setCertificationPostContentLengthLimitAlert] = useState(false);
-  const { categoryKo, img, latitude, longitude } = useSelector((state: RootState) => state.persist.upload);
+  const { categoryKo, img, latitude, longitude,mongPlaceId } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ function CaptureCategoryRecord() {
       {
         userId: 1,
         categoryCode: categoryCode[categoryKo],
-        mungpleId: 0,
+        mungpleId: mongPlaceId,
         placeName,
         description: certificationPostContent,
         latitude: latitude.toString(),
@@ -74,7 +74,6 @@ function CaptureCategoryRecord() {
       },
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
-        console.log(response);
         if (code === 200) {
           dispatch(
             uploadAction.setTitleContentRegistDt({
@@ -84,6 +83,9 @@ function CaptureCategoryRecord() {
             }),
           );
           navigate(CAMERA_PATH.RESULT);
+        }
+        else{
+          window.alert(codeMsg)
         }
       },
     );
