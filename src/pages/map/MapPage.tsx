@@ -27,6 +27,7 @@ function MapPage() {
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [test, setTest] = useState({ value: 1 });
+  const [markerList, setMarkerList] = useState<naver.maps.Marker[]>([]);
   const [currentLocation, setCurrentLocation] = useState({
     lat: dummyData[0].lat,
     lng: dummyData[0].lng,
@@ -133,7 +134,7 @@ function MapPage() {
         });
       });
     } else if (mungple === 'ON') {
-      mungpleList.forEach((data) => {
+      const tempList = mungpleList.map((data) => {
         const markerOptions = {
           position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
           map,
@@ -143,8 +144,9 @@ function MapPage() {
             origin: new naver.maps.Point(0, 0),
           },
         };
-        const marker = new naver.maps.Marker(markerOptions);
+        return new naver.maps.Marker(markerOptions);
       });
+      setMarkerList(tempList);
     }
     setGlobarMap(map);
     setIsLoading(false);
@@ -188,7 +190,6 @@ function MapPage() {
       //   zoom: 17,
       //   option: { zoom: 2, size: 70 },
       // });
-      console.log(123);
       globarMap?.panTo(new window.naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude), {
         duration: 500,
         easing: 'easeOutCubic',
@@ -207,6 +208,14 @@ function MapPage() {
         console.log(err);
       }
     }
+  };
+
+  console.log(markerList);
+
+  const deleteMungpleList = () => {
+    markerList.forEach((marker) => {
+      marker.setMap(null);
+    });
   };
 
   return (
