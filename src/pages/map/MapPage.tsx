@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import FooterNavigation from "../../common/components/FooterNavigation";
@@ -8,7 +8,6 @@ import RecordHeader from "../../common/components/RecordHeader";
 import "./MapPage.scss";
 import park from "./park.jpg";
 import { dummyData } from "./dummypin";
-import { dummyMungple } from "./dummymungple";
 import { getMapData } from "../../common/api/record";
 import { Mungple, Cert } from "./MapType";
 import { markerRender } from "./MarkerRender";
@@ -22,6 +21,7 @@ function MapPage() {
   const [globarMap, setGlobarMap] = useState<naver.maps.Map>();
   const [certNormalList, setCertNormalList] = useState<Cert[]>([]);
   const [certMungpleList, setCertMungpleList] = useState<Cert[]>([]);
+  const [position, setPosition] = useState({lat:0,lng:0}); 
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [test, setTest] = useState({ value: 1 });
@@ -150,6 +150,20 @@ function MapPage() {
       setMungple('ON');
     }
   };
+
+  const autoLocationListener = async () => {
+    if(navigator.geolocation) {
+      try {
+        const newId = navigator.geolocation.watchPosition(
+          async (position) => {
+            setPosition({lat:position.coords.latitude, lng:position.coords.longitude});
+          }
+        )
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
 
   return <div>
     <RecordHeader />
