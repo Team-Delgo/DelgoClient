@@ -6,12 +6,14 @@ import { CAMERA_PATH } from '../../../common/constants/path.const';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [window.innerHeight - window.innerWidth + 5, 0, 0, 0];
+const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
+
+// [window.innerHeight - window.innerWidth + 5, 0, 0, 0];
 
 function CaptureImgRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,6 +30,7 @@ function CaptureImgRecord() {
     setBottomSheetIsOpen(false);
   };
 
+  // snapPoints={sheetSnapPoints}
   return (
     <Sheet isOpen={bottomSheetIsOpen} onClose={closeBottomSheet} snapPoints={sheetSnapPoints}>
       <Sheet.Container style={sheetStyle}>
