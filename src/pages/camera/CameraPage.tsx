@@ -60,20 +60,18 @@ function CameraPage() {
         aria-hidden="true"
         onClick={swtichCamera}
       />
-      {cameraRef === null ? null : (
-        <Webcam
-          ref={cameraRef}
-          className="web-camera"
-          screenshotFormat="image/jpeg"
-          forceScreenshotSourceSize
-          mirrored={webCameraMode === 'user'}
-          width={window.innerWidth}
-          videoConstraints={{
-            facingMode: { exact: webCameraMode },
-            aspectRatio: 1 / 1,
-          }}
-        />
-      )}
+      <Webcam
+        ref={cameraRef}
+        className="web-camera"
+        screenshotFormat="image/jpeg"
+        // forceScreenshotSourceSize
+        width={window.innerWidth}
+        mirrored
+        videoConstraints={{
+          facingMode: { exact: webCameraMode },
+          aspectRatio: 1 / 1,
+        }}
+      />
       <img
         src={CameraButton}
         className="camera-capture-button"
