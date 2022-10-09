@@ -28,16 +28,14 @@ function MapPage() {
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [test, setTest] = useState({ value: 1 });
   const [markerList, setMarkerList] = useState<naver.maps.Marker[]>([]);
+  const [certMarkerList, setCertMarkerList] = useState<naver.maps.Marker[]>([]);
+  const [certMungpleMarkerList, setCertMungpleMarkerList] = useState<naver.maps.Marker[]>([]);
   const [currentLocation, setCurrentLocation] = useState({
     lat: dummyData[0].lat,
     lng: dummyData[0].lng,
     zoom: 17,
     option: { zoom: 2, size: 70 },
   });
-
-  const pinButtonHandler = () => {
-    console.log(1);
-  };
 
   let map: naver.maps.Map;
 
@@ -75,12 +73,9 @@ function MapPage() {
       center: location,
       zoom: currentLocation.zoom,
       zoomControl: false,
-      // zoomControlOptions: {
-      //   position: window.naver.maps.Position.TOP_RIGHT,
-      // },
     };
+
     map = new naver.maps.Map(mapElement.current, mapOptions);
-    console.log('newmap');
     const userMarkerOption = {
       position: new window.naver.maps.LatLng(userLocation.lat, userLocation.lng),
       map,
@@ -90,13 +85,31 @@ function MapPage() {
         origin: new naver.maps.Point(0, 0),
       },
     };
+
     const userMarker = new naver.maps.Marker(userMarkerOption);
-    if (mungple === 'OFF') {
-      certNormalList.forEach((data) => {
+    setGlobarMap(map);
+    setIsLoading(false);
+    naver.maps.Event.addListener(map, 'zoom_changed', () => {
+      setTimeout(() => {
+        const location = map.getCenter();
+        const zoom = map.getZoom();
+        let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
+        if (zoom > 20) option = { zoom: 3, size: 100 };
+        else if (zoom > 10) option = { zoom: 2, size: 70 };
+        else option = { zoom: 1, size: 13 };
+        setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
+      }, 200);
+    });
+  }, []);
+
+  useEffect(()=>{
+    if(mungple === 'OFF'){
+      deleteMungpleList();
+      deleteCertList();
+      const tempList1 = certNormalList.map((data) => {
         const markerOptions = {
-          // position: new window.naver.maps.LatLng(parseFloat(data.longitude), parseFloat(data.latitude)),
           position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-          map,
+          map:globarMap!,
           icon: {
             content: [
               `<div class="pin${currentLocation.option.zoom}" style="z-index:${data.certificationId}">`,
@@ -111,13 +124,14 @@ function MapPage() {
         marker.addListener('click', () => {
           navigate(`/post/?userId=${1}&postId=${data.certificationId}`);
         });
+        return marker;
       });
+      setCertMarkerList(tempList1);
 
-      certMungpleList.forEach((data) => {
+      const tempList2 = certMungpleList.map((data) => {
         const markerOptions = {
-          // position: new window.naver.maps.LatLng(parseFloat(data.longitude), parseFloat(data.latitude)),
           position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-          map,
+          map:globarMap!,
           icon: {
             content: [
               `<div class="pin${currentLocation.option.zoom} mungplepin" style="z-index:${data.certificationId}">`,
@@ -132,12 +146,17 @@ function MapPage() {
         marker.addListener('click', () => {
           navigate(`/post/?userId=${1}&postId=${data.certificationId}`);
         });
+        return marker;
       });
-    } else if (mungple === 'ON') {
+      setCertMungpleMarkerList(tempList2);
+
+    }else if(mungple === 'ON'){
+      deleteCertList();
+      deleteMungpleList();
       const tempList = mungpleList.map((data) => {
         const markerOptions = {
           position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-          map,
+          map:globarMap!,
           icon: {
             content: [`<div class="mungple" style="z-index:${data.mungpleId}"/>`].join(''),
             size: new naver.maps.Size(13, 13),
@@ -148,34 +167,15 @@ function MapPage() {
       });
       setMarkerList(tempList);
     }
-    setGlobarMap(map);
-    setIsLoading(false);
-    naver.maps.Event.addListener(map, 'zoom_changed', () => {
-      setTimeout(() => {
-        const location = map.getCenter();
-        const zoom = map.getZoom();
-        let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
-        if (zoom > 20) option = { zoom: 3, size: 100 };
-        else if (zoom > 10) option = { zoom: 2, size: 70 };
-        else option = { zoom: 1, size: 50 };
-        setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
-      }, 200);
-    });
-  }, [mungple, mungpleList, certMungpleList, certNormalList, currentLocation.option.zoom]);
+  },[mungple, mungpleList, certMungpleList, certNormalList, currentLocation.option.zoom])
 
   const mapStyle = {
     width: '100vw',
     height: '80vh',
   };
 
-  // console.log(globarMap?.getCenter(), globarMap?.getZoom());
 
   const mungpleButtonHandler = () => {
-    const location = globarMap?.getCenter();
-    const zoom = globarMap!.getZoom();
-    setCurrentLocation((prev) => {
-      return { ...prev, lat: location!.y, lng: location!.x, zoom };
-    });
     if (mungple === 'ON') setMungple('OFF');
     else {
       setMungple('ON');
@@ -184,12 +184,6 @@ function MapPage() {
 
   const setCenterUserLocation = () => {
     navigator.geolocation.getCurrentPosition((pos) => {
-      // setCurrentLocation({
-      //   lat: pos.coords.latitude,
-      //   lng: pos.coords.longitude,
-      //   zoom: 17,
-      //   option: { zoom: 2, size: 70 },
-      // });
       globarMap?.panTo(new window.naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude), {
         duration: 500,
         easing: 'easeOutCubic',
@@ -198,24 +192,18 @@ function MapPage() {
     });
   };
 
-  const autoLocationListener = async () => {
-    if (navigator.geolocation) {
-      try {
-        const newId = navigator.geolocation.watchPosition(async (position) => {
-          setPosition({ lat: position.coords.latitude, lng: position.coords.longitude });
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
-  console.log(markerList);
-
   const deleteMungpleList = () => {
     markerList.forEach((marker) => {
       marker.setMap(null);
     });
+  };
+  const deleteCertList = () => {
+    certMarkerList.forEach((marker)=>{
+      marker.setMap(null);
+    });
+    certMungpleMarkerList.forEach((marker)=>{
+      marker.setMap(null);
+    })
   };
 
   return (
