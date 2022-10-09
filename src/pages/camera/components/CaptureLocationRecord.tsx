@@ -57,7 +57,7 @@ const categoryEnglish: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px'};
-const sheetSnapPoints = [window.innerHeight - window.innerWidth + 10, window.innerHeight - 150, 0, 0];
+const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
 
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
