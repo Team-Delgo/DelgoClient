@@ -1,0 +1,45 @@
+.birth {
+  z-index: 10;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  width: 335px;
+  height: 272px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 300;
+  &-years {
+    width: 120px;
+  }
+  &-months {
+    width: 80px;
+  }
+  &-days {
+    width: 80px;
+  }
+  &-divider {
+    width: 0.1px;
+    background-color: #8a8a8a;
+    height: 60%;
+  }
+}
+.tab {
+  height: 210px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.birth-item {
+  height: 30px;
+  color: #c4c4c4;
+  &.selected {
+    color: #3e382f;
+    font-weight: 400;
+  }
+  &.blank {
+    color: white;
+  }
+}

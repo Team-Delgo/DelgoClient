@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { deviceAction } from './redux/slice/deviceSlice';
-import { CAMERA_PATH, RECORD_PATH, ROOT_PATH, POSTS_PATH, ACHIEVEMENT_PATH } from './common/constants/path.const';
+import { CAMERA_PATH, RECORD_PATH, ROOT_PATH, POSTS_PATH, ACHIEVEMENT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
@@ -17,6 +17,10 @@ import HomePage from './pages/home/HomePage';
 import PostsPage from './pages/post/PostsPage';
 import AchievementPage from './pages/achievement/AchievementPage';
 import './App.scss';
+import SignIn from './pages/sign/signin/SignIn';
+import Terms from './pages/sign/signup/term/Terms';
+import VerifyPhone from './pages/sign/signup/phone/VerifyPhone';
+import UserInfo from './pages/sign/signup/userinfo/UserInfo';
 
 function App() {
   const queryClient = new QueryClient();
@@ -38,6 +42,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
+        <Route path={SIGN_IN_PATH.MAIN} element={<SignIn/>} />
+        <Route path={SIGN_UP_PATH.TERMS} element={<Terms/>} />
+        <Route path={SIGN_UP_PATH.VERIFY} element={<VerifyPhone/>} /> 
+        <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo/>} />
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />

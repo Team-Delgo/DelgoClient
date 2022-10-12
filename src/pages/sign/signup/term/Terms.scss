@@ -1,0 +1,191 @@
+@import '../../Sign.scss';
+@mixin typobold {
+  color: #3f3f3f;
+  font-weight: 700;
+  font-style: normal;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 14px;
+  line-height: 150%;
+}
+.login {
+  &-terms {
+    width: 91vw;
+    margin-top: 38px;
+    background-color: #3d3d3f;
+    border-radius: 7px;
+    &.detail{
+      background-color: #f2f2f2;
+    }
+    &-item {
+      position: relative;
+      margin: 25px 20px;
+      & input {
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        margin-right: 18px;
+      }
+      &-label {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-weight: 400;
+        font-style: normal;
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 14px;
+        line-height: 150%;
+      }
+      &-button {
+        width: 50px;
+        height: 40px;
+        text-align: right;
+        position: absolute;
+        cursor: pointer;
+        right: 12px;
+        top: 3.5px;
+        color: white;
+        font-weight: 400;
+        font-style: normal;
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 14px;
+        line-height: 150%;
+      }
+    }
+    &-all {
+      width: 91vw;
+      margin-top: 41px;
+      &-wrapper {
+        margin: 0 20px;
+      }
+      & input {
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        margin-right: 18px;
+      }
+      & label {
+        display: flex;
+        align-items: center;
+        @include typobold;
+      }
+      
+    }
+  }
+  &-button.term {
+    position: relative;
+    margin-top: 40px;
+  }
+  &-detail {
+    margin: 0 auto 0 0;
+    padding: 39px 54px;
+    top: 10px;
+    & input {
+      margin-right: 18px;
+    }
+    &-label {
+      display: flex;
+      align-items: center;
+      &-input {
+        display: none;
+      }
+      &-input + span {
+        display: inline-block;
+        position: relative;
+        width: 26px;
+        height: 26px;
+        border-radius: 100%;
+        border: 1px solid white;
+        background-color: white;
+        margin-left: 7px;
+        margin-right: 13px;
+      }
+      &-input:checked + span::before {
+        content: '';
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border: 1px solid #aa93ec;
+        top: -1px;
+        left: -1px;
+        border-radius: 100%;
+        background-color: #aa93ec;
+      }
+      &-icon {
+        position: absolute;
+        z-index: 10;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+.checkbox {
+  &-input {
+    display: none;
+  }
+  &-input + span {
+    display: inline-block;
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 100%;
+    border: 1px solid #c4c4c4;
+    background-color: white;
+    margin-left: 7px;
+    margin-right: 13px;
+  }
+  &-input + span::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 1px solid white;
+    top: -1px;
+    left: -1px;
+    border-radius: 100%;
+    background-color: white;
+  }
+  &-input:checked + span::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #aa93ec;
+    top: -1px;
+    left: -1px;
+    border-radius: 100%;
+    background-color: #aa93ec;
+    animation: checkboxCheck 0.3s ease-out;
+  }
+  &-button.last::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #ececec;
+    top: -1px;
+    left: -1px;
+    border-radius: 100%;
+    background-color: white;
+  }
+  &-icon {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes checkboxCheck {
+  0% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
