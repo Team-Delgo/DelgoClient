@@ -12,11 +12,11 @@ async function setAccessCode(code: string | null, success: (data: AxiosResponse)
     });
 }
 
-async function oAuthSignup(data: {nickname:string,phoneNo:string,petName:string,petSize:string,birthday:string|undefined,userSocial:string} , success: (data: AxiosResponse) => void, dispatch: any) {
-  const {nickname,phoneNo,petName,petSize,birthday,userSocial} = data;
+async function oAuthSignup(data: {email:string,userName:string,phoneNo:string,petName:string,petSize:string,birthday:string|undefined,userSocial:string} , success: (data: AxiosResponse) => void, dispatch: any) {
+  const {email,userName,phoneNo,petName,petSize,birthday,userSocial} = data;
   await axios
     .post(`${process.env.REACT_APP_API_URL}/oAuthSignup `,{
-      userName: nickname,
+      userName,
       phoneNo,
       petName,
       petSize,

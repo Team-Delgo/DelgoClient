@@ -1,9 +1,10 @@
 .recordHeader {
-  margin: 42px 20px 20px 20px;
-  padding: 6px 20px;
+  margin-top: 5vh;
+  // margin: 20px 20px 20px 20px;
   display: flex;
+  height: 3vh;
   justify-content: space-evenly;
-
+  background-color: white;
   &-wrapper {
     background-color: white;
     height: 20vh;
@@ -14,8 +15,9 @@
     z-index: 9999;
 
     img {
+      height: 4vh;
       margin-left: 20px;
-      margin-top: 50px;
+      margin-top: 6vh;
     }
   }
 
@@ -28,10 +30,10 @@
 
       &::after {
         position: absolute;
-        bottom: -9px;
+        bottom: -1.3vh;
         left: 0;
         width: 15vw;
-        height: 4px;
+        height: 0.5vh;
         // transform: translateX(-50%);
         content: "";
         background-color: #d9d9d9;
