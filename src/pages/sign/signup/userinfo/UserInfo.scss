@@ -1,0 +1,55 @@
+@import "../../Sign.scss";
+@mixin spanposition {
+  margin: 0 auto 0 0;
+  padding-left: 30px;
+  padding-top: 44px;
+}
+.login {
+  &-span {
+    @include spanposition();
+    @include typosettings(14px, $color-light-grey);
+  }
+  &-input {
+    &.email {
+      margin-top: 0;
+    }
+    &.password {
+      // margin-top: 0;
+      font-size: 25px;
+    }
+    font-weight: 500;
+    &::placeholder {
+      @include typosettings(16px, $color-light-grey);
+    }
+  }
+}
+.login-input-box {
+  position: relative;
+}
+// .input-feedback {
+//   position: absolute;
+//   margin: 0;
+//   bottom: -30px;
+//   left: 16px;
+//   @include typosettings(14px, $color-orange);
+//   font-weight: 500;
+//   &.fine {
+//     color: green;
+//   }
+// }
+.input-email-check {
+  position: absolute;
+  margin: 0;
+  bottom: -35px;
+  border-radius: 10%;
+  padding: 5px;
+  right: 11px;
+  cursor: pointer;
+  transition: .3s;
+  &:active {
+    bottom: -33px;
+    background-color: #d9d6d2;
+  }
+  @include typosettings(14px, $color-light-grey);
+  font-weight: 300;
+}

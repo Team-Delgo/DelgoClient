@@ -31,6 +31,35 @@ async function oAuthSignup(data: {email:string,userName:string,phoneNo:string,pe
     });
 }
 
-export { setAccessCode, oAuthSignup };
+async function setStateCode(
+  data: { code: string | null; state: string | null },
+  success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
+  const { code, state } = data;
+  await axios
+    .post(`${process.env.REACT_APP_API_URL}/naver/state-code/${state}/${code}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+async function appleSendToken(token:string|null ,success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
+  await axios
+    .post(`${process.env.REACT_APP_API_URL}/apple/id_token/${token}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+export { setAccessCode, oAuthSignup, setStateCode, appleSendToken };
 
 

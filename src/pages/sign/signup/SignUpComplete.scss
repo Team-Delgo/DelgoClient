@@ -1,0 +1,42 @@
+.complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &-logo {
+    margin-top: 170px;
+    width: 50vw;
+  }
+  &-circle {
+    margin-top: 74px;
+    width: 65px;
+    height: 65px;
+    border-radius: 100%;
+    background-color: #aa93ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: signupcomplete 0.5s;
+  }
+  &-check {
+    width: 33px;
+  }
+  &-text {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 27px;
+    color: #3f3f3f;
+  }
+}
+
+@keyframes signupcomplete {
+  0% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

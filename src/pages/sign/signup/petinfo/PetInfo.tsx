@@ -11,7 +11,7 @@ import './PetInfo.scss';
 import DogType from './DogType';
 import BirthSelector from './BirthSelector';
 import { signup, petImageUpload } from '../../../../common/api/signup';
-import Check from '../../../common/icons/check.svg';
+import Check from '../../../../common/icons/check.svg';
 import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
