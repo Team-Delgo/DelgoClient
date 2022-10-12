@@ -19,6 +19,7 @@ interface Input {
   password: string;
   confirm: string;
   nickname: string;
+  region: string;
 }
 
 enum Id {
@@ -26,6 +27,7 @@ enum Id {
   PASSWORD = 'password',
   CONFIRM = 'confirm',
   NICKNAME = 'nickname',
+  REGION = 'region',
 }
 
 function UserInfo() {
@@ -34,14 +36,15 @@ function UserInfo() {
   const state = useLocation().state as LocationState;
   const { phone } = state;
   const [nextPage, setNextPage] = useState(false);
-  const [enteredInput, setEnteredInput] = useState({ email: '', password: '', confirm: '', nickname: '' });
-  const [validInput, setValidInput] = useState({ email: '', password: '', confirm: '', nickname: '' });
-  const [feedback, setFeedback] = useState({ email: '', password: '', confirm: '', nickname: '' });
+  const [enteredInput, setEnteredInput] = useState({ email: '', password: '', confirm: '', nickname: '', region: '' });
+  const [validInput, setValidInput] = useState({ email: '', password: '', confirm: '', nickname: '', region: '' });
+  const [feedback, setFeedback] = useState({ email: '', password: '', confirm: '', nickname: '', region: '' });
   const [confirmIsTouched, setConfirmIsTouched] = useState(false);
   const [emailDuplicated, setEmailDuplicated] = useState(true);
   const [emailDupCheckFail, setEmailDupCheckFail] = useState(false);
   const [nicknameDuplicated, setNicknameDuplicated] = useState(true);
   const [nicknameDupCheckFail, setNicknameDupCheckFail] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const firstPageIsValid =
@@ -196,7 +199,7 @@ function UserInfo() {
           } else {
             setEmailDuplicated(true);
             setEmailDupCheckFail(true);
-            if(emailRef.current){
+            if (emailRef.current) {
               emailRef.current.focus();
             }
           }
@@ -217,7 +220,7 @@ function UserInfo() {
         } else {
           setNicknameDuplicated(true);
           setNicknameDupCheckFail(true);
-          if(nicknameRef.current){
+          if (nicknameRef.current) {
             nicknameRef.current.focus();
           }
         }
@@ -330,6 +333,22 @@ function UserInfo() {
             <span aria-hidden="true" className="input-email-check" onClick={nicknameDupCheck}>
               중복확인
             </span>
+          </div>
+          <div className="login-input-wrapper">
+            <input
+              className={classNames('login-input input-birth')}
+              placeholder="지역"
+              value={enteredInput.region}
+              id={Id.REGION}
+              onClick={() => {
+                setModalActive(true);
+              }}
+              onFocus={() => {
+                setModalActive(true);
+              }}
+              required
+              onChange={inputChangeHandler}
+            />
           </div>
           <button
             type="button"

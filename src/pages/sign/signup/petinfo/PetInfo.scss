@@ -1,0 +1,153 @@
+@import '../../Sign.scss';
+.petinfo-image {
+  position: relative;
+  margin-top: 27px;
+  &-input {
+    display: none;
+  }
+  &-preview {
+    background-color: #e8e2dc;
+    border-radius: 10px;
+    width: 28vw;
+    height: 28vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  &-label {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: -9px;
+    width: 41px;
+    height: 41px;
+    border-radius: 100%;
+    background-color: white;
+    transition: 0.2s;
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+  &-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.login-input {
+  &-wrapper {
+    width: 88vw;
+    display: flex;
+    justify-content: space-between;
+  }
+  &.petname {
+    margin-top: 28px;
+  }
+  &.input-birth {
+    margin-top: 38px;
+    width: 100%;
+    display: inline;
+  }
+  &.input-weight {
+    margin-top: 38px;
+    width: 42%;
+    display: inline;
+  }
+}
+.dogtype {
+  position: relative;
+  width: 88vw;
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-evenly;
+  &-help {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    font-size: 16px;
+    line-height: 150%;
+    font-family: 'Roboto';
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #b0a69d;
+    color: white;
+    border-radius: 100%;
+  }
+  &-input {
+    display: none;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    line-height: 150%;
+    font-weight: 500;
+    color: #8a8a8a;
+  }
+  &-input + span {
+    display: inline-block;
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 100%;
+    border: 1px solid #c4c4c4;
+    background-color: white;
+    margin-left: 15px;
+    margin-right: 7px;
+  }
+  &-input:checked + span::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #aa93ec;
+    top: -1px;
+    left: -1px;
+    border-radius: 100%;
+    background-color: #aa93ec;
+    animation: checkboxCheck 0.3s ease-out;
+  }
+  &-icon {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.75);
+}
+.modal {
+  position: fixed;
+  top: 30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+@keyframes checkboxCheck {
+  0% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
