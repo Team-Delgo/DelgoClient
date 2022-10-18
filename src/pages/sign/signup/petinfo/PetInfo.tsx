@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState,useCallback } from 'react';
+import React, { ChangeEvent, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { AxiosResponse } from 'axios';
@@ -15,7 +15,7 @@ import Check from '../../../../common/icons/check.svg';
 import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
-import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne'
+import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 
 interface LocationState {
   phone: string;
@@ -23,6 +23,8 @@ interface LocationState {
   nickname: string;
   password: string;
   isSocial: string;
+  geoCode: number;
+  pGeoCode: number;
 }
 
 interface Input {
@@ -42,13 +44,13 @@ enum Id {
   BIRTH = 'birth',
   TYPE = 'type',
 }
-const reviewImgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
+const reviewImgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
 
 function PetInfo() {
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const state = useLocation().state as LocationState;
-  const { email, password, nickname, phone, isSocial } = state;
+  const { email, password, nickname, phone, isSocial, geoCode, pGeoCode } = state;
   const [image, setImage] = useState<any>();
   const [sendingImage, setSendingImage] = useState<any>([]);
   const [enteredInput, setEnteredInput] = useState<Input>({ name: '', birth: undefined, type: '' });
@@ -60,14 +62,14 @@ function PetInfo() {
     birth: false,
     type: false,
   });
-  const [reviewImgExtensionAlert,setReviewImgExtensionAlert]=useState(false)
+  const [reviewImgExtensionAlert, setReviewImgExtensionAlert] = useState(false);
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
   const formData = new FormData();
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
-    if(!reviewImgExtension.includes((event.target.files as FileList)[0].type)){
-      setReviewImgExtensionAlert(true)
-      return
+    if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
+      setReviewImgExtensionAlert(true);
+      return;
     }
     const reader = new FileReader();
     reader.onload = function () {
@@ -86,13 +88,13 @@ function PetInfo() {
       const base64data = reader.result;
       console.log(compressedFile.type);
       setSendingImage(base64data);
-    }
+    };
 
     // let {petImage} = files;
   };
 
   const handlingDataForm = async (dataURI: any) => {
-    const byteString = atob(dataURI.split(",")[1]);
+    const byteString = atob(dataURI.split(',')[1]);
 
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
@@ -100,16 +102,15 @@ function PetInfo() {
       ia[i] = byteString.charCodeAt(i);
     }
     const blob = new Blob([ia], {
-      type: "image/jpeg"
+      type: 'image/jpeg',
     });
-    const file = new File([blob], "image.jpg");
+    const file = new File([blob], 'image.jpg');
 
     const formData = new FormData();
-    formData.append("photo", file);
+    formData.append('photo', file);
 
     return formData;
   };
-
 
   const requireInputCheck = (key: string, value: string) => {
     if (value.length) {
@@ -172,7 +173,7 @@ function PetInfo() {
       size: enteredInput.type,
     };
     const userInfo = {
-      nickname,
+      userName: nickname,
       email,
       password,
       phone,
@@ -183,7 +184,7 @@ function PetInfo() {
       // oauthSignup();
       const requestBody = {
         email,
-        userName:nickname,
+        userName: nickname,
         phoneNo: phone,
         petName: enteredInput.name,
         petSize: enteredInput.type,
@@ -210,7 +211,7 @@ function PetInfo() {
                 user: {
                   id: data.user.userId,
                   nickname: data.user.name,
-                  email: "",
+                  email: '',
                   phone: data.user.phoneNo,
                 },
                 pet: {
@@ -242,7 +243,18 @@ function PetInfo() {
       );
     } else {
       signup(
-        userInfo,
+        {
+          userName: nickname,
+          email,
+          password,
+          phoneNo: phone,
+          geoCode,
+          p_geoCode: pGeoCode,
+          petName: enteredInput.name,
+          petSize: enteredInput.type,
+          birthday: enteredInput.birth,
+          userSocial: isSocial,
+        },
         async (response: AxiosResponse) => {
           const { code, codeMsg, data } = response.data;
           if (code === 200) {
@@ -305,12 +317,20 @@ function PetInfo() {
   };
 
   const alertReviewImgExtensionClose = useCallback(() => {
-    setReviewImgExtensionAlert(false)
-  },[])
+    setReviewImgExtensionAlert(false);
+  }, []);
 
   return (
     <div className="login">
-      <div aria-hidden="true" className="login-back" onClick={() => { setTimeout(() => { navigation(-1) }, 200) }}>
+      <div
+        aria-hidden="true"
+        className="login-back"
+        onClick={() => {
+          setTimeout(() => {
+            navigation(-1);
+          }, 200);
+        }}
+      >
         <Arrow />
       </div>
       <header className="login-header">대표 강아지 정보</header>
@@ -411,12 +431,14 @@ function PetInfo() {
         onClick={() => {
           setTimeout(() => {
             submitHandler();
-          }, 300)
+          }, 300);
         }}
       >
         저장하기
       </button>
-      {reviewImgExtensionAlert && <AlertConfirmOne text="이미지 확장자 파일만 올려주세요" buttonHandler={alertReviewImgExtensionClose} />}
+      {reviewImgExtensionAlert && (
+        <AlertConfirmOne text="이미지 확장자 파일만 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
+      )}
     </div>
   );
 }

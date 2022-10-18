@@ -1,0 +1,82 @@
+.regionSelector {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  justify-content: center;
+  border-radius: 5px;
+  align-items: center;
+  width: 335px;
+  height: 360px;
+}
+.region {
+  z-index: 10;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  // width: 335px;
+  // height: 360px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 300;
+  &-button{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    button{
+      font-family: 'Spoqa Han Sans Neo';
+      font-weight: 500;
+      font-size: 12px;
+      margin: 20px;
+      background-color: #3f3f3f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      line-height: 150%;
+      color: white;
+      border-radius: 42px;
+      border: none;
+      div{
+        margin-right: 7px;
+      }
+    }
+  }
+  &-regions {
+    width: 120px;
+    &.tab {
+      height: 280px;
+      overflow: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+  &-places {
+    width: 120px;
+    &.tab {
+      height: 280px;
+      overflow: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+  &-divider {
+    width: 0.1px;
+    background-color: #8a8a8a;
+    height: 60%;
+  }
+}
+
+.region-item {
+  height: 40px;
+  color: #c4c4c4;
+  &.selected {
+    color: #3e382f;
+    font-weight: 400;
+  }
+  &.blank {
+    color: white;
+  }
+}

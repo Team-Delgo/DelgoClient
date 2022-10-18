@@ -64,10 +64,10 @@ function Terms() {
     setTimeout(() => {
       if (isSocial === 'K' || isSocial === 'N') {
         navigation(SIGN_IN_PATH.PHONEAUTH, { state: { phone, isSocial, email } });
-      } else if(isSocial === 'A'){
-        navigation(SIGN_UP_PATH.VERIFY, {state:{isSocial:'A'}});
-      } else{
-        navigation(SIGN_UP_PATH.VERIFY, {state:{isSocial:'D'}})
+      } else if (isSocial === 'A') {
+        navigation(SIGN_UP_PATH.VERIFY, { state: { isSocial: 'A' } });
+      } else {
+        navigation(SIGN_UP_PATH.VERIFY, { state: { isSocial: 'D' } });
       }
     }, 300);
   };

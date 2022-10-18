@@ -4,9 +4,14 @@ import { useErrorHandlers } from './useErrorHandlers';
 interface SignUpData {
   email: string;
   password: string;
-  nickname: string;
-  phone: string;
-  pet: { name: string; birthday: string | undefined; size: string };
+  userName: string;
+  phoneNo: string;
+  geoCode: number;
+  p_geoCode: number;
+  petName: string;
+  petSize: string;
+  birthday: string | undefined;
+  userSocial: string;
 }
 
 async function emailCheck(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
@@ -36,7 +41,7 @@ async function nicknameCheck(name: string, success: (data: AxiosResponse) => voi
 }
 
 async function signup(info: SignUpData, success: (data: AxiosResponse) => void, dispatch: any) {
-  const { nickname, email, password, phone, pet } = info;
+  const { userName, email, password, phoneNo, petName, petSize, birthday } = info;
   await axios
     .post(`${process.env.REACT_APP_API_URL}/signup`, {
       // user: {
@@ -52,14 +57,13 @@ async function signup(info: SignUpData, success: (data: AxiosResponse) => void, 
       //   // weight: 4.3,
       // },
 
-      userName: nickname,
+      userName,
       email,
       password,
-      phoneNo: phone,
-      petName: pet.name,
-      birthday: pet.birthday,
-      petSize: pet.size,
-      // weight: 4.3,
+      phoneNo,
+      petName,
+      birthday,
+      petSize,
     })
     .then((data) => {
       success(data);
@@ -72,6 +76,17 @@ async function signup(info: SignUpData, success: (data: AxiosResponse) => void, 
 async function deleteUser(userId: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
     .post(`${process.env.REACT_APP_API_URL}/deleteUser/${userId}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+async function getRegion(success: (data: AxiosResponse) => void, dispatch: any) {
+  await axios
+    .get(`${process.env.REACT_APP_API_URL}/code/geo-data`)
     .then((data) => {
       success(data);
     })
@@ -159,4 +174,5 @@ export {
   phoneCheckNumber,
   phoneSendMessage,
   petImageUpload,
+  getRegion
 };
