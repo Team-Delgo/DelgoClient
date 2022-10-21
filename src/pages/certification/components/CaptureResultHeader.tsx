@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
-import X from '../../../common/icons/x.svg';
+import X from '../../../common/icons/xx.svg';
 
 interface weekDayType {
   Mon: string;

@@ -9,7 +9,6 @@ import Cafe from '../../../common/icons/cafe.svg';
 import Hospital from '../../../common/icons/hospital.svg';
 import Walk from '../../../common/icons/walk.svg';
 import { ROOT_PATH } from '../../../common/constants/path.const';
-import X from '../../../common/icons/x.svg';
 
 interface categoryType {
   산책: string;
@@ -46,9 +45,7 @@ function CaptureResultMain() {
   const navigate = useNavigate();
   const { img, title, content, categoryKo } = useSelector((state: RootState) => state.persist.upload);
 
-  const moveToHomePage = () => {
-    navigate(ROOT_PATH);
-  }
+
 
   return (
     <main className="capture-img-result-main">
