@@ -26,13 +26,6 @@ const uploadSlice = createSlice({
       return {
         ...initialState,
         img: action.payload.img,
-        // latitude: '',
-        // longitude: '',
-        // categoryKo: '',
-        // title: '',
-        // content: '',
-        // registDt:'',
-        // mongPlaceId:-1,
       };
     },
     setCategory(state, action) {
@@ -44,13 +37,14 @@ const uploadSlice = createSlice({
     setMongPlace(state, action) {
       return {
         ...state,
-        mongPlaceId: action.payload.mongPlaceId,
+        title: action.payload.placeName,
+        mongPlaceId: action.payload.mungpleId,
+
       };
     },
-    setTitleContentRegistDt(state, action) {
+    setContentRegistDt(state, action) {
       return {
         ...state,
-        title: action.payload.title,
         content: action.payload.content,
         registDt: action.payload.registDt,
       };

@@ -1,12 +1,12 @@
 import React from 'react';
-import CaptureImg from '../components/CaptureImg';
+import CaptureCategoryImg from '../components/CaptureCategoryImg';
 import CaptureCategoryRecord from '../components/CaptureCategoryRecord';
 import './CaptureCategoryPage.scss';
 
 function CaptureCategoryPage() {
   return (
     <>
-      <CaptureImg />
+      <CaptureCategoryImg />
       <CaptureCategoryRecord />
     </>
   );

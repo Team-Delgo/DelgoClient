@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { AxiosResponse } from 'axios';
 import AchievementBath from '../../common/icons/achievement-bath.svg';
 import AchievementBeauty from '../../common/icons/achievement-beauty.svg';
 import AchievementCafe from '../../common/icons/achievement-cafe.svg';
@@ -11,28 +12,31 @@ import AchievementHospital from '../../common/icons/achievement-hospital.svg';
 import AchievementRestorant from '../../common/icons/achievement-restorant.svg';
 import AchievementWalk from '../../common/icons/achievement-walk.svg';
 import FooterNavigation from '../../common/components/FooterNavigation';
-import { getAchievementList } from '../../common/api/achievement';
+import { getAchievementList,setMainAchievements } from '../../common/api/achievement';
 import { GET_ACHIEVEMENT_LIST, CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import './AchievementPage.scss';
+
+
+interface AchievementDataType {
+  achievements:AchievementType;
+  achievementsId: number;
+  archiveId: number;
+  isMain: number;
+  registDt: string;
+  userId: number;
+}
 
 interface AchievementType {
   achievementsId: number;
   imgUrl: string;
+  isMain: string;
   isMungple: number;
   name: string;
   registDt: string;
 }
 
-const achievements = [
-  { id: 0, url: AchievementBath },
-  { id: 1, url: AchievementBeauty },
-  { id: 2, url: AchievementCafe },
-  { id: 3, url: AchievementHospital },
-  { id: 4, url: AchievementRestorant },
-  { id: 5, url: AchievementWalk },
-];
-
 function AchievementPage() {
+  const [mainAchievementsId, setMainAchievementsId] = useState<Array<number>>([0, 0, 0]);
   const navigate = useNavigate();
 
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
@@ -46,6 +50,27 @@ function AchievementPage() {
       //   },
     },
   );
+
+  const handleMainAchievements = () => {
+    setMainAchievements(
+      1,
+      mainAchievementsId[0],
+      mainAchievementsId[1],
+      mainAchievementsId[2],
+      (response: AxiosResponse) => {
+        const { code, codeMsg, data } = response.data;
+        if (code === 200) {
+          console.log(data);
+        } else {
+          window.alert(codeMsg);
+        }
+      },
+    );
+  };
+
+  // const handleMainAchievements = () => {
+  //   setMainAchievements;
+  // };
 
   const moveHomePage = () => {
     navigate(ROOT_PATH);
@@ -83,20 +108,23 @@ function AchievementPage() {
             최대 3개의 업적을 대표업적으로 선정 할 수 있어요!
           </div>
           <div className="achievement-page-header-achievements-images">
-            {achievements.slice(0, 3).map((achievement) => (
-              <div className="achievement-page-header-achievements-image" key={achievement.id}>
-                <img src={achievement.url} alt="post-img" />
-              </div>
-            ))}
+            {ahievementList?.data
+              .filter((a: AchievementDataType) => a.isMain !== 0)
+              .sort((a: AchievementDataType, b: AchievementDataType) => a.isMain - b.isMain)
+              .map((achievement: AchievementDataType) => (
+                <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
+                  <img src={achievement.achievements.imgUrl} alt="post-img" />
+                </div>
+              ))}
           </div>
         </body>
       </header>
       <body className="achievement-page-body">
         <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
         <div className="achievement-page-body-achievements-images">
-          {ahievementList?.data.map((achievement: AchievementType) => (
+          {ahievementList?.data.map((achievement: AchievementDataType) => (
             <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-              <img src={achievement.imgUrl} alt="post-img" />
+              <img src={achievement.achievements.imgUrl} alt="post-img" />
             </div>
           ))}
         </div>
