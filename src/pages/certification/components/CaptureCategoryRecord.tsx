@@ -39,16 +39,6 @@ const categoryCode: categoryType = {
   기타: 'CA9999',
 };
 
-const categoryEnglish: categoryType = {
-  산책: 'walk',
-  카페: 'cafe',
-  식당: 'restaurant',
-  목욕: 'hospital',
-  미용: 'beauty',
-  병원: 'bath',
-  기타: 'etc',
-};
-
 const categoryIcon: categoryType = {
   산책: Walk,
   카페: Cafe,
