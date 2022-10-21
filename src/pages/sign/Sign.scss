@@ -1,0 +1,113 @@
+@mixin typosettings($fontsize, $color) {
+  font-family: 'Spoqa Han Sans Neo', 'Sans-serif';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  font-size: $fontsize;
+  color: $color;
+}
+$color-light-grey: #8a8a8a;
+$color-dark: #3e382f;
+$color-gray-2: #c4c4c4;
+$color-background-gray: rgba(51, 51, 51, 0.5);
+$color-orange: #ffab6f;
+.login {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+
+  &-back {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 48px;
+    left: 14px;
+    &:active {
+      animation: backButton 0.1s ease;
+      animation-fill-mode: forwards;
+    }
+  }
+  &-header {
+    @include typosettings(20px, #3f3f3f);
+    margin-top: 54px;
+  }
+  &-description {
+    @include typosettings(14px, $color-light-grey);
+    margin-top: 14px;
+    white-space: pre-line;
+    text-align: center;
+  }
+  &-button {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    width: 88vw;
+    margin-top: 50px;
+    height: 56px;
+    min-height: 56px;
+    text-align: center;
+    border-radius: 56px;
+    background-color: $color-gray-2;
+    border: none;
+    color: white;
+    box-shadow: 0px 5px 13px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+    &.active {
+      background-color: #3f3f3f;
+    }
+    &.active:active {
+      background-color: #3b3b3b;
+      transform: scale(0.98);
+      color: rgb(211, 209, 209);
+    }
+  }
+  &-input {
+    font-size: 16px;
+    &.bitmargin {
+      margin-top: 14px;
+    }
+    &::placeholder {
+      color: #8a8a8a;
+      font-size: 16px;
+      font-weight: 300;
+    }
+    border: 2px solid transparent;
+    &:focus {
+      border: 2px solid #c4c4c4;
+    }
+    &.invalid {
+      border: 2px solid #aa93ec;
+    }
+    
+  }
+}
+
+.input{
+  &-feedback{
+    position: absolute;
+    margin: 0;
+    bottom: -30px;
+    left: 16px;
+    line-height: 150%;
+    font-size: 14px;
+    color: #aa93ec;
+    font-weight: 500;
+  }
+}
+
+@keyframes backButton {
+  0% {
+    background-color: #f3efea;
+  }
+  100% {
+    background-color: #c9c4bf;
+  }
+}

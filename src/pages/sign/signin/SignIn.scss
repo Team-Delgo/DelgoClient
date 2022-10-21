@@ -1,0 +1,160 @@
+@import '../Sign.scss';
+
+@mixin buttonstyle($back, $font) {
+  width: 55px;
+  height: 55px;
+  border: none;
+  background-color: $back;
+  box-shadow: 0px 5px 13px rgba(0, 0, 0, 0.05);
+  border-radius: 100%;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: $font;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login {
+  &-logo {
+    width: 40vw;
+  }
+  &-signin {
+    &-loading {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    height: 100vh;
+
+  }
+  &-feedback {
+    position: absolute;
+    margin: 0;
+    bottom: -30px;
+    left: 16px;
+    font-weight: 500;
+    color: #aa98ec;
+    font-size: 14px;
+  }
+  &-input{
+    width: 87vw;
+    height: 50px;
+    min-height: 50px;
+    background-color: #f2f2f2;
+    border-radius: 7px;
+    text-indent: 22px;
+    font-weight: 500;
+    font-size: 16px;
+    &-box{
+      position: relative;
+    }
+  }
+  &-input-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &-title-wrapper {
+    padding: 30% 6% 0 6%;
+    width: 88vw;
+  }
+  &-title1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 150%;
+    color: #3f3f3f;
+  }
+  &-title2 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 150%;
+    color: #3f3f3f;
+  }
+  &-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #8a8a8a;
+    margin-bottom: 32px;
+  }
+  &-social {
+    display: flex;
+    width: 80%;
+    justify-content: space-evenly;
+    &-header {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 150%;
+      color: #8a8a8a;
+      margin-top: 10%;
+      margin-bottom: 13px;
+    }
+  }
+  &-kakao {
+    display: flex;
+    align-items: center;
+    @include buttonstyle(#ffef5a, #474747);
+    transition: 0.1s all ease;
+    &:active {
+      transform: translateY(5px);
+    }
+  }
+  &-naver {
+    display: flex;
+    align-items: center;
+    @include buttonstyle(#45d156, #ffffff);
+    transition: 0.1s;
+    &:active {
+      transform: translateY(5px);
+    }
+  }
+  &-apple {
+    display: flex;
+    align-items: center;
+    @include buttonstyle(#292929, #ffffff);
+    transition: 0.1s;
+    &:active {
+      transform: translateY(5px);
+    }
+  }
+  &-button.signup {
+    position: relative;
+    margin-top: 70px;
+  }
+  &-login {
+    margin-top: 24px;
+    background: none;
+    @include typosettings(16px, #4d483d);
+    font-weight: 700;
+    border: none;
+  }
+  &-signup-wrapper {
+    margin-top: 22px;
+    display: flex;
+    width: 90%;
+    margin-right: 10%;
+    justify-content: space-evenly;
+  }
+  &-signup-text {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+    color: #8a8a8a;
+    line-height: 150%;
+  }
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+a {
+  text-decoration: none;
+}
