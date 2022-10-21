@@ -15,8 +15,8 @@ import Hospital from '../../../common/icons/hospital.svg';
 import Restorant from '../../../common/icons/restorant.svg';
 import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
-import WrittingButton from '../../../common/icons/writtingButton.svg';
-import WrittingButtonActive from '../../../common/icons/writtingButtonActive.svg';
+import WrittingButton from '../../../common/icons/writting-button.svg';
+import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
 
 interface categoryType {
   산책: string;

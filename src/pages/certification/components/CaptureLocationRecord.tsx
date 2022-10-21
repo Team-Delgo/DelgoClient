@@ -18,7 +18,7 @@ import Hospital from '../../../common/icons/hospital.svg';
 import Restorant from '../../../common/icons/restorant.svg';
 import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
-import Check from '../../../common/icons/check.svg';
+import Check from '../../../common/icons/place-check.svg';
 
 interface categoryType {
   산책: string;
