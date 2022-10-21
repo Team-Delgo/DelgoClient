@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { CAMERA_PATH } from '../../../common/constants/path.const';
+import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
+import X from '../../../common/icons/x.svg';
 
 interface weekDayType {
   Mon: string;
@@ -32,6 +33,12 @@ function CaptureResultHeader() {
   const moveToCategoryPage = () => {
     navigate(CAMERA_PATH.CATEGORY);
   };
+
+  const moveToHomePage = () => {
+    navigate(ROOT_PATH);
+  }
+
+  
   return (
     <header className="capture-img-result-header">
       <div className="capture-img-result-header-date">
@@ -40,6 +47,13 @@ function CaptureResultHeader() {
       <div className="capture-img-result-header-correction" aria-hidden="true" onClick={moveToCategoryPage}>
         수정
       </div>
+      <img
+        src={X}
+        className="home-page-move-arrow"
+        alt="home-page-move-arrow"
+        aria-hidden="true"
+        onClick={moveToHomePage}
+      />
     </header>
   );
 }

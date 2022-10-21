@@ -5,9 +5,10 @@
         font-size: 16px;
         font-weight: bold;
         padding: 10vh 5% 10px 5%;
+        position: relative;
 
         &-date {
-            color: #000000;
+            color: #8A8A8A;
         }
 
         &-correction {
@@ -19,8 +20,25 @@
     &-main {
         &-header {
             display: flex;
-            justify-content: space-between;
-            padding: 30px 5% 0 5%;
+            padding: 20px 5%;
+            border-bottom: 2px solid #E5E5E5;
+
+            &-profile{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                padding-left: 20px;
+                &-address{
+                    color:#8A8A8A;
+                    font-weight: 500;
+                    font-size: 12px;
+                }
+                &-name{
+                    color:#3F3F3F;
+                    font-weight: 700;
+                    font-size: 18px;
+                }
+            }
 
             &-title {
                 display: flex;
@@ -109,5 +127,25 @@
             font-size: 14px;
             font-weight: 500;
         }
+        &-body{
+            color:"#232323";
+            padding: 30px 0 10px 5%;
+            &-title{
+                font-size: 20px;
+                font-weight: 700;
+            }
+            &-content{
+                font-size: 14px;
+                font-weight: 400;
+            }
+        }
     }
+}
+
+.home-page-move-arrow {
+    position: absolute;
+    top: 6vh;
+    left: 6vw;
+    // width: 6vw;
+    // height: 3vh;
 }
