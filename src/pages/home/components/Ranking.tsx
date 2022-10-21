@@ -1,4 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { useQuery } from 'react-query';
+import { AnyIfEmpty } from 'react-redux';
+import { getTopRankingList } from '../../../common/api/ranking';
+import { CACHE_TIME, GET_TOP_RANKING_LIST, STALE_TIME } from '../../../common/constants/queryKey.const';
+
+
+interface rankingType {
+  geoCode: string
+  ranking: number
+  userId: number
+  weeklyPoint: number
+}
+
 
 const ranking = [
   {
@@ -22,6 +35,17 @@ const ranking = [
 ];
 
 function Ranking() {
+  const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
+    GET_TOP_RANKING_LIST,
+    () => getTopRankingList(101000),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      //   onError: (error: any) => {
+      //     useErrorHandlers(dispatch, error);
+      //   },
+    },
+  );
   return (
     <div className="home-page-dog-history-body-ranking">
       <div className="home-page-dog-history-body-ranking-title">9월 첫째 주 석차</div>
@@ -36,21 +60,25 @@ function Ranking() {
         <div className="home-page-dog-history-body-ranking-summary-second-line">지난 주 129등</div>
       </header>
       <main className="home-page-dog-history-body-ranking-detail">
-        {ranking.map((data, index) => (
-          <div className="home-page-dog-history-body-ranking-detail-container" key={data.id}>
-            <div className="home-page-dog-history-body-ranking-detail-rank">{index + 1}</div>
-            <div className="home-page-dog-history-body-ranking-detail-dog-profile">
-              <img src={data.img} alt="dog-img-url" />
-              <div className="home-page-dog-history-body-ranking-detail-dog-profile-name-point">
-                <div>{data.name}</div>
-                <div>{data.point}p</div>
+        {topRankingDataList?.data
+          .sort((a: rankingType, b: rankingType) =>
+            a.ranking - b.ranking
+          )
+          .map((rankingData: rankingType) => (
+            <div className="home-page-dog-history-body-ranking-detail-container" key={rankingData.userId}>
+              <div className="home-page-dog-history-body-ranking-detail-rank">{rankingData.ranking}</div>
+              <div className="home-page-dog-history-body-ranking-detail-dog-profile">
+                {/* <img src={data.img} alt="dog-img-url" /> */}
+                <div className="home-page-dog-history-body-ranking-detail-dog-profile-name-point">
+                  {/* <div>{data.name}</div> */}
+                  <div>{rankingData.weeklyPoint}p</div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </main>
     </div>
   );
 }
 
-export default Ranking
+export default Ranking;

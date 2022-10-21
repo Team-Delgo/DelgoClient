@@ -12,7 +12,7 @@ async function getMungPlaceList(categoryCode: string) {
 async function getCertificationDataCount(userId: number) {
   const accessToken = localStorage.getItem('accessToken') || '';
 
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/data-count?userId=${userId}`);
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/category-data-count?userId=${userId}`);
   return data;
 }
 
@@ -48,4 +48,13 @@ async function registerCertificationPost(
   }
 }
 
-export { getMungPlaceList, getCertificationDataCount, registerCertificationPost };
+async function getCertificationPostsByMain() {
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_API_URL}/certification/data/main`,
+  );
+  console.log(data)
+  return data;
+}
+
+export { getMungPlaceList, getCertificationDataCount, registerCertificationPost,getCertificationPostsByMain };
