@@ -48,23 +48,10 @@ function AchievementPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    handleGetgetAchievementList();
-    console.log(1)
+    getgetAchievementDataList();
   }, []);
 
-  // const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
-  //   GET_ACHIEVEMENT_LIST,
-  //   () => getAchievementList(1),
-  //   {
-  //     cacheTime: CACHE_TIME,
-  //     staleTime: STALE_TIME,
-  //     //   onError: (error: any) => {
-  //     //     useErrorHandlers(dispatch, error);
-  //     //   },
-  //   },
-  // );
-
-  const handleGetgetAchievementList = async () => {
+  const getgetAchievementDataList = async () => {
     await getAchievementList(
       1,
       (response: AxiosResponse) => {
@@ -83,13 +70,13 @@ function AchievementPage() {
   const selectionRepresentativeAchievementsCompletion = () => {
     setMainAchievements(
       1,
-      mainAchievementsId[0],
-      mainAchievementsId[1],
-      mainAchievementsId[2],
+      mainAchievementList[0] !== undefined ? mainAchievementList[0].achievementsId : 0,
+      mainAchievementList[1] !== undefined ? mainAchievementList[1].achievementsId : 0,
+      mainAchievementList[2] !== undefined ? mainAchievementList[2].achievementsId : 0,
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         if (code === 200) {
-          console.log(data);
+          window.alert('대표업적 설정이 성공했습니다');
         } else {
           window.alert(codeMsg);
         }
@@ -107,9 +94,7 @@ function AchievementPage() {
 
   const selectRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
     if (mainAchievementList.length < 3) {
-      console.log(achievementList)
       const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
-      console.log(newAchievementList)
       setAchievementList(newAchievementList);
       setMainAchievementList([...mainAchievementList, achievement]);
     }
@@ -120,6 +105,7 @@ function AchievementPage() {
   };
 
   const editRepresentativeAchievementsOff = () => {
+    selectionRepresentativeAchievementsCompletion()
     setEditActivation(false);
   };
 
@@ -155,7 +141,7 @@ function AchievementPage() {
               height={20}
               className="achievement-page-header-profile-third-point-img"
             />
-            <div className="achievement-page-header-profile-third-point">12,000P</div>
+            <div className="achievement-page-header-profile-third-point">12,000 P</div>
           </div>
         </header>
         <body className="achievement-page-header-achievements">
@@ -189,7 +175,7 @@ function AchievementPage() {
                 <div
                   className="achievement-page-header-achievements-image-container"
                   aria-hidden="true"
-                  onClick={filterRepresentativeAchievements(achievement)}
+                  onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
                 >
                   <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
                     <img src={AchievementHospital} alt="post-img" />
@@ -211,35 +197,26 @@ function AchievementPage() {
       <body className="achievement-page-body">
         <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
         <div className="achievement-page-body-achievements-images">
-          {achievementList
-            // .filter((achievement: AchievementDataType) => achievement.isMain === 0)
-            .map((achievement: AchievementDataType) => (
-              <div
-                className="achievement-page-body-achievements-image-container"
-                aria-hidden="true"
-                onClick={selectRepresentativeAchievements(achievement)}
-              >
-                <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-                  <img src={AchievementHospital} alt="post-img" />
-                </div>
-                {editActivation === true ? (
-                  <img
-                    src={NotChecked}
-                    className="achievement-page-body-achievements-image-check-img"
-                    alt="post-img"
-                    width={20}
-                    height={20}
-                  />
-                ) : null}
-                {/* <img
-                src={Checked}
-                className="achievement-page-body-achievements-image-check-img"
-                alt="post-img"
-                width={20}
-                height={20}
-              /> */}
+          {achievementList.map((achievement: AchievementDataType) => (
+            <div
+              className="achievement-page-body-achievements-image-container"
+              aria-hidden="true"
+              onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
+            >
+              <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
+                <img src={AchievementHospital} alt="post-img" />
               </div>
-            ))}
+              {editActivation === true ? (
+                <img
+                  src={NotChecked}
+                  className="achievement-page-body-achievements-image-check-img"
+                  alt="post-img"
+                  width={20}
+                  height={20}
+                />
+              ) : null}
+            </div>
+          ))}
         </div>
       </body>
       <FooterNavigation />
