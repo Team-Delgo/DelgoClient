@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import './PostsPage.scss';
 
@@ -39,6 +39,10 @@ const posts = [
 ];
 
 function PostsPage() {
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <div>
       {posts.map((post) => (
@@ -49,12 +53,7 @@ function PostsPage() {
             </div>
           </header>
           <main className="post-img-result-main">
-            <img
-              src={post.img}
-              width={window.innerWidth}
-              height={window.innerWidth}
-              alt="postImg"
-            />
+            <img src={post.img} width={window.innerWidth} height={window.innerWidth} alt="postImg" />
             <header className="post-img-result-main-header">
               <div className="post-img-result-main-header-title">{post.title}</div>
               <div className={`post-img-result-main-header-${post.category}`}>{post.categoryKo}</div>

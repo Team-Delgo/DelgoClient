@@ -12,10 +12,48 @@
             height: 78px;
             margin-top: 30px;
             background-color: #FFFFFF;
+            position: relative;
 
-            img {
+            &-img{
+                margin: 10px 10px;
+                border-radius: 7px;
                 width: 52px;
                 height: 52px;
+            }
+            &-second{
+                width: 50%;
+                margin: 15px 0 15px 0;
+                &-address{
+                    color:#8A8A8A;
+                    font-weight: 500;
+                    font-size: 12px;
+                    margin-bottom: 6px;
+                }
+                &-name{
+                    color:#3F3F3F;
+                    font-weight: 700;
+                    font-size: 20px;
+                }
+            }
+
+            &-third{
+                width: 56%;
+               position: relative;
+            &-point-img{
+                position: absolute;
+                top:15px;
+                right: 20px;
+                width: 23.2px;
+                height: 23.2px;
+            }
+            &-point {
+                position: absolute;
+                top:44px;
+                right: 10px;
+                color:#000000;
+                font-size: 12px;
+                font-weight: 500;
+            }
             }
 
             &-detail {
@@ -55,7 +93,7 @@
                 display: flex;
                 justify-content: space-between;
                 color: #000000;
-                padding: 30px 0  10px 0;
+                padding: 30px 0  2px 0;
                 &-text {
                     font-weight: 600;
                     font-size: 14px;
@@ -63,22 +101,33 @@
 
                 &-button {
                     font-size: 10px;
+                    color:#8A8A8A;
                 }
 
                 &-sub-text {
-                    font-size: 10px;
+                    font-size: 12px;
                     padding-bottom: 10px;
+                    color:#8A8A8A;
                 }
             }
 
             &-images {
-                display: flex;
-                justify-content: space-between;
-                .achievement-page-header-achievements-image{
-                    width: 100%;
-                    img {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                .achievement-page-header-achievements-image-container{
+                    position: relative;
+                    .achievement-page-header-achievements-image{
                         width: 100%;
-                        object-fit: cover;
+                        img {
+                            width: 100%;
+                            object-fit: cover;
+                        }
+                        &-check-img{
+                            position: absolute;
+                            top:10px;
+                            left:8px;
+                            z-index: 10;
+                        }
                     }
                 }
             }
@@ -98,10 +147,19 @@
         &-achievements-images {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            .achievement-page-body-achievements-image{
-                img {
-                    width: 100%;
-                    object-fit: cover;
+            .achievement-page-body-achievements-image-container{
+                position: relative;
+                .achievement-page-body-achievements-image{
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                    &-check-img{
+                        position: absolute;
+                        top:10px;
+                        left:8px;
+                        z-index: 10;
+                    }
                 }
             }
         }
