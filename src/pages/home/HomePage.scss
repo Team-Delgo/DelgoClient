@@ -40,19 +40,19 @@
         }
     }
     &-achievements{
-        margin-top: 8%;
+        margin-top: 30px;
         padding-bottom: 5%;
         font-size: 14px;
         color:#8A8A8A;
         &-images{
-        padding-right: 5%;
-        // overflow: scroll;
-        // overflow: auto;
-        // white-space: nowrap;
+        padding: 10px 5% 0 0;
         img{
             width: 33%;
-            // height: 177px;
         }
+        }
+        &-right-arrow-img{
+            padding: 2px 0 0 5px;
+            height: 12px;
         }
     }
 }
