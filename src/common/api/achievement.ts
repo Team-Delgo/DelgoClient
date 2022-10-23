@@ -22,6 +22,13 @@ async function getAchievementList(userId: number, success: (data: AxiosResponse)
     });
 }
 
+async function getAchievementListByMain(userId: number) {
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/achievements/user-data?userId=${userId}`);
+  console.log(data);
+  return data;
+}
+
 async function setMainAchievements(
   userId: number,
   firstAchievementsId: number,
@@ -44,4 +51,4 @@ async function setMainAchievements(
   }
 }
 
-export { getAchievementList, setMainAchievements };
+export { getAchievementList, setMainAchievements,getAchievementListByMain };
