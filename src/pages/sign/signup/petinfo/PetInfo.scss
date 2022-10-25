@@ -6,7 +6,7 @@
     display: none;
   }
   &-preview {
-    background-color: #e8e2dc;
+    background-color: #e5e5e5;
     border-radius: 10px;
     width: 28vw;
     height: 28vw;
@@ -23,6 +23,7 @@
     height: 41px;
     border-radius: 100%;
     background-color: white;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     transition: 0.2s;
     &:active {
       transform: scale(0.9);
@@ -72,7 +73,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #b0a69d;
+    background-color: #8a8a8a;
     color: white;
     border-radius: 100%;
   }

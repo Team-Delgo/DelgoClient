@@ -8,7 +8,9 @@ import './UserInfo.scss';
 import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { checkEmail, checkPassword, checkPasswordConfirm, checkNickname } from '../../validcheck';
 import { emailCheck, nicknameCheck } from '../../../../common/api/signup';
+import regions, { regionType, placeType, GetRegion } from './region';
 import Check from '../../../../common/icons/check.svg';
+import RegionSelector from './RegionSelector';
 
 interface LocationState {
   phone: string;
@@ -30,6 +32,15 @@ enum Id {
   REGION = 'region',
 }
 
+export interface Region {
+  indexRegion: number;
+  indexPlace: number;
+  region: string;
+  place: string;
+  geoCode: number;
+  pGeoCode: number;
+}
+
 function UserInfo() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
@@ -44,12 +55,22 @@ function UserInfo() {
   const [emailDupCheckFail, setEmailDupCheckFail] = useState(false);
   const [nicknameDuplicated, setNicknameDuplicated] = useState(true);
   const [nicknameDupCheckFail, setNicknameDupCheckFail] = useState(false);
+  const [regionList, setRegionList] = useState<regionType[]>();
   const [modalActive, setModalActive] = useState(false);
+  const [region, setRegion] = useState<Region>();
   const emailRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const firstPageIsValid =
     validInput.email.length && validInput.password.length && validInput.confirm.length && !emailDuplicated;
-  console.log(validInput);
+
+    const getRegionData = async () => {
+      const response = await GetRegion();
+      setRegionList(response);
+    };
+
+  useEffect(()=>{
+    getRegionData();
+  },[]);
 
   const emailValidCheck = (value: string) => {
     const response = checkEmail(value);
@@ -101,7 +122,6 @@ function UserInfo() {
         return { ...prev, confirm: check.message };
       });
       if (!check.isValid) {
-        console.log('aa');
         setValidInput((prev: Input) => {
           return { ...prev, confirm: '' };
         });
@@ -160,6 +180,8 @@ function UserInfo() {
           nickname: enteredInput.nickname,
           phone,
           isSocial: false,
+          geoCode: region!.geoCode,
+          pGeoCode: region!.pGeoCode
         },
       });
     }, 200);
@@ -180,6 +202,8 @@ function UserInfo() {
       passwordValidCheck(value);
     } else if (id === Id.CONFIRM) {
       passwordConfirmValidCheck(value);
+    } else if (id === Id.REGION) {
+      // console.log(id);
     } else {
       nicknameValidCheck(value);
       setNicknameDuplicated(true);
@@ -227,6 +251,21 @@ function UserInfo() {
       },
       dispatch,
     );
+  };
+
+  const regionChangeHandler = (regionName: string, region: Region) => {
+    setEnteredInput((prev) => {
+      return {
+        ...prev,
+        region: regionName,
+      };
+    });
+    setRegion(region);
+  };
+
+
+  const closeModal = () => {
+    setModalActive(false);
   };
 
   return (
@@ -309,6 +348,26 @@ function UserInfo() {
       )}
       {nextPage && (
         <>
+          {modalActive && (
+            <div>
+              <div
+                aria-hidden="true"
+                className="backdrop"
+                onClick={() => {
+                  setModalActive(false);
+                }}
+              />
+              <div className="modal">
+                <RegionSelector
+                  list={regionList!}
+                  close={closeModal}
+                  change={regionChangeHandler}
+                  rIndex={region?.indexRegion}
+                  pIndex={region?.indexPlace}
+                />
+              </div>
+            </div>
+          )}
           <span className="login-span">닉네임</span>
           <div className="login-input-box">
             <input
@@ -334,9 +393,10 @@ function UserInfo() {
               중복확인
             </span>
           </div>
+          <span className="login-span">지역</span>
           <div className="login-input-wrapper">
             <input
-              className={classNames('login-input input-birth')}
+              className={classNames('login-input input-location')}
               placeholder="지역"
               value={enteredInput.region}
               id={Id.REGION}

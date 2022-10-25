@@ -17,7 +17,6 @@ declare global {
 
 function KakaoRedirectHandler() {
   const dispatch = useDispatch();
-  const CLIENT_SECRET = '[본인 CLIENT SECRET 값]';
   const code = new URL(window.location.href).searchParams.get('code');
   const [userData, setUserData] = useState({phone:'',email:''});
   const [signUp, setSignUp] = useState(false);

@@ -1,109 +1,155 @@
-import React, {useState, useRef, useEffect} from "react";
-import classNames from "classnames";
-import Birth from './birth';
-import "./RegionSelector.scss";
+import React, { useState, useRef, useEffect } from 'react';
+import classNames from 'classnames';
+import regions, { regionType, placeType,GetRegion } from './region';
+import './RegionSelector.scss';
+import RightArrow from '../../../../common/icons/right-arrow.svg';
+import { Region } from './UserInfo';
 
-function RegionSelector(){
-  const [selectedYear, setSelectedYear] = useState<number>(2000);
-  const [selectedMonth, setSelectedMonth] = useState<number>(1);
-  const [selectedDay, setSelectedDay] = useState<number>(1);
-  const { years, months, days, leapYear } = Birth(2000, 2022, true);
-  const [dayArray, setDayArray] = useState<(number | string)[]>(days[0]);
+interface selectedRegion {
+  index: number;
+  selected: regionType;
+}
+interface selectedPlace {
+  index: number;
+  selected: placeType;
+}
+
+function RegionSelector(props: {
+  change: (r: string, rg: Region) => void;
+  close: () => void;
+  list: regionType[];
+  rIndex: number | undefined;
+  pIndex: number | undefined;
+}) {
+  const { change, close, list,rIndex, pIndex } = props;
+  const [regionList, setRegionList] = useState<regionType[]>([]);
+  const [index, setIndex] = useState({ rIndex, pIndex });
+  const [selectedRegion, setSelectedRegion] = useState<selectedRegion>({
+    index: index.rIndex || 3,
+    selected: list[index.rIndex || 3],
+  });
+  const [selectedPlace, setSelectedPlace] = useState<selectedPlace>({
+    index: index.pIndex || 3,
+    selected: selectedRegion.selected.places[index.pIndex || 3],
+  });
   const yearRef = useRef<HTMLDivElement>(null);
   const monthRef = useRef<HTMLDivElement>(null);
-  const dayRef = useRef<HTMLDivElement>(null);
+
+  const getRegionData = async () => {
+    const response = await GetRegion(); 
+    setRegionList(response);
+  };
+
+  useEffect(()=>{
+    getRegionData();
+  },[])
+  console.log(regionList);
+  // useEffect(() => {
+  //   if (rIndex && pIndex) {
+  //     if (yearRef.current) {
+  //       yearRef.current.scrollTop = 40 * (rIndex - 3);
+  //     }
+  //     if (monthRef.current) {
+  //       monthRef.current.scrollTop = 40 * (pIndex - 3);
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (leapYear.includes(selectedYear)) {
-      if (selectedMonth === 2) {
-        days[selectedMonth - 1].splice(31, 0, 29);
+    if (index.rIndex && index.pIndex) {
+      if (yearRef.current) {
+        yearRef.current.scrollTop = 40 * (index.rIndex - 3);
+      }
+      if (monthRef.current) {
+        monthRef.current.scrollTop = 40 * (index.pIndex - 3);
+      }
+      setIndex({ rIndex: 0, pIndex: 0 });
+    } else if (!index.pIndex) {
+      if (yearRef.current) {
+        if (monthRef.current) {
+          monthRef.current.scrollTop = 0;
+        }
       }
     }
-    setDayArray(days[selectedMonth - 1]);
-  }, [selectedMonth, selectedYear]);
+  }, [selectedRegion]);
 
   useEffect(() => {
-    if (selectedYear) {
-      if(yearRef.current){
-        yearRef.current.scrollTop = (selectedYear - 2000) * 30;
-      }
-    }
-    if (selectedMonth) {
-      if(monthRef.current){
-        monthRef.current.scrollTop = (selectedMonth - 1) * 30;
-      }
-    }
-    if (selectedDay) {
-      if(dayRef.current){
-        dayRef.current.scrollTop = (selectedDay - 1) * 30;
-      }
-    }
-  }, [selectedYear, selectedMonth, selectedDay]);
+    change(`${selectedRegion.selected.region}-${selectedPlace.selected.place}`, {
+      indexRegion: selectedRegion.index,
+      indexPlace: selectedPlace.index,
+      region: selectedRegion.selected.region,
+      place: selectedPlace.selected.place,
+      pGeoCode: selectedRegion.selected.code,
+      geoCode: selectedPlace.selected.code,
+    });
+  }, [selectedRegion, selectedPlace]);
 
-  const yearContext = years.map((year, i) => {
-    if (year === '.') return <div className="birth-item blank">.</div>;
+  const regionContext = list.map((region) => {
+    if (region.code < 6)
+      return (
+        <div className="region-item blank" key={region.code}>
+          .
+        </div>
+      );
     return (
-      <div key={year} className={classNames('birth-item', { selected: year === selectedYear })}>{`${year} 년`}</div>
-    );
-  });
-
-  const monthContext = months.map((month, i) => {
-    if (month === '.') return <div className="birth-item blank">.</div>;
-    return (
-      <div key={`m${month}`} className={classNames('birth-item', { selected: month === selectedMonth })}>
-        {month >= 10 ? `${month} 월` : `0${month} 월`}
+      <div key={region.code} className={classNames('region-item', { selected: region === selectedRegion.selected })}>
+        {region.region}
       </div>
     );
   });
 
-  const dayContext = dayArray.map((day, i) => {
-    if (day === '.') return <div className="birth-item blank">.</div>;
+  const placeContext = selectedRegion.selected.places.map((place) => {
+    if (place.code < 6) return <div className="region-item blank">.</div>;
     return (
-      <div key={`d${day}`} className={classNames('birth-item', { selected: day === selectedDay })}>
-        {day >= 10 ? `${day} 일` : `0${day} 일`}
+      <div key={place.code} className={classNames('region-item', { selected: place === selectedPlace.selected })}>
+        {place.place}
       </div>
     );
   });
 
   const yearScrollHandler = () => {
-    if(yearRef.current){
+    if (yearRef.current) {
       const { scrollTop } = yearRef.current;
-      const year = Math.round(scrollTop / 30) + 2000;
-      setSelectedYear(year);
+      const index = Math.round(scrollTop / 40) + 3;
+      if (index !== selectedRegion.index) {
+        setSelectedRegion({ index, selected: list[index] });
+        setSelectedPlace({ index:3, selected: list[index].places[3] });
+      }
     }
   };
 
   const monthScrollHandler = () => {
-    if(monthRef.current){
+    if (monthRef.current) {
       const { scrollTop } = monthRef.current;
-      const month = Math.round(scrollTop / 30) + 1;
-      setSelectedMonth(month);
-    }
-  };
-
-  const dayScrollHandler = () => {
-    if(dayRef.current){
-      const { scrollTop } = dayRef.current;
-      const day = Math.round(scrollTop / 30) + 1;
-      setSelectedDay(day);
+      const index = Math.round(scrollTop / 40) + 3;
+      setSelectedPlace({ index, selected: selectedRegion.selected.places[index] });
     }
   };
 
   return (
-    <div className="birth">
-      <div className="birth-years tab" ref={yearRef} onScroll={yearScrollHandler}>
-        {yearContext}
+    <div className="regionSelector">
+      <div className="region">
+        <div className="region-regions tab" ref={yearRef} onScroll={yearScrollHandler}>
+          {regionContext}
+        </div>
+        <div className="region-divider" />
+        <div className="region-places tab" ref={monthRef} onScroll={monthScrollHandler}>
+          {placeContext}
+        </div>
       </div>
-      <div className='birth-divider' />
-      <div className="birth-months tab" ref={monthRef} onScroll={monthScrollHandler}>
-        {monthContext}
-      </div>
-      <div className='birth-divider' />
-      <div className="birth-days tab" ref={dayRef} onScroll={dayScrollHandler}>
-        {dayContext}
+      <div className="region-button">
+        <button
+          type="button"
+          onClick={() => {
+            close();
+          }}
+        >
+          <div>다음</div>
+          <img src={RightArrow} alt="right-arrow" />
+        </button>
       </div>
     </div>
   );
-};
+}
 
 export default RegionSelector;
