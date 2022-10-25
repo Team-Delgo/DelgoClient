@@ -25,4 +25,15 @@ async function getCalendarData(userId: number, success: (data: AxiosResponse) =>
     });
 }
 
-export {getMapData, getCalendarData};
+async function getPhotoData(userId: number, categoryCode:string, success: (data: AxiosResponse) => void, dispatch: any) {
+  await axios
+    .get(`${DELGO_REWARD_URL}/certification/category-data?categoryCode=${categoryCode}&userId=${userId}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+export {getMapData, getCalendarData, getPhotoData};

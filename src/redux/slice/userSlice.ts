@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isSignIn: false,
-  user: { id: 0, nickname: '', email: '', phone: '', isSocial: false },
+  user: { id: 0, nickname: '', email: '', phone: '', isSocial: false, geoCode: 0 },
   pet: { name: '', petId: 0, birthday: '', size: '', image: '' },
 };
 

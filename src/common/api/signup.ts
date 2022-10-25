@@ -7,7 +7,7 @@ interface SignUpData {
   userName: string;
   phoneNo: string;
   geoCode: number;
-  p_geoCode: number;
+  pGeoCode: number;
   petName: string;
   petSize: string;
   birthday: string | undefined;
@@ -41,7 +41,7 @@ async function nicknameCheck(name: string, success: (data: AxiosResponse) => voi
 }
 
 async function signup(info: SignUpData, success: (data: AxiosResponse) => void, dispatch: any) {
-  const { userName, email, password, phoneNo, petName, petSize, birthday } = info;
+  const { userName, email, password, phoneNo, geoCode, pGeoCode, petName, petSize, birthday } = info;
   await axios
     .post(`${process.env.REACT_APP_API_URL}/signup`, {
       // user: {
@@ -60,6 +60,8 @@ async function signup(info: SignUpData, success: (data: AxiosResponse) => void, 
       userName,
       email,
       password,
+      geoCode,
+      pGeoCode,
       phoneNo,
       petName,
       birthday,

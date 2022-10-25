@@ -1,5 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { useDispatch } from 'react-redux';
+import { AxiosResponse } from 'axios';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import RecordHeader from '../../common/components/RecordHeader';
 import './Photo.scss';
@@ -9,13 +11,25 @@ import Hair from '../../common/icons/beauty.svg';
 import Hospital from '../../common/icons/hospital.svg';
 import Bath from '../../common/icons/bath.svg';
 import UnderArrow from '../../common/icons/under-arrow.svg';
+import { getPhotoData } from '../../common/api/record';
+
 
 function Photo() {
   const [photos, setPhotos] = useState([]);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
+  const [cateogory, setCategory] = useState('CA0000');
   const [sortOption, setSortOption] = useState('최신순');
-  // useEffect(()=>{
-  // },[]);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    getPhotoDataList();
+  },[]);
+
+  const getPhotoDataList = async () => {
+    getPhotoData(0,cateogory,(response:AxiosResponse)=>{
+      console.log(response);
+    },dispatch);
+  };
 
   const optionClickHandler = (e: any) => {
     setSortOption(e.target.textContent);

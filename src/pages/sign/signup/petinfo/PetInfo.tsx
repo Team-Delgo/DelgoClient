@@ -249,7 +249,7 @@ function PetInfo() {
           password,
           phoneNo: phone,
           geoCode,
-          p_geoCode: pGeoCode,
+          pGeoCode,
           petName: enteredInput.name,
           petSize: enteredInput.type,
           birthday: enteredInput.birth,
