@@ -124,7 +124,7 @@ function Calender() {
           )}
           id={id}
           aria-hidden="true"
-          onClick={isCertificated ? () => { console.log()} : undefined}
+          onClick={isCertificated ? () => { console.log() } : undefined}
         >
           {date}
           {/* {achieve && <div className='date-day-achieve' />} */}
@@ -137,32 +137,58 @@ function Calender() {
     return { datesElement, currentYear, currentMonth };
   };
 
-  const datesElement0 = getDateContext(-1);
-  const datesElement1 = getDateContext(0);
+  const tempUserSignDate = "2022-05-01";
+
+  const getMonthDiff = () => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
+    const startYear = new Date(tempUserSignDate).getFullYear();
+    const startMonth = new Date(tempUserSignDate).getMonth();
+
+    return (currentYear - startYear) * 12 + (currentMonth - startMonth);
+  };
+
+  const diff = getMonthDiff() + 1;
+  console.log(diff);
+
+  const monthArray: number[] = [];
+
+  for (let i = 0; i < diff; i+=1) {
+    monthArray.push(-i);
+  }
 
 
-  const weekDay = <div className="day-header">
-    <div className="day sun">일</div>
-    <div className="day">월</div>
-    <div className="day">화</div>
-    <div className="day">수</div>
-    <div className="day">목</div>
-    <div className="day">금</div>
-    <div className="day">토</div>
-  </div>
 
+  const datesElement = monthArray.map((i) => {
+    const element = getDateContext(i);
+    const weekDay = <div className="day-header">
+      <div className="day sun">일</div>
+      <div className="day">월</div>
+      <div className="day">화</div>
+      <div className="day">수</div>
+      <div className="day">목</div>
+      <div className="day">금</div>
+      <div className="day">토</div>
+    </div>
+    return <>
+      <div className="current-month">{`${element.currentYear}.${element.currentMonth}`}</div>
+      {weekDay}
+      <div className="date">{element.datesElement}</div>
+    </>
+  })
 
   return (
     <div className="calender">
 
       <div className="date-wrapper">
-
-        <div className="current-month">{`${datesElement0.currentYear}.${datesElement0.currentMonth}`}</div>
+        {datesElement}
+        {/* <div className="current-month">{`${datesElement0.currentYear}.${datesElement0.currentMonth}`}</div>
         {weekDay}
         <div className="date">{datesElement0.datesElement}</div>
         <div className="current-month">{`${datesElement1.currentYear}.${datesElement1.currentMonth}`}</div>
         {weekDay}
-        <div className="date">{datesElement1.datesElement}</div>
+        <div className="date">{datesElement1.datesElement}</div> */}
       </div>
     </div>
   );

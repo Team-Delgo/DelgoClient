@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import './PostsPage.scss';
 
@@ -39,28 +39,26 @@ const posts = [
 ];
 
 function PostsPage() {
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <div>
       {posts.map((post) => (
         <>
-          <header className="capture-img-result-header">
-            <div className="capture-img-result-header-date">
+          <header className="post-img-result-header">
+            <div className="post-img-result-header-date">
               {post.date} {post.weekDay} {post.time}
             </div>
           </header>
-          <main className="capture-img-result-main">
-            <img
-              className="captured-img"
-              src={post.img}
-              width={window.innerWidth}
-              height={window.innerWidth}
-              alt="caputeImg"
-            />
-            <header className="capture-img-result-main-header">
-              <div className="capture-img-result-main-header-title">{post.title}</div>
-              <div className={`capture-img-result-main-header-${post.category}`}>{post.categoryKo}</div>
+          <main className="post-img-result-main">
+            <img src={post.img} width={window.innerWidth} height={window.innerWidth} alt="postImg" />
+            <header className="post-img-result-main-header">
+              <div className="post-img-result-main-header-title">{post.title}</div>
+              <div className={`post-img-result-main-header-${post.category}`}>{post.categoryKo}</div>
             </header>
-            <body className="capture-img-result-main-content">{post.content}</body>
+            <body className="post-img-result-main-content">{post.content}</body>
           </main>
         </>
       ))}

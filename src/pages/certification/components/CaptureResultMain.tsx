@@ -7,8 +7,8 @@ import Bath from '../../../common/icons/bath.svg';
 import Beauty from '../../../common/icons/beauty.svg';
 import Cafe from '../../../common/icons/cafe.svg';
 import Hospital from '../../../common/icons/hospital.svg';
-// import Restorant from '../../../common/icons/restorant.svg';
 import Walk from '../../../common/icons/walk.svg';
+import { ROOT_PATH } from '../../../common/constants/path.const';
 
 interface categoryType {
   산책: string;
@@ -45,21 +45,22 @@ function CaptureResultMain() {
   const navigate = useNavigate();
   const { img, title, content, categoryKo } = useSelector((state: RootState) => state.persist.upload);
 
-  const submitReview = () => {
-    console.log(1);
-  };
+
 
   return (
     <main className="capture-img-result-main">
-      <img className="captured-img" src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
+      <img src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
       <header className="capture-img-result-main-header">
-        <div className="capture-img-result-main-header-title">{title}</div>
-        <img src={categoryIcon[categoryKo]} alt="achievement-img" />
+        <img src={`${process.env.PUBLIC_URL}/assets/dog-img.png`} alt="copy url" />
+        <div className="capture-img-result-main-header-profile">
+          <div className="capture-img-result-main-header-profile-address">서울시 송파구</div>
+          <div className="capture-img-result-main-header-profile-name">다크서은</div>
+        </div>
       </header>
-      <body className="capture-img-result-main-content">{content}</body>
-      <footer aria-hidden="true" onClick={submitReview}>
-        <BottomButton text="작성 완료" />
-      </footer>
+      <body className="capture-img-result-main-body">
+        <div className="capture-img-result-main-body-title">{title}</div>
+        <div className="capture-img-result-main-body-content">{content}</div>
+      </body>
     </main>
   );
 }

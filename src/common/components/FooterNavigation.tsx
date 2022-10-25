@@ -29,6 +29,7 @@ function FooterNavigation() {
 
   return (
     <div className="footer">
+      <div className="footer-backdrop"/>
       <div className="footer-side" aria-hidden="true" onClick={moveToHomePage}>
         <img src={Home} alt="home-button" />
       </div>

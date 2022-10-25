@@ -12,7 +12,7 @@ async function getMungPlaceList(categoryCode: string) {
 async function getCertificationDataCount(userId: number) {
   const accessToken = localStorage.getItem('accessToken') || '';
 
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/data-count?userId=${userId}`);
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/category-data-count?userId=${userId}`);
   return data;
 }
 
@@ -29,20 +29,32 @@ async function registerCertificationPost(
   },
   success: (data: AxiosResponse) => void,
 ) {
-  console.log(data);
-  const accessToken = localStorage.getItem('accessToken') || '';
-  const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register`, {
-    userId: data.userId,
-    categoryCode: data.categoryCode,
-    mungpleId: data.mungpleId,
-    placeName: data.placeName,
-    description: data.description,
-    latitude: data.latitude,
-    longitude: data.longitude,
-    photo: data.photo,
-  });
-  console.log(result);
-  success(result);
+  try {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register`, {
+      userId: data.userId,
+      categoryCode: data.categoryCode,
+      mungpleId: data.mungpleId,
+      placeName: data.placeName,
+      description: data.description,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      photo: data.photo,
+    });
+    console.log(result);
+    success(result);
+  } catch (err: any) {
+    console.log(err);
+  }
 }
 
-export { getMungPlaceList,getCertificationDataCount, registerCertificationPost };
+async function getCertificationPostsByMain() {
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_API_URL}/certification/data/main`,
+  );
+  console.log(data)
+  return data;
+}
+
+export { getMungPlaceList, getCertificationDataCount, registerCertificationPost,getCertificationPostsByMain };

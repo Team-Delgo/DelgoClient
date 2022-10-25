@@ -21,17 +21,18 @@
                 font-size: 12px;
             }
             &-second{
-                width: 100%;
                 display: flex;
                 justify-content: space-between;
                 color:#FFFFFF;
                 font-size: 24px;
+                margin-right: 15px;
             }
             &-third{
                 display: flex;
                 justify-content: space-between;
                 color:#8A8A8A;
                 font-size: 14px;   
+                margin-right: 10px;
                 &-point{
                     font-size: 12px;
                     color: #FFFFFF;
@@ -40,19 +41,24 @@
         }
     }
     &-achievements{
-        margin-top: 8%;
+        margin-top: 30px;
         padding-bottom: 5%;
         font-size: 14px;
         color:#8A8A8A;
         &-images{
-        padding-right: 5%;
-        // overflow: scroll;
-        // overflow: auto;
-        // white-space: nowrap;
+        min-height: 150px;
+        padding: 10px 5% 0 0;
+        text-align: center;
         img{
             width: 33%;
-            // height: 177px;
         }
+        .loading-spinning-circles{
+            margin-top: 35px;
+        }
+        }
+        &-right-arrow-img{
+            padding: 2px 0 0 5px;
+            height: 12px;
         }
     }
 }
