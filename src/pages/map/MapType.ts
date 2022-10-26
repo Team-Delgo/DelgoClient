@@ -25,4 +25,5 @@ export interface Mungple{
   placeName:string;
   registDt:string;
   roadAddress:string;
+  photoUrl:string;
 }
