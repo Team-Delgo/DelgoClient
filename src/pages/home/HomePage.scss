@@ -46,14 +46,18 @@
         font-size: 14px;
         color:#8A8A8A;
         &-images{
-        min-height: 153px;
         padding: 10px 5% 0 0;
-        text-align: center;
         img{
             width: 33%;
         }
         .loading-spinning-circles{
-            margin-top: 35px;
+            min-height: 151px;
+            text-align: center;
+            vertical-align: center;
+            margin:auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         }
         &-right-arrow-img{
