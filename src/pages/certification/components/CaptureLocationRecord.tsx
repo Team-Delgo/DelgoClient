@@ -19,6 +19,7 @@ import Restorant from '../../../common/icons/restorant.svg';
 import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
 import Check from '../../../common/icons/place-check.svg';
+import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 
 interface categoryType {
   산책: string;
@@ -88,9 +89,9 @@ function CaptureLocationRecord() {
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      //   onError: (error: any) => {
-      //     useErrorHandlers(dispatch, error);
-      //   },
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
     },
   );
 

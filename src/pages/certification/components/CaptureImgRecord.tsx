@@ -13,6 +13,7 @@ import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
 import { CACHE_TIME, GET_CERTIFICATION_DATA_COUNT, STALE_TIME } from '../../../common/constants/queryKey.const';
 import { getCertificationDataCount } from '../../../common/api/certification';
+import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
@@ -32,9 +33,9 @@ function CaptureImgRecord() {
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      //   onError: (error: any) => {
-      //     useErrorHandlers(dispatch, error);
-      //   },
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
     },
   );
 

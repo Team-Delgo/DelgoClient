@@ -1,8 +1,11 @@
-import React from 'react';
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/no-this-in-sfc */
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { AnyIfEmpty } from 'react-redux';
-import { getTopRankingList } from '../../../common/api/ranking';
-import { CACHE_TIME, GET_TOP_RANKING_LIST, STALE_TIME } from '../../../common/constants/queryKey.const';
+import { AnyIfEmpty, useDispatch } from 'react-redux';
+import { getTopRankingList,getMyPetRanking } from '../../../common/api/ranking';
+import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
+import { CACHE_TIME, GET_TOP_RANKING_LIST, STALE_TIME,GET_MY_PET_RANKING_DATA } from '../../../common/constants/queryKey.const';
 
 
 interface rankingType {
@@ -13,57 +16,100 @@ interface rankingType {
 }
 
 
-const ranking = [
-  {
-    img: `${process.env.PUBLIC_URL}/assets/dog-img.png`,
-    name: '감자',
-    id: 1,
-    point: 1000,
-  },
-  {
-    img: `${process.env.PUBLIC_URL}/assets/dog-img.png`,
-    name: '오이',
-    id: 2,
-    point: 500,
-  },
-  {
-    img: `${process.env.PUBLIC_URL}/assets/dog-img.png`,
-    name: '수박',
-    id: 1,
-    point: 200,
-  },
-];
+const weekNumCode: weekNumCodeType = {
+  1: '첫째',
+  2: '둘째',
+  3: '셋째',
+  4: '넷째',
+  5: '다섯째',
+};
+
+interface weekNumCodeType {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+  [prop: string]: any;
+}
+
 
 function Ranking() {
+  const [todayMonthNum,setTodayMonthNum] = useState(0)
+  const [todayWeekNum,setTodayWeekNum] = useState(0)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    getTodayDateStr()
+  },[])
+
   const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
     GET_TOP_RANKING_LIST,
     () => getTopRankingList(101000),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      //   onError: (error: any) => {
-      //     useErrorHandlers(dispatch, error);
-      //   },
+        onError: (error: any) => {
+          useErrorHandlers(dispatch, error);
+        },
     },
   );
+
+  const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
+    GET_MY_PET_RANKING_DATA,
+    () => getMyPetRanking(1),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
+    },
+  );
+  
+  const getTodayDateStr = () => {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+
+    const fullDate = `${year}-${month}-${date}`;
+    setTodayMonthNum(month);
+    getWeekNo(fullDate);
+  };
+
+  function getWeekNo(dateStr: string) {
+    let date = new Date();
+    if (dateStr) {
+      date = new Date(dateStr);
+    }
+    setTodayWeekNum(Math.ceil(date.getDate() / 7));
+  }
+
   return (
     <div className="home-page-dog-history-body-ranking">
-      <div className="home-page-dog-history-body-ranking-title">9월 첫째 주 석차</div>
+      <div className="home-page-dog-history-body-ranking-title">{todayMonthNum}월 {weekNumCode[todayWeekNum]} 주 석차</div>
       <header className="home-page-dog-history-body-ranking-summary">
         <div className="home-page-dog-history-body-ranking-summary-first-line">
           <div>
             <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">몽자 /</span>
-            <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number"> 124등</span>
+            <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number">
+              {' '}
+              {myPetRankingData?.data.ranking}등
+            </span>
           </div>
-          <div className="home-page-dog-history-body-ranking-summary-first-line-point">1584p</div>
+          <div className="home-page-dog-history-body-ranking-summary-first-line-point">
+            {myPetRankingData?.data.weeklyPoint}p
+          </div>
         </div>
-        <div className="home-page-dog-history-body-ranking-summary-second-line">지난 주 129등</div>
+        <div className="home-page-dog-history-body-ranking-summary-second-line">
+          지난 주 {myPetRankingData?.data.lastRanking}등
+        </div>
       </header>
       <main className="home-page-dog-history-body-ranking-detail">
         {topRankingDataList?.data
-          .sort((a: rankingType, b: rankingType) =>
-            a.ranking - b.ranking
-          )
+          .sort((a: rankingType, b: rankingType) => a.ranking - b.ranking)
           .map((rankingData: rankingType) => (
             <div className="home-page-dog-history-body-ranking-detail-container" key={rankingData.userId}>
               <div className="home-page-dog-history-body-ranking-detail-rank">{rankingData.ranking}</div>
