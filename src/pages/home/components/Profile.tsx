@@ -88,13 +88,14 @@ function Profile() {
         </div>
         <div className="home-page-dog-history-header-achievements-images">
           {getAchievementListIsLoading ? (
-            <SpinningCircles className='loading-spinning-circles' />
+            <div className="loading-spinning-circles">
+              <SpinningCircles />
+            </div>
           ) : (
             ahievementList?.data
               .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
               .map((ahievement: AchievementDataType) => <img src={AchievementHospital} alt="bath-img" />)
-          )
-          }
+          )}
         </div>
       </body>
     </header>
