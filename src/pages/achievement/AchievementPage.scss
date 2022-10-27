@@ -9,10 +9,10 @@
 
         &-profile {
             display: flex;
-            height: 78px;
+            height: 71px;
             margin-top: 10px;
-            background-color: #FFFFFF;
             position: relative;
+            background-color: white;
 
             &-img{
                 margin: 10px 10px;
@@ -42,7 +42,7 @@
             &-point-img{
                 position: absolute;
                 top:15px;
-                right: 20px;
+                right: 10px;
                 width: 23.2px;
                 height: 23.2px;
             }

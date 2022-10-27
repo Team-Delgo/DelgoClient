@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import {
@@ -22,8 +22,9 @@ import DelgoWhite from '../../../common/icons/delgo-white.svg';
 import RightArrow from '../../../common/icons/right-arrow.svg';
 import { ACHIEVEMENT_PATH } from '../../../common/constants/path.const';
 import { getAchievementList, getAchievementListByMain } from '../../../common/api/achievement';
-import { CACHE_TIME, GET_ACHIEVEMENT_LIST, STALE_TIME } from '../../../common/constants/queryKey.const';
+import { CACHE_TIME, GET_ACHIEVEMENT_LIST, GET_MY_PET_RANKING_DATA, STALE_TIME } from '../../../common/constants/queryKey.const';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
+import { getMyPetRanking } from '../../../common/api/ranking';
 
 
 interface AchievementDataType {
@@ -45,8 +46,13 @@ interface AchievementType {
 }
 
 function Profile() {
+  const [todayDate, SetTodayDate] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getTodayDateStr();
+  }, []);
 
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
     GET_ACHIEVEMENT_LIST,
@@ -60,8 +66,35 @@ function Profile() {
     },
   );
 
-  const moveToPostsPage = () => {
-    navigate(ACHIEVEMENT_PATH);
+  const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
+    GET_MY_PET_RANKING_DATA,
+    () => getMyPetRanking(1),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
+    },
+  );
+
+  const getTodayDateStr = () => {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+
+    const fullDate = `${year}.${month}.${date}`;
+    SetTodayDate(fullDate);
+  };
+
+  const moveToAchievementPage = () => {
+    navigate(ACHIEVEMENT_PATH, {
+      state: {
+        rankingPoint: myPetRankingData?.data?.weeklyPoint,
+      },
+    });
   };
 
   return (
@@ -76,13 +109,15 @@ function Profile() {
             <img src={Point} alt="point-img" />
           </div>
           <div className="home-page-dog-history-header-profile-detail-third">
-            <div>2022.09.27</div>
-            <div className="home-page-dog-history-header-profile-detail-third-point">12.000 P</div>
+            <div>{todayDate}</div>
+            <div className="home-page-dog-history-header-profile-detail-third-point">
+              {myPetRankingData?.data.weeklyPoint} P
+            </div>
           </div>
         </div>
       </header>
       <body className="home-page-dog-history-header-achievements">
-        <div aria-hidden="true" onClick={moveToPostsPage}>
+        <div aria-hidden="true" onClick={moveToAchievementPage}>
           <span>몽자의 대표 업적&nbsp;</span>
           <img
             className="home-page-dog-history-header-achievements-right-arrow-img"
