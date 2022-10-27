@@ -1,9 +1,12 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 import { getCertificationDataCount } from '../../../common/api/certification';
+import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { GET_CERTIFICATION_DATA_COUNT, CACHE_TIME, STALE_TIME } from '../../../common/constants/queryKey.const';
 
 function ActivityLog() {
+  const dispatch = useDispatch();
 
   const { isLoading: getCertificationDataCountIsLoading, data: certificationDataCount } = useQuery(
     GET_CERTIFICATION_DATA_COUNT,
@@ -11,9 +14,9 @@ function ActivityLog() {
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      //   onError: (error: any) => {
-      //     useErrorHandlers(dispatch, error);
-      //   },
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
     },
   );
   return (

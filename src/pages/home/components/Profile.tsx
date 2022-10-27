@@ -15,6 +15,7 @@ import {
   TailSpin,
   ThreeDots,
 } from 'react-loading-icons';
+import { useDispatch } from 'react-redux';
 import Point from '../../../common/icons/point.svg';
 import AchievementHospital from '../../../common/icons/achievement-hospital.svg';
 import DelgoWhite from '../../../common/icons/delgo-white.svg';
@@ -22,6 +23,8 @@ import RightArrow from '../../../common/icons/right-arrow.svg';
 import { ACHIEVEMENT_PATH } from '../../../common/constants/path.const';
 import { getAchievementList, getAchievementListByMain } from '../../../common/api/achievement';
 import { CACHE_TIME, GET_ACHIEVEMENT_LIST, STALE_TIME } from '../../../common/constants/queryKey.const';
+import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
+
 
 interface AchievementDataType {
   achievements: AchievementType;
@@ -43,6 +46,7 @@ interface AchievementType {
 
 function Profile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
     GET_ACHIEVEMENT_LIST,
@@ -50,9 +54,9 @@ function Profile() {
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      //   onError: (error: any) => {
-      //     useErrorHandlers(dispatch, error);
-      //   },
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
     },
   );
 
