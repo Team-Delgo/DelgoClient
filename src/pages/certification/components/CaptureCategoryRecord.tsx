@@ -105,16 +105,16 @@ function CaptureCategoryRecord() {
           );
           openCertificateCompletionAlert();
         } else if (code === 314) {
-          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다.');
+          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
           openCertificateErrorAlert();
         } else if (code === 313) {
-          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다.');
+          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
           openCertificateErrorAlert();
         } else if (code === 312) {
-          setCertificateErrorAlertMessage('인증 가능한 장소에 있지 않습니다.');
+          setCertificateErrorAlertMessage('인증 가능한 장소에 있지 않습니다');
           openCertificateErrorAlert();
         } else {
-          setCertificateErrorAlertMessage('서버 장애처리가 발생했습니다.');
+          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
           openCertificateErrorAlert();
         }
       },
