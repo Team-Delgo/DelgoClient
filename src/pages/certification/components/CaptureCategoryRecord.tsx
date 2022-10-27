@@ -17,6 +17,7 @@ import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
 import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
+import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
 
 interface categoryType {
   산책: string;
@@ -54,24 +55,16 @@ const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
 
 function CaptureCategoryRecord() {
   const [certificationPostContent, setCertificationPostContent] = useState('');
-  const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
-  const [certificationPostContentLengthLimitAlert, setCertificationPostContentLengthLimitAlert] = useState(false);
+  const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
-  const { categoryKo, img, latitude, longitude, mongPlaceId, title } = useSelector((state: RootState) => state.persist.upload);
+  const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
+  const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
+  const { categoryKo, img, latitude, longitude, mongPlaceId, title } = useSelector(
+    (state: RootState) => state.persist.upload,
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
-
-
-  useEffect(() => {
-    setTimeout(() => {
-      setBottomSheetIsOpen(true);
-    }, 1000);
-  }, [bottomSheetIsOpen]);
-
-  const moveToPreviousPage = () => {
-    navigate(CAMERA_PATH.LOCATION);
-  };
 
   const writeContent = useCallback((e) => {
     setCertificationPostContent(e.target.value.trim());
@@ -102,6 +95,7 @@ function CaptureCategoryRecord() {
       },
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
+        console.log('response', response);
         if (code === 200) {
           dispatch(
             uploadAction.setContentRegistDt({
@@ -109,65 +103,100 @@ function CaptureCategoryRecord() {
               registDt: data.registDt,
             }),
           );
-          navigate(CAMERA_PATH.RESULT);
+          openCertificateCompletionAlert();
+        } else if (code === 314) {
+          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다.');
+          openCertificateErrorAlert();
+        } else if (code === 313) {
+          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다.');
+          openCertificateErrorAlert();
+        } else if (code === 312) {
+          setCertificateErrorAlertMessage('인증 가능한 장소에 있지 않습니다.');
+          openCertificateErrorAlert();
         } else {
-          console.log(response);
-          window.alert(codeMsg);
+          setCertificateErrorAlertMessage('서버 장애처리가 발생했습니다.');
+          openCertificateErrorAlert();
         }
       },
     );
   };
+  const openCertificateErrorAlert = () => {
+    setShowCertificateErrorAlert(true);
+  };
+
+  const closeCertificateErrorAlert = () => {
+    setShowCertificateErrorAlert(false);
+  };
+
+  const openCertificateCompletionAlert = () => {
+    setShowCertificateCompletionAlert(true);
+  };
+
+  const closeCertificateCompletionAlert = () => {
+    setShowCertificateCompletionAlert(false);
+    setTimeout(() => {
+      navigate(CAMERA_PATH.RESULT);
+    }, 500);
+  };
 
   return (
-    <Sheet
-      isOpen={bottomSheetIsOpen}
-      onClose={closeBottomSheet}
-      snapPoints={sheetSnapPoints}
-      ref={ref}
-      disableDrag
-      className="modal-bottom-sheet"
-    >
-      <Sheet.Container style={sheetStyle}>
-        <Sheet.Content>
-          <main className="capture-img-record">
-            <header className="capture-img-record-container">
-              <img src={categoryIcon[categoryKo]} alt="category-img" />
-              <div className="capture-img-record-category">
-                <div className="capture-img-record-category-label">{categoryKo}</div>
-                <div
-                  className="capture-img-record-category-rechoice"
-                  aria-hidden="true"
-                  onClick={uploadCertificationPost}
-                >
-                  다시선택
+    <>
+      <Sheet
+        isOpen={bottomSheetIsOpen}
+        onClose={closeBottomSheet}
+        snapPoints={sheetSnapPoints}
+        ref={ref}
+        disableDrag
+        className="modal-bottom-sheet"
+      >
+        <Sheet.Container style={sheetStyle}>
+          <Sheet.Content>
+            <main className="capture-img-record">
+              <header className="capture-img-record-container">
+                <img src={categoryIcon[categoryKo]} alt="category-img" />
+                <div className="capture-img-record-category">
+                  <div className="capture-img-record-category-label">{categoryKo}</div>
+                  <div
+                    className="capture-img-record-category-rechoice"
+                    aria-hidden="true"
+                    onClick={uploadCertificationPost}
+                  >
+                    다시선택
+                  </div>
                 </div>
-              </div>
-              {certificationPostContent.length > 0 ? (
-                <img
-                  className="writting-button"
-                  src={WrittingButtonActive}
-                  alt="category-img"
-                  aria-hidden="true"
-                  onClick={uploadCertificationPost}
+                {certificationPostContent.length > 0 ? (
+                  <img
+                    className="writting-button"
+                    src={WrittingButtonActive}
+                    alt="category-img"
+                    aria-hidden="true"
+                    onClick={uploadCertificationPost}
+                  />
+                ) : (
+                  <img className="writting-button" src={WrittingButton} alt="category-img" />
+                )}
+              </header>
+              <body className="review-container">
+                <input type="text" className="review-place-name" value={title} disabled />
+                <textarea
+                  className="review-content"
+                  placeholder="남기고 싶은 기록을 작성해주세요"
+                  onChange={writeContent}
+                  maxLength={200}
                 />
-              ) : (
-                <img className="writting-button" src={WrittingButton} alt="category-img" />
-              )}
-            </header>
-            <body className="review-container">
-              <input type="text" className="review-place-name" value={title} disabled />
-              <textarea
-                className="review-content"
-                placeholder="남기고 싶은 기록을 작성해주세요"
-                onChange={writeContent}
-                maxLength={200}
-              />
-              <div className="review-content-length">{certificationPostContent.length}/200</div>
-            </body>
-          </main>
-        </Sheet.Content>
-      </Sheet.Container>
-    </Sheet>
+                <div className="review-content-length">{certificationPostContent.length}/200</div>
+              </body>
+            </main>
+          </Sheet.Content>
+        </Sheet.Container>
+      </Sheet>
+      {showCertificateErrorAlert && (
+        <AlertConfirmOne text={certificateErrorAlertMessage} buttonHandler={closeCertificateErrorAlert} />
+      )}
+      {showCertificateCompletionAlert && (
+        <AlertConfirmOne text="인증이 성공하였습니다" buttonHandler={closeCertificateCompletionAlert} />
+      )}
+    </>
   );
 }
 
