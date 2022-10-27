@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
@@ -18,6 +18,7 @@ import FooterNavigation from '../../common/components/FooterNavigation';
 import { getAchievementList,setMainAchievements } from '../../common/api/achievement';
 import { GET_ACHIEVEMENT_LIST, CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import './AchievementPage.scss';
+import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 
 
 
@@ -42,13 +43,16 @@ interface AchievementType {
 function AchievementPage() {
   const [achievementList, setAchievementList] = useState<AchievementDataType[]>([]);
   const [mainAchievementList, setMainAchievementList] = useState<AchievementDataType[]>([]);
-  const [mainAchievementsId, setMainAchievementsId] = useState<Array<number>>([0, 0, 0]);
+  const [showAchievementCompletionAlert, setShowAchievementCompletionAlert] = useState(false);
+  const [showAchievementLimitAlert, setShowAchievementLimitAlert] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location: any = useLocation();
 
   useEffect(() => {
     getgetAchievementDataList();
+    console.log(location.state?.rankingPoint)
   }, []);
 
   const getgetAchievementDataList = async () => {
@@ -76,9 +80,7 @@ function AchievementPage() {
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         if (code === 200) {
-          window.alert('대표업적 설정이 성공했습니다');
-        } else {
-          window.alert(codeMsg);
+          openAchievementCompletionAlert()
         }
       },
     );
@@ -98,6 +100,9 @@ function AchievementPage() {
       setAchievementList(newAchievementList);
       setMainAchievementList([...mainAchievementList, achievement]);
     }
+    else{
+      openAchievementLimitAlert()
+    }
   };
 
   const editRepresentativeAchievementsOn = () => {
@@ -111,6 +116,22 @@ function AchievementPage() {
 
   const moveHomePage = () => {
     navigate(ROOT_PATH);
+  };
+
+  const openAchievementCompletionAlert = () => {
+    setShowAchievementCompletionAlert(true);
+  };
+
+  const closeAchievementCompletionAlert = () => {
+    setShowAchievementCompletionAlert(false);
+  };
+
+  const openAchievementLimitAlert = () => {
+    setShowAchievementLimitAlert(true);
+  };
+
+  const closeAchievementLimitAlert = () => {
+    setShowAchievementLimitAlert(false);
   };
 
   return (
@@ -141,7 +162,7 @@ function AchievementPage() {
               height={20}
               className="achievement-page-header-profile-third-point-img"
             />
-            <div className="achievement-page-header-profile-third-point">12,000 P</div>
+            <div className="achievement-page-header-profile-third-point">{location.state?.rankingPoint} P</div>
           </div>
         </header>
         <body className="achievement-page-header-achievements">
@@ -220,6 +241,12 @@ function AchievementPage() {
         </div>
       </body>
       <FooterNavigation />
+      {showAchievementCompletionAlert && (
+        <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />
+      )}
+      {showAchievementLimitAlert && (
+        <AlertConfirmOne text="업적 최대 3개까지만 설정 가능합니다" buttonHandler={closeAchievementLimitAlert} />
+      )}
     </>
   );
 }

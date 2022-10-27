@@ -104,7 +104,7 @@ function Ranking() {
           </div>
         </div>
         <div className="home-page-dog-history-body-ranking-summary-second-line">
-          지난 주 {myPetRankingData?.data.lastRanking}등
+          지난 주&nbsp;{myPetRankingData?.data.lastRanking}등
         </div>
       </header>
       <main className="home-page-dog-history-body-ranking-detail">

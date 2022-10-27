@@ -114,9 +114,6 @@ function CaptureLocationRecord() {
     setPlaceName(e.target.value.trim());
   }, []);
 
-  const moveToCategoryPage = () => {
-    navigate(CAMERA_PATH.CATEGORY);
-  };
 
   const selectMongPlace = (place: MungPlaceType) => (event: React.MouseEvent) => {
     const { mungpleId, placeName } = place;
