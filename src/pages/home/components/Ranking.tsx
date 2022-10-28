@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { AnyIfEmpty, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getTopRankingList,getMyPetRanking } from '../../../common/api/ranking';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
+import { NEIGHBOR_RANKING_PATH } from '../../../common/constants/path.const';
 import { CACHE_TIME, GET_TOP_RANKING_LIST, STALE_TIME,GET_MY_PET_RANKING_DATA } from '../../../common/constants/queryKey.const';
 
 
@@ -38,6 +40,7 @@ function Ranking() {
   const [todayMonthNum,setTodayMonthNum] = useState(0)
   const [todayWeekNum,setTodayWeekNum] = useState(0)
   const dispatch = useDispatch()
+  const navigate = useNavigate();
 
   useEffect(()=>{
     getTodayDateStr()
@@ -87,9 +90,20 @@ function Ranking() {
     setTodayWeekNum(Math.ceil(date.getDate() / 7));
   }
 
+  const moveToAchievementPage = () => {
+    navigate(NEIGHBOR_RANKING_PATH, {
+      state: {
+        topRankingDataList: topRankingDataList?.data,
+        myPetRankingData: myPetRankingData?.data,
+      },
+    });
+  };
+
   return (
-    <div className="home-page-dog-history-body-ranking">
-      <div className="home-page-dog-history-body-ranking-title">{todayMonthNum}월 {weekNumCode[todayWeekNum]} 주 석차</div>
+    <div className="home-page-dog-history-body-ranking" aria-hidden="true" onClick={moveToAchievementPage}>
+      <div className="home-page-dog-history-body-ranking-title">
+        {todayMonthNum}월 {weekNumCode[todayWeekNum]} 주 석차
+      </div>
       <header className="home-page-dog-history-body-ranking-summary">
         <div className="home-page-dog-history-body-ranking-summary-first-line">
           <div>
