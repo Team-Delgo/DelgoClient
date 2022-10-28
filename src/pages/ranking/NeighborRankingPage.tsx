@@ -15,6 +15,7 @@ const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 function NeighborRankingPage() {
   const location: any = useLocation();
   useEffect(() => {
+    window.scroll(0, 0);
     console.log(location.state?.topRankingDataList);
     console.log(location.state?.myPetRankingData);
   }, []);

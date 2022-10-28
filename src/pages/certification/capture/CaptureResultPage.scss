@@ -2,10 +2,9 @@
     &-header {
         display: flex;
         justify-content: space-between;
-        font-size: 16px;
-        font-weight: bold;
-        padding: 10vh 5% 10px 5%;
-        position: relative;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 120px 5% 10px 5%;
 
         &-date {
             color: #8A8A8A;
@@ -18,123 +17,49 @@
     }
 
     &-main {
-        &-header {
+        padding-bottom: 100px;
+        &-profile {
             display: flex;
-            padding: 20px 5%;
+            margin: 15px 5%;
+            padding-bottom: 15px;
             border-bottom: 2px solid #E5E5E5;
 
-            &-profile{
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                padding-left: 20px;
-                &-address{
-                    color:#8A8A8A;
-                    font-weight: 500;
-                    font-size: 12px;
-                }
-                &-name{
-                    color:#3F3F3F;
-                    font-weight: 700;
-                    font-size: 18px;
-                }
+            &-img {
+                width: 45px;
+                height: 45px;
+                border-radius: 4px;
             }
 
+            &-second {
+
+                margin-left: 15px;
+
+                &-address {
+                    color: #8A8A8A;
+                    font-weight: 500;
+                    font-size: 12px;
+                    margin-bottom: 6px;
+                }
+
+                &-name {
+                    color: #3F3F3F;
+                    font-weight: 700;
+                    font-size: 20px;
+                }
+            }
+        }
+
+        &-body {
+            color: #232323;
+            padding: 10px 5% 0 5%;
+
             &-title {
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 font-size: 24px;
                 font-weight: bold;
             }
-            &-walk,
-            &-cafe,
-            &-restaurant,
-            &-hospital,
-            &-beauty,
-            &-bath,
-            &-etc {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 55px;
-                height: 52px;
-                font-size: 17.12px;
-                font-weight: bold;
-                object-fit: cover;
-                border-radius: 100%;
-            }
 
-            &-walk {
-                background: #C3EAC2;
-
-                &-count {
-                    color: #4A8C48;
-                }
-            }
-
-            &-cafe {
-                background: #DEC8B4;
-
-                &-count {
-                    color: #8E6947;
-                }
-            }
-
-            &-restaurant {
-                background: #FFEBA5;
-
-                &-count {
-                    color: #AD912B;
-                }
-            }
-
-            &-hospital {
-                background: #DACDFF;
-
-                &-count {
-                    color: #8269CB;
-                }
-            }
-
-            &-beauty {
-                background: #FFCCE8;
-
-                &-count {
-                    color: #B4588F;
-                }
-            }
-
-            &-bath {
-                background: #BEF0F7;
-
-                &-count {
-                    color: #328995;
-                }
-            }
-
-            &-etc {
-                background: #C4C4C4;
-
-                &-count {
-                    color: #000000;
-                }
-            }
-        }
-
-        &-content {
-            padding: 10px 5% 0 5%;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        &-body{
-            color:"#232323";
-            padding: 30px 0 10px 5%;
-            &-title{
-                font-size: 20px;
-                font-weight: 700;
-            }
-            &-content{
+            &-content {
+                padding-top: 7px;
                 font-size: 14px;
                 font-weight: 400;
             }
