@@ -51,6 +51,8 @@ export const RECORD_PATH = {
 
 export const ACHIEVEMENT_PATH = '/achievement'
 
+export const NEIGHBOR_RANKING_PATH = '/neighbor-ranking'
+
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';
 export const APPLE_REDIRECT_HANDLE_PATH = '/oauth/callback/apple';

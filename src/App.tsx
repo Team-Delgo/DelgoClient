@@ -12,6 +12,7 @@ import {
   ACHIEVEMENT_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
+  NEIGHBOR_RANKING_PATH,
   KAKAO_REDIRECT_HANDLE_PATH,
   NAVER_REDIRECT_HANDLE_PATH,
   APPLE_REDIRECT_HANDLE_PATH,
@@ -37,6 +38,7 @@ import PetInfo from './pages/sign/signup/petinfo/PetInfo';
 import KakaoRedirectHandler from './pages/sign/signin/social/KakaoRedirectHandler';
 import NaverRedirectHandler from './pages/sign/signin/social/NaverRedirectHandler';
 import AppleRedirectHandler from './pages/sign/signin/social/AppleRedirectHandler';
+import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 
 function App() {
   const queryClient = new QueryClient();
@@ -74,6 +76,7 @@ function App() {
         <Route path={CAMERA_PATH.RESULT} element={<CaptureResultPage />} />
         <Route path={POSTS_PATH} element={<PostsPage />} />
         <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />
+        <Route path={NEIGHBOR_RANKING_PATH} element={<NeighborRankingPage />} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
