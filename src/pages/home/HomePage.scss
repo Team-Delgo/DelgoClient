@@ -71,27 +71,37 @@
     &-activity-log {
         padding: 50px 5% 80px 5%;
         font-weight: bold;
+&-title {
+        line-height: 30px;
+        font-size: 20px;
+        color: black;
+    }
 
-        &-title {
-            line-height: 30px;
-            font-size: 20px;
-            color: black;
+    &-sub-title {
+        font-size: 14px;
+        color: #8A8A8A;
+        margin-bottom: 15px;
+    }
+
+    &-line {
+        display: flex;
+        justify-content: space-between;
+
+        &-walk:active,
+        &-cafe:active,
+        &-restaurant:active,
+        &-hospital:active,
+        &-beauty:active,
+        &-bath:active,
+        &-etc:active {
+            background-color: #3b3b3b;
+            transform: scale(0.96);
         }
 
-        &-sub-title {
-            font-size: 14px;
-            color: #8A8A8A;
-            margin-bottom: 15px;
-        }
-
-        &-line {
-            display: flex;
-            justify-content: space-between;
-
-            &-walk,
-            &-cafe,
-            &-restaurant,
-            &-hospital,
+        &-walk,
+        &-cafe,
+        &-restaurant,
+        &-hospital,
             &-beauty,
             &-bath,
             &-etc {

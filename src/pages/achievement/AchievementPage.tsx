@@ -87,18 +87,22 @@ function AchievementPage() {
   };
 
   const filterRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
-    const newMainAchievementList = mainAchievementList.filter(
-      (element: AchievementDataType) => element !== achievement,
-    );
-    setMainAchievementList(newMainAchievementList);
-    setAchievementList([...achievementList, achievement]);
+    setTimeout(() => {
+      const newMainAchievementList = mainAchievementList.filter(
+        (element: AchievementDataType) => element !== achievement,
+      );
+      setMainAchievementList(newMainAchievementList);
+      setAchievementList([...achievementList, achievement]);
+    }, 300);
   };
 
   const selectRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
     if (mainAchievementList.length < 3) {
+      setTimeout(() => {
       const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
       setAchievementList(newAchievementList);
       setMainAchievementList([...mainAchievementList, achievement]);
+    }, 300);
     }
     else{
       openAchievementLimitAlert()

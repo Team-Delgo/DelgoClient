@@ -47,7 +47,7 @@ function NeighborRankingPage() {
               />
               <div className="neighbor-ranking-page-body-my-pet-first-name">몽자</div>
             </div>
-            <div className="neighbor-ranking-page-body-my-pet-point">12345 p</div>
+            <div className="neighbor-ranking-page-body-my-pet-point">{location.state?.myPetRankingData.weeklyPoint} p</div>
           </header>
           {location.state?.topRankingDataList?.map((rangker: rankingType) => (
             <body className="neighbor-ranking-page-body-pet">
