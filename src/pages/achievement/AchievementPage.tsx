@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
@@ -15,15 +15,13 @@ import AchievementWalk from '../../common/icons/achievement-walk.svg';
 import Checked from '../../common/icons/checked.svg';
 import NotChecked from '../../common/icons/not-checked.svg';
 import FooterNavigation from '../../common/components/FooterNavigation';
-import { getAchievementList,setMainAchievements } from '../../common/api/achievement';
+import { getAchievementList, setMainAchievements } from '../../common/api/achievement';
 import { GET_ACHIEVEMENT_LIST, CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import './AchievementPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 
-
-
 interface AchievementDataType {
-  achievements:AchievementType;
+  achievements: AchievementType;
   achievementsId: number;
   archiveId: number;
   isMain: number;
@@ -52,7 +50,7 @@ function AchievementPage() {
 
   useEffect(() => {
     getgetAchievementDataList();
-    console.log(location.state?.rankingPoint)
+    console.log(location.state?.rankingPoint);
   }, []);
 
   const getgetAchievementDataList = async () => {
@@ -80,7 +78,7 @@ function AchievementPage() {
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         if (code === 200) {
-          openAchievementCompletionAlert()
+          openAchievementCompletionAlert();
         }
       },
     );
@@ -99,13 +97,12 @@ function AchievementPage() {
   const selectRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
     if (mainAchievementList.length < 3) {
       setTimeout(() => {
-      const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
-      setAchievementList(newAchievementList);
-      setMainAchievementList([...mainAchievementList, achievement]);
-    }, 300);
-    }
-    else{
-      openAchievementLimitAlert()
+        const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
+        setAchievementList(newAchievementList);
+        setMainAchievementList([...mainAchievementList, achievement]);
+      }, 300);
+    } else {
+      openAchievementLimitAlert();
     }
   };
 
@@ -114,7 +111,7 @@ function AchievementPage() {
   };
 
   const editRepresentativeAchievementsOff = () => {
-    selectionRepresentativeAchievementsCompletion()
+    selectionRepresentativeAchievementsCompletion();
     setEditActivation(false);
   };
 
@@ -203,7 +200,7 @@ function AchievementPage() {
                   onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
                 >
                   <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                    <img src={AchievementHospital} alt="post-img" />
+                    <img src={achievement.achievements.imgUrl} alt="post-img" />
                   </div>
                   {editActivation === true ? (
                     <img
@@ -229,7 +226,7 @@ function AchievementPage() {
               onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
             >
               <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-                <img src={AchievementHospital} alt="post-img" />
+                <img src={achievement.achievements.imgUrl} alt="post-img" />
               </div>
               {editActivation === true ? (
                 <img

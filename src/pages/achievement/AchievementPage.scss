@@ -120,9 +120,11 @@
             &-images {
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
+                row-gap: 5px;
+                column-gap: 10px;
 
                 .achievement-page-header-achievements-image-container:active {
-                    transform: scale(0.76);
+                    transform: scale(0.93);
                 }
 
                 .achievement-page-header-achievements-image-container {
@@ -130,10 +132,10 @@
 
                     .achievement-page-header-achievements-image {
                         width: 100%;
-
                         img {
                             width: 100%;
                             object-fit: cover;
+                            border-radius: 6.5px;
                         }
 
                         &-check-img {
@@ -161,18 +163,23 @@
         &-achievements-images {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
+            row-gap: 5px;
+            column-gap: 10px;
+            // grid-template-columns: 10px 10px 10px;
 
             .achievement-page-body-achievements-image-container:active {
-                transform: scale(0.76);
+                transform: scale(0.93);
             }
 
             .achievement-page-body-achievements-image-container {
                 position: relative;
 
                 .achievement-page-body-achievements-image {
+                    // padding:4px;
                     img {
                         width: 100%;
                         object-fit: cover;
+                        border-radius: 6.5px;
                     }
 
                     &-check-img {
