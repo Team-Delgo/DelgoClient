@@ -21,13 +21,14 @@ import {
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraPage from './pages/camera/CameraPage';
-import CapturePage from './pages/certification/capture/CapturePage';
-import CaptureCategoryPage from './pages/certification/capture/CaptureCategoryPage';
-import CaptureResultPage from './pages/certification/capture/CaptureResultPage';
-import CaptureLocationPage from './pages/certification/capture/CaptureLocationPage';
+import CapturePage from './pages/capture/CapturePage';
+import CaptureCategoryPage from './pages/capture/CaptureCategoryPage';
+import CaptureResultPage from './pages/capture/CaptureResultPage';
+import CaptureLocationPage from './pages/capture/CaptureLocationPage';
+import CaptureCategoryUpatePage from './pages/capture/CaptureCategoryUpatePage';
 import Photo from './pages/photo/Photo';
 import HomePage from './pages/home/HomePage';
-import PostsPage from './pages/post/PostsPage';
+import PostsPage from './pages/post/CertificationPostsPage';
 import AchievementPage from './pages/achievement/AchievementPage';
 import './App.scss';
 import SignIn from './pages/sign/signin/SignIn';
@@ -47,7 +48,6 @@ import PhoneAuth from './pages/sign/password/PhoneAuth';
 
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
-import CaptureCategoryUpatePage from './pages/certification/capture/CaptureCategoryUpatePage';
 
 
 function App() {

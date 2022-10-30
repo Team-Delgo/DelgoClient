@@ -9,6 +9,7 @@ interface rankingType {
   ranking: number;
   userId: number;
   weeklyPoint: number;
+  profile:string;
 }
 
 const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
@@ -70,7 +71,7 @@ function NeighborRankingPage() {
               <div className="neighbor-ranking-page-body-pet-first-ranking">{rangker.ranking}</div>
               <img
                 className="neighbor-ranking-page-body-pet-first-img"
-                src={`${process.env.PUBLIC_URL}/assets/dog-img.png`}
+                src={rangker.profile}
                 alt="copy url"
               />
               <div className="neighbor-ranking-page-body-pet-first-name">감자</div>

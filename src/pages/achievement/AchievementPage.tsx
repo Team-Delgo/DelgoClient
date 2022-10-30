@@ -81,6 +81,7 @@ function AchievementPage() {
           openAchievementCompletionAlert();
         }
       },
+      dispatch,
     );
   };
 

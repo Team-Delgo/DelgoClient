@@ -15,6 +15,7 @@ import { emailAuth } from '../../../common/api/login';
 import Loading from '../../../common/utils/Loading';
 import AppleLoginButton from './social/AppleLogin';
 
+
 function SignIn() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
@@ -47,18 +48,18 @@ function SignIn() {
   };
 
   const buttonClickHandler = () => {
-    emailAuth(
-      email,
-      (response: AxiosResponse) => {
-        const { code } = response.data;
-        if (code === 200) {
-          navigation(SIGN_IN_PATH.SIGNIN, { state: { email } });
-        } else {
-          setFeedback('가입되지 않은 이메일입니다.');
-        }
-      },
-      dispatch,
-    );
+    // emailAuth(
+    //   email,
+    //   (response: AxiosResponse) => {
+    //     const { code } = response.data;
+    //     if (code === 200) {
+    //       navigation(SIGN_IN_PATH.SIGNIN, { state: { email } });
+    //     } else {
+    //       setFeedback('가입되지 않은 이메일입니다.');
+    //     }
+    //   },
+    //   dispatch,
+    // );
   };
 
   return (
