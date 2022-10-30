@@ -98,8 +98,8 @@ function AchievementPage() {
     if (mainAchievementList.length < 3) {
       setTimeout(() => {
         const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
-        setAchievementList(newAchievementList);
         setMainAchievementList([...mainAchievementList, achievement]);
+        setAchievementList(newAchievementList);
       }, 300);
     } else {
       openAchievementLimitAlert();
@@ -192,7 +192,6 @@ function AchievementPage() {
           </div>
           <div className="achievement-page-header-achievements-images">
             {mainAchievementList
-              .sort((a: AchievementDataType, b: AchievementDataType) => a.isMain - b.isMain)
               .map((achievement: AchievementDataType) => (
                 <div
                   className="achievement-page-header-achievements-image-container"
