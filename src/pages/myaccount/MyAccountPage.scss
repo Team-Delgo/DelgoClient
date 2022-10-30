@@ -1,8 +1,7 @@
-.neighbor-ranking-page {
+.my-account-page {
     &-header {
         background-color: #FFFFFF;
-        height: 210px;
-        margin-bottom: 10px;
+        height: 325px;
 
         &-title {
             color: #8A8A8A;
@@ -12,14 +11,10 @@
             margin-top: 50px;
         }
 
-        .neighbor-ranking-page-prev-arrow {
-            margin-left: 5%;
-        }
-
         &-my-pet {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 5% 30px 5%;
+            // display: flex;
+            // justify-content: space-between;
+            margin: 40px 5% 10px 5%;
 
             &-img {
                 width: 100px;
@@ -28,7 +23,6 @@
             }
 
             &-profie {
-                position: relative;
 
                 &-address {
                     color: #8A8A8A;
@@ -41,8 +35,6 @@
                     color: #000000;
                     font-size: 24px;
                     font-weight: 700;
-                    position: absolute;
-                    right: 3px;
                 }
             }
         }

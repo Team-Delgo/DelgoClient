@@ -44,12 +44,15 @@ function PostsPage() {
   }, []);
 
   return (
-    <div>
+    <>
       {posts.map((post) => (
         <>
           <header className="post-img-result-header">
             <div className="post-img-result-header-date">
               {post.date} {post.weekDay} &nbsp; {post.time}
+            </div>
+            <div className="post-img-result-header-report">
+              신고
             </div>
           </header>
           <main className="post-img-result-main">
@@ -73,7 +76,7 @@ function PostsPage() {
         </>
       ))}
       <FooterNavigation />
-    </div>
+    </>
   );
 }
 

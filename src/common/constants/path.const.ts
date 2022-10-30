@@ -38,9 +38,10 @@ export const POSTS_PATH = '/posts';
 export const CAMERA_PATH = {
   MAIN: '/camera',
   CAPTURE: '/camera/captureImg',
-  CATEGORY: '/camera/captureImg/category',
   LOCATION: '/camera/captureImg/location',
+  CATEGORY: '/camera/captureImg/category',
   RESULT: '/camera/captureImg/result',
+  UPDATE: '/camera/captureImg/update',
 }
 
 export const RECORD_PATH = {
