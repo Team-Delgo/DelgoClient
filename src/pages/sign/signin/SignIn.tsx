@@ -14,7 +14,6 @@ import { checkEmail } from '../validcheck';
 import { emailAuth } from '../../../common/api/login';
 import Loading from '../../../common/utils/Loading';
 import AppleLoginButton from './social/AppleLogin';
-import { emailAuth } from '../../../common/api/login';
 
 function SignIn() {
   const [email, setEmail] = useState('');
