@@ -25,6 +25,7 @@ import WalkSmall from '../../common/icons/walk-map-small.svg';
 import HospitalSmall from '../../common/icons/hospital-map-small.svg';
 import EatSmall from '../../common/icons/eat-map-small.svg';
 import PlaceCard from './PlaceCard';
+import UserPin from '../../common/icons/userpin.svg';
 
 interface MakerItem {
   id: number;
@@ -97,6 +98,25 @@ function MapPage() {
     });
   }, []);
 
+  useEffect(()=>{
+    const userMarkerOption = {
+      position: new window.naver.maps.LatLng(userLocation.lat, userLocation.lng),
+      map:globarMap!,
+      icon: {
+        content: [`<div class="userMarker">`, `<img src=${UserPin} alt="user"/>`, `</div>`].join(''),
+        size: new naver.maps.Size(33, 33),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(16, 16),
+      },
+    };
+    console.log(userLocation);
+    const userMarker = new naver.maps.Marker(userMarkerOption);
+    globarMap?.panTo(new window.naver.maps.LatLng(userLocation.lat, userLocation.lng), {
+      duration: 500,
+      easing: 'easeOutCubic',
+    });
+  },[userLocation]);
+
   useEffect(() => {
     if (!mapElement.current || !naver) return;
     const location = new window.naver.maps.LatLng(currentLocation.lat, currentLocation.lng);
@@ -107,30 +127,20 @@ function MapPage() {
     };
 
     map = new naver.maps.Map(mapElement.current, mapOptions);
-    const userMarkerOption = {
-      position: new window.naver.maps.LatLng(userLocation.lat, userLocation.lng),
-      map,
-      icon: {
-        content: [`<div class="userMarker">`, `</div>`].join(''),
-        size: new naver.maps.Size(currentLocation.option.size, currentLocation.option.size),
-        origin: new naver.maps.Point(0, 0),
-      },
-    };
-
-    const userMarker = new naver.maps.Marker(userMarkerOption);
+    
     setGlobarMap(map);
     setIsLoading(false);
-    naver.maps.Event.addListener(map, 'zoom_changed', () => {
-      setTimeout(() => {
-        const location = map.getCenter();
-        const zoom = map.getZoom();
-        let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
-        if (zoom > 20) option = { zoom: 3, size: 100 };
-        else if (zoom > 10) option = { zoom: 2, size: 70 };
-        else option = { zoom: 1, size: 13 };
-        setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
-      }, 200);
-    });
+    // naver.maps.Event.addListener(map, 'zoom_changed', () => {
+    //   setTimeout(() => {
+    //     const location = map.getCenter();
+    //     const zoom = map.getZoom();
+    //     let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
+    //     if (zoom > 20) option = { zoom: 3, size: 100 };
+    //     else if (zoom > 10) option = { zoom: 2, size: 70 };
+    //     else option = { zoom: 1, size: 13 };
+    //     setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
+    //   }, 200);
+    // });
     naver.maps.Event.addListener(map, 'tap', () => {
       setSelectedId((prev) => {
         return {
@@ -150,7 +160,6 @@ function MapPage() {
     });
   }, []);
 
-  console.log(currentLocation);
   useEffect(() => {
     if (mungple === 'OFF') {
       deleteMungpleList();
@@ -215,7 +224,7 @@ function MapPage() {
               ].join(''),
               size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10,10),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0002') {
@@ -230,7 +239,7 @@ function MapPage() {
               ].join(''),
               size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10,10),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0003') {
@@ -245,7 +254,7 @@ function MapPage() {
               ].join(''),
               size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10,10),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0004') {
@@ -260,7 +269,7 @@ function MapPage() {
               ].join(''),
               size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10,10),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0005') {
@@ -275,7 +284,7 @@ function MapPage() {
               ].join(''),
               size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10,10),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else {
@@ -290,7 +299,7 @@ function MapPage() {
               ].join(''),
               size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10,10),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         }
@@ -308,10 +317,10 @@ function MapPage() {
               categoryCode: data.categoryCode,
               prevLat: prev.lat,
               prevLng: prev.lng,
-              prevCategoryCode: prev.categoryCode
+              prevCategoryCode: prev.categoryCode,
             };
           });
-          if(data.categoryCode === 'CA0001'){
+          if (data.categoryCode === 'CA0001') {
             markerOptions = {
               position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
               map: globarMap!,
@@ -325,7 +334,7 @@ function MapPage() {
                 origin: new naver.maps.Point(0, 0),
               },
             };
-          } else if(data.categoryCode === 'CA0002'){
+          } else if (data.categoryCode === 'CA0002') {
             markerOptions = {
               position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
               map: globarMap!,
@@ -339,7 +348,7 @@ function MapPage() {
                 origin: new naver.maps.Point(0, 0),
               },
             };
-          } else if(data.categoryCode === 'CA0003'){
+          } else if (data.categoryCode === 'CA0003') {
             markerOptions = {
               position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
               map: globarMap!,
@@ -353,7 +362,7 @@ function MapPage() {
                 origin: new naver.maps.Point(0, 0),
               },
             };
-          } else if(data.categoryCode === 'CA0004'){
+          } else if (data.categoryCode === 'CA0004') {
             markerOptions = {
               position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
               map: globarMap!,
@@ -367,7 +376,7 @@ function MapPage() {
                 origin: new naver.maps.Point(0, 0),
               },
             };
-          } else if(data.categoryCode === 'CA0005'){
+          } else if (data.categoryCode === 'CA0005') {
             markerOptions = {
               position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
               map: globarMap!,
@@ -402,7 +411,7 @@ function MapPage() {
       });
       setMarkerList(tempList);
     }
-  }, [mungple, mungpleList, certMungpleList, certNormalList, currentLocation.option.zoom]);
+  }, [mungple, mungpleList, certMungpleList, certNormalList]);
 
   useEffect(() => {
     if (selectedId.prevId === selectedId.id) return;
@@ -412,7 +421,7 @@ function MapPage() {
       });
       console.log(selectedId);
       let markerOptions;
-      if(selectedId.prevCategoryCode === 'CA0001'){
+      if (selectedId.prevCategoryCode === 'CA0001') {
         markerOptions = {
           position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
           map: globarMap!,
@@ -424,10 +433,10 @@ function MapPage() {
             ].join(''),
             size: new naver.maps.Size(20, 20),
             origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10,10),
+            anchor: new naver.maps.Point(10, 10),
           },
         };
-      } else if(selectedId.prevCategoryCode === 'CA0002'){
+      } else if (selectedId.prevCategoryCode === 'CA0002') {
         markerOptions = {
           position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
           map: globarMap!,
@@ -439,10 +448,10 @@ function MapPage() {
             ].join(''),
             size: new naver.maps.Size(20, 20),
             origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10,10),
+            anchor: new naver.maps.Point(10, 10),
           },
         };
-      } else if(selectedId.prevCategoryCode === 'CA0003'){
+      } else if (selectedId.prevCategoryCode === 'CA0003') {
         markerOptions = {
           position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
           map: globarMap!,
@@ -454,10 +463,10 @@ function MapPage() {
             ].join(''),
             size: new naver.maps.Size(20, 20),
             origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10,10),
+            anchor: new naver.maps.Point(10, 10),
           },
         };
-      } else if(selectedId.prevCategoryCode === 'CA0004'){
+      } else if (selectedId.prevCategoryCode === 'CA0004') {
         markerOptions = {
           position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
           map: globarMap!,
@@ -469,10 +478,10 @@ function MapPage() {
             ].join(''),
             size: new naver.maps.Size(20, 20),
             origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10,10),
+            anchor: new naver.maps.Point(10, 10),
           },
         };
-      } else if(selectedId.prevCategoryCode === 'CA0005'){
+      } else if (selectedId.prevCategoryCode === 'CA0005') {
         markerOptions = {
           position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
           map: globarMap!,
@@ -484,7 +493,7 @@ function MapPage() {
             ].join(''),
             size: new naver.maps.Size(20, 20),
             origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10,10),
+            anchor: new naver.maps.Point(10, 10),
           },
         };
       } else {
@@ -499,11 +508,11 @@ function MapPage() {
             ].join(''),
             size: new naver.maps.Size(20, 20),
             origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10,10),
+            anchor: new naver.maps.Point(10, 10),
           },
         };
       }
-      
+
       markerList[index].marker.setOptions(markerOptions);
     }
   }, [selectedId]);
