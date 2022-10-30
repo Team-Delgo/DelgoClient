@@ -95,13 +95,6 @@ function CaptureLocationRecord() {
     },
   );
 
-  useEffect(() => {
-    console.log(mungPlaceList?.data);
-    setTimeout(() => {
-      setBottomSheetIsOpen(true);
-    }, 1000);
-  }, [bottomSheetIsOpen]);
-
   const closeBottomSheet = () => {
     setBottomSheetIsOpen(false);
   };
@@ -153,14 +146,14 @@ function CaptureLocationRecord() {
 
   return (
     <Sheet
-      isOpen={bottomSheetIsOpen}
+      isOpen
       onClose={closeBottomSheet}
-      snapPoints={sheetSnapPoints}
-      ref={ref}
-      disableDrag
+      // snapPoints={sheetSnapPoints}
+      // ref={ref}
+      // disableDrag
       className="modal-bottom-sheet"
     >
-      <Sheet.Container style={sheetStyle}>
+      <Sheet.Container>
         <Sheet.Content>
           <main className="capture-img-record">
             <header className="capture-img-record-container">
