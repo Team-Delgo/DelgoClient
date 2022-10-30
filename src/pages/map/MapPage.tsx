@@ -18,7 +18,14 @@ import Beauty from '../../common/icons/beauty-map.svg';
 import Walk from '../../common/icons/walk-map.svg';
 import Eat from '../../common/icons/eat-map.svg';
 import Hospital from '../../common/icons/hospital-map.svg';
+import BathSmall from '../../common/icons/bath-map-small.svg';
+import CafeSmall from '../../common/icons/cafe-map-small.svg';
+import BeautySmall from '../../common/icons/beauty-map-small.svg';
+import WalkSmall from '../../common/icons/walk-map-small.svg';
+import HospitalSmall from '../../common/icons/hospital-map-small.svg';
+import EatSmall from '../../common/icons/eat-map-small.svg';
 import PlaceCard from './PlaceCard';
+import UserPin from '../../common/icons/userpin.svg';
 
 interface MakerItem {
   id: number;
@@ -91,6 +98,25 @@ function MapPage() {
     });
   }, []);
 
+  useEffect(()=>{
+    const userMarkerOption = {
+      position: new window.naver.maps.LatLng(userLocation.lat, userLocation.lng),
+      map:globarMap!,
+      icon: {
+        content: [`<div class="userMarker">`, `<img src=${UserPin} alt="user"/>`, `</div>`].join(''),
+        size: new naver.maps.Size(33, 33),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(16, 16),
+      },
+    };
+    console.log(userLocation);
+    const userMarker = new naver.maps.Marker(userMarkerOption);
+    globarMap?.panTo(new window.naver.maps.LatLng(userLocation.lat, userLocation.lng), {
+      duration: 500,
+      easing: 'easeOutCubic',
+    });
+  },[userLocation]);
+
   useEffect(() => {
     if (!mapElement.current || !naver) return;
     const location = new window.naver.maps.LatLng(currentLocation.lat, currentLocation.lng);
@@ -101,30 +127,20 @@ function MapPage() {
     };
 
     map = new naver.maps.Map(mapElement.current, mapOptions);
-    const userMarkerOption = {
-      position: new window.naver.maps.LatLng(userLocation.lat, userLocation.lng),
-      map,
-      icon: {
-        content: [`<div class="userMarker">`, `</div>`].join(''),
-        size: new naver.maps.Size(currentLocation.option.size, currentLocation.option.size),
-        origin: new naver.maps.Point(0, 0),
-      },
-    };
-
-    const userMarker = new naver.maps.Marker(userMarkerOption);
+    
     setGlobarMap(map);
     setIsLoading(false);
-    naver.maps.Event.addListener(map, 'zoom_changed', () => {
-      setTimeout(() => {
-        const location = map.getCenter();
-        const zoom = map.getZoom();
-        let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
-        if (zoom > 20) option = { zoom: 3, size: 100 };
-        else if (zoom > 10) option = { zoom: 2, size: 70 };
-        else option = { zoom: 1, size: 13 };
-        setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
-      }, 200);
-    });
+    // naver.maps.Event.addListener(map, 'zoom_changed', () => {
+    //   setTimeout(() => {
+    //     const location = map.getCenter();
+    //     const zoom = map.getZoom();
+    //     let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
+    //     if (zoom > 20) option = { zoom: 3, size: 100 };
+    //     else if (zoom > 10) option = { zoom: 2, size: 70 };
+    //     else option = { zoom: 1, size: 13 };
+    //     setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
+    //   }, 200);
+    // });
     naver.maps.Event.addListener(map, 'tap', () => {
       setSelectedId((prev) => {
         return {
@@ -144,7 +160,6 @@ function MapPage() {
     });
   }, []);
 
-  console.log(currentLocation);
   useEffect(() => {
     if (mungple === 'OFF') {
       deleteMungpleList();
@@ -203,12 +218,13 @@ function MapPage() {
             map: globarMap!,
             icon: {
               content: [
-                `<div id=${data.mungpleId} class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                // `<img src=${Bath} class="${currentLocation.option.zoom >15 && 'visiblemungple'}" style="" alt="pin"/>`,
+                `<div id=${data.mungpleId} class="mungple ${data.categoryCode}" >`,
+                `<img src=${BathSmall}  style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
-              size: new naver.maps.Size(13, 13),
+              size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0002') {
@@ -217,12 +233,13 @@ function MapPage() {
             map: globarMap!,
             icon: {
               content: [
-                `<div class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                // `<img src=${Cafe} style="" alt="pin"/>`,
+                `<div class="mungple ${data.categoryCode}" >`,
+                `<img src=${CafeSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
-              size: new naver.maps.Size(13, 13),
+              size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0003') {
@@ -231,12 +248,13 @@ function MapPage() {
             map: globarMap!,
             icon: {
               content: [
-                `<div class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                // `<img src=${Beauty} style="" alt="pin"/>`,
+                `<div class="mungple ${data.categoryCode}" >`,
+                `<img src=${BeautySmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
-              size: new naver.maps.Size(13, 13),
+              size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0004') {
@@ -245,12 +263,13 @@ function MapPage() {
             map: globarMap!,
             icon: {
               content: [
-                `<div class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                // `<img src=${Walk} style="" alt="pin"/>`,
+                `<div class="mungple ${data.categoryCode}" >`,
+                `<img src=${WalkSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
-              size: new naver.maps.Size(13, 13),
+              size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else if (data.categoryCode === 'CA0005') {
@@ -259,12 +278,13 @@ function MapPage() {
             map: globarMap!,
             icon: {
               content: [
-                `<div class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                // `<img src=${Hospital} style="" alt="pin"/>`,
+                `<div class="mungple ${data.categoryCode}" >`,
+                `<img src=${HospitalSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
-              size: new naver.maps.Size(13, 13),
+              size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         } else {
@@ -273,12 +293,13 @@ function MapPage() {
             map: globarMap!,
             icon: {
               content: [
-                `<div class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                // `<img src=${Eat} style="" alt="pin"/>`,
+                `<div class="mungple ${data.categoryCode}" >`,
+                `<img src=${EatSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
-              size: new naver.maps.Size(13, 13),
+              size: new naver.maps.Size(20, 20),
               origin: new naver.maps.Point(0, 0),
+              anchor: new naver.maps.Point(10, 10),
             },
           };
         }
@@ -296,49 +317,202 @@ function MapPage() {
               categoryCode: data.categoryCode,
               prevLat: prev.lat,
               prevLng: prev.lng,
-              prevCategoryCode: prev.categoryCode
+              prevCategoryCode: prev.categoryCode,
             };
           });
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div class="mungple ${data.categoryCode}" style="z-index:${data.mungpleId}">`,
-                `<img src=${Eat} style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(13, 13),
-              origin: new naver.maps.Point(0, 0),
-            },
-          };
+          if (data.categoryCode === 'CA0001') {
+            markerOptions = {
+              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
+              map: globarMap!,
+              icon: {
+                content: [
+                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
+                  `<img src=${Bath} style="" alt="pin"/>`,
+                  `</div>`,
+                ].join(''),
+                size: new naver.maps.Size(50, 59),
+                origin: new naver.maps.Point(0, 0),
+              },
+            };
+          } else if (data.categoryCode === 'CA0002') {
+            markerOptions = {
+              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
+              map: globarMap!,
+              icon: {
+                content: [
+                  `<div class="mungple ${selectedId.prevCategoryCode} big">`,
+                  `<img src=${Cafe} style="" alt="pin"/>`,
+                  `</div>`,
+                ].join(''),
+                size: new naver.maps.Size(50, 59),
+                origin: new naver.maps.Point(0, 0),
+              },
+            };
+          } else if (data.categoryCode === 'CA0003') {
+            markerOptions = {
+              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
+              map: globarMap!,
+              icon: {
+                content: [
+                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
+                  `<img src=${Beauty} style="" alt="pin"/>`,
+                  `</div>`,
+                ].join(''),
+                size: new naver.maps.Size(50, 59),
+                origin: new naver.maps.Point(0, 0),
+              },
+            };
+          } else if (data.categoryCode === 'CA0004') {
+            markerOptions = {
+              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
+              map: globarMap!,
+              icon: {
+                content: [
+                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
+                  `<img src=${Walk} style="" alt="pin"/>`,
+                  `</div>`,
+                ].join(''),
+                size: new naver.maps.Size(50, 59),
+                origin: new naver.maps.Point(0, 0),
+              },
+            };
+          } else if (data.categoryCode === 'CA0005') {
+            markerOptions = {
+              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
+              map: globarMap!,
+              icon: {
+                content: [
+                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
+                  `<img src=${Hospital} style="" alt="pin"/>`,
+                  `</div>`,
+                ].join(''),
+                size: new naver.maps.Size(50, 59),
+                origin: new naver.maps.Point(0, 0),
+              },
+            };
+          } else {
+            markerOptions = {
+              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
+              map: globarMap!,
+              icon: {
+                content: [
+                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
+                  `<img src=${Eat} style="" alt="pin"/>`,
+                  `</div>`,
+                ].join(''),
+                size: new naver.maps.Size(50, 59),
+                origin: new naver.maps.Point(0, 0),
+              },
+            };
+          }
           marker.setOptions(markerOptions);
         });
         return { marker, id: data.mungpleId };
       });
       setMarkerList(tempList);
     }
-  }, [mungple, mungpleList, certMungpleList, certNormalList, currentLocation.option.zoom]);
+  }, [mungple, mungpleList, certMungpleList, certNormalList]);
 
   useEffect(() => {
+    if (selectedId.prevId === selectedId.id) return;
     if (selectedId.prevId > 0) {
       const index = markerList.findIndex((e) => {
         return e.id === selectedId.prevId;
       });
       console.log(selectedId);
-      const markerOptions = {
-        position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-        map: globarMap!,
-        icon: {
-          content: [
-            `<div class="mungple ${selectedId.prevCategoryCode}" style="z-index:${selectedId.id}">`,
-            // `<img src=${Eat} style="" alt="pin"/>`,
-            `</div>`,
-          ].join(''),
-          size: new naver.maps.Size(13, 13),
-          origin: new naver.maps.Point(0, 0),
-        },
-      };
+      let markerOptions;
+      if (selectedId.prevCategoryCode === 'CA0001') {
+        markerOptions = {
+          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
+          map: globarMap!,
+          icon: {
+            content: [
+              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
+              `<img src=${BathSmall} style="" alt="pin"/>`,
+              `</div>`,
+            ].join(''),
+            size: new naver.maps.Size(20, 20),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(10, 10),
+          },
+        };
+      } else if (selectedId.prevCategoryCode === 'CA0002') {
+        markerOptions = {
+          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
+          map: globarMap!,
+          icon: {
+            content: [
+              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
+              `<img src=${CafeSmall} style="" alt="pin"/>`,
+              `</div>`,
+            ].join(''),
+            size: new naver.maps.Size(20, 20),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(10, 10),
+          },
+        };
+      } else if (selectedId.prevCategoryCode === 'CA0003') {
+        markerOptions = {
+          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
+          map: globarMap!,
+          icon: {
+            content: [
+              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
+              `<img src=${BeautySmall} style="" alt="pin"/>`,
+              `</div>`,
+            ].join(''),
+            size: new naver.maps.Size(20, 20),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(10, 10),
+          },
+        };
+      } else if (selectedId.prevCategoryCode === 'CA0004') {
+        markerOptions = {
+          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
+          map: globarMap!,
+          icon: {
+            content: [
+              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
+              `<img src=${WalkSmall} style="" alt="pin"/>`,
+              `</div>`,
+            ].join(''),
+            size: new naver.maps.Size(20, 20),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(10, 10),
+          },
+        };
+      } else if (selectedId.prevCategoryCode === 'CA0005') {
+        markerOptions = {
+          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
+          map: globarMap!,
+          icon: {
+            content: [
+              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
+              `<img src=${HospitalSmall} style="" alt="pin"/>`,
+              `</div>`,
+            ].join(''),
+            size: new naver.maps.Size(20, 20),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(10, 10),
+          },
+        };
+      } else {
+        markerOptions = {
+          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
+          map: globarMap!,
+          icon: {
+            content: [
+              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
+              `<img src=${EatSmall} style="" alt="pin"/>`,
+              `</div>`,
+            ].join(''),
+            size: new naver.maps.Size(20, 20),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(10, 10),
+          },
+        };
+      }
+
       markerList[index].marker.setOptions(markerOptions);
     }
   }, [selectedId]);
