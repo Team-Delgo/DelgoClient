@@ -1,66 +1,79 @@
 .home-page-dog-history-header {
     background-color: #474747;
     padding: 5% 0 0 5%;
-    &-logo{
+
+    &-logo {
         padding-top: 40px;
     }
+
     &-profile {
         display: flex;
         height: 70px;
         margin-top: 30px;
-        
-        &-detail{
+
+        &-detail {
             padding: 0 5% 0 4%;
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            &-first{
-                color:#8A8A8A;
+
+            &-first {
+                color: #8A8A8A;
                 font-size: 12px;
             }
-            &-second{
+
+            &-second {
                 display: flex;
                 justify-content: space-between;
-                color:#FFFFFF;
+                color: #FFFFFF;
                 font-size: 24px;
-                margin-right: 15px;
+                margin-right: 9px;
             }
-            &-third{
+
+            &-third {
                 display: flex;
                 justify-content: space-between;
-                color:#8A8A8A;
-                font-size: 14px;   
+                color: #8A8A8A;
+                font-size: 14px;
                 margin-right: 10px;
-                &-point{
+
+                &-point {
                     font-size: 12px;
                     color: #FFFFFF;
-                }       
+                }
             }
         }
     }
-    &-achievements{
+
+    &-achievements {
         margin-top: 30px;
         padding-bottom: 5%;
         font-size: 14px;
-        color:#8A8A8A;
-        &-images{
-        padding: 10px 5% 0 0;
-        img{
-            width: 33%;
-        }
-        .loading-spinning-circles{
-            min-height: 151px;
-            text-align: center;
-            vertical-align: center;
-            margin:auto;
+        color: #8A8A8A;
+
+        &-images {
+            margin: 10px 5% 0 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+
+            img {
+                width: 32%;
+            }
+
+            .loading-spinning-circles {
+                min-height: 151px;
+                text-align: center;
+                vertical-align: center;
+                margin: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
-        }
-        &-right-arrow-img{
+
+        &-right-arrow-img {
             padding: 2px 0 0 5px;
             height: 12px;
         }
@@ -87,6 +100,17 @@
         &-line {
             display: flex;
             justify-content: space-between;
+
+            &-walk:active,
+            &-cafe:active,
+            &-restaurant:active,
+            &-hospital:active,
+            &-beauty:active,
+            &-bath:active,
+            &-etc:active {
+                background-color: #3b3b3b;
+                transform: scale(0.96);
+            }
 
             &-walk,
             &-cafe,
@@ -201,11 +225,18 @@
             margin-bottom: 80px;
             background: #F3F3F3;
 
-            &-container {
+            &-container {   
+                // background-color: black;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 width: 100%;
+                border-radius: 4px;
+                margin-bottom: 7px;
+
+                img {
+                    border-radius: 4px;
+                }
 
                 .home-page-dog-history-body-ranking-detail-rank {
                     display: flex;
@@ -226,8 +257,7 @@
                     height: 49px;
                     background: #FFFFFF;
                     border-radius: 4px;
-                    margin-bottom: 7px;
-
+                    // margin-bottom: 7px;
                     &-name-point {
                         display: flex;
                         justify-content: space-between;
@@ -272,13 +302,16 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 20px;
+
         .home-page-neighbord-post {
             position: relative;
+
             img {
                 width: 100%;
                 height: 162px;
                 border-radius: 10px;
             }
+
             .img-overLay {
                 position: absolute;
                 width: 100%;

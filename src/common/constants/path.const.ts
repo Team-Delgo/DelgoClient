@@ -38,9 +38,10 @@ export const POSTS_PATH = '/posts';
 export const CAMERA_PATH = {
   MAIN: '/camera',
   CAPTURE: '/camera/captureImg',
-  CATEGORY: '/camera/captureImg/category',
   LOCATION: '/camera/captureImg/location',
+  CATEGORY: '/camera/captureImg/category',
   RESULT: '/camera/captureImg/result',
+  UPDATE: '/camera/captureImg/update',
 }
 
 export const RECORD_PATH = {
@@ -50,6 +51,8 @@ export const RECORD_PATH = {
 }
 
 export const ACHIEVEMENT_PATH = '/achievement'
+
+export const NEIGHBOR_RANKING_PATH = '/neighbor-ranking'
 
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';
