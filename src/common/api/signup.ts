@@ -154,7 +154,7 @@ async function petImageUpload(
   dispatch: any,
 ) {
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/photo/upload/petProfile/${data.userId}`, data.formData, {
+    .post(`${process.env.REACT_APP_API_URL}/photo/upload/profile/${data.userId}`, data.formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

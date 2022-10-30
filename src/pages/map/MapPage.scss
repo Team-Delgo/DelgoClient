@@ -168,6 +168,20 @@
 }
 .mungple{
   filter: drop-shadow(0px 1.80167px 3.60335px rgba(0, 0, 0, 0.4));
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  display: flex;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: white;
+
+  
+
+    background-color: #ff9162;
+  
 }
 
 .mungpleOff{
