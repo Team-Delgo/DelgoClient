@@ -22,9 +22,9 @@
 }
 
 .userMarker{
-  width: 15px;
-  height: 30px;
-  background-color: red;
+  position: absolute;
+  width: 33px;
+  height: 33px;
   z-index: 9999;
 }
 
@@ -171,12 +171,10 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  display: flex;
   z-index: 100;
-  justify-content: center;
-  align-items: center;
   border-radius: 100%;  
   &.big{
+    animation: markerAppear .3s ease-out;
     z-index: 99999;
     width: 50px;
     height: 59px;
@@ -187,3 +185,12 @@
   background-color: #c9c5c5;
 }
 
+@keyframes markerAppear{
+  0%{
+    transform: translateY(-10px);
+    opacity: 0;
+  }100%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
