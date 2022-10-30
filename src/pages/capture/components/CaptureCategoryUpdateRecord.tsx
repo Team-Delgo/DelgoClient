@@ -142,11 +142,11 @@ function CaptureCategoryUpdateRecord() {
   return (
     <>
       <Sheet
-        isOpen={bottomSheetIsOpen}
+        isOpen
         onClose={closeBottomSheet}
-        snapPoints={sheetSnapPoints}
-        ref={ref}
-        disableDrag
+        // snapPoints={sheetSnapPoints}
+        // ref={ref}
+        // disableDrag
         className="modal-bottom-sheet"
       >
         <Sheet.Container style={sheetStyle}>
