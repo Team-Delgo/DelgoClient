@@ -26,6 +26,7 @@ import HospitalSmall from '../../common/icons/hospital-map-small.svg';
 import EatSmall from '../../common/icons/eat-map-small.svg';
 import PlaceCard from './PlaceCard';
 import UserPin from '../../common/icons/userpin.svg';
+import MungpleToggle from './MungpleToggle';
 
 interface MakerItem {
   id: number;
@@ -521,15 +522,15 @@ function MapPage() {
 
   const mapStyle = {
     width: '100vw',
-    height: '80vh',
+    height: '83vh',
   };
 
   const mungpleButtonHandler = () => {
-    if (mungple === 'ON') setMungple('OFF');
-    else {
-      setMungple('ON');
-    }
+    setMungple('OFF');
   };
+  const munpleOnButtonHandler = () => {
+    setMungple('ON');
+  }
 
   const setCenterUserLocation = () => {
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -562,7 +563,8 @@ function MapPage() {
         <div aria-hidden="true" className="userLocation" onClick={setCenterUserLocation}>
           <img src={UserLocation} alt="user-location" />
         </div>
-        {!isLoading && (
+        <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler}/>
+        {/* {!isLoading && (
           <div
             aria-hidden="true"
             onClick={mungpleButtonHandler}
@@ -570,10 +572,10 @@ function MapPage() {
           >
             {`멍플 ${mungple}`}
           </div>
-        )}
+        )} */}
       </div>
       {selectedId.title.length > 0 && (
-        <PlaceCard img={selectedId.img} title={selectedId.title} address={selectedId.address} />
+        <PlaceCard img={selectedId.img} title={selectedId.title} address={selectedId.address} categoryCode={selectedId.categoryCode} />
       )}
       <FooterNavigation />
     </div>

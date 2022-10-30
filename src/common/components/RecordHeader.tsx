@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./RecordHeader.scss";
-import Delgo from "../icons/delgo.svg";
+import Delgo from "../icons/delgo-small.svg";
 
 function RecordHeader() {
   const tab = useLocation().state as string || 'photo';
