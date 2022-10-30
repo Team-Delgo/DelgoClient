@@ -12,9 +12,11 @@ import {
   ACHIEVEMENT_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
+  NEIGHBOR_RANKING_PATH,
   KAKAO_REDIRECT_HANDLE_PATH,
   NAVER_REDIRECT_HANDLE_PATH,
   APPLE_REDIRECT_HANDLE_PATH,
+  MY_ACCOUNT_PATH,
 } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
@@ -37,10 +39,16 @@ import PetInfo from './pages/sign/signup/petinfo/PetInfo';
 import KakaoRedirectHandler from './pages/sign/signin/social/KakaoRedirectHandler';
 import NaverRedirectHandler from './pages/sign/signin/social/NaverRedirectHandler';
 import AppleRedirectHandler from './pages/sign/signin/social/AppleRedirectHandler';
+
 import Login from './pages/sign/signin/Login';
 import FindPassword from './pages/sign/password/FindPassword';
 import ResetPassword from './pages/sign/password/ResetPassword';
 import PhoneAuth from './pages/sign/password/PhoneAuth';
+
+import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
+import MyAccountPage from './pages/myaccount/MyAccountPage';
+import CaptureCategoryUpatePage from './pages/certification/capture/CaptureCategoryUpatePage';
+
 
 function App() {
   const queryClient = new QueryClient();
@@ -79,9 +87,12 @@ function App() {
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
         <Route path={CAMERA_PATH.LOCATION} element={<CaptureLocationPage />} />
+        <Route path={CAMERA_PATH.UPDATE} element={<CaptureCategoryUpatePage />} />
         <Route path={CAMERA_PATH.RESULT} element={<CaptureResultPage />} />
         <Route path={POSTS_PATH} element={<PostsPage />} />
         <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />
+        <Route path={NEIGHBOR_RANKING_PATH} element={<NeighborRankingPage />} />
+        <Route path={MY_ACCOUNT_PATH.MAIN} element={<MyAccountPage />} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />

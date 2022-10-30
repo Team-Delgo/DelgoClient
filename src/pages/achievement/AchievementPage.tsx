@@ -1,5 +1,5 @@
-import React,{useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
@@ -15,14 +15,13 @@ import AchievementWalk from '../../common/icons/achievement-walk.svg';
 import Checked from '../../common/icons/checked.svg';
 import NotChecked from '../../common/icons/not-checked.svg';
 import FooterNavigation from '../../common/components/FooterNavigation';
-import { getAchievementList,setMainAchievements } from '../../common/api/achievement';
+import { getAchievementList, setMainAchievements } from '../../common/api/achievement';
 import { GET_ACHIEVEMENT_LIST, CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import './AchievementPage.scss';
-
-
+import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 
 interface AchievementDataType {
-  achievements:AchievementType;
+  achievements: AchievementType;
   achievementsId: number;
   archiveId: number;
   isMain: number;
@@ -42,13 +41,16 @@ interface AchievementType {
 function AchievementPage() {
   const [achievementList, setAchievementList] = useState<AchievementDataType[]>([]);
   const [mainAchievementList, setMainAchievementList] = useState<AchievementDataType[]>([]);
-  const [mainAchievementsId, setMainAchievementsId] = useState<Array<number>>([0, 0, 0]);
+  const [showAchievementCompletionAlert, setShowAchievementCompletionAlert] = useState(false);
+  const [showAchievementLimitAlert, setShowAchievementLimitAlert] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location: any = useLocation();
 
   useEffect(() => {
     getgetAchievementDataList();
+    console.log(location.state?.rankingPoint);
   }, []);
 
   const getgetAchievementDataList = async () => {
@@ -76,27 +78,31 @@ function AchievementPage() {
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         if (code === 200) {
-          window.alert('대표업적 설정이 성공했습니다');
-        } else {
-          window.alert(codeMsg);
+          openAchievementCompletionAlert();
         }
       },
     );
   };
 
   const filterRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
-    const newMainAchievementList = mainAchievementList.filter(
-      (element: AchievementDataType) => element !== achievement,
-    );
-    setMainAchievementList(newMainAchievementList);
-    setAchievementList([...achievementList, achievement]);
+    setTimeout(() => {
+      const newMainAchievementList = mainAchievementList.filter(
+        (element: AchievementDataType) => element !== achievement,
+      );
+      setMainAchievementList(newMainAchievementList);
+      setAchievementList([...achievementList, achievement]);
+    }, 300);
   };
 
   const selectRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
     if (mainAchievementList.length < 3) {
-      const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
-      setAchievementList(newAchievementList);
-      setMainAchievementList([...mainAchievementList, achievement]);
+      setTimeout(() => {
+        const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
+        setAchievementList(newAchievementList);
+        setMainAchievementList([...mainAchievementList, achievement]);
+      }, 300);
+    } else {
+      openAchievementLimitAlert();
     }
   };
 
@@ -105,12 +111,28 @@ function AchievementPage() {
   };
 
   const editRepresentativeAchievementsOff = () => {
-    selectionRepresentativeAchievementsCompletion()
+    selectionRepresentativeAchievementsCompletion();
     setEditActivation(false);
   };
 
   const moveHomePage = () => {
     navigate(ROOT_PATH);
+  };
+
+  const openAchievementCompletionAlert = () => {
+    setShowAchievementCompletionAlert(true);
+  };
+
+  const closeAchievementCompletionAlert = () => {
+    setShowAchievementCompletionAlert(false);
+  };
+
+  const openAchievementLimitAlert = () => {
+    setShowAchievementLimitAlert(true);
+  };
+
+  const closeAchievementLimitAlert = () => {
+    setShowAchievementLimitAlert(false);
   };
 
   return (
@@ -141,7 +163,7 @@ function AchievementPage() {
               height={20}
               className="achievement-page-header-profile-third-point-img"
             />
-            <div className="achievement-page-header-profile-third-point">12,000 P</div>
+            <div className="achievement-page-header-profile-third-point">{location.state?.rankingPoint} P</div>
           </div>
         </header>
         <body className="achievement-page-header-achievements">
@@ -178,7 +200,7 @@ function AchievementPage() {
                   onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
                 >
                   <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                    <img src={AchievementHospital} alt="post-img" />
+                    <img src={achievement.achievements.imgUrl} alt="post-img" />
                   </div>
                   {editActivation === true ? (
                     <img
@@ -204,7 +226,7 @@ function AchievementPage() {
               onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
             >
               <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-                <img src={AchievementHospital} alt="post-img" />
+                <img src={achievement.achievements.imgUrl} alt="post-img" />
               </div>
               {editActivation === true ? (
                 <img
@@ -220,6 +242,12 @@ function AchievementPage() {
         </div>
       </body>
       <FooterNavigation />
+      {showAchievementCompletionAlert && (
+        <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />
+      )}
+      {showAchievementLimitAlert && (
+        <AlertConfirmOne text="업적 최대 3개까지만 설정 가능합니다" buttonHandler={closeAchievementLimitAlert} />
+      )}
     </>
   );
 }

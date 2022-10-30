@@ -8,11 +8,11 @@ async function getTopRankingList(geoCode: number) {
   return data;
 }
 
-// async function getTopRankingList(geoCode: number) {
-//     const accessToken = localStorage.getItem('accessToken') || '';
-//     const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/ranking/user?userId=${1}`);
-//     console.log(data);
-//     return data;
-//   }
+async function getMyPetRanking(userId: number) {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/ranking/user?userId=${userId}`);
+    console.log(data);
+    return data;
+  }
 
-export { getTopRankingList };
+export { getTopRankingList,getMyPetRanking};

@@ -53,7 +53,7 @@ const categoryIcon: categoryType = {
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
 
-function CaptureCategoryRecord() {
+function CaptureCategoryUpdateRecord() {
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
@@ -156,13 +156,6 @@ function CaptureCategoryRecord() {
                 <img src={categoryIcon[categoryKo]} alt="category-img" />
                 <div className="capture-img-record-category">
                   <div className="capture-img-record-category-label">{categoryKo}</div>
-                  <div
-                    className="capture-img-record-category-rechoice"
-                    aria-hidden="true"
-                    onClick={uploadCertificationPost}
-                  >
-                    다시선택
-                  </div>
                 </div>
                 {certificationPostContent.length > 0 ? (
                   <img
@@ -200,4 +193,4 @@ function CaptureCategoryRecord() {
   );
 }
 
-export default CaptureCategoryRecord;
+export default CaptureCategoryUpdateRecord;
