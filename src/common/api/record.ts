@@ -5,7 +5,7 @@ import {DELGO_REWARD_URL} from '../constants/url.cosnt';
 
 async function getMapData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${DELGO_REWARD_URL}/map/data?userId=${userId}`)
+    .get(`${process.env.REACT_APP_API_URL}/map/data?userId=${userId}`)
     .then((data) => {
       success(data);
     })
@@ -16,7 +16,7 @@ async function getMapData(userId: number, success: (data: AxiosResponse) => void
 
 async function getCalendarData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${DELGO_REWARD_URL}/calendar/data?userId=${userId}`)
+    .get(`${process.env.REACT_APP_API_URL}/calendar/data?userId=${userId}`)
     .then((data) => {
       success(data);
     })
@@ -27,7 +27,7 @@ async function getCalendarData(userId: number, success: (data: AxiosResponse) =>
 
 async function getPhotoData(userId: number, categoryCode:string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${DELGO_REWARD_URL}/certification/category-data?categoryCode=${categoryCode}&userId=${userId}`)
+    .get(`${process.env.REACT_APP_API_URL}/certification/category-data?categoryCode=${categoryCode}&userId=${userId}`)
     .then((data) => {
       success(data);
     })
