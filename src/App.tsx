@@ -39,9 +39,16 @@ import PetInfo from './pages/sign/signup/petinfo/PetInfo';
 import KakaoRedirectHandler from './pages/sign/signin/social/KakaoRedirectHandler';
 import NaverRedirectHandler from './pages/sign/signin/social/NaverRedirectHandler';
 import AppleRedirectHandler from './pages/sign/signin/social/AppleRedirectHandler';
+
+import Login from './pages/sign/signin/Login';
+import FindPassword from './pages/sign/password/FindPassword';
+import ResetPassword from './pages/sign/password/ResetPassword';
+import PhoneAuth from './pages/sign/password/PhoneAuth';
+
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
 import CaptureCategoryUpatePage from './pages/certification/capture/CaptureCategoryUpatePage';
+
 
 function App() {
   const queryClient = new QueryClient();
@@ -64,6 +71,10 @@ function App() {
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
         <Route path={SIGN_IN_PATH.MAIN} element={<SignIn />} />
+        <Route path={SIGN_IN_PATH.SIGNIN} element={<Login/>} />
+        <Route path={SIGN_IN_PATH.FINDPASSWORD} element={<FindPassword/>} />
+        <Route path={SIGN_IN_PATH.PHONEAUTH} element={<PhoneAuth/>} />
+        <Route path={SIGN_IN_PATH.RESETPASSWORD} element={<ResetPassword/>} />
         <Route path={SIGN_UP_PATH.TERMS} element={<Terms />} />
         <Route path={SIGN_UP_PATH.VERIFY} element={<VerifyPhone />} />
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />

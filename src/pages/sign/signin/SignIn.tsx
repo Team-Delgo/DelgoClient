@@ -11,7 +11,7 @@ import { ReactComponent as Apple } from '../../../common/icons/apple.svg';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../common/constants/path.const';
 import { KAKAO, NAVER } from '../../../common/constants/url.cosnt';
 import { checkEmail } from '../validcheck';
-// import { emailAuth } from '../../common/api/login';
+import { emailAuth } from '../../../common/api/login';
 import Loading from '../../../common/utils/Loading';
 import AppleLoginButton from './social/AppleLogin';
 import { emailAuth } from '../../../common/api/login';
