@@ -88,7 +88,7 @@ function Ranking() {
             <div className="home-page-dog-history-body-ranking-detail-container" key={rankingData.userId}>
               <div className="home-page-dog-history-body-ranking-detail-rank">{rankingData.ranking}</div>
               <div className="home-page-dog-history-body-ranking-detail-dog-profile">
-                <img src={rankingData.profile} alt="dog-img-url" width={49} height={49} />
+                <img src={rankingData.profile} alt="dog-img-url" />
                 <div className="home-page-dog-history-body-ranking-detail-dog-profile-name-point">
                   <div>{rankingData.name}</div>
                   <div>{rankingData.weeklyPoint}p</div>

@@ -1,6 +1,6 @@
 import React from 'react';
-import CaptureCategoryImg from '../components/CaptureCategoryImg';
-import CaptureCategoryRecord from '../components/CaptureCategoryRecord';
+import CaptureCategoryImg from './components/CaptureCategoryImg';
+import CaptureCategoryRecord from './components/CaptureCategoryRecord';
 import './CaptureCategoryPage.scss';
 
 function CaptureCategoryPage() {
