@@ -1,4 +1,4 @@
-export const ROOT_PATH = '/';
+export const ROOT_PATH = '/home';
 export const MY_ACCOUNT_PATH = {
   MAIN: '/user/myaccount',
   COUPON: '/user/myaccount/coupon',
@@ -12,7 +12,7 @@ export const MY_ACCOUNT_PATH = {
   TERM2: '/user/myaccount/term2',
 };
 export const SIGN_IN_PATH = {
-  MAIN: '/user/signin',
+  MAIN: '/',
   SIGNIN: '/user/signin/login',
   FINDPASSWORD: '/user/signin/findpassword',
   PHONEAUTH: '/user/signin/phoneauth',

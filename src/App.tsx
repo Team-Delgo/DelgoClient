@@ -48,6 +48,7 @@ import PhoneAuth from './pages/sign/password/PhoneAuth';
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
 import CaptureCategoryUpatePage from './pages/certification/capture/CaptureCategoryUpatePage';
+import PreventBack from './pages/sign/signin/PreventBack';
 
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
+        <Route path='/preventback' element={<PreventBack/>} />
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
