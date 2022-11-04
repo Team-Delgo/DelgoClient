@@ -117,7 +117,7 @@ function Profile() {
     <header className="home-page-dog-history-header">
       <img className="home-page-dog-history-header-logo" src={DelgoWhite} alt="copy url" />
       <header className="home-page-dog-history-header-profile" aria-hidden="true" onClick={moveToMyAccountPage}>
-        <img src={pet.image} alt="copy url" width={72} height={72} />
+        <img className="home-page-dog-history-header-profile-img" src={pet.image} alt="copy url" width={72} height={72} />
         <div className="home-page-dog-history-header-profile-detail">
           <div className="home-page-dog-history-header-profile-detail-first">서울시 송파구</div>
           <div className="home-page-dog-history-header-profile-detail-second">
