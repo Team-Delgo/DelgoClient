@@ -3,15 +3,23 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
-import AchievementBath from '../../common/icons/achievement-bath.svg';
-import AchievementBeauty from '../../common/icons/achievement-beauty.svg';
-import AchievementCafe from '../../common/icons/achievement-cafe.svg';
+import {
+  SpinningCircles,
+  Audio,
+  BallTriangle,
+  Bars,
+  Circles,
+  Grid,
+  Hearts,
+  Oval,
+  Puff,
+  Rings,
+  TailSpin,
+  ThreeDots,
+} from 'react-loading-icons';
 import Point from '../../common/icons/point.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import { ROOT_PATH } from '../../common/constants/path.const';
-import AchievementHospital from '../../common/icons/achievement-hospital.svg';
-import AchievementRestorant from '../../common/icons/achievement-restorant.svg';
-import AchievementWalk from '../../common/icons/achievement-walk.svg';
 import Checked from '../../common/icons/checked.svg';
 import NotChecked from '../../common/icons/not-checked.svg';
 import FooterNavigation from '../../common/components/FooterNavigation';

@@ -75,10 +75,7 @@ function CertificationPostsPage() {
 
   useEffect(() => {
     window.scroll(0, 0);
-    console.log(data?.pages)
-  }, [data]);
-
-
+  }, []);
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -100,7 +97,8 @@ function CertificationPostsPage() {
             <>
               <header className="post-img-result-header">
                 <div className="post-img-result-header-date">
-                  {post[1]?.registDt.substring(0, 10)}&nbsp;{weekDay[post[1]?.registDt.substring(17, post[1]?.registDt.length)]}
+                  {post[1]?.registDt.substring(0, 10)}&nbsp;
+                  {weekDay[post[1]?.registDt.substring(17, post[1]?.registDt.length)]}
                   &nbsp;&nbsp;&nbsp;
                   {post[1]?.registDt.substring(11, 16)}
                 </div>
@@ -109,13 +107,9 @@ function CertificationPostsPage() {
               <main className="post-img-result-main">
                 <img src={post[1]?.photoUrl} width={window.innerWidth} height={window.innerWidth} alt="postImg" />
                 <header className="post-img-result-main-profile">
-                  <img
-                    className="post-img-result-main-profile-img"
-                    src={post[0]?.profile}
-                    alt="copy url"
-                  />
+                  <img className="post-img-result-main-profile-img" src={post[0]?.profile} alt="copy url" />
                   <div className="post-img-result-main-profile-second">
-                    <div className="post-img-result-main-profile-second-address">서울시 송파구</div>
+                    <div className="post-img-result-main-profile-second-address">{post[2]?.codeName}</div>
                     <div className="post-img-result-main-profile-second-name">{post[0]?.name}</div>
                   </div>
                 </header>
