@@ -28,7 +28,7 @@ const weekDay: weekDayType = {
 
 function CaptureResultHeader() {
   const navigate = useNavigate();
-  const registDt = useSelector((state: RootState) => state.persist.upload.registDt);
+  const { registDt } = useSelector((state: RootState) => state.persist.upload);
 
   const moveToCategoryPage = () => {
     navigate(CAMERA_PATH.UPDATE);

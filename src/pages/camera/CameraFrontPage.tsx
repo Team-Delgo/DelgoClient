@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
@@ -9,9 +10,7 @@ import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 
-function CameraPage() {
-  const [webCameraMode, setWwebCameraMode] = useState('user');
-  const [capturedImg, setCapturedImg] = useState('');
+function CameraFrontPage() {
   const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,11 +24,7 @@ function CameraPage() {
   };
 
   const swtichCamera = () => {
-    if (webCameraMode === 'user') {
-      setWwebCameraMode('environment');
-    } else {
-      setWwebCameraMode('user');
-    }
+    navigate(CAMERA_PATH.REAR);
   };
 
   const captureImg = () => {
@@ -68,7 +63,7 @@ function CameraPage() {
         width={window.innerWidth}
         mirrored
         videoConstraints={{
-          facingMode: { exact: webCameraMode },
+          facingMode: { exact: 'user' },
           aspectRatio: 1 / 1,
         }}
       />
@@ -83,4 +78,4 @@ function CameraPage() {
   );
 }
 
-export default CameraPage;
+export default CameraFrontPage;

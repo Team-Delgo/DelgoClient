@@ -31,6 +31,7 @@ async function registerCertificationPost(
     photo: string;
   },
   success: (data: AxiosResponse) => void,
+  dispatch: any
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
@@ -47,7 +48,28 @@ async function registerCertificationPost(
     console.log(result);
     success(result);
   } catch (err: any) {
-    console.log(err);
+    useErrorHandlers(dispatch,err);
+  }
+}
+
+async function updateCertificationPost(
+  data: {
+    certificationId: number;
+    description: string;
+  },
+  success: (data: AxiosResponse) => void,
+  dispatch: any
+) {
+  try {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/modify`, {
+      certificationId: data.certificationId,
+      description: data.description,
+    });
+    console.log(result);
+    success(result);
+  } catch (err: any) {
+    useErrorHandlers(dispatch,err);
   }
 }
 
@@ -78,4 +100,5 @@ export {
   registerCertificationPost,
   getCertificationPostsByMain,
   getCertificationPostAll,
+  updateCertificationPost
 };

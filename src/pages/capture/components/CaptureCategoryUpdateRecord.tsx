@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import BottomButton from '../../../common/components/BottomButton';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
-import { registerCertificationPost } from '../../../common/api/certification';
+import { registerCertificationPost, updateCertificationPost } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
 import Bath from '../../../common/icons/bath.svg';
@@ -59,7 +59,7 @@ function CaptureCategoryUpdateRecord() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
   const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
-  const { categoryKo, img, latitude, longitude, mongPlaceId, title } = useSelector(
+  const { categoryKo, img, latitude, longitude, mongPlaceId, title, certificationId } = useSelector(
     (state: RootState) => state.persist.upload,
   );
   const navigate = useNavigate();
@@ -75,49 +75,24 @@ function CaptureCategoryUpdateRecord() {
   };
 
   const uploadCertificationPost = () => {
-    console.log(categoryCode[categoryKo]);
-    console.log(mongPlaceId);
-    console.log(title);
-    console.log(certificationPostContent);
-    console.log(latitude.toString());
-    console.log(longitude.toString());
-    console.log(img);
-    registerCertificationPost(
+    updateCertificationPost(
       {
-        userId: 1,
-        categoryCode: categoryCode[categoryKo],
-        mungpleId: mongPlaceId,
-        placeName: title,
+        certificationId,
         description: certificationPostContent,
-        latitude: latitude.toString(),
-        longitude: longitude.toString(),
-        photo: img,
       },
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
           dispatch(
-            uploadAction.setContentRegistDt({
-              content: certificationPostContent,
-              registDt: data.registDt,
+            uploadAction.setContent({
+              content: data.description,
             }),
           );
           openCertificateCompletionAlert();
-        } else if (code === 314) {
-          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
-          openCertificateErrorAlert();
-        } else if (code === 313) {
-          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
-          openCertificateErrorAlert();
-        } else if (code === 312) {
-          setCertificateErrorAlertMessage('인증 가능한 장소에 있지 않습니다');
-          openCertificateErrorAlert();
-        } else {
-          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-          openCertificateErrorAlert();
         }
       },
+      dispatch,
     );
   };
   const openCertificateErrorAlert = () => {
@@ -144,9 +119,9 @@ function CaptureCategoryUpdateRecord() {
       <Sheet
         isOpen
         onClose={closeBottomSheet}
-        // snapPoints={sheetSnapPoints}
-        // ref={ref}
-        // disableDrag
+        snapPoints={sheetSnapPoints}
+        ref={ref}
+        disableDrag
         className="modal-bottom-sheet"
       >
         <Sheet.Container style={sheetStyle}>
@@ -187,7 +162,7 @@ function CaptureCategoryUpdateRecord() {
         <AlertConfirmOne text={certificateErrorAlertMessage} buttonHandler={closeCertificateErrorAlert} />
       )}
       {showCertificateCompletionAlert && (
-        <AlertConfirmOne text="인증이 성공하였습니다" buttonHandler={closeCertificateCompletionAlert} />
+        <AlertConfirmOne text="인증 수정이 성공하였습니다" buttonHandler={closeCertificateCompletionAlert} />
       )}
     </>
   );

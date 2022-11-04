@@ -20,7 +20,8 @@ import {
 } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
-import CameraPage from './pages/camera/CameraPage';
+import CameraFrontPage from './pages/camera/CameraFrontPage';
+import CameraRearPage from './pages/camera/CameraRearPage';
 import CapturePage from './pages/capture/CapturePage';
 import CaptureCategoryPage from './pages/capture/CaptureCategoryPage';
 import CaptureResultPage from './pages/capture/CaptureResultPage';
@@ -48,6 +49,7 @@ import PhoneAuth from './pages/sign/password/PhoneAuth';
 
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
+
 
 
 function App() {
@@ -83,7 +85,8 @@ function App() {
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
-        <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
+        <Route path={CAMERA_PATH.FRONT} element={<CameraFrontPage />} />
+        <Route path={CAMERA_PATH.REAR} element={<CameraRearPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
         <Route path={CAMERA_PATH.LOCATION} element={<CaptureLocationPage />} />

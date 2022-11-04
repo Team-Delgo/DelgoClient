@@ -42,8 +42,7 @@ const categoryEnglish: categoryType = {
 };
 
 function CaptureResultMain() {
-  const navigate = useNavigate();
-  const { img, title, content, categoryKo } = useSelector((state: RootState) => state.persist.upload);
+  const { img, title, content } = useSelector((state: RootState) => state.persist.upload);
 
   return (
     <main className="capture-img-result-main">

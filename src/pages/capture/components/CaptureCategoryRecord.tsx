@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -98,9 +98,10 @@ function CaptureCategoryRecord() {
         console.log('response', response);
         if (code === 200) {
           dispatch(
-            uploadAction.setContentRegistDt({
+            uploadAction.setContentRegistDtCertificationId({
               content: certificationPostContent,
               registDt: data.registDt,
+              certificationId:data.certificationId
             }),
           );
           openCertificateCompletionAlert();
@@ -118,6 +119,7 @@ function CaptureCategoryRecord() {
           openCertificateErrorAlert();
         }
       },
+      dispatch,
     );
   };
   const openCertificateErrorAlert = () => {
