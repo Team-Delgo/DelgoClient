@@ -5,10 +5,11 @@ const initialState = {
   latitude: '',
   longitude: '',
   categoryKo: '',
-  title:'',
-  content:'',
-  registDt:'',
-  mongPlaceId:-1,
+  title: '',
+  content: '',
+  registDt: '',
+  mongPlaceId: -1,
+  certificationId: 0,
 };
 
 const uploadSlice = createSlice({
@@ -42,16 +43,23 @@ const uploadSlice = createSlice({
 
       };
     },
-    setContentRegistDt(state, action) {
+    setContentRegistDtCertificationId(state, action) {
       return {
         ...state,
         content: action.payload.content,
         registDt: action.payload.registDt,
+        certificationId:action.payload.certificationId
       };
     },
     setUploadInit() {
       return {
         ...initialState,
+      };
+    },
+    setContent(state, action) {
+      return {
+        ...state,
+        content:action.payload.content
       };
     },
   },

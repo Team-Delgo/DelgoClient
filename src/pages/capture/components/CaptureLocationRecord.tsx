@@ -146,11 +146,11 @@ function CaptureLocationRecord() {
 
   return (
     <Sheet
-      isOpen
+      isOpen={bottomSheetIsOpen}
       onClose={closeBottomSheet}
-      // snapPoints={sheetSnapPoints}
-      // ref={ref}
-      // disableDrag
+      snapPoints={sheetSnapPoints}
+      ref={ref}
+      disableDrag
       className="modal-bottom-sheet"
     >
       <Sheet.Container>
@@ -170,7 +170,7 @@ function CaptureLocationRecord() {
                 type="text"
                 ref={inputRef}
                 className="review-place-name"
-                placeholder="여기는 어디인가요? (ex: 델고커피)"
+                placeholder="여기는 어디인가요?"
                 onChange={writeTitle}
               />
               <img className="magnifying-glass-img" src={MagnifyingGlass} alt="magnifying-glass-img" />
