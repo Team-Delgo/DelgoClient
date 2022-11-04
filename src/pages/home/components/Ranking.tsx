@@ -2,7 +2,7 @@
 /* eslint-disable react/no-this-in-sfc */
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { AnyIfEmpty, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getTopRankingList, getMyPetRanking } from '../../../common/api/ranking';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
@@ -13,19 +13,21 @@ import {
   STALE_TIME,
   GET_MY_PET_RANKING_DATA,
 } from '../../../common/constants/queryKey.const';
+import { RootState } from '../../../redux/store';
 
 interface rankingType {
   geoCode: string;
   ranking: number;
   userId: number;
   weeklyPoint: number;
-  name:string;
-  profile:string;
+  name: string;
+  profile: string;
 }
 
 function Ranking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {  pet } = useSelector((state: RootState) => state.persist.user);
 
   const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
     GET_TOP_RANKING_LIST,
@@ -66,7 +68,7 @@ function Ranking() {
       <header className="home-page-dog-history-body-ranking-summary">
         <div className="home-page-dog-history-body-ranking-summary-first-line">
           <div>
-            <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">몽자 /</span>
+            <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">{pet.name} /</span>
             <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number">
               {' '}
               {myPetRankingData?.data.ranking}등

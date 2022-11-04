@@ -63,7 +63,7 @@ function CameraRearPage() {
         width={window.innerWidth}
         mirrored={false}
         videoConstraints={{
-          facingMode: { exact: 'enviroment' },
+          facingMode: { exact: 'environment' },
           aspectRatio: 1 / 1,
         }}
       />

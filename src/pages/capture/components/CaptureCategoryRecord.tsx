@@ -51,7 +51,7 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
+const sheetSnapPoints = [470, 470, 470, 470];
 
 function CaptureCategoryRecord() {
   const [certificationPostContent, setCertificationPostContent] = useState('');
@@ -144,10 +144,10 @@ function CaptureCategoryRecord() {
   return (
     <>
       <Sheet
-        isOpen={bottomSheetIsOpen}
+        isOpen
         onClose={closeBottomSheet}
         snapPoints={sheetSnapPoints}
-        ref={ref}
+        // ref={ref}
         disableDrag
         className="modal-bottom-sheet"
       >

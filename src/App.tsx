@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { deviceAction } from './redux/slice/deviceSlice';
 import {
@@ -49,6 +49,7 @@ import PhoneAuth from './pages/sign/password/PhoneAuth';
 
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
+import { RootState } from './redux/store';
 
 
 
@@ -56,8 +57,8 @@ function App() {
   const queryClient = new QueryClient();
   const location = useLocation();
   const dispatch = useDispatch();
-
-  console.log(process.env.REACT_APP_NCP_CLIENT_ID);
+  const navigate = useNavigate();
+  const isSignIn = useSelector((state: RootState) => state.persist.user.isSignIn);
 
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
@@ -68,15 +69,23 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isSignIn) {
+      navigate(ROOT_PATH);
+    } else {
+      navigate(SIGN_IN_PATH.MAIN);
+    }
+  }, [isSignIn]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
         <Route path={SIGN_IN_PATH.MAIN} element={<SignIn />} />
-        <Route path={SIGN_IN_PATH.SIGNIN} element={<Login/>} />
-        <Route path={SIGN_IN_PATH.FINDPASSWORD} element={<FindPassword/>} />
-        <Route path={SIGN_IN_PATH.PHONEAUTH} element={<PhoneAuth/>} />
-        <Route path={SIGN_IN_PATH.RESETPASSWORD} element={<ResetPassword/>} />
+        <Route path={SIGN_IN_PATH.SIGNIN} element={<Login />} />
+        <Route path={SIGN_IN_PATH.FINDPASSWORD} element={<FindPassword />} />
+        <Route path={SIGN_IN_PATH.PHONEAUTH} element={<PhoneAuth />} />
+        <Route path={SIGN_IN_PATH.RESETPASSWORD} element={<ResetPassword />} />
         <Route path={SIGN_UP_PATH.TERMS} element={<Terms />} />
         <Route path={SIGN_UP_PATH.VERIFY} element={<VerifyPhone />} />
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
