@@ -73,6 +73,7 @@ function Login() {
                 email: data.user.email,
                 phone: data.user.phoneNo,
                 isSocial: false,
+                geoCode: data.user.geoCode,
               },
               pet: {
                 petId: data.pet.petId,

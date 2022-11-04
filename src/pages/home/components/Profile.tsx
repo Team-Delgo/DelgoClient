@@ -63,7 +63,7 @@ function Profile() {
 
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
     GET_ACHIEVEMENT_LIST,
-    () => getAchievementListByMain(1),
+    () => getAchievementListByMain(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -75,7 +75,7 @@ function Profile() {
 
   const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
     GET_MY_PET_RANKING_DATA,
-    () => getMyPetRanking(1),
+    () => getMyPetRanking(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -127,7 +127,7 @@ function Profile() {
           <div className="home-page-dog-history-header-profile-detail-third">
             <div>{todayDate}</div>
             <div className="home-page-dog-history-header-profile-detail-third-point">
-              {myPetRankingData?.data.weeklyPoint} P
+              {myPetRankingData?.data?.weeklyPoint} P
             </div>
           </div>
         </div>

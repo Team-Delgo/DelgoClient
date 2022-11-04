@@ -237,11 +237,6 @@
                 border-radius: 4px;
                 margin-bottom: 7px;
 
-                img {
-                    border-radius: 4px;
-                    object-fit: contain;
-                }
-
                 .home-page-dog-history-body-ranking-detail-rank {
                     display: flex;
                     justify-content: center;
@@ -265,6 +260,7 @@
                     img{
                         width: 49px;
                         height: 49px;
+                        border-radius: 2px;
                         object-fit: contain
                     }
                     &-name-point {

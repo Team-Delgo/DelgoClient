@@ -12,7 +12,7 @@ function ActivityLog() {
 
   const { isLoading: getCertificationDataCountIsLoading, data: certificationDataCount } = useQuery(
     GET_CERTIFICATION_DATA_COUNT,
-    () => getCertificationDataCount(1),
+    () => getCertificationDataCount(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
