@@ -62,6 +62,7 @@ function CaptureCategoryRecord() {
   const { categoryKo, img, latitude, longitude, mongPlaceId, title } = useSelector(
     (state: RootState) => state.persist.upload,
   );
+  const {user} = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
@@ -84,7 +85,7 @@ function CaptureCategoryRecord() {
     console.log(img);
     registerCertificationPost(
       {
-        userId: 1,
+        userId: user.id,
         categoryCode: categoryCode[categoryKo],
         mungpleId: mongPlaceId,
         placeName: title,
