@@ -147,34 +147,34 @@
                     color: #91CF9B;
                 }
             }
-
+    
             &-cafe {
                 &-count {
                     color: #CCB7A3;
                 }
             }
-
+    
             &-restaurant {
                 &-count {
-                    color: #FFE58A;
+                    color: #FFE99B;
                 }
             }
-
+    
             &-hospital {
+                &-count {
+                    color: #DACDFF;
+                }
+            }
+    
+            &-beauty {
                 &-count {
                     color: #FFCCE8;
                 }
             }
-
-            &-beauty {
-                &-count {
-                    color: #BEF0F7;
-                }
-            }
-
+    
             &-bath {
                 &-count {
-                    color: #DACDFF;
+                    color: #9FD7FF;
                 }
             }
         }
