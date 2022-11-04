@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import './NeighborRankingPage.scss';
+import { RootState } from '../../redux/store';
 
 interface rankingType {
   geoCode: string;
@@ -17,11 +19,12 @@ const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 function NeighborRankingPage() {
   const location: any = useLocation();
   const navigate = useNavigate();
+  const {user,pet} = useSelector((state: RootState) => state.persist.user);
   
   useEffect(() => {
     window.scroll(0, 0);
     console.log(location.state?.topRankingDataList);
-    console.log(location.state?.myPetRankingData);
+    console.log('location.state?.myPetRankingData', location.state?.myPetRankingData);
   }, []);
 
   const moveToHomePage = () => {
@@ -41,28 +44,28 @@ function NeighborRankingPage() {
         <body className="neighbor-ranking-page-header-my-pet">
           <img
             className="neighbor-ranking-page-header-my-pet-img"
-            src={`${process.env.PUBLIC_URL}/assets/dog-img.png`}
+            src={pet.image}
             alt="copy url"
           />
           <div className="neighbor-ranking-page-header-my-pet-profie">
             <div className="neighbor-ranking-page-header-my-pet-profie-address">서울시 송파구</div>
-            <div className="neighbor-ranking-page-header-my-pet-profie-name">몽자</div>
+            <div className="neighbor-ranking-page-header-my-pet-profie-name">{pet.name}</div>
           </div>
         </body>
       </header>
       <body className="neighbor-ranking-page-body" style={neighborRankingPageBodyStyle}>
         <header className="neighbor-ranking-page-body-my-pet">
           <div className="neighbor-ranking-page-body-my-pet-first">
-            <div className="neighbor-ranking-page-body-my-pet-first-ranking">123</div>
+            <div className="neighbor-ranking-page-body-my-pet-first-ranking">{location.state?.myPetRankingData?.ranking}</div>
             <img
               className="neighbor-ranking-page-body-my-pet-first-img"
-              src={`${process.env.PUBLIC_URL}/assets/dog-img.png`}
+              src={pet.image}
               alt="copy url"
             />
-            <div className="neighbor-ranking-page-body-my-pet-first-name">몽자</div>
+            <div className="neighbor-ranking-page-body-my-pet-first-name">{pet.name}</div>
           </div>
           <div className="neighbor-ranking-page-body-my-pet-point">
-            {location.state?.myPetRankingData.weeklyPoint} p
+            {location.state?.myPetRankingData?.weeklyPoint} p
           </div>
         </header>
         {location.state?.topRankingDataList?.map((rangker: rankingType) => (

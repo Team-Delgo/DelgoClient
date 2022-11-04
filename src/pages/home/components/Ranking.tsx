@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/no-this-in-sfc */
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,11 +25,11 @@ interface rankingType {
 function Ranking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {  pet } = useSelector((state: RootState) => state.persist.user);
+  const { user, pet } = useSelector((state: RootState) => state.persist.user);
 
   const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
     GET_TOP_RANKING_LIST,
-    () => getTopRankingList(101180),
+    () => getTopRankingList(Number(user.geoCode)),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -43,7 +41,7 @@ function Ranking() {
 
   const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
     GET_MY_PET_RANKING_DATA,
-    () => getMyPetRanking(1),
+    () => getMyPetRanking(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -71,15 +69,15 @@ function Ranking() {
             <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">{pet.name} /</span>
             <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number">
               {' '}
-              {myPetRankingData?.data.ranking}등
+              {myPetRankingData?.data?.ranking}등
             </span>
           </div>
           <div className="home-page-dog-history-body-ranking-summary-first-line-point">
-            {myPetRankingData?.data.weeklyPoint}p
+            {myPetRankingData?.data?.weeklyPoint}p
           </div>
         </div>
         <div className="home-page-dog-history-body-ranking-summary-second-line">
-          지난 주&nbsp;{myPetRankingData?.data.lastRanking}등
+          지난 주&nbsp;{myPetRankingData?.data?.lastRanking}등
         </div>
       </header>
       <main className="home-page-dog-history-body-ranking-detail">

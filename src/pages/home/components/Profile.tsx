@@ -63,7 +63,7 @@ function Profile() {
 
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
     GET_ACHIEVEMENT_LIST,
-    () => getAchievementListByMain(1),
+    () => getAchievementListByMain(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -75,7 +75,7 @@ function Profile() {
 
   const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
     GET_MY_PET_RANKING_DATA,
-    () => getMyPetRanking(1),
+    () => getMyPetRanking(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -117,7 +117,7 @@ function Profile() {
     <header className="home-page-dog-history-header">
       <img className="home-page-dog-history-header-logo" src={DelgoWhite} alt="copy url" />
       <header className="home-page-dog-history-header-profile" aria-hidden="true" onClick={moveToMyAccountPage}>
-        <img src={pet.image} alt="copy url" width={72} height={72} />
+        <img className="home-page-dog-history-header-profile-img" src={pet.image} alt="copy url" width={72} height={72} />
         <div className="home-page-dog-history-header-profile-detail">
           <div className="home-page-dog-history-header-profile-detail-first">서울시 송파구</div>
           <div className="home-page-dog-history-header-profile-detail-second">
@@ -127,7 +127,7 @@ function Profile() {
           <div className="home-page-dog-history-header-profile-detail-third">
             <div>{todayDate}</div>
             <div className="home-page-dog-history-header-profile-detail-third-point">
-              {myPetRankingData?.data.weeklyPoint} P
+              {myPetRankingData?.data?.weeklyPoint} P
             </div>
           </div>
         </div>
