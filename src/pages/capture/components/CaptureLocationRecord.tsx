@@ -120,7 +120,6 @@ function CaptureLocationRecord() {
   };
 
   const selectManualPlace = () => {
-    console.log(1);
     setManualChecked(true);
     dispatch(uploadAction.setMongPlace({ mungpleId: 0, placeName }));
     setTimeout(() => {

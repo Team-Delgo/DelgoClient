@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
@@ -14,6 +14,7 @@ import Etc from '../../../common/icons/etc.svg';
 import { CACHE_TIME, GET_CERTIFICATION_DATA_COUNT, STALE_TIME } from '../../../common/constants/queryKey.const';
 import { getCertificationDataCount } from '../../../common/api/certification';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
+import { RootState } from '../../../redux/store';
 
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
@@ -25,11 +26,11 @@ function CaptureImgRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
-
+  const { user } = useSelector((state: RootState) => state.persist.user);
 
   const { isLoading: getCertificationDataCountIsLoading, data: certificationDataCount } = useQuery(
     GET_CERTIFICATION_DATA_COUNT,
-    () => getCertificationDataCount(1),
+    () => getCertificationDataCount(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,

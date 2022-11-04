@@ -65,7 +65,7 @@ function AchievementPage() {
 
   const getgetAchievementDataList = async () => {
     await getAchievementList(
-      1,
+      user.id,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
 
