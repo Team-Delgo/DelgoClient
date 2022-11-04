@@ -15,16 +15,22 @@ import {
   TailSpin,
   ThreeDots,
 } from 'react-loading-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Point from '../../../common/icons/point.svg';
 import AchievementHospital from '../../../common/icons/achievement-hospital.svg';
 import DelgoWhite from '../../../common/icons/delgo-white.svg';
 import RightArrow from '../../../common/icons/right-arrow.svg';
-import { ACHIEVEMENT_PATH,MY_ACCOUNT_PATH } from '../../../common/constants/path.const';
+import { ACHIEVEMENT_PATH, MY_ACCOUNT_PATH } from '../../../common/constants/path.const';
 import { getAchievementList, getAchievementListByMain } from '../../../common/api/achievement';
-import { CACHE_TIME, GET_ACHIEVEMENT_LIST, GET_MY_PET_RANKING_DATA, STALE_TIME } from '../../../common/constants/queryKey.const';
+import {
+  CACHE_TIME,
+  GET_ACHIEVEMENT_LIST,
+  GET_MY_PET_RANKING_DATA,
+  STALE_TIME,
+} from '../../../common/constants/queryKey.const';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { getMyPetRanking } from '../../../common/api/ranking';
+import { RootState } from '../../../redux/store';
 
 
 interface AchievementDataType {
@@ -49,6 +55,7 @@ function Profile() {
   const [todayDate, SetTodayDate] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {user,pet} = useSelector((state: RootState) => state.persist.user);
 
   useEffect(() => {
     getTodayDateStr();
@@ -110,11 +117,11 @@ function Profile() {
     <header className="home-page-dog-history-header">
       <img className="home-page-dog-history-header-logo" src={DelgoWhite} alt="copy url" />
       <header className="home-page-dog-history-header-profile" aria-hidden="true" onClick={moveToMyAccountPage}>
-        <img src={`${process.env.PUBLIC_URL}/assets/dog-img.png`} alt="copy url" />
+        <img src={pet.image} alt="copy url" width={72} height={72} />
         <div className="home-page-dog-history-header-profile-detail">
           <div className="home-page-dog-history-header-profile-detail-first">서울시 송파구</div>
           <div className="home-page-dog-history-header-profile-detail-second">
-            <div>다크서은</div>
+            <div>{user.nickname}</div>
             <img src={Point} alt="point-img" />
           </div>
           <div className="home-page-dog-history-header-profile-detail-third">
@@ -127,7 +134,7 @@ function Profile() {
       </header>
       <body className="home-page-dog-history-header-achievements">
         <div aria-hidden="true" onClick={moveToAchievementPage}>
-          <span>몽자의 대표 업적&nbsp;</span>
+          <span>{pet.name}의 대표 업적&nbsp;</span>
           <img
             className="home-page-dog-history-header-achievements-right-arrow-img"
             src={RightArrow}

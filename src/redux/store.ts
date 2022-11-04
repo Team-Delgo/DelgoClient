@@ -5,6 +5,7 @@ import { persistReducer } from 'redux-persist';
 import errorSlice from './slice/errorSlice';
 import deviceSlice from './slice/deviceSlice';
 import uploadSlice from './slice/uploadSlice';
+import userSlice from './slice/userSlice';
 
 
 const persistConfig = {
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   error: errorSlice,
   device: deviceSlice,
   upload: uploadSlice,
+  user:userSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { getCertificationDataCount } from '../../../common/api/certification';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { GET_CERTIFICATION_DATA_COUNT, CACHE_TIME, STALE_TIME } from '../../../common/constants/queryKey.const';
+import { RootState } from '../../../redux/store';
 
 function ActivityLog() {
   const dispatch = useDispatch();
+  const {user,pet} = useSelector((state: RootState) => state.persist.user);
 
   const { isLoading: getCertificationDataCountIsLoading, data: certificationDataCount } = useQuery(
     GET_CERTIFICATION_DATA_COUNT,
@@ -21,7 +23,7 @@ function ActivityLog() {
   );
   return (
     <div className="home-page-dog-history-body-activity-log">
-      <header className="home-page-dog-history-body-activity-log-title">다크서은의 히스토리</header>
+      <header className="home-page-dog-history-body-activity-log-title">{user.nickname}의 히스토리</header>
       <div className="home-page-dog-history-body-activity-log-sub-title">지난 활동기록을 항목별로 확인해요</div>
       <div className="home-page-dog-history-body-activity-log-line">
         <div className="home-page-dog-history-body-activity-log-line-walk">
