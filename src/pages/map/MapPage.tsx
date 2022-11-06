@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ import './MapPage.scss';
 import park from './park.jpg';
 import { dummyData } from './dummypin';
 import { getMapData } from '../../common/api/record';
-import { Mungple, Cert } from './MapType';
+import { Mungple, Cert, certDefault, idDefault } from './MapType';
 import { markerRender } from './MarkerRender';
 import UserLocation from '../../common/icons/user-location.svg';
 import Bath from '../../common/icons/bath-map.svg';
@@ -27,6 +27,7 @@ import EatSmall from '../../common/icons/eat-map-small.svg';
 import PlaceCard from './PlaceCard';
 import UserPin from '../../common/icons/userpin.svg';
 import MungpleToggle from './MungpleToggle';
+import CertCard from './CertCard';
 
 interface MakerItem {
   id: number;
@@ -35,6 +36,7 @@ interface MakerItem {
 
 function MapPage() {
   const mapElement = useRef(null);
+  const userId = useSelector((state:any) => state.persist.user.user.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mungple, setMungple] = useState('ON');
@@ -44,19 +46,8 @@ function MapPage() {
   const [certNormalList, setCertNormalList] = useState<Cert[]>([]);
   const [certMungpleList, setCertMungpleList] = useState<Cert[]>([]);
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
-  const [selectedId, setSelectedId] = useState({
-    img: '',
-    title: '',
-    address: '',
-    id: 0,
-    prevId: 0,
-    lat: 0,
-    lng: 0,
-    categoryCode: '0',
-    prevLat: 0,
-    prevLng: 0,
-    prevCategoryCode: '0',
-  });
+  const [selectedCert, setSelectedCert] = useState<Cert>(certDefault);
+  const [selectedId, setSelectedId] = useState(idDefault);
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [test, setTest] = useState({ value: 1 });
@@ -72,9 +63,27 @@ function MapPage() {
 
   let map: naver.maps.Map;
 
+  const clearSelectedId = () => {
+    setSelectedId((prev) => {
+      return {
+        img: '',
+        title: '',
+        address: '',
+        id: 0,
+        prevId: prev.id,
+        lat: 0,
+        lng: 0,
+        categoryCode: '0',
+        prevLat: prev.lat,
+        prevLng: prev.lng,
+        prevCategoryCode: prev.categoryCode,
+      };
+    });
+  };
+
   const getMapPageData = async () => {
     await getMapData(
-      0,
+      userId,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
         setCertMungpleList(data.certMungpleList);
@@ -99,10 +108,10 @@ function MapPage() {
     });
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const userMarkerOption = {
       position: new window.naver.maps.LatLng(userLocation.lat, userLocation.lng),
-      map:globarMap!,
+      map: globarMap!,
       icon: {
         content: [`<div class="userMarker">`, `<img src=${UserPin} alt="user"/>`, `</div>`].join(''),
         size: new naver.maps.Size(33, 33),
@@ -116,7 +125,7 @@ function MapPage() {
       duration: 500,
       easing: 'easeOutCubic',
     });
-  },[userLocation]);
+  }, [userLocation]);
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
@@ -128,25 +137,12 @@ function MapPage() {
     };
 
     map = new naver.maps.Map(mapElement.current, mapOptions);
-    
+
     setGlobarMap(map);
     setIsLoading(false);
     naver.maps.Event.addListener(map, 'tap', () => {
-      setSelectedId((prev) => {
-        return {
-          img: '',
-          title: '',
-          address: '',
-          id: 0,
-          prevId: prev.id,
-          lat: 0,
-          lng: 0,
-          categoryCode: '0',
-          prevLat: prev.lat,
-          prevLng: prev.lng,
-          prevCategoryCode: prev.categoryCode,
-        };
-      });
+      clearSelectedId();
+      setSelectedCert(certDefault);
     });
   }, []);
 
@@ -170,7 +166,17 @@ function MapPage() {
         };
         const marker = new naver.maps.Marker(markerOptions);
         marker.addListener('click', () => {
-          navigate(`/post/?userId=${1}&postId=${data.certificationId}`);
+          setSelectedCert((prev) => {
+            return {
+              ...prev,
+              categoryCode: data.categoryCode,
+              certificationId: data.certificationId,
+              description: data.description,
+              photoUrl: data.photoUrl,
+              placeName: data.placeName,
+              registDt: data.registDt,
+            };
+          });
         });
         return marker;
       });
@@ -182,7 +188,7 @@ function MapPage() {
           map: globarMap!,
           icon: {
             content: [
-              `<div class="pin${currentLocation.option.zoom} mungplepin" style="z-index:${data.certificationId}">`,
+              `<div class="pin${currentLocation.option.zoom} mungplepin ${data.categoryCode}" style="z-index:${data.certificationId}">`,
               `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
               `</div>`,
             ].join(''),
@@ -192,7 +198,17 @@ function MapPage() {
         };
         const marker = new naver.maps.Marker(markerOptions);
         marker.addListener('click', () => {
-          navigate(`/post/?userId=${1}&postId=${data.certificationId}`);
+          setSelectedCert((prev) => {
+            return {
+              ...prev,
+              categoryCode: data.categoryCode,
+              certificationId: data.certificationId,
+              description: data.description,
+              photoUrl: data.photoUrl,
+              placeName: data.placeName,
+              registDt: data.registDt,
+            };
+          });
         });
         return marker;
       });
@@ -295,9 +311,9 @@ function MapPage() {
         }
         const marker = new naver.maps.Marker(markerOptions);
         //  선택된 한개의 마커 변경
-        // - 선택된 마커 찾기 
-        // - 선택된 마커 바꾸기 
-        // - 선택된 마커 기억하기 
+        // - 선택된 마커 찾기
+        // - 선택된 마커 바꾸기
+        // - 선택된 마커 기억하기
         // 다른 것을 선택하면 기존의 마커 원래대로
         // - 기억했던 마커 찾기
         // - 기억했던 마커 바꾸기
@@ -523,10 +539,12 @@ function MapPage() {
 
   const mungpleButtonHandler = () => {
     setMungple('OFF');
+    setSelectedId(idDefault);
   };
   const munpleOnButtonHandler = () => {
     setMungple('ON');
-  }
+    setSelectedCert(certDefault);
+  };
 
   const setCenterUserLocation = () => {
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -559,7 +577,7 @@ function MapPage() {
         <div aria-hidden="true" className="userLocation" onClick={setCenterUserLocation}>
           <img src={UserLocation} alt="user-location" />
         </div>
-        <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler}/>
+        <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler} />
         {/* {!isLoading && (
           <div
             aria-hidden="true"
@@ -571,7 +589,21 @@ function MapPage() {
         )} */}
       </div>
       {selectedId.title.length > 0 && (
-        <PlaceCard img={selectedId.img} title={selectedId.title} address={selectedId.address} categoryCode={selectedId.categoryCode} />
+        <PlaceCard
+          img={selectedId.img}
+          title={selectedId.title}
+          address={selectedId.address}
+          categoryCode={selectedId.categoryCode}
+        />
+      )}
+      {selectedCert.placeName.length > 0 && (
+        <CertCard
+          img={selectedCert.photoUrl}
+          title={selectedCert.placeName}
+          categoryCode={selectedCert.categoryCode}
+          registDt={selectedCert.registDt}
+          description={selectedCert.description}
+        />
       )}
       <FooterNavigation />
     </div>

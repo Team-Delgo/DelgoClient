@@ -13,6 +13,35 @@ export interface Cert{
   registDt:string;
   userId:number;
 }
+export const certDefault:Cert = {
+  categoryCode:'',
+  certificationId:0,
+  description:'',
+  geoCode:'',
+  isPhotoChecked:0,
+  latitude:'',
+  longitude:'',
+  mungpleId:0,
+  p_geoCode:'',
+  photoUrl:'',
+  placeName:'',
+  registDt:'',
+  userId:0
+};
+
+export const idDefault = {
+  img: '',
+    title: '',
+    address: '',
+    id: 0,
+    prevId: 0,
+    lat: 0,
+    lng: 0,
+    categoryCode: '0',
+    prevLat: 0,
+    prevLng: 0,
+    prevCategoryCode: '0',
+}
 
 export interface Mungple{
   categoryCode:string;

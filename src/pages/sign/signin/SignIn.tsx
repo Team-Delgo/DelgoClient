@@ -121,7 +121,7 @@ function SignIn() {
               계속
             </button>
             <div className="login-signup-wrapper">
-              <div
+              {/* <div
                 aria-hidden="true"
                 className="login-signup-text"
                 onClick={() => {
@@ -129,7 +129,7 @@ function SignIn() {
                 }}
               >
                 가입없이 둘러보기
-              </div>
+              </div> */}
               <div
                 aria-hidden="true"
                 className="login-signup-text"
