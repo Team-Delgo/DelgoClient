@@ -50,7 +50,6 @@ import PhoneAuth from './pages/sign/password/PhoneAuth';
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
 
-import CaptureCategoryUpatePage from './pages/certification/capture/CaptureCategoryUpatePage';
 import PreventBack from './pages/sign/signin/PreventBack';
 
 import { RootState } from './redux/store';
@@ -73,13 +72,13 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSignIn) {
-      navigate(ROOT_PATH);
-    } else {
-      navigate(SIGN_IN_PATH.MAIN);
-    }
-  }, [isSignIn]);
+  // useEffect(() => {
+  //   if (isSignIn) {
+  //     navigate(ROOT_PATH);
+  //   } else {
+  //     navigate(SIGN_IN_PATH.MAIN);
+  //   }
+  // }, [isSignIn]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -113,6 +112,7 @@ function App() {
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
+
       </Routes>
     </QueryClientProvider>
   );
