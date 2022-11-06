@@ -6,6 +6,14 @@
   height: 3vh;
   justify-content: space-evenly;
   background-color: white;
+  &-divider{
+    position: absolute;
+    top: 18vh;
+    transform: translateY(-3px);
+    width: 100%;
+    height: 3px;
+    background-color: #ececec;
+  }
   &-wrapper {
     background-color: white;
     height: 17vh;

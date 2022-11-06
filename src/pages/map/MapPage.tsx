@@ -534,7 +534,9 @@ function MapPage() {
 
   const mapStyle = {
     width: '100vw',
-    height: '83vh',
+    height: '80vh',
+    position: 'absolute',
+    bottom: 0,
   };
 
   const mungpleButtonHandler = () => {
@@ -573,7 +575,7 @@ function MapPage() {
   return (
     <div>
       <RecordHeader />
-      <div ref={mapElement} style={mapStyle}>
+      <div className='map' ref={mapElement} style={{position:'absolute'}}>
         <div aria-hidden="true" className="userLocation" onClick={setCenterUserLocation}>
           <img src={UserLocation} alt="user-location" />
         </div>

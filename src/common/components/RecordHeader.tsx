@@ -35,6 +35,7 @@ function RecordHeader() {
       <div aria-hidden="true" id="calendar" className={classNames("recordHeader-item", { select: tab==="calendar" })} onClick={clickHandler}>달력</div>
       <div aria-hidden="true" id="map" className={classNames("recordHeader-item", { select: tab==="map" })} onClick={clickHandler}>지도</div>
     </div>
+    <div className="recordHeader-divider"/>
   </div>
 }
 
