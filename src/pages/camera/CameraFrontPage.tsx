@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
+import Cropper from 'react-easy-crop'
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg'
@@ -65,9 +66,32 @@ function CameraFrontPage() {
       const galleryImg = URL.createObjectURL(event.target.files[0]);
 
       dispatch(uploadAction.setImg({ img: galleryImg, tool: 'gallery', file: event.target.files[0] }));
-      moveToNextPage();
+      setImg(galleryImg)
+      // moveToNextPage();
     }
   };
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const [img,setImg] = useState('')
+
+  const onCropComplete = (croppedArea:any, croppedAreaPixels:any) => {
+    console.log(croppedArea, croppedAreaPixels)
+  }
+
+  if (img !== '') {
+    return (
+      <Cropper
+        image={img}
+        crop={crop}
+        zoom={zoom}
+        aspect={1}
+        onCropChange={setCrop}
+        onCropComplete={onCropComplete}
+        onZoomChange={setZoom}
+      />
+    );
+  }
 
   return (
     <>
@@ -79,7 +103,7 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <Webcam
+        {/* <Webcam
           ref={cameraRef}
           className="web-camera"
           screenshotFormat="image/jpeg"
@@ -90,7 +114,7 @@ function CameraFrontPage() {
             facingMode: { exact: 'user' },
             aspectRatio: 1 / 1,
           }}
-        />
+        /> */}
         <div className="camera-page-icon-container">
           <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
           <img
@@ -100,12 +124,7 @@ function CameraFrontPage() {
             aria-hidden="true"
             onClick={captureImg}
           />
-          <img
-            src={CameraTransition}
-            alt="camera-transition-button"
-            aria-hidden="true"
-            onClick={swtichCamera}
-          />
+          <img src={CameraTransition} alt="camera-transition-button" aria-hidden="true" onClick={swtichCamera} />
         </div>
         <input
           type="file"
