@@ -7,6 +7,7 @@ import NeighborPosts from './components/NeighborPosts';
 import './HomePage.scss';
 
 function HomePage() {
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);

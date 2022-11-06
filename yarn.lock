@@ -5130,7 +5130,7 @@
   "resolved" "https://registry.npmjs.org/hey-listen/-/hey-listen-1.0.8.tgz"
   "version" "1.0.8"
 
-"history@^5.2.0":
+"history@^5.2.0", "history@^5.3.0":
   "integrity" "sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ=="
   "resolved" "https://registry.npmjs.org/history/-/history-5.3.0.tgz"
   "version" "5.3.0"

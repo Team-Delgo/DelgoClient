@@ -131,17 +131,6 @@ function MapPage() {
     
     setGlobarMap(map);
     setIsLoading(false);
-    // naver.maps.Event.addListener(map, 'zoom_changed', () => {
-    //   setTimeout(() => {
-    //     const location = map.getCenter();
-    //     const zoom = map.getZoom();
-    //     let option: { size: number; zoom: number } = { zoom: 2, size: 70 };
-    //     if (zoom > 20) option = { zoom: 3, size: 100 };
-    //     else if (zoom > 10) option = { zoom: 2, size: 70 };
-    //     else option = { zoom: 1, size: 13 };
-    //     setCurrentLocation({ lat: location.y, lng: location.x, zoom, option });
-    //   }, 200);
-    // });
     naver.maps.Event.addListener(map, 'tap', () => {
       setSelectedId((prev) => {
         return {
@@ -305,6 +294,13 @@ function MapPage() {
           };
         }
         const marker = new naver.maps.Marker(markerOptions);
+        //  선택된 한개의 마커 변경
+        // - 선택된 마커 찾기 
+        // - 선택된 마커 바꾸기 
+        // - 선택된 마커 기억하기 
+        // 다른 것을 선택하면 기존의 마커 원래대로
+        // - 기억했던 마커 찾기
+        // - 기억했던 마커 바꾸기
         marker.addListener('click', () => {
           setSelectedId((prev) => {
             return {

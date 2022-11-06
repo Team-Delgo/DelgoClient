@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './SignIn.scss';
 import { AxiosResponse } from 'axios';
+import { createBrowserHistory } from 'history';
 import AppleLogin from 'react-apple-login';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as Kakao } from '../../../common/icons/kakao.svg';
 import { ReactComponent as Naver } from '../../../common/icons/naver.svg';
 import { ReactComponent as Apple } from '../../../common/icons/apple.svg';
@@ -22,15 +23,45 @@ function SignIn() {
   const [feedback, setFeedback] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
   const navigation = useNavigate();
+  const history = createBrowserHistory();
+  // const location: any = useLocation();
   const dispatch = useDispatch();
+  
+  const preventGoBack = () => {
+    // change start
+    window.history.pushState(null, '', window.location.href);
+    // change end
+    console.log('prevent go back!');
+  };
 
   useEffect(() => {
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('accessToken')
+    if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
+      navigation('/');
+    }
+    // localStorage.removeItem('refreshToken');
+    // localStorage.removeItem('accessToken')
     setTimeout(() => {
       setLoading(false);
     }, 700);
+    
+    // history.replace(window.location.href);
+
+    // window.addEventListener('popstate',()=>{
+    //   window.history.pushState(null,'','/preventback');
+    // })
+    
+    // console.log(1);
+    // console.log(window.history);
+    
+    // window.history.pushState(null, '', window.location.href);
+    // console.log(window.history);
+    // window.addEventListener('popstate', preventGoBack);
+    
+    // return () => window.removeEventListener('popstate', preventGoBack);
   }, []);
+
+  
+
 
   const enterKey = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
