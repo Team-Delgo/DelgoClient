@@ -182,7 +182,7 @@ function MapPage() {
           map: globarMap!,
           icon: {
             content: [
-              `<div class="pin${currentLocation.option.zoom} mungplepin" style="z-index:${data.certificationId}">`,
+              `<div class="pin${currentLocation.option.zoom} mungplepin ${data.categoryCode}" style="z-index:${data.certificationId}">`,
               `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
               `</div>`,
             ].join(''),

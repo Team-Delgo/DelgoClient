@@ -52,48 +52,97 @@
 
 .pin2 {
   position: absolute;
-  width: 70px;
-  height: 70px;
-  display: flex;
+  width: 50px;
+  height: 50px;
+  // display: flex;
   z-index: 100;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
+  // justify-content: center;
+  // align-items: center;
+  border: 1px solid #565656;
   border-radius: 100%;
   background-color: white;
-
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
   img {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     z-index: 10;
-    width: 65px;
-    height: 65px;
+    width: 45px;
+    height: 45px;
     border-radius: 100%;
   }
 
   &::after {
-    border-top: 5px solid white;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
+    border-top: 11px solid white;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
     border-bottom: 0px solid transparent;
     content: "";
     position: absolute;
-    top: 69px;
+    top: 97%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   &::before {
-    border-top: 5px solid black;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
+    border-top: 11px solid #565656;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
     border-bottom: 0px solid transparent;
     content: "";
     position: absolute;
-    top: 70px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   &.mungplepin{
-    background-color: #ff9162;
+    border: 1px solid white;
+    &::before{
+      border-top: 11px solid white;
+    }
+  }
+
+  &.CA0001{
+    background-color: #9FD7FF;
     &::after {
-      border-top: 5px solid #ff9162;
+      border-top: 11px solid #9FD7FF;
+    }
+  }
+
+  &.CA0002{
+    background-color: #CCB7A3;
+    &::after {
+      border-top: 11px solid #CCB7A3;
+    }
+  }
+
+  &.CA0003{
+    background-color: #ffcce8;
+    &::after {
+      border-top: 11px solid #ffcce8;
+    }
+  }
+
+  &.CA0004{
+    background-color: #91CF9B;
+    &::after {
+      border-top: 11px solid #91CF9B;
+    }
+  }
+
+  &.CA0005{
+    background-color: #AA93EC;
+    &::after {
+      border-top: 11px solid #AA93EC;
+    }
+  }
+
+  &.CA0006{
+    background-color: #FFE99B;
+    &::after {
+      border-top: 11px solid #FFE99B;
     }
   }
 }
