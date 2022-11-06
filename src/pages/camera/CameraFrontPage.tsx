@@ -2,15 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
-import Cropper from 'react-easy-crop'
+import Cropper from 'react-easy-crop';
+import { Point, Area } from 'react-easy-crop/types';
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
-import Gallery from '../../common/icons/gallery.svg'
+import Gallery from '../../common/icons/gallery.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
+import getCroppedImg from '../../common/utils/CropImg';
+
 
 const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
 
@@ -57,8 +60,7 @@ function CameraFrontPage() {
 
   const uploadImg = (event: { target: HTMLInputElement }) => {
     if (event.target.files) {
-      console.log(1)
-      if (!event.target.files[0].type.includes((event.target.files as FileList)[0].type)) {
+      if (!imgExtension.includes((event.target.files as FileList)[0].type)) {
         setImgExtensionAlert(true); 
         return;
       }
@@ -75,21 +77,54 @@ function CameraFrontPage() {
   const [zoom, setZoom] = useState(1)
   const [img,setImg] = useState('')
 
-  const onCropComplete = (croppedArea:any, croppedAreaPixels:any) => {
-    console.log(croppedArea, croppedAreaPixels)
-  }
+  const [rotation, setRotation] = useState(0)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
+  const [croppedImage, setCroppedImage] = useState<any>(null)
+  
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    // console.log(croppedArea, croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels)
+  };
+
+  const showCroppedImage = async () => {
+    try {
+      const croppedImage = await getCroppedImg(img, croppedAreaPixels);
+      console.log(croppedImage);
+
+      const filename = (croppedImage as string).split('/').pop(); // url 구조에 맞게 수정할 것
+      const metadata = { type: `image/jpeg` };
+      const newFile = new File([croppedImage as string], filename!, metadata);
+
+      setCroppedImage(croppedImage);
+      dispatch(uploadAction.setImg({ img: croppedImage, tool: 'gallery', file: newFile }));
+      moveToNextPage()
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   if (img !== '') {
     return (
-      <Cropper
-        image={img}
-        crop={crop}
-        zoom={zoom}
-        aspect={1}
-        onCropChange={setCrop}
-        onCropComplete={onCropComplete}
-        onZoomChange={setZoom}
-      />
+      <>
+        {/* <div className="crop-container"> */}
+          <div className="crop-wrapper">
+            <Cropper
+              image={img}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+            />
+          </div>
+        {/* </div> */}
+        <div className="crop-button-wrapper">
+          <button type="submit" onClick={showCroppedImage}>
+            선택
+          </button>
+        </div>
+      </>
     );
   }
 
@@ -103,7 +138,7 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        {/* <Webcam
+        <Webcam
           ref={cameraRef}
           className="web-camera"
           screenshotFormat="image/jpeg"
@@ -114,7 +149,7 @@ function CameraFrontPage() {
             facingMode: { exact: 'user' },
             aspectRatio: 1 / 1,
           }}
-        /> */}
+        />
         <div className="camera-page-icon-container">
           <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
           <img

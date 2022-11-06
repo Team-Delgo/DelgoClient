@@ -129,30 +129,31 @@ function CaptureCategoryRecord() {
         latitude: latitude.toString(),
         longitude: longitude.toString(),
       },
-      async (response: AxiosResponse) => {
+       async (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
-          const options = {
-            maxSizeMB: 0.2,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true,
-          };
-          const compressedFile = await imageCompression(file as unknown as File, options);
-
-          const reader = new FileReader();
-          reader.readAsDataURL(compressedFile);
-          reader.onloadend = async () => {
-            const base64data = reader.result;
-            const formData = await handlingDataForm(base64data);
-
+          try {
+            const options = {
+              maxSizeMB: 0.2,
+              maxWidthOrHeight: 1920,
+              useWebWorker: true,
+            };
+            formData.append('photo',file)
             registerGalleryCertificationImg(
               formData,
               data.certificationId,
               (response: AxiosResponse) => {
-                console.log(response);
+                console.log('2번째',response);
                 const { code, codeMsg } = response.data;
                 if (code === 200) {
+                  dispatch(
+                    uploadAction.setContentRegistDtCertificationId({
+                      content: certificationPostContent,
+                      registDt: data.registDt,
+                      certificationId: data.certificationId,
+                    }),
+                  );
                   openCertificateCompletionAlert();
                 } else {
                   setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
@@ -161,17 +162,46 @@ function CaptureCategoryRecord() {
               },
               dispatch,
             );
-
-            dispatch(
-              uploadAction.setContentRegistDtCertificationId({
-                content: certificationPostContent,
-                registDt: data.registDt,
-                certificationId: data.certificationId,
-              }),
-            );
-            openCertificateCompletionAlert();
-          };
-          formData.append('photo', file as unknown as File);
+            // console.log('이미지압축전');
+            // const compressedFile = await imageCompression(file as unknown as File, options);
+            // console.log('이미지압축후');
+            // const reader = new FileReader();
+            // reader.readAsDataURL(compressedFile);
+            // reader.onloadend = async () => {
+            //   const base64data = reader.result;
+            //   console.log('base64data',base64data)
+            //   const formData = await handlingDataForm(base64data);
+  
+            //   console.log(formData)
+  
+            //   registerGalleryCertificationImg(
+            //     formData,
+            //     data.certificationId,
+            //     (response: AxiosResponse) => {
+            //       console.log('2번째',response);
+            //       const { code, codeMsg } = response.data;
+            //       if (code === 200) {
+            //         openCertificateCompletionAlert();
+            //       } else {
+            //         setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
+            //         openCertificateErrorAlert();
+            //       }
+            //     },
+            //     dispatch,
+            //   );
+  
+            //   dispatch(
+            //     uploadAction.setContentRegistDtCertificationId({
+            //       content: certificationPostContent,
+            //       registDt: data.registDt,
+            //       certificationId: data.certificationId,
+            //     }),
+            //   );
+            //   openCertificateCompletionAlert();
+            // };
+          } catch (err: any) {
+            console.log('err',err);
+          }
         } else if (code === 314) {
           setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
           openCertificateErrorAlert();
@@ -187,7 +217,7 @@ function CaptureCategoryRecord() {
     );
   };
 
-  const handlingDataForm = (dataURI: any) => {
+  const handlingDataForm = async (dataURI: any) => {
     const byteString = atob(dataURI.split(',')[1]);
 
     const ab = new ArrayBuffer(byteString.length);
@@ -202,6 +232,8 @@ function CaptureCategoryRecord() {
 
     const formData = new FormData();
     formData.append('photo', file);
+
+    console.log(formData,formData)
 
     return formData;
   };
