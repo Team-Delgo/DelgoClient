@@ -88,7 +88,7 @@ function CaptureCategoryRecord() {
         longitude: longitude.toString(),
         photo: img,
       },
-       (response: AxiosResponse) => {
+      (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
@@ -99,6 +99,7 @@ function CaptureCategoryRecord() {
               certificationId: data.certificationId,
             }),
           );
+          openCertificateCompletionAlert();
         } else if (code === 314) {
           setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
           openCertificateErrorAlert();
@@ -132,37 +133,45 @@ function CaptureCategoryRecord() {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
-          // const options = {
-          //   maxSizeMB: 0.2,
-          //   maxWidthOrHeight: 1920,
-          //   useWebWorker: true,
-          // };
-          // const compressedFile = await imageCompression(file, options);
-          formData.append('photo', (file) as unknown as Blob);
-          registerGalleryCertificationImg(
-            formData,
-            data.certificationId,
-            (response: AxiosResponse) => {
-              console.log(response);
-              const { code, codeMsg } = response.data;
-              if (code === 200) {
-                openCertificateCompletionAlert();
-              } else {
-                setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-                openCertificateErrorAlert();
-              }
-            },
-            dispatch,
-          );
+          const options = {
+            maxSizeMB: 0.2,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          };
+          const compressedFile = await imageCompression(file as unknown as File, options);
 
-          dispatch(
-            uploadAction.setContentRegistDtCertificationId({
-              content: certificationPostContent,
-              registDt: data.registDt,
-              certificationId: data.certificationId,
-            }),
-          );
-          openCertificateCompletionAlert();
+          const reader = new FileReader();
+          reader.readAsDataURL(compressedFile);
+          reader.onloadend = async () => {
+            const base64data = reader.result;
+            const formData = await handlingDataForm(base64data);
+
+            registerGalleryCertificationImg(
+              formData,
+              data.certificationId,
+              (response: AxiosResponse) => {
+                console.log(response);
+                const { code, codeMsg } = response.data;
+                if (code === 200) {
+                  openCertificateCompletionAlert();
+                } else {
+                  setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
+                  openCertificateErrorAlert();
+                }
+              },
+              dispatch,
+            );
+
+            dispatch(
+              uploadAction.setContentRegistDtCertificationId({
+                content: certificationPostContent,
+                registDt: data.registDt,
+                certificationId: data.certificationId,
+              }),
+            );
+            openCertificateCompletionAlert();
+          };
+          formData.append('photo', file as unknown as File);
         } else if (code === 314) {
           setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
           openCertificateErrorAlert();
@@ -176,6 +185,25 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
+  };
+
+  const handlingDataForm = (dataURI: any) => {
+    const byteString = atob(dataURI.split(',')[1]);
+
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i += 1) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: 'image/jpeg',
+    });
+    const file = new File([blob], 'image.jpg');
+
+    const formData = new FormData();
+    formData.append('photo', file);
+
+    return formData;
   };
 
   const writeContent = useCallback((e) => {

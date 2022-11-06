@@ -75,6 +75,7 @@ async function registerGalleryCertificationPost(
       description: data.description,
       latitude: data.latitude,
       longitude: data.longitude,
+      photo: 'null img',
     });
     console.log(result);
     success(result);
