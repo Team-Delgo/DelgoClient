@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -51,9 +51,9 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
+const sheetSnapPoints = [470, 470, 470, 470];
 
-function CaptureCategoryUpdateRecord() {
+function CaptureCategoryRecord() {
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
@@ -62,6 +62,7 @@ function CaptureCategoryUpdateRecord() {
   const { categoryKo, img, latitude, longitude, mongPlaceId, title } = useSelector(
     (state: RootState) => state.persist.upload,
   );
+  const {user} = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
@@ -84,7 +85,7 @@ function CaptureCategoryUpdateRecord() {
     console.log(img);
     registerCertificationPost(
       {
-        userId: 1,
+        userId: user.id,
         categoryCode: categoryCode[categoryKo],
         mungpleId: mongPlaceId,
         placeName: title,
@@ -98,9 +99,10 @@ function CaptureCategoryUpdateRecord() {
         console.log('response', response);
         if (code === 200) {
           dispatch(
-            uploadAction.setContentRegistDt({
+            uploadAction.setContentRegistDtCertificationId({
               content: certificationPostContent,
               registDt: data.registDt,
+              certificationId:data.certificationId
             }),
           );
           openCertificateCompletionAlert();
@@ -118,6 +120,7 @@ function CaptureCategoryUpdateRecord() {
           openCertificateErrorAlert();
         }
       },
+      dispatch,
     );
   };
   const openCertificateErrorAlert = () => {
@@ -142,10 +145,10 @@ function CaptureCategoryUpdateRecord() {
   return (
     <>
       <Sheet
-        isOpen={bottomSheetIsOpen}
+        isOpen
         onClose={closeBottomSheet}
         snapPoints={sheetSnapPoints}
-        ref={ref}
+        // ref={ref}
         disableDrag
         className="modal-bottom-sheet"
       >
@@ -156,6 +159,13 @@ function CaptureCategoryUpdateRecord() {
                 <img src={categoryIcon[categoryKo]} alt="category-img" />
                 <div className="capture-img-record-category">
                   <div className="capture-img-record-category-label">{categoryKo}</div>
+                  <div
+                    className="capture-img-record-category-rechoice"
+                    aria-hidden="true"
+                    onClick={uploadCertificationPost}
+                  >
+                    다시선택
+                  </div>
                 </div>
                 {certificationPostContent.length > 0 ? (
                   <img
@@ -193,4 +203,4 @@ function CaptureCategoryUpdateRecord() {
   );
 }
 
-export default CaptureCategoryUpdateRecord;
+export default CaptureCategoryRecord;

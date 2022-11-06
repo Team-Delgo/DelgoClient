@@ -10,6 +10,9 @@
         display: flex;
         height: 70px;
         margin-top: 30px;
+        &-img{
+            object-fit: contain;
+        }
 
         &-detail {
             padding: 0 5% 0 4%;
@@ -144,34 +147,34 @@
                     color: #91CF9B;
                 }
             }
-
+    
             &-cafe {
                 &-count {
                     color: #CCB7A3;
                 }
             }
-
+    
             &-restaurant {
                 &-count {
-                    color: #FFE58A;
+                    color: #FFE99B;
                 }
             }
-
+    
             &-hospital {
+                &-count {
+                    color: #DACDFF;
+                }
+            }
+    
+            &-beauty {
                 &-count {
                     color: #FFCCE8;
                 }
             }
-
-            &-beauty {
-                &-count {
-                    color: #BEF0F7;
-                }
-            }
-
+    
             &-bath {
                 &-count {
-                    color: #DACDFF;
+                    color: #9FD7FF;
                 }
             }
         }
@@ -234,10 +237,6 @@
                 border-radius: 4px;
                 margin-bottom: 7px;
 
-                img {
-                    border-radius: 4px;
-                }
-
                 .home-page-dog-history-body-ranking-detail-rank {
                     display: flex;
                     justify-content: center;
@@ -258,6 +257,12 @@
                     background: #FFFFFF;
                     border-radius: 4px;
                     // margin-bottom: 7px;
+                    img{
+                        width: 49px;
+                        height: 49px;
+                        border-radius: 2px;
+                        object-fit: contain
+                    }
                     &-name-point {
                         display: flex;
                         justify-content: space-between;

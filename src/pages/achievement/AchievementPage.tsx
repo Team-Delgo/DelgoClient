@@ -2,16 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { useDispatch } from 'react-redux';
-import AchievementBath from '../../common/icons/achievement-bath.svg';
-import AchievementBeauty from '../../common/icons/achievement-beauty.svg';
-import AchievementCafe from '../../common/icons/achievement-cafe.svg';
+import { useDispatch,useSelector } from 'react-redux';
+import {
+  SpinningCircles,
+  Audio,
+  BallTriangle,
+  Bars,
+  Circles,
+  Grid,
+  Hearts,
+  Oval,
+  Puff,
+  Rings,
+  TailSpin,
+  ThreeDots,
+} from 'react-loading-icons';
 import Point from '../../common/icons/point.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import { ROOT_PATH } from '../../common/constants/path.const';
-import AchievementHospital from '../../common/icons/achievement-hospital.svg';
-import AchievementRestorant from '../../common/icons/achievement-restorant.svg';
-import AchievementWalk from '../../common/icons/achievement-walk.svg';
 import Checked from '../../common/icons/checked.svg';
 import NotChecked from '../../common/icons/not-checked.svg';
 import FooterNavigation from '../../common/components/FooterNavigation';
@@ -19,6 +27,7 @@ import { getAchievementList, setMainAchievements } from '../../common/api/achiev
 import { GET_ACHIEVEMENT_LIST, CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import './AchievementPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
+import { RootState } from '../../redux/store';
 
 interface AchievementDataType {
   achievements: AchievementType;
@@ -47,6 +56,7 @@ function AchievementPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location: any = useLocation();
+  const { pet, user } = useSelector((state: RootState) => state.persist.user);
 
   useEffect(() => {
     getgetAchievementDataList();
@@ -55,7 +65,7 @@ function AchievementPage() {
 
   const getgetAchievementDataList = async () => {
     await getAchievementList(
-      1,
+      user.id,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
 
@@ -81,6 +91,7 @@ function AchievementPage() {
           openAchievementCompletionAlert();
         }
       },
+      dispatch,
     );
   };
 
@@ -146,14 +157,10 @@ function AchievementPage() {
           onClick={moveHomePage}
         />
         <header className="achievement-page-header-profile">
-          <img
-            className="achievement-page-header-profile-img"
-            src={`${process.env.PUBLIC_URL}/assets/dog-img.png`}
-            alt="copy url"
-          />
+          <img className="achievement-page-header-profile-img" src={pet.image} alt="copy url" width={72} height={72} />
           <div className="achievement-page-header-profile-second">
             <div className="achievement-page-header-profile-second-address">서울시 송파구</div>
-            <div className="achievement-page-header-profile-second-name">몽자</div>
+            <div className="achievement-page-header-profile-second-name">{pet.name}</div>
           </div>
           <div className="achievement-page-header-profile-third">
             <img
@@ -168,7 +175,7 @@ function AchievementPage() {
         </header>
         <body className="achievement-page-header-achievements">
           <div className="achievement-page-header-achievements-representative">
-            <div className="achievement-page-header-achievements-representative-text">몽자의 대표 업적</div>
+            <div className="achievement-page-header-achievements-representative-text">{pet.name}의 대표 업적</div>
             {editActivation === false ? (
               <div
                 className="achievement-page-header-achievements-representative-button"
@@ -191,27 +198,26 @@ function AchievementPage() {
             최대 3개까지 선택 할 수 있어요
           </div>
           <div className="achievement-page-header-achievements-images">
-            {mainAchievementList
-              .map((achievement: AchievementDataType) => (
-                <div
-                  className="achievement-page-header-achievements-image-container"
-                  aria-hidden="true"
-                  onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
-                >
-                  <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                    <img src={achievement.achievements.imgUrl} alt="post-img" />
-                  </div>
-                  {editActivation === true ? (
-                    <img
-                      src={Checked}
-                      className="achievement-page-header-achievements-image-check-img"
-                      alt="post-img"
-                      width={20}
-                      height={20}
-                    />
-                  ) : null}
+            {mainAchievementList.map((achievement: AchievementDataType) => (
+              <div
+                className="achievement-page-header-achievements-image-container"
+                aria-hidden="true"
+                onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
+              >
+                <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
+                  <img src={achievement.achievements.imgUrl} alt="post-img" />
                 </div>
-              ))}
+                {editActivation === true ? (
+                  <img
+                    src={Checked}
+                    className="achievement-page-header-achievements-image-check-img"
+                    alt="post-img"
+                    width={20}
+                    height={20}
+                  />
+                ) : null}
+              </div>
+            ))}
           </div>
         </body>
       </header>

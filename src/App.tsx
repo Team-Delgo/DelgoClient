@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { deviceAction } from './redux/slice/deviceSlice';
 import {
@@ -20,14 +20,16 @@ import {
 } from './common/constants/path.const';
 import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
-import CameraPage from './pages/camera/CameraPage';
-import CapturePage from './pages/certification/capture/CapturePage';
-import CaptureCategoryPage from './pages/certification/capture/CaptureCategoryPage';
-import CaptureResultPage from './pages/certification/capture/CaptureResultPage';
-import CaptureLocationPage from './pages/certification/capture/CaptureLocationPage';
+import CameraFrontPage from './pages/camera/CameraFrontPage';
+import CameraRearPage from './pages/camera/CameraRearPage';
+import CapturePage from './pages/capture/CapturePage';
+import CaptureCategoryPage from './pages/capture/CaptureCategoryPage';
+import CaptureResultPage from './pages/capture/CaptureResultPage';
+import CaptureLocationPage from './pages/capture/CaptureLocationPage';
+import CaptureCategoryUpatePage from './pages/capture/CaptureCategoryUpatePage';
 import Photo from './pages/photo/Photo';
 import HomePage from './pages/home/HomePage';
-import PostsPage from './pages/post/PostsPage';
+import PostsPage from './pages/post/CertificationPostsPage';
 import AchievementPage from './pages/achievement/AchievementPage';
 import './App.scss';
 import SignIn from './pages/sign/signin/SignIn';
@@ -47,16 +49,20 @@ import PhoneAuth from './pages/sign/password/PhoneAuth';
 
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
+
 import CaptureCategoryUpatePage from './pages/certification/capture/CaptureCategoryUpatePage';
 import PreventBack from './pages/sign/signin/PreventBack';
+
+import { RootState } from './redux/store';
+
 
 
 function App() {
   const queryClient = new QueryClient();
   const location = useLocation();
   const dispatch = useDispatch();
-
-  console.log(process.env.REACT_APP_NCP_CLIENT_ID);
+  const navigate = useNavigate();
+  const isSignIn = useSelector((state: RootState) => state.persist.user.isSignIn);
 
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
@@ -67,15 +73,23 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isSignIn) {
+      navigate(ROOT_PATH);
+    } else {
+      navigate(SIGN_IN_PATH.MAIN);
+    }
+  }, [isSignIn]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
         <Route path={SIGN_IN_PATH.MAIN} element={<SignIn />} />
-        <Route path={SIGN_IN_PATH.SIGNIN} element={<Login/>} />
-        <Route path={SIGN_IN_PATH.FINDPASSWORD} element={<FindPassword/>} />
-        <Route path={SIGN_IN_PATH.PHONEAUTH} element={<PhoneAuth/>} />
-        <Route path={SIGN_IN_PATH.RESETPASSWORD} element={<ResetPassword/>} />
+        <Route path={SIGN_IN_PATH.SIGNIN} element={<Login />} />
+        <Route path={SIGN_IN_PATH.FINDPASSWORD} element={<FindPassword />} />
+        <Route path={SIGN_IN_PATH.PHONEAUTH} element={<PhoneAuth />} />
+        <Route path={SIGN_IN_PATH.RESETPASSWORD} element={<ResetPassword />} />
         <Route path={SIGN_UP_PATH.TERMS} element={<Terms />} />
         <Route path={SIGN_UP_PATH.VERIFY} element={<VerifyPhone />} />
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
@@ -85,7 +99,8 @@ function App() {
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
-        <Route path={CAMERA_PATH.MAIN} element={<CameraPage />} />
+        <Route path={CAMERA_PATH.FRONT} element={<CameraFrontPage />} />
+        <Route path={CAMERA_PATH.REAR} element={<CameraRearPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
         <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
         <Route path={CAMERA_PATH.LOCATION} element={<CaptureLocationPage />} />

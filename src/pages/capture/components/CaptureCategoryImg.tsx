@@ -12,7 +12,7 @@ function CaptureCategoryImg() {
 
 
   const moveToPreviousPage = () => {
-    if(location.pathname===CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.MAIN);
+    if(location.pathname===CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.FRONT);
     else navigate(CAMERA_PATH.CAPTURE);
   };
   return (

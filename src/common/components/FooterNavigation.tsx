@@ -11,7 +11,7 @@ function FooterNavigation() {
 
   const moveToCameraPage = () => {
     setTimeout(() => {
-      navigate(CAMERA_PATH.MAIN);
+      navigate(CAMERA_PATH.FRONT);
     }, 100)
   };
 

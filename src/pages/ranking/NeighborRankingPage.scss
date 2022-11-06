@@ -25,6 +25,7 @@
                 width: 100px;
                 height: 100px;
                 border-radius: 7px;
+                object-fit: contain;
             }
 
             &-profie {
@@ -50,6 +51,7 @@
 
     &-body {
         background-color: #3F3F3F;
+        padding-bottom: 30px;
 
         &-my-pet {
             display: flex;
@@ -75,6 +77,7 @@
                     height: 52px;
                     border-radius: 7px;
                     margin: 0 20px 0 13px;
+                    object-fit: contain;
                 }
 
                 &-name {
@@ -118,6 +121,7 @@
                     height: 52px;
                     border-radius: 7px;
                     margin: 0 20px 0 13px;
+                    object-fit: contain;
                 }
 
                 &-name {

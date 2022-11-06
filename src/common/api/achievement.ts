@@ -35,6 +35,7 @@ async function setMainAchievements(
   secondAchievementsId: number,
   thirdAchievementsId: number,
   success: (data: AxiosResponse) => void,
+  dispatch: any,
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
@@ -46,8 +47,8 @@ async function setMainAchievements(
     });
     console.log(result);
     success(result);
-  } catch (err: any) {
-    console.log(err);
+  } catch (error: any) {
+    useErrorHandlers(dispatch, error);
   }
 }
 

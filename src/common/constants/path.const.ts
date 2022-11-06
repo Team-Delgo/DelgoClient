@@ -36,7 +36,8 @@ export const MY_STORAGE_PATH = '/my-storage';
 export const POSTS_PATH = '/posts';
 
 export const CAMERA_PATH = {
-  MAIN: '/camera',
+  FRONT: '/camera/front',
+  REAR: '/camera/rear',
   CAPTURE: '/camera/captureImg',
   LOCATION: '/camera/captureImg/location',
   CATEGORY: '/camera/captureImg/category',
