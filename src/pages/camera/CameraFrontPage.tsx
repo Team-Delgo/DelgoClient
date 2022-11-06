@@ -9,11 +9,16 @@ import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
+import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
+
+const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
 
 function CameraFrontPage() {
+  const [imgExtensionAlert,setImgExtensionAlert]=useState(false)
   const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const fileUploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -27,19 +32,44 @@ function CameraFrontPage() {
     navigate(CAMERA_PATH.REAR);
   };
 
-  const captureImg = () => {
-    if (cameraRef.current) {
-      const imageSrc = cameraRef.current.getScreenshot();
-      dispatch(uploadAction.setImg({ img: imageSrc }));
-      moveToNextPage();
-    }
-  };
-
   const moveToNextPage = () => {
     navigate(CAMERA_PATH.CAPTURE);
   };
 
+  const alertReviewImgExtensionClose = () => {
+    setImgExtensionAlert(false)
+  }
+
+  const captureImg = () => {
+    if (cameraRef.current) {
+      const imageSrc = cameraRef.current.getScreenshot();
+      dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
+      moveToNextPage();
+    }
+  };
+
+  const handleOpenFileUpload = () => {
+    if (fileUploadRef.current) {
+      fileUploadRef.current.click();
+    }
+  }
+
+  const uploadImg = async (event: { target: HTMLInputElement }) => {
+    if (event.target.files) {
+      if (!event.target.files[0].type.includes((event.target.files as FileList)[0].type)) {
+        setImgExtensionAlert(true);
+        return;
+      }
+      console.log(event.target.files[0])
+      const galleryImg = URL.createObjectURL(event.target.files[0]);
+
+      dispatch(uploadAction.setImg({ img: galleryImg, tool: 'gallery', file: event.target.files[0] }));
+      moveToNextPage();
+    }
+  };
+
   return (
+    <>
     <div className="camera-page-backround">
       <img
         src={PrevArrowBlack}
@@ -74,7 +104,20 @@ function CameraFrontPage() {
         aria-hidden="true"
         onClick={captureImg}
       />
+      <img src={CameraButton} alt="camera-capture-button" aria-hidden="true" onClick={handleOpenFileUpload} />
+      <input
+        type="file"
+        accept="image/jpeg,image/gif,image/png,image/jpg;capture=filesystem"
+        multiple
+        ref={fileUploadRef}
+        onChange={uploadImg}
+        style={{ display: 'none' }}
+      />
     </div>
+    {imgExtensionAlert && (
+        <AlertConfirmOne text="이미지 확장자 파일을 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
+      )}
+    </>
   );
 }
 

@@ -109,7 +109,7 @@ function CertificationPostsPage() {
                 <header className="post-img-result-main-profile">
                   <img className="post-img-result-main-profile-img" src={post[0]?.profile} alt="copy url" />
                   <div className="post-img-result-main-profile-second">
-                    <div className="post-img-result-main-profile-second-address">{post[2]?.codeName}</div>
+                    <div className="post-img-result-main-profile-second-address">{post[1]?.address}</div>
                     <div className="post-img-result-main-profile-second-name">{post[0]?.name}</div>
                   </div>
                 </header>
