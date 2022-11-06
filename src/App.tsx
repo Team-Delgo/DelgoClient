@@ -69,13 +69,13 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSignIn) {
-      navigate(ROOT_PATH);
-    } else {
-      navigate(SIGN_IN_PATH.MAIN);
-    }
-  }, [isSignIn]);
+  // useEffect(() => {
+  //   if (isSignIn) {
+  //     navigate(ROOT_PATH);
+  //   } else {
+  //     navigate(SIGN_IN_PATH.MAIN);
+  //   }
+  // }, [isSignIn]);
 
   return (
     <QueryClientProvider client={queryClient}>

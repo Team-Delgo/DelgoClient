@@ -101,7 +101,7 @@ function CaptureLocationRecord() {
     setBottomSheetIsOpen(false);
   };
 
-  const moveToPreviousPage = () => {
+  const moveToCapturePage = () => {
     navigate(CAMERA_PATH.CAPTURE);
   };
 
@@ -161,7 +161,7 @@ function CaptureLocationRecord() {
               <img src={categoryIcon[categoryKo]} alt="category-img" />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
-                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToPreviousPage}>
+                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
                   다시선택
                 </div>
               </div>

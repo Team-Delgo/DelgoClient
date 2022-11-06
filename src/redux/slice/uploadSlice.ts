@@ -10,12 +10,20 @@ const initialState = {
   registDt: '',
   mongPlaceId: -1,
   certificationId: 0,
+  tool: '',
+  file: '',
+  // file: {} as Blob,
 };
 
 const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
+    setUploadInit() {
+      return {
+        ...initialState,
+      };
+    },
     setLocation(state, action) {
       return {
         ...state,
@@ -24,9 +32,12 @@ const uploadSlice = createSlice({
       };
     },
     setImg(state, action) {
+      console.log(action.payload.file)
       return {
         ...initialState,
         img: action.payload.img,
+        tool: action.payload.tool,
+        file: action.payload.file,
       };
     },
     setCategory(state, action) {
@@ -40,7 +51,6 @@ const uploadSlice = createSlice({
         ...state,
         title: action.payload.placeName,
         mongPlaceId: action.payload.mungpleId,
-
       };
     },
     setContentRegistDtCertificationId(state, action) {
@@ -48,18 +58,13 @@ const uploadSlice = createSlice({
         ...state,
         content: action.payload.content,
         registDt: action.payload.registDt,
-        certificationId:action.payload.certificationId
-      };
-    },
-    setUploadInit() {
-      return {
-        ...initialState,
+        certificationId: action.payload.certificationId,
       };
     },
     setContent(state, action) {
       return {
         ...state,
-        content:action.payload.content
+        content: action.payload.content,
       };
     },
   },

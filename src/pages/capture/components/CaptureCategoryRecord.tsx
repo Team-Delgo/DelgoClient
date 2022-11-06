@@ -1,11 +1,15 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Sheet, { SheetRef } from 'react-modal-sheet';
-import BottomButton from '../../../common/components/BottomButton';
+import imageCompression from 'browser-image-compression';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
-import { registerCertificationPost } from '../../../common/api/certification';
+import {
+  registerCameraCertificationPost,
+  registerGalleryCertificationPost,
+  registerGalleryCertificationImg,
+} from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
 import Bath from '../../../common/icons/bath.svg';
@@ -59,31 +63,21 @@ function CaptureCategoryRecord() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
   const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
-  const { categoryKo, img, latitude, longitude, mongPlaceId, title } = useSelector(
+  const { categoryKo, img, latitude, longitude, mongPlaceId, title, tool, file } = useSelector(
     (state: RootState) => state.persist.upload,
   );
-  const {user} = useSelector((state: RootState) => state.persist.user);
+  const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
+  const formData = new FormData();
 
-  const writeContent = useCallback((e) => {
-    setCertificationPostContent(e.target.value.trim());
+  useEffect(() => {
+    console.log(file);
   }, []);
 
-  const closeBottomSheet = () => {
-    setBottomSheetIsOpen(false);
-  };
-
-  const uploadCertificationPost = () => {
-    console.log(categoryCode[categoryKo]);
-    console.log(mongPlaceId);
-    console.log(title);
-    console.log(certificationPostContent);
-    console.log(latitude.toString());
-    console.log(longitude.toString());
-    console.log(img);
-    registerCertificationPost(
+  const uploadCameraImgCertification = () => {
+    registerCameraCertificationPost(
       {
         userId: user.id,
         categoryCode: categoryCode[categoryKo],
@@ -94,7 +88,7 @@ function CaptureCategoryRecord() {
         longitude: longitude.toString(),
         photo: img,
       },
-      (response: AxiosResponse) => {
+       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
@@ -102,10 +96,9 @@ function CaptureCategoryRecord() {
             uploadAction.setContentRegistDtCertificationId({
               content: certificationPostContent,
               registDt: data.registDt,
-              certificationId:data.certificationId
+              certificationId: data.certificationId,
             }),
           );
-          openCertificateCompletionAlert();
         } else if (code === 314) {
           setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
           openCertificateErrorAlert();
@@ -123,6 +116,76 @@ function CaptureCategoryRecord() {
       dispatch,
     );
   };
+
+  const uploadGalleryImgCertification = () => {
+    registerGalleryCertificationPost(
+      {
+        userId: user.id,
+        categoryCode: categoryCode[categoryKo],
+        mungpleId: mongPlaceId,
+        placeName: title,
+        description: certificationPostContent,
+        latitude: latitude.toString(),
+        longitude: longitude.toString(),
+      },
+      async (response: AxiosResponse) => {
+        const { code, codeMsg, data } = response.data;
+        console.log('response', response);
+        if (code === 200) {
+          // const options = {
+          //   maxSizeMB: 0.2,
+          //   maxWidthOrHeight: 1920,
+          //   useWebWorker: true,
+          // };
+          // const compressedFile = await imageCompression(file, options);
+          formData.append('photo', (file) as unknown as Blob);
+          registerGalleryCertificationImg(
+            formData,
+            data.certificationId,
+            (response: AxiosResponse) => {
+              console.log(response);
+              const { code, codeMsg } = response.data;
+              if (code === 200) {
+                openCertificateCompletionAlert();
+              } else {
+                setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
+                openCertificateErrorAlert();
+              }
+            },
+            dispatch,
+          );
+
+          dispatch(
+            uploadAction.setContentRegistDtCertificationId({
+              content: certificationPostContent,
+              registDt: data.registDt,
+              certificationId: data.certificationId,
+            }),
+          );
+          openCertificateCompletionAlert();
+        } else if (code === 314) {
+          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
+          openCertificateErrorAlert();
+        } else if (code === 313) {
+          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
+          openCertificateErrorAlert();
+        } else {
+          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
+          openCertificateErrorAlert();
+        }
+      },
+      dispatch,
+    );
+  };
+
+  const writeContent = useCallback((e) => {
+    setCertificationPostContent(e.target.value.trim());
+  }, []);
+
+  const closeBottomSheet = () => {
+    setBottomSheetIsOpen(false);
+  };
+
   const openCertificateErrorAlert = () => {
     setShowCertificateErrorAlert(true);
   };
@@ -142,6 +205,10 @@ function CaptureCategoryRecord() {
     }, 500);
   };
 
+  const moveToCapturePage = () => {
+    navigate(CAMERA_PATH.CAPTURE);
+  };
+
   return (
     <>
       <Sheet
@@ -159,11 +226,7 @@ function CaptureCategoryRecord() {
                 <img src={categoryIcon[categoryKo]} alt="category-img" />
                 <div className="capture-img-record-category">
                   <div className="capture-img-record-category-label">{categoryKo}</div>
-                  <div
-                    className="capture-img-record-category-rechoice"
-                    aria-hidden="true"
-                    onClick={uploadCertificationPost}
-                  >
+                  <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
                     다시선택
                   </div>
                 </div>
@@ -173,7 +236,7 @@ function CaptureCategoryRecord() {
                     src={WrittingButtonActive}
                     alt="category-img"
                     aria-hidden="true"
-                    onClick={uploadCertificationPost}
+                    onClick={tool === 'camera' ? uploadCameraImgCertification : uploadGalleryImgCertification}
                   />
                 ) : (
                   <img className="writting-button" src={WrittingButton} alt="category-img" />

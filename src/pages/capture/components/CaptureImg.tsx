@@ -7,13 +7,12 @@ import { CAMERA_PATH } from '../../../common/constants/path.const';
 import PrevArrowBlack from '../../../common/icons/prev-arrow-black.svg';
 
 function CaptureImg() {
-  const img = useSelector((state: RootState) => state.persist.upload.img);
+  const { img } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const location = useLocation();
 
-
   const moveToPreviousPage = () => {
-    if(location.pathname===CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.FRONT);
+    if (location.pathname === CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.FRONT);
     else navigate(CAMERA_PATH.CAPTURE);
   };
   return (

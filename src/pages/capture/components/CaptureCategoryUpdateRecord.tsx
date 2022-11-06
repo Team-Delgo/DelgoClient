@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import BottomButton from '../../../common/components/BottomButton';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
-import { registerCertificationPost, updateCertificationPost } from '../../../common/api/certification';
+import {updateCertificationPost } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
 import Bath from '../../../common/icons/bath.svg';

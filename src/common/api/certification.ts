@@ -19,7 +19,7 @@ async function getCertificationDataCount(userId: number) {
   return data;
 }
 
-async function registerCertificationPost(
+async function registerCameraCertificationPost(
   data: {
     userId: number;
     categoryCode: string;
@@ -35,7 +35,7 @@ async function registerCertificationPost(
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register`, {
+    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register/live`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -49,6 +49,56 @@ async function registerCertificationPost(
     success(result);
   } catch (err: any) {
     useErrorHandlers(dispatch,err);
+  }
+}
+
+async function registerGalleryCertificationPost(
+  data: {
+    userId: number;
+    categoryCode: string;
+    mungpleId: number;
+    placeName: string;
+    description: string;
+    latitude: string;
+    longitude: string;
+  },
+  success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
+  try {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register/past`, {
+      userId: data.userId,
+      categoryCode: data.categoryCode,
+      mungpleId: data.mungpleId,
+      placeName: data.placeName,
+      description: data.description,
+      latitude: data.latitude,
+      longitude: data.longitude,
+    });
+    console.log(result);
+    success(result);
+  } catch (err: any) {
+    useErrorHandlers(dispatch, err);
+  }
+}
+
+async function registerGalleryCertificationImg(
+  formdata: FormData,
+  certificationId: number,
+  success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
+  try {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const result = await axios.post(
+      `${process.env.REACT_APP_API_URL}/photo/upload/certification/${certificationId}`,
+      formdata,
+    );
+    console.log(result);
+    success(result);
+  } catch (err: any) {
+    useErrorHandlers(dispatch, err);
   }
 }
 
@@ -97,7 +147,9 @@ async function getCertificationPostAll(pageParam: number, dispatch: any) {
 export {
   getMungPlaceList,
   getCertificationDataCount,
-  registerCertificationPost,
+  registerCameraCertificationPost,
+  registerGalleryCertificationPost,
+  registerGalleryCertificationImg,
   getCertificationPostsByMain,
   getCertificationPostAll,
   updateCertificationPost
