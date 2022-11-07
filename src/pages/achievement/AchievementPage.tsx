@@ -52,7 +52,6 @@ function AchievementPage() {
 
   useEffect(() => {
     getgetAchievementDataList();
-    console.log(location.state?.rankingPoint)
   }, []);
 
   const getgetAchievementDataList = async () => {
