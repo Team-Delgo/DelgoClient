@@ -50,7 +50,7 @@ function NeighborPosts() {
   return (
     <div className="home-page-neighbord-posts">
       <header className="home-page-neighbord-posts-header">
-        <div className="home-page-neighbord-posts-header-title">우리동네 멍멍이들의 하루</div>
+        <div className="home-page-neighbord-posts-header-title">다른 친구들의 하루</div>
         <div className="home-page-neighbord-posts-header-all" aria-hidden="true" onClick={moveToPostsPage}>
           전체보기
         </div>

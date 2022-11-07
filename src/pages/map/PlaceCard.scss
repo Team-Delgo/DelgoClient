@@ -11,7 +11,14 @@
   display: flex;
   border-radius: 6px;
   align-items: center;
-  box-shadow: 0px 7.2561px 18.8659px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 7.2561px 18.8659px rgba(0, 0, 0, 0.15);
+  &-registDt{
+    position: absolute;
+    color: #8a8a8a;
+    font-size: 10px;
+    font-weight: 400;
+    right: 16px;
+  }
   img {
     width: 78px;
     height: 78px;
@@ -19,11 +26,21 @@
   }
   &-box{
     margin-left: 13px;
+    max-height: 100%;
     &-title{
+      display: flex;
+      align-items: center;
       font-size: 16px;
       font-weight: 600;
+      img{
+        margin-left: 4px;
+        width: 19px;
+        height: 19px;
+      }
     }
     &-address{
+      overflow: hidden;
+      max-height: 30%;
       font-size: 12px;
       font-weight: 400;
       color: #8a8a8a;

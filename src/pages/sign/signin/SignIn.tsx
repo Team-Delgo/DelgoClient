@@ -1,19 +1,21 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './SignIn.scss';
 import { AxiosResponse } from 'axios';
+import { createBrowserHistory } from 'history';
 import AppleLogin from 'react-apple-login';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as Kakao } from '../../../common/icons/kakao.svg';
 import { ReactComponent as Naver } from '../../../common/icons/naver.svg';
 import { ReactComponent as Apple } from '../../../common/icons/apple.svg';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../common/constants/path.const';
 import { KAKAO, NAVER } from '../../../common/constants/url.cosnt';
 import { checkEmail } from '../validcheck';
-// import { emailAuth } from '../../common/api/login';
+import { emailAuth } from '../../../common/api/login';
 import Loading from '../../../common/utils/Loading';
 import AppleLoginButton from './social/AppleLogin';
+
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -21,15 +23,45 @@ function SignIn() {
   const [feedback, setFeedback] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
   const navigation = useNavigate();
+  const history = createBrowserHistory();
+  // const location: any = useLocation();
   const dispatch = useDispatch();
+  
+  const preventGoBack = () => {
+    // change start
+    window.history.pushState(null, '', window.location.href);
+    // change end
+    console.log('prevent go back!');
+  };
 
   useEffect(() => {
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('accessToken')
+    if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
+      navigation('/');
+    }
+    // localStorage.removeItem('refreshToken');
+    // localStorage.removeItem('accessToken')
     setTimeout(() => {
       setLoading(false);
     }, 700);
+    
+    // history.replace(window.location.href);
+
+    // window.addEventListener('popstate',()=>{
+    //   window.history.pushState(null,'','/preventback');
+    // })
+    
+    // console.log(1);
+    // console.log(window.history);
+    
+    // window.history.pushState(null, '', window.location.href);
+    // console.log(window.history);
+    // window.addEventListener('popstate', preventGoBack);
+    
+    // return () => window.removeEventListener('popstate', preventGoBack);
   }, []);
+
+  
+
 
   const enterKey = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -47,18 +79,18 @@ function SignIn() {
   };
 
   const buttonClickHandler = () => {
-    // emailAuth(
-    //   email,
-    //   (response: AxiosResponse) => {
-    //     const { code } = response.data;
-    //     if (code === 200) {
-    //       navigation(SIGN_IN_PATH.SIGNIN, { state: { email } });
-    //     } else {
-    //       setFeedback('가입되지 않은 이메일입니다.');
-    //     }
-    //   },
-    //   dispatch,
-    // );
+    emailAuth(
+      email,
+      (response: AxiosResponse) => {
+        const { code } = response.data;
+        if (code === 200) {
+          navigation(SIGN_IN_PATH.SIGNIN, { state: { email } });
+        } else {
+          setFeedback('가입되지 않은 이메일입니다.');
+        }
+      },
+      dispatch,
+    );
   };
 
   return (
@@ -89,7 +121,7 @@ function SignIn() {
               계속
             </button>
             <div className="login-signup-wrapper">
-              <div
+              {/* <div
                 aria-hidden="true"
                 className="login-signup-text"
                 onClick={() => {
@@ -97,7 +129,7 @@ function SignIn() {
                 }}
               >
                 가입없이 둘러보기
-              </div>
+              </div> */}
               <div
                 aria-hidden="true"
                 className="login-signup-text"

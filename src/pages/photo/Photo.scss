@@ -1,4 +1,15 @@
 .photo {
+  &-wrapper {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    img {
+      width: 45%;
+      margin: 2.5%;
+      border-radius: 7px;
+    }
+  }
   &-history {
     margin: 1rem;
     font-size: 1rem;
@@ -21,15 +32,24 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
       img {
+        padding: 1px;
+        border-radius: 100%;
+        border: 2px solid white;
+        &.selected{
+        border: 2px solid #366eff;
+
+        }
         width: 4.7rem;
       }
       &.item {
+        position: relative;
         margin: 5px;
       }
     }
   }
-  &-select{
+  &-select {
     position: relative;
   }
   &-sort {
@@ -56,7 +76,7 @@
     padding: 0;
     list-style: none;
     li {
-      padding: .3rem 0;
+      padding: 0.3rem 0;
       background-color: #f2f2f2;
       text-align: center;
       width: 8rem;

@@ -1,10 +1,10 @@
-.post-img-result {
+.capture-img-result {
     &-header {
         display: flex;
         justify-content: space-between;
         font-size: 14px;
         font-weight: 400;
-        padding: 70px 5% 10px 5%;
+        padding: 120px 5% 10px 5%;
 
         &-date {
             color: #8A8A8A;
@@ -17,40 +17,48 @@
     }
 
     &-main {
+        padding-bottom: 100px;
         &-profile {
             display: flex;
             margin: 15px 5%;
             padding-bottom: 15px;
             border-bottom: 2px solid #E5E5E5;
-            &-img{
+
+            &-img {
                 width: 45px;
                 height: 45px;
                 border-radius: 4px;
+                object-fit: contain;
             }
-            &-second{
-           
+
+            &-second {
+
                 margin-left: 15px;
-                &-address{
-                    color:#8A8A8A;
+
+                &-address {
+                    color: #8A8A8A;
                     font-weight: 500;
                     font-size: 12px;
                     margin-bottom: 6px;
                 }
-                &-name{
-                    color:#3F3F3F;
+
+                &-name {
+                    color: #3F3F3F;
                     font-weight: 700;
                     font-size: 20px;
                 }
             }
         }
-        &-body{
+
+        &-body {
             color: #232323;
             padding: 10px 5% 0 5%;
+
             &-title {
                 font-size: 24px;
                 font-weight: bold;
             }
-    
+
             &-content {
                 padding-top: 7px;
                 font-size: 14px;
@@ -58,4 +66,12 @@
             }
         }
     }
+}
+
+.home-page-move-arrow {
+    position: absolute;
+    top: 6vh;
+    left: 6vw;
+    // width: 6vw;
+    // height: 3vh;
 }

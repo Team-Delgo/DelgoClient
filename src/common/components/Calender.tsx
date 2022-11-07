@@ -150,7 +150,6 @@ function Calender() {
   };
 
   const diff = getMonthDiff() + 1;
-  console.log(diff);
 
   const monthArray: number[] = [];
 
@@ -161,7 +160,8 @@ function Calender() {
 
 
   const datesElement = monthArray.map((i) => {
-    const element = getDateContext(i);
+    console.log(monthArray.length + i);
+    const element = getDateContext(-(monthArray.length + i) + 1);
     const weekDay = <div className="day-header">
       <div className="day sun">일</div>
       <div className="day">월</div>

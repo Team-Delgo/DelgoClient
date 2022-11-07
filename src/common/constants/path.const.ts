@@ -1,4 +1,4 @@
-export const ROOT_PATH = '/';
+export const ROOT_PATH = '/home';
 export const MY_ACCOUNT_PATH = {
   MAIN: '/user/myaccount',
   COUPON: '/user/myaccount/coupon',
@@ -12,7 +12,7 @@ export const MY_ACCOUNT_PATH = {
   TERM2: '/user/myaccount/term2',
 };
 export const SIGN_IN_PATH = {
-  MAIN: '/user/signin',
+  MAIN: '/',
   SIGNIN: '/user/signin/login',
   FINDPASSWORD: '/user/signin/findpassword',
   PHONEAUTH: '/user/signin/phoneauth',
@@ -36,11 +36,13 @@ export const MY_STORAGE_PATH = '/my-storage';
 export const POSTS_PATH = '/posts';
 
 export const CAMERA_PATH = {
-  MAIN: '/camera',
+  FRONT: '/camera/front',
+  REAR: '/camera/rear',
   CAPTURE: '/camera/captureImg',
-  CATEGORY: '/camera/captureImg/category',
   LOCATION: '/camera/captureImg/location',
+  CATEGORY: '/camera/captureImg/category',
   RESULT: '/camera/captureImg/result',
+  UPDATE: '/camera/captureImg/update',
 }
 
 export const RECORD_PATH = {
@@ -50,6 +52,8 @@ export const RECORD_PATH = {
 }
 
 export const ACHIEVEMENT_PATH = '/achievement'
+
+export const NEIGHBOR_RANKING_PATH = '/neighbor-ranking'
 
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';

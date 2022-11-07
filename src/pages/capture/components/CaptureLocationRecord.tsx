@@ -66,7 +66,9 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [-window.innerWidth + 20, 0.5, 100, 0];
+const sheetSnapPoints = [470, 470, 470, 470];
+
+// -window.innerWidth + 20
 
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
@@ -95,18 +97,11 @@ function CaptureLocationRecord() {
     },
   );
 
-  useEffect(() => {
-    console.log(mungPlaceList?.data);
-    setTimeout(() => {
-      setBottomSheetIsOpen(true);
-    }, 1000);
-  }, [bottomSheetIsOpen]);
-
   const closeBottomSheet = () => {
     setBottomSheetIsOpen(false);
   };
 
-  const moveToPreviousPage = () => {
+  const moveToCapturePage = () => {
     navigate(CAMERA_PATH.CAPTURE);
   };
 
@@ -125,7 +120,6 @@ function CaptureLocationRecord() {
   };
 
   const selectManualPlace = () => {
-    console.log(1);
     setManualChecked(true);
     dispatch(uploadAction.setMongPlace({ mungpleId: 0, placeName }));
     setTimeout(() => {
@@ -153,21 +147,21 @@ function CaptureLocationRecord() {
 
   return (
     <Sheet
-      isOpen={bottomSheetIsOpen}
+      isOpen
       onClose={closeBottomSheet}
       snapPoints={sheetSnapPoints}
-      ref={ref}
+      // ref={ref}
       disableDrag
       className="modal-bottom-sheet"
     >
-      <Sheet.Container style={sheetStyle}>
+      <Sheet.Container>
         <Sheet.Content>
           <main className="capture-img-record">
             <header className="capture-img-record-container">
               <img src={categoryIcon[categoryKo]} alt="category-img" />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
-                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToPreviousPage}>
+                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
                   다시선택
                 </div>
               </div>
@@ -177,7 +171,7 @@ function CaptureLocationRecord() {
                 type="text"
                 ref={inputRef}
                 className="review-place-name"
-                placeholder="여기는 어디인가요? (ex: 델고커피)"
+                placeholder="여기는 어디인가요?"
                 onChange={writeTitle}
               />
               <img className="magnifying-glass-img" src={MagnifyingGlass} alt="magnifying-glass-img" />

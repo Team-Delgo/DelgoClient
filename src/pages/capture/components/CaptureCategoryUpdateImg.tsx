@@ -1,27 +1,26 @@
 import React from 'react';
-import { useNavigate ,useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import PrevArrowWhite from '../../../common/icons/prev-arrow-white.svg';
+import WhiteX from '../../../common/icons/white-x.svg';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
 
-function CaptureCategoryImg() {
+function CaptureCategoryUpdateImg() {
   const img = useSelector((state: RootState) => state.persist.upload.img);
   const navigate = useNavigate();
   const location = useLocation();
 
-
   const moveToPreviousPage = () => {
-    if(location.pathname===CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.MAIN);
-    else navigate(CAMERA_PATH.CAPTURE);
+    navigate(-1);
   };
+
   return (
     <>
       <img src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
       <img
-        src={PrevArrowWhite}
-        className="capture-page-prev-arrow"
-        alt="capture-page-prev-arrow"
+        src={WhiteX}
+        className="capture-category-update-page-prev-arrow"
+        alt="capture-category-update-page-prev-arrow"
         aria-hidden="true"
         onClick={moveToPreviousPage}
       />
@@ -29,4 +28,4 @@ function CaptureCategoryImg() {
   );
 }
 
-export default CaptureCategoryImg;
+export default CaptureCategoryUpdateImg;

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./RecordHeader.scss";
-import Delgo from "../icons/delgo.svg";
+import Delgo from "../icons/delgo-small.svg";
 
 function RecordHeader() {
   const tab = useLocation().state as string || 'photo';
@@ -35,6 +35,7 @@ function RecordHeader() {
       <div aria-hidden="true" id="calendar" className={classNames("recordHeader-item", { select: tab==="calendar" })} onClick={clickHandler}>달력</div>
       <div aria-hidden="true" id="map" className={classNames("recordHeader-item", { select: tab==="map" })} onClick={clickHandler}>지도</div>
     </div>
+    <div className="recordHeader-divider"/>
   </div>
 }
 

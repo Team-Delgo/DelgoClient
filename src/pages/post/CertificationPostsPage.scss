@@ -1,0 +1,67 @@
+.post-img-result {
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 70px 5% 10px 5%;
+
+        &-date {
+            color: #8A8A8A;
+        }
+
+        &-report{
+            font-size: 16px;
+            color: #8A8A8A;
+        }
+
+        &-correction {
+            color: #8A8A8A;
+        }
+
+    }
+
+    &-main {
+        &-profile {
+            display: flex;
+            margin: 15px 5%;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #E5E5E5;
+            &-img{
+                width: 45px;
+                height: 45px;
+                border-radius: 4px;
+                object-fit: contain;
+            }
+            &-second{
+           
+                margin-left: 15px;
+                &-address{
+                    color:#8A8A8A;
+                    font-weight: 500;
+                    font-size: 12px;
+                    margin-bottom: 6px;
+                }
+                &-name{
+                    color:#3F3F3F;
+                    font-weight: 700;
+                    font-size: 20px;
+                }
+            }
+        }
+        &-body{
+            color: #232323;
+            padding: 10px 5% 0 5%;
+            &-title {
+                font-size: 24px;
+                font-weight: bold;
+            }
+    
+            &-content {
+                padding-top: 7px;
+                font-size: 14px;
+                font-weight: 400;
+            }
+        }
+    }
+}

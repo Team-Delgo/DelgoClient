@@ -28,21 +28,21 @@ const weekDay: weekDayType = {
 
 function CaptureResultHeader() {
   const navigate = useNavigate();
-  const registDt = useSelector((state: RootState) => state.persist.upload.registDt);
+  const { registDt } = useSelector((state: RootState) => state.persist.upload);
 
   const moveToCategoryPage = () => {
-    navigate(CAMERA_PATH.CATEGORY);
+    navigate(CAMERA_PATH.UPDATE);
   };
 
   const moveToHomePage = () => {
     navigate(ROOT_PATH);
-  }
+  };
 
-  
   return (
     <header className="capture-img-result-header">
       <div className="capture-img-result-header-date">
-        {registDt.substring(0, 10)}&nbsp;{weekDay[registDt.substring(17, registDt.length)]}&nbsp;&nbsp;&nbsp;{registDt.substring(11, 16)}
+        {registDt.substring(0, 10)}&nbsp;{weekDay[registDt.substring(17, registDt.length)]}&nbsp;&nbsp;&nbsp;
+        {registDt.substring(11, 16)}
       </div>
       <div className="capture-img-result-header-correction" aria-hidden="true" onClick={moveToCategoryPage}>
         수정

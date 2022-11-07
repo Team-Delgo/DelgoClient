@@ -42,19 +42,21 @@ const categoryEnglish: categoryType = {
 };
 
 function CaptureResultMain() {
-  const navigate = useNavigate();
-  const { img, title, content, categoryKo } = useSelector((state: RootState) => state.persist.upload);
-
-
+  const { img, title, content } = useSelector((state: RootState) => state.persist.upload);
+  const {user,pet} = useSelector((state: RootState) => state.persist.user);
 
   return (
     <main className="capture-img-result-main">
       <img src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
-      <header className="capture-img-result-main-header">
-        <img src={`${process.env.PUBLIC_URL}/assets/dog-img.png`} alt="copy url" />
-        <div className="capture-img-result-main-header-profile">
-          <div className="capture-img-result-main-header-profile-address">서울시 송파구</div>
-          <div className="capture-img-result-main-header-profile-name">다크서은</div>
+      <header className="capture-img-result-main-profile">
+        <img
+          className="capture-img-result-main-profile-img"
+          src={pet.image}
+          alt="copy url"
+        />
+        <div className="capture-img-result-main-profile-second">
+          <div className="capture-img-result-main-profile-second-address">서울시 송파구</div>
+          <div className="capture-img-result-main-profile-second-name">{user.nickname}</div>
         </div>
       </header>
       <body className="capture-img-result-main-body">
