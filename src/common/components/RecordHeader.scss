@@ -1,6 +1,6 @@
 .recordHeader {
-  margin-top: 35px;
-  margin-bottom: 5px;
+  margin-top: 2vh;
+  padding-bottom: 2vh;
   // margin: 20px 20px 20px 20px;
   display: flex;
   height: 3vh;
@@ -9,14 +9,13 @@
   &-divider{
     position: absolute;
     top: 18vh;
-    transform: translateY(-3px);
     width: 100%;
     height: 3px;
     background-color: #ececec;
   }
   &-wrapper {
     background-color: white;
-    height: 17vh;
+    height: 18vh;
     width: 100%;
     &.fixed{
       position: fixed;
@@ -25,7 +24,8 @@
 
     img {
       margin-left: 20px;
-      margin-top: 58px;
+      margin-top: 8vh;
+      height: 3vh;
     }
   }
 
@@ -40,16 +40,17 @@
       color: black;
       font-weight: 600;
 
-      // &::after {
-      //   position: absolute;
-      //   bottom: -1px;
-      //   left: 0;
-      //   width: 62px;
-      //   height: 4px;
-      //   // transform: translateX(-50%);
-      //   content: "";
-      //   background-color: black;
-      // }
+      &::after {
+        position: absolute;
+        top: 5vh;
+        left: 0;
+        width: 62px;
+        height: 3px;
+        z-index: 99999;
+        transform: translateY(-5px);
+        content: "";
+        background-color: black;
+      }
     }
   }
 }
