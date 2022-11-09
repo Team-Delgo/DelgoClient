@@ -3,7 +3,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 
 async function setAccessCode(code: string | null, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/access-code/kakao/${code}`)
+    .post(`${process.env.REACT_APP_API_URL}/kakao/access-code${code}`)
     .then((data) => {
       success(data);
     })
