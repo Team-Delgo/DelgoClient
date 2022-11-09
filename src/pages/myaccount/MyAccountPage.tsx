@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import './MyAccountPage.scss';
+import LeftArrow from '../../common/icons/left-arrow.svg';
+import RightArrow from '../../common/icons/right-arrow-gray.svg';
 
 interface rankingType {
   geoCode: string;
@@ -13,12 +15,23 @@ interface rankingType {
 const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 
 function MyAccountPage() {
+  const navigate = useNavigate();
   const location: any = useLocation();
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
   return (
     <div className="my-account-page">
+      <img
+        aria-hidden="true"
+        className="my-account-page-back"
+        src={LeftArrow}
+        alt="back"
+        onClick={() => {
+          navigate(-1);
+        }}
+      />
+      <div className="my-account-page-title">내 정보</div>
       <header className="my-account-page-header">
         <body className="my-account-page-header-my-pet">
           <img
@@ -26,8 +39,14 @@ function MyAccountPage() {
             src={`${process.env.PUBLIC_URL}/assets/dog-img.png`}
             alt="copy url"
           />
-          <div className="my-account-page-header-my-pet-profie-name">몽자 / 5살</div>
-          <div className="my-account-page-header-my-pet-profie-address">서울시 송파구</div>
+          <div className="my-account-page-header-my-pet-profile">
+            <div className="my-account-page-header-my-pet-profile-name">
+              몽자
+              <img src={RightArrow} alt="right" />
+            </div>
+            <div className="my-account-page-header-my-pet-profile-address">서울시 송파구</div>
+            <div className="my-account-page-header-my-pet-profile-date">기록시작 2020.10.11</div>
+          </div>
         </body>
       </header>
       <body className="my-account-page-body" style={neighborRankingPageBodyStyle}>
