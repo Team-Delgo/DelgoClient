@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as Exit } from '../icons/exit.svg';
 import './Calender.scss';
-import park from "./park.jpg";
+import park from './park.jpg';
 import { getCalendarData } from '../api/record';
-import { DateType } from "./CalendarType";
+import { DateType } from './CalendarType';
 
 interface CalenderProps {
   closeCalender: () => void;
@@ -19,7 +19,9 @@ Calender.defaultProps = {
 };
 
 function Calender() {
+  const userId = useSelector((state:any)=>state.persist.user.user.id);
   const dispatch = useDispatch();
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [dateList, setDateList] = useState<DateType[]>([]);
   const getNextYear = (currentMonth: number, currentYear: number, add: number) => {
     if (currentMonth + add > 12) {
@@ -38,12 +40,19 @@ function Calender() {
   };
 
   useEffect(() => {
-    getCalendarData(0, (response: AxiosResponse) => {
-      const { code, data } = response.data;
-      setDateList(data);
-    }, dispatch);
+    getCalendarData(
+      userId,
+      (response: AxiosResponse) => {
+        const { code, data } = response.data;
+        setDateList(data);
+      },
+      dispatch,
+    );
   }, []);
 
+  useEffect(()=>{
+    scrollRef.current?.scrollIntoView({block:'end'});
+  },[dateList]);
 
   const getDateContext = (prev: number) => {
     const date = new Date();
@@ -91,8 +100,6 @@ function Calender() {
       currentMonth = `0${currentMonth}`;
     }
 
-
-
     const datesElement = dates.map((date, i) => {
       let rdate: string | number = date;
       if (date < 10) {
@@ -114,22 +121,23 @@ function Calender() {
         }
       });
 
-
       return (
         <div
           key={id}
-          className={classNames(
-            'date-day',
-            { able: condition, circle: isCertificated },
-          )}
+          className={classNames('date-day', { able: condition, circle: isCertificated })}
           id={id}
           aria-hidden="true"
-          onClick={isCertificated ? () => { console.log() } : undefined}
+          onClick={
+            isCertificated
+              ? () => {
+                  console.log();
+                }
+              : undefined
+          }
         >
           {date}
           {/* {achieve && <div className='date-day-achieve' />} */}
-          {isCertificated && <img src={imageSrc} alt="park" className='date-day-after' />}
-
+          {isCertificated && <img src={imageSrc} alt="park" className="date-day-after" />}
         </div>
       );
     });
@@ -137,7 +145,7 @@ function Calender() {
     return { datesElement, currentYear, currentMonth };
   };
 
-  const tempUserSignDate = "2022-05-01";
+  const tempUserSignDate = '2022-05-01';
 
   const getMonthDiff = () => {
     const currentYear = new Date().getFullYear();
@@ -153,35 +161,36 @@ function Calender() {
 
   const monthArray: number[] = [];
 
-  for (let i = 0; i < diff; i+=1) {
+  for (let i = 0; i < diff; i += 1) {
     monthArray.push(-i);
   }
-
-
 
   const datesElement = monthArray.map((i) => {
     console.log(monthArray.length + i);
     const element = getDateContext(-(monthArray.length + i) + 1);
-    const weekDay = <div className="day-header">
-      <div className="day sun">일</div>
-      <div className="day">월</div>
-      <div className="day">화</div>
-      <div className="day">수</div>
-      <div className="day">목</div>
-      <div className="day">금</div>
-      <div className="day">토</div>
-    </div>
-    return <>
-      <div className="current-month">{`${element.currentYear}.${element.currentMonth}`}</div>
-      {weekDay}
-      <div className="date">{element.datesElement}</div>
-    </>
-  })
+    const weekDay = (
+      <div className="day-header">
+        <div className="day sun">일</div>
+        <div className="day">월</div>
+        <div className="day">화</div>
+        <div className="day">수</div>
+        <div className="day">목</div>
+        <div className="day">금</div>
+        <div className="day">토</div>
+      </div>
+    );
+    return (
+      <>
+        <div className="current-month">{`${element.currentYear}.${element.currentMonth}`}</div>
+        {weekDay}
+        <div className="date">{element.datesElement}</div>
+      </>
+    );
+  });
 
   return (
     <div className="calender">
-
-      <div className="date-wrapper">
+      <div className="date-wrapper" ref={scrollRef}>
         {datesElement}
         {/* <div className="current-month">{`${datesElement0.currentYear}.${datesElement0.currentMonth}`}</div>
         {weekDay}
