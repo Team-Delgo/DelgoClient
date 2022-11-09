@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import RecordHeader from '../../common/components/RecordHeader';
@@ -16,6 +16,7 @@ import { Cert } from '../map/MapType';
 import { getPhotoData } from '../../common/api/record';
 
 function Photo() {
+  const userId = useSelector((state:any)=>state.persist.user.user.id);
   const [photos, setPhotos] = useState<Cert[]>([]);
   const [page, setPage] = useState<number>(0);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
@@ -44,7 +45,7 @@ function Photo() {
 
   useEffect(()=>{
     getPhotoData(
-      1,
+      userId,
       cateogory,
       0,
       6,
@@ -63,7 +64,7 @@ function Photo() {
 
   const getPhotoDataList = async () => {
     getPhotoData(
-      1,
+      userId,
       cateogory,
       page,
       6,
@@ -102,27 +103,27 @@ function Photo() {
       <div className="photo-category">
         <div aria-hidden="true" className="photo-category-button item" onClick={()=>{setCategory('CA0001')}}>
           <img className={classNames({selected:cateogory==='CA0001'})} src={Walk} alt="walk" />
-          <span>산책 {10}회</span>
+          {/* <span>산책 {10}회</span> */}
         </div>
         <div aria-hidden="true" className="photo-category-button item" onClick={()=>{setCategory('CA0002')}}>
           <img className={classNames({selected:cateogory==='CA0002'})} src={Cafe} alt="cafe" />
-          <span>카페 {10}회</span>
+          {/* <span>카페 {10}회</span> */}
         </div>
         <div aria-hidden="true" className="photo-category-button item" onClick={()=>{setCategory('CA0003')}}>
           <img className={classNames({selected:cateogory==='CA0003'})} src={Hair} alt="hair" />
-          <span>미용 {10}회</span>
+          {/* <span>미용 {10}회</span> */}
         </div>
         <div aria-hidden="true" className="photo-category-button item" onClick={()=>{setCategory('CA0004')}}>
           <img className={classNames({selected:cateogory==='CA0004'})} src={Bath} alt="bath" />
-          <span>목욕 {10}회</span>
+          {/* <span>목욕 {10}회</span> */}
         </div>
         <div aria-hidden="true" className="photo-category-button item" onClick={()=>{setCategory('CA0005')}}>
           <img className={classNames({selected:cateogory==='CA0005'})} src={Hospital} alt="hospital" />
-          <span>병원 {10}회</span>
+          {/* <span>병원 {10}회</span> */}
         </div>
         <div aria-hidden="true" className="photo-category-button item" onClick={()=>{setCategory('CA0006')}}>
           <img className={classNames({selected:cateogory==='CA0006'})} src={Eat} alt="eat" />
-          <span>식당 {10}회</span>
+          {/* <span>식당 {10}회</span> */}
         </div>
       </div>
       <div className="photo-select">

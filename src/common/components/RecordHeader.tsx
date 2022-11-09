@@ -31,7 +31,7 @@ function RecordHeader() {
   return <div className={classNames("recordHeader-wrapper",{fixed:tab==="calendar"})}>
     <img src={Delgo} alt="logo"/>
     <div className="recordHeader">
-      <div aria-hidden="true" id="photo" className={classNames("recordHeader-item", { select: tab==="photo" })} onClick={clickHandler}>사진</div>
+      <div aria-hidden="true" id="photo" className={classNames("recordHeader-item", { select: tab==="photo" })} onClick={clickHandler}>앨범</div>
       <div aria-hidden="true" id="calendar" className={classNames("recordHeader-item", { select: tab==="calendar" })} onClick={clickHandler}>달력</div>
       <div aria-hidden="true" id="map" className={classNames("recordHeader-item", { select: tab==="map" })} onClick={clickHandler}>지도</div>
     </div>

@@ -17,5 +17,6 @@ interface DateList{
 export interface DateType{
   date:string;
   dateList:DateList[];
+  isAchievements:number;
 }
 

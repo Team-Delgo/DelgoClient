@@ -109,7 +109,7 @@ function Calender() {
       const condition = i >= firstDateIndex && i <= lastDateIndex;
       const id = condition ? `${currentYear}-${currentMonth}-${rdate}` : `f${currentYear}-${currentMonth}-${rdate}`;
 
-      const achieve = i % 4 === 0;
+      let achieve = 0;
       let isCertificated = false;
       let imageSrc;
       // let dateId;
@@ -117,6 +117,7 @@ function Calender() {
         if (date.date === id) {
           isCertificated = true;
           imageSrc = date.dateList[0].photoUrl;
+          achieve = date.isAchievements;
           console.log(date);
         }
       });
@@ -136,7 +137,7 @@ function Calender() {
           }
         >
           {date}
-          {/* {achieve && <div className='date-day-achieve' />} */}
+          {achieve > 0 && <div className='date-day-achieve' />}
           {isCertificated && <img src={imageSrc} alt="park" className="date-day-after" />}
         </div>
       );
