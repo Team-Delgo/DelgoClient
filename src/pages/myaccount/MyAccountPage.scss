@@ -1,7 +1,19 @@
 .my-account-page {
+    &-back{
+        position: absolute;
+        left: 20px;
+        top: 40px;
+    }
+    &-title{
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-weight: 500;
+        font-size: 18px;
+    }
     &-header {
         background-color: #FFFFFF;
-        height: 325px;
 
         &-title {
             color: #8A8A8A;
@@ -14,27 +26,38 @@
         &-my-pet {
             // display: flex;
             // justify-content: space-between;
-            margin: 40px 5% 10px 5%;
-
+            margin: 140px 5% 50px 5%;
+            display: flex;
             &-img {
                 width: 100px;
                 height: 100px;
-                border-radius: 7px;
+                border-radius: 4px;
             }
-
-            &-profie {
-
+            &-profile {
+                margin-left: 25px;
+                margin-top: 15px;
                 &-address {
-                    color: #8A8A8A;
-                    font-size: 16px;
-                    font-weight: 500;
-                    margin: 20px 0 5px 0;
+                    color: black;
+                    font-size: 14px;
+                    font-weight: 400;
+                    margin-top: 10px;
                 }
 
                 &-name {
                     color: #000000;
                     font-size: 24px;
                     font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    img{
+                        margin-left: 9px;
+                    }
+                }
+                &-date{
+                    color: #8a8a8a;
+                    font-weight: 400;
+                    font-size: 14px;
+                    margin-top: 5px;
                 }
             }
         }
