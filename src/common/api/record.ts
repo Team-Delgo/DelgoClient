@@ -29,12 +29,13 @@ async function getPhotoData(
   categoryCode: string,
   currentPage: number,
   pageSize: number,
+  isDesc: number,
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
   await axios
     .get(
-      `${process.env.REACT_APP_API_URL}/certification/category-data?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}`,
+      `${process.env.REACT_APP_API_URL}/certification/category-data?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}&isDesc=${isDesc}`,
     )
     .then((data) => {
       success(data);

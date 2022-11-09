@@ -21,7 +21,7 @@ function Photo() {
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
   const [cateogory, setCategory] = useState('CA0000');
-  const [sortOption, setSortOption] = useState('최신순');
+  const [sortOption, setSortOption] = useState<number>(1);
   const [isLast, setLast] = useState(false);
   const dispatch = useDispatch();
 
@@ -48,6 +48,7 @@ function Photo() {
       cateogory,
       0,
       6,
+      sortOption,
       (response: AxiosResponse) => {
         const { data } = response;
         console.log(response);
@@ -58,7 +59,7 @@ function Photo() {
       },
       dispatch,
     );
-  },[cateogory])
+  },[cateogory,sortOption])
 
   const getPhotoDataList = async () => {
     getPhotoData(
@@ -66,6 +67,7 @@ function Photo() {
       cateogory,
       page,
       6,
+      sortOption,
       (response: AxiosResponse) => {
         const { data } = response;
         console.log(response);
@@ -88,7 +90,7 @@ function Photo() {
   console.log(photos);
 
   const optionClickHandler = (e: any) => {
-    setSortOption(e.target.textContent);
+    setSortOption(e.target.value);
     setButtonIsClicked(false);
   };
 
@@ -131,15 +133,15 @@ function Photo() {
             setButtonIsClicked(!buttonIsClicked);
           }}
         >
-          <div>{sortOption}</div>
+          <div>{sortOption === 1 ?'최신순' : '오래된순'}</div>
           <img src={UnderArrow} alt="under-arrow" />
         </button>
         {buttonIsClicked && (
           <ul className={classNames('photo-ul', { visible: buttonIsClicked })}>
-            <li aria-hidden="true" value="최신순" onClick={optionClickHandler}>
+            <li aria-hidden="true" value={1} onClick={optionClickHandler}>
               최신순
             </li>
-            <li aria-hidden="true" value="오래된순" onClick={optionClickHandler}>
+            <li aria-hidden="true" value={0} onClick={optionClickHandler}>
               오래된순
             </li>
           </ul>
