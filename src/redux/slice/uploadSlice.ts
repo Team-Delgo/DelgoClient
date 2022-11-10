@@ -32,7 +32,6 @@ const uploadSlice = createSlice({
       };
     },
     setImg(state, action) {
-      console.log(action.payload.file)
       return {
         ...initialState,
         img: action.payload.img,

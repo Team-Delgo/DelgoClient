@@ -1,13 +1,15 @@
 .camera-page-backround {
     height: 100%;
 }
-.camera-page-icon-container{
+
+.camera-page-icon-container {
     display: flex;
     justify-content: space-around;
     position: absolute;
     width: 100%;
-    bottom:9.5vh
+    bottom: 9.5vh
 }
+
 .camera-page-prev-arrow {
     position: absolute;
     top: 6vh;
@@ -15,10 +17,25 @@
     width: 6vw;
     height: 3vh;
 }
+
 .web-camera {
     margin-top: 15vh;
 }
 
+.crop-wrapper {
+    position: relative;
+    height: 70vh;
+}
+
+.crop-button-wrapper {
+    height: 30vh;
+    // background-color: blue;
+    text-align: center;
+    button{
+        display: flex;
+        flex-direction: column;
+    }
+}
 // .camera-button:active {
 //     transform: scale(0.90);
 // }
