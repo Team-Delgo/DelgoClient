@@ -22,6 +22,7 @@ import Etc from '../../../common/icons/etc.svg';
 import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
+import getCroppedImg from '../../../common/utils/CropImg';
 
 interface categoryType {
   산책: string;
@@ -71,11 +72,7 @@ function CaptureCategoryRecord() {
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
   const formData = new FormData();
-
-  useEffect(() => {
-    console.log(file);
-  }, []);
-
+  
   const uploadCameraImgCertification = () => {
     registerCameraCertificationPost(
       {
@@ -139,7 +136,9 @@ function CaptureCategoryRecord() {
               maxWidthOrHeight: 1920,
               useWebWorker: true,
             };
+
             formData.append('photo',file)
+            console.log('formData',formData)
             registerGalleryCertificationImg(
               formData,
               data.certificationId,

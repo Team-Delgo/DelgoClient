@@ -5,7 +5,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 async function getMungPlaceList(categoryCode: string) {
   const accessToken = localStorage.getItem('accessToken') || '';
   const { data } = await axios.get(
-    `${process.env.REACT_APP_API_URL}/mungple/data-category?categoryCode=${categoryCode}`,
+    `${process.env.REACT_APP_API_URL}/mungple/category-data?categoryCode=${categoryCode}`,
   );
   return data;
 }
@@ -95,8 +95,12 @@ async function registerGalleryCertificationImg(
     const result = await axios.post(
       `${process.env.REACT_APP_API_URL}/photo/upload/certification/${certificationId}`,
       formdata,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
     );
-    console.log(result);
     success(result);
   } catch (err: any) {
     useErrorHandlers(dispatch, err);

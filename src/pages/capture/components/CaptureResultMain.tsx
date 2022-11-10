@@ -61,7 +61,7 @@ function CaptureResultMain() {
       </header>
       <body className="capture-img-result-main-body">
         <div className="capture-img-result-main-body-title">{title}</div>
-        <div className="capture-img-result-main-body-content">{content}</div>
+        <div className="capture-img-result-main-body-content">뽀삐랑 송파 데이트~~{content}</div>
       </body>
     </main>
   );
