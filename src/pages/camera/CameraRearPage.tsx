@@ -141,7 +141,7 @@ function CameraRearPage() {
           screenshotFormat="image/jpeg"
           // forceScreenshotSourceSize
           width={window.innerWidth}
-          mirrored
+          mirrored={false}
           videoConstraints={{
             facingMode: { exact: 'environment' },
             aspectRatio: 1 / 1,
