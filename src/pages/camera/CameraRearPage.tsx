@@ -2,17 +2,28 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
+import Cropper from 'react-easy-crop';
+import { Point, Area } from 'react-easy-crop/types';
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
+import Gallery from '../../common/icons/gallery.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
-import Gallery from '../../common/icons/gallery.svg'
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
+import getCroppedImg from '../../common/utils/CropImg';
+
+
+const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
 
 function CameraRearPage() {
-  const [imgExtensionAlert,setImgExtensionAlert]=useState(false)
+  const [imgExtensionAlert, setImgExtensionAlert] = useState(false);
+  const [compressedFileName, setCompressedFileName] = useState('');
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [img, setImg] = useState('');
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,7 +38,7 @@ function CameraRearPage() {
   };
 
   const swtichCamera = () => {
-    navigate(CAMERA_PATH.REAR);
+    navigate(CAMERA_PATH.FRONT);
   };
 
   const moveToNextPage = () => {
@@ -35,8 +46,8 @@ function CameraRearPage() {
   };
 
   const alertReviewImgExtensionClose = () => {
-    setImgExtensionAlert(false)
-  }
+    setImgExtensionAlert(false);
+  };
 
   const captureImg = () => {
     if (cameraRef.current) {
@@ -50,21 +61,69 @@ function CameraRearPage() {
     if (fileUploadRef.current) {
       fileUploadRef.current.click();
     }
-  }
+  };
 
   const uploadImg = (event: { target: HTMLInputElement }) => {
     if (event.target.files) {
-      if (!event.target.files[0].type.includes((event.target.files as FileList)[0].type)) {
+      if (!imgExtension.includes((event.target.files as FileList)[0].type)) {
         setImgExtensionAlert(true);
         return;
       }
-      console.log(event.target.files[0])
+      setCompressedFileName(event.target.files[0].name);
       const galleryImg = URL.createObjectURL(event.target.files[0]);
-
-      dispatch(uploadAction.setImg({ img: galleryImg, tool: 'gallery', file: event.target.files[0] }));
-      moveToNextPage();
+      console.log('event.target.files[0]', event.target.files[0]);
+      setImg(galleryImg)
     }
   };
+
+
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const showCroppedImage = async () => {
+    try {
+      const blobFile = await getCroppedImg(img, croppedAreaPixels);
+      console.log('blobFile',blobFile);
+      
+
+      const metadata = { type: `image/jpeg` };
+      const newFile = new File([ blobFile as Blob], compressedFileName, metadata);
+      const croppedImage = URL.createObjectURL(newFile);
+
+      console.log('newFile',newFile)
+      console.log('croppedImage',croppedImage)
+
+      dispatch(uploadAction.setImg({ img: croppedImage, tool: 'gallery', file: newFile }));
+      moveToNextPage();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  if (img !== '') {
+    return (
+      <>
+        <div className="crop-wrapper">
+          <Cropper
+            image={img}
+            crop={crop}
+            zoom={zoom}
+            aspect={1}
+            onCropChange={setCrop}
+            onCropComplete={onCropComplete}
+            onZoomChange={setZoom}
+          />
+        </div>
+        <div className="crop-button-wrapper">
+          <button type="submit" onClick={showCroppedImage}>
+            선택
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -97,12 +156,7 @@ function CameraRearPage() {
             aria-hidden="true"
             onClick={captureImg}
           />
-          <img
-            src={CameraTransition}
-            alt="camera-transition-button"
-            aria-hidden="true"
-            onClick={swtichCamera}
-          />
+          <img src={CameraTransition} alt="camera-transition-button" aria-hidden="true" onClick={swtichCamera} />
         </div>
         <input
           type="file"
