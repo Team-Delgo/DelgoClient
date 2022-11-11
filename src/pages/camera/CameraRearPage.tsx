@@ -29,15 +29,14 @@ function CameraRearPage() {
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [devicesId, setDevicesId] = useState<any>();
+  const [devices, setDevices] = useState<any>([]);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
   }, []);
 
   const handleDevices = (mediaDevices: any) => {
-    console.log(mediaDevices)
-    console.log(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'))
-    setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
+   setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
   };
 
 
@@ -147,7 +146,20 @@ function CameraRearPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <Webcam
+        {devices.map((device: any, key: any) => (
+          <div key={device.id}>
+            <Webcam
+              audio={false}
+              screenshotQuality={1}
+              width={window.innerWidth}
+              mirrored={false}
+              videoConstraints={{ facingMode: { exact: 'environment' }, aspectRatio: 1 / 1, deviceId: device.deviceId }}
+              key={device.id}
+            />
+            {device.label || `Device ${key + 1}`}
+          </div>
+        ))}
+        {/* <Webcam
           ref={cameraRef}
           className="web-camera"
           screenshotFormat="image/jpeg"
@@ -160,7 +172,7 @@ function CameraRearPage() {
             aspectRatio: 1 / 1,
             deviceId:devicesId
           }}
-        />
+        /> */}
         <div className="camera-page-icon-container">
           <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
           <img

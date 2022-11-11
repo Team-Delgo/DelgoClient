@@ -28,6 +28,7 @@ function CameraFrontPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
+  const [devices, setDevices] = useState<any>([]);
   const [devicesId, setDevicesId] = useState<any>();
 
   useEffect(() => {
@@ -36,9 +37,8 @@ function CameraFrontPage() {
   }, []);
 
   const handleDevices = (mediaDevices: any) => {
-    console.log(mediaDevices)
-    console.log(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'))
-    setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
+    setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
+    // setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[3].deviceId);
   };
 
 
@@ -159,7 +159,20 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <Webcam
+        {devices.map((device: any, key: any) => (
+          <div key={device.id}>
+            <Webcam
+              audio={false}
+              screenshotQuality={1}
+              width={window.innerWidth}
+              mirrored
+              videoConstraints={{ facingMode: { exact: 'user' }, aspectRatio: 1 / 1 }}
+              key={device.id}
+            />
+            {device.label || `Device ${key + 1}`}
+          </div>
+        ))}
+        {/* <Webcam
           ref={cameraRef}
           className="web-camera"
           screenshotFormat="image/jpeg"
@@ -172,7 +185,7 @@ function CameraFrontPage() {
             aspectRatio: 1 / 1,
             deviceId:devicesId
           }}
-        />
+        /> */}
         <div className="camera-page-icon-container">
           <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
           <img
