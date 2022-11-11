@@ -4,6 +4,7 @@ import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
 import { Point, Area } from 'react-easy-crop/types';
+import {Camera} from "react-camera-pro";
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
@@ -30,13 +31,14 @@ function CameraFrontPage() {
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [devices, setDevices] = useState<any>([]);
   const [devicesId, setDevicesId] = useState<any>();
-
+  const camera = useRef(null);
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
     deviceCheck();
   }, []);
 
   const handleDevices = (mediaDevices: any) => {
+    console.log('mediaDevices',mediaDevices)
     setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
     // setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[3].deviceId);
   };
@@ -159,19 +161,30 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        {devices.map((device: any, key: any) => (
+        <Camera
+          ref={camera}
+          aspectRatio={1}
+          facingMode="user"
+          errorMessages={{
+            noCameraAccessible: undefined,
+            permissionDenied: undefined,
+            switchCamera: undefined,
+            canvas: undefined,
+          }}
+        />
+        {/* {devices.map((device: any, key: any) => (
           <div key={device.id}>
             <Webcam
               audio={false}
               screenshotQuality={1}
               width={window.innerWidth}
               mirrored
-              videoConstraints={{ facingMode: { exact: 'user' }, aspectRatio: 1 / 1 }}
+              videoConstraints={{ facingMode: { exact: 'user' }, aspectRatio: 1 / 1, deviceId: device.deviceI }}
               key={device.id}
             />
             {device.label || `Device ${key + 1}`}
           </div>
-        ))}
+        ))} */}
         {/* <Webcam
           ref={cameraRef}
           className="web-camera"
