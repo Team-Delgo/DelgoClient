@@ -32,19 +32,27 @@ function CameraRearPage() {
   const [devicesId, setDevicesId] = useState<any>();
   const [devices, setDevices] = useState<any>([]);
   const camera = useRef<any>(null);
+  const [switchCameraLoading, setSwitchCameraLoading] = useState(false);
+
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (camera.current !== null) {
+        camera.current.takePhoto();
+      }
+    }, 500);
+  }, []);
+
   const handleDevices = (mediaDevices: any) => {
-   console.log('mediaDevices',mediaDevices)
    setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
   };
 
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then(handleDevices);
-    console.log('navigator.mediaDevices',navigator.mediaDevices)
   }, [handleDevices]);
 
   const moveToPreviousPage = () => {
@@ -140,6 +148,10 @@ function CameraRearPage() {
     );
   }
 
+  const asd = () => {
+    console.log(1);
+  };
+
   return (
     <>
       <div className="camera-page-backround">
@@ -155,6 +167,7 @@ function CameraRearPage() {
             ref={camera}
             aspectRatio={1}
             facingMode="environment"
+            numberOfCamerasCallback={asd}
             errorMessages={{
               noCameraAccessible: undefined,
               permissionDenied: undefined,
@@ -215,5 +228,6 @@ function CameraRearPage() {
     </>
   );
 }
+
 
 export default CameraRearPage;
