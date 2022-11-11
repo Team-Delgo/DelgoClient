@@ -162,6 +162,10 @@ function CameraFrontPage() {
     setCameraLoading(false);
   };
 
+  const asd2 = () => {
+    setCameraLoading(true);
+  };
+
   // if (switchCameraLoading === true) {
   //   return <div>로딩중</div>;
   // }
@@ -198,6 +202,7 @@ function CameraFrontPage() {
           screenshotQuality={1}
           width={window.innerWidth}
           onUserMedia={asd}
+          onUserMediaError={asd2}
           mirrored
           videoConstraints={{
             facingMode: { exact: 'user' },
