@@ -35,6 +35,7 @@ function CameraRearPage() {
   }, []);
 
   const handleDevices = (mediaDevices: any) => {
+    console.log(mediaDevices)
     console.log(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'))
     setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
   };
