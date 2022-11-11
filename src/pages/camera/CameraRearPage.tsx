@@ -4,6 +4,7 @@ import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
 import { Point, Area } from 'react-easy-crop/types';
+import {Camera} from "react-camera-pro";
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
@@ -30,18 +31,20 @@ function CameraRearPage() {
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [devicesId, setDevicesId] = useState<any>();
   const [devices, setDevices] = useState<any>([]);
-
+  const camera = useRef(null);
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
   }, []);
 
   const handleDevices = (mediaDevices: any) => {
+   console.log('mediaDevices',mediaDevices)
    setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
   };
 
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then(handleDevices);
+    console.log('navigator.mediaDevices',navigator.mediaDevices)
   }, [handleDevices]);
 
   const moveToPreviousPage = () => {
@@ -146,7 +149,18 @@ function CameraRearPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        {devices.map((device: any, key: any) => (
+        <Camera
+          ref={camera}
+          aspectRatio={1}
+          facingMode="environment"
+          errorMessages={{
+            noCameraAccessible: undefined,
+            permissionDenied: undefined,
+            switchCamera: undefined,
+            canvas: undefined,
+          }}
+        />
+        {/* {devices.map((device: any, key: any) => (
           <div key={device.id}>
             <Webcam
               audio={false}
@@ -158,7 +172,7 @@ function CameraRearPage() {
             />
             {device.label || `Device ${key + 1}`}
           </div>
-        ))}
+        ))} */}
         {/* <Webcam
           ref={cameraRef}
           className="web-camera"
