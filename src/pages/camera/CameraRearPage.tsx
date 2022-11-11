@@ -140,6 +140,7 @@ function CameraRearPage() {
           className="web-camera"
           screenshotFormat="image/jpeg"
           // forceScreenshotSourceSize
+          screenshotQuality={1}
           width={window.innerWidth}
           mirrored={false}
           videoConstraints={{
