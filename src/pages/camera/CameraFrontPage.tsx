@@ -140,6 +140,7 @@ function CameraFrontPage() {
           className="web-camera"
           screenshotFormat="image/jpeg"
           // forceScreenshotSourceSize
+          screenshotQuality={1}
           width={window.innerWidth}
           mirrored
           videoConstraints={{
