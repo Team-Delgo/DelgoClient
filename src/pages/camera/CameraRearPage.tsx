@@ -77,6 +77,9 @@ function CameraRearPage() {
   };
 
   const captureImg = () => {
+    if (cameraLoading) {
+      return;
+    }
     if (camera.current) {
       // const imageSrc = cameraRef.current.getScreenshot();
       const imageSrc = camera.current.takePhoto()
