@@ -32,7 +32,7 @@ function CameraRearPage() {
   const [devicesId, setDevicesId] = useState<any>();
   const [devices, setDevices] = useState<any>([]);
   const camera = useRef<any>(null);
-  const [cameraLoading, setCameraLoading] = useState(false);
+  const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -44,6 +44,7 @@ function CameraRearPage() {
         const img = camera.current.takePhoto();
         if (img.includes('data') === true) {
           console.log(img);
+          setCameraLoading(false)
           clearInterval(interval);
         }
       }
@@ -154,7 +155,7 @@ function CameraRearPage() {
 
   const asd = () => {
     console.log(1)
-    setCameraLoading(false);
+    // setCameraLoading(false);
   };
 
   return (
