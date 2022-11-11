@@ -32,7 +32,7 @@ function CameraFrontPage() {
   const [devices, setDevices] = useState<any>([]);
   const [devicesId, setDevicesId] = useState<any>();
   const camera = useRef<any>(null);
-  const [switchCameraLoading, setSwitchCameraLoading] = useState(true);
+  const [cameraLoading, setCameraLoading] = useState(false);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -42,10 +42,9 @@ function CameraFrontPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (camera.current !== null) {
-        const img = camera.current.takePhoto();
+        const img = camera.current.getScreenshot();
         if (img.includes('data') === true) {
           console.log(img);
-          setSwitchCameraLoading(false);
           clearInterval(interval);
         }
       }
@@ -89,7 +88,7 @@ function CameraFrontPage() {
 
   const captureImg = () => {
     if (camera.current) {
-      const imageSrc = camera.current.takePhoto();
+      const imageSrc = camera.current.getScreenshot()
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
     }
@@ -160,7 +159,7 @@ function CameraFrontPage() {
     );
   }
   const asd = () => {
-    console.log(1);
+    setCameraLoading(false);
   };
 
   // if (switchCameraLoading === true) {
@@ -177,7 +176,7 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <div className="web-camera">
+        {/* <div className="web-camera">
           <Camera
             ref={camera}
             aspectRatio={1}
@@ -190,23 +189,24 @@ function CameraFrontPage() {
               canvas: undefined,
             }}
           />
-        </div>
-        {/* <Webcam
-          ref={cameraRef}
+        </div> */}
+        <Webcam
+          ref={camera}
+          style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}
           className="web-camera"
           screenshotFormat="image/jpeg"
-          // forceScreenshotSourceSize
           screenshotQuality={1}
           width={window.innerWidth}
+          onUserMedia={asd}
           mirrored
           videoConstraints={{
             facingMode: { exact: 'user' },
             aspectRatio: 1 / 1,
-            deviceId:devicesId
+            deviceId: devicesId,
           }}
-        /> */}
+        />
         <div className="camera-page-icon-container">
-          {/* <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} /> */}
+          <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
           <img
             className="camera-button"
             src={CameraButton}
