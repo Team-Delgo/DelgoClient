@@ -88,8 +88,11 @@ function CameraFrontPage() {
   };
 
   const captureImg = () => {
+    if (cameraLoading) {
+      return;
+    }
     if (camera.current) {
-      const imageSrc = camera.current.getScreenshot()
+      const imageSrc = camera.current.getScreenshot();
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
     }
