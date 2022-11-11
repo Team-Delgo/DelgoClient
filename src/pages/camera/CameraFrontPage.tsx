@@ -32,36 +32,33 @@ function CameraFrontPage() {
   const [devices, setDevices] = useState<any>([]);
   const [devicesId, setDevicesId] = useState<any>();
   const camera = useRef<any>(null);
-  const [switchCameraLoading, setSwitchCameraLoading] = useState(false);
+  const [switchCameraLoading, setSwitchCameraLoading] = useState(true);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
-    deviceCheck();
+    // deviceCheck();
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
+    const interval = setInterval(() => {
       if (camera.current !== null) {
-        camera.current.takePhoto();
+        const img = camera.current.takePhoto();
+        if (img.includes('data') === true) {
+          console.log(img);
+          setSwitchCameraLoading(false);
+          clearInterval(interval);
+        }
       }
-    }, 500);
-    // console.log('camera', camera);
-    // if (camera.current === null) {
-    //   console.log(true);
-    //   // camera.current.takePhoto();
-    // } else {
-    //   console.log(false);
-    // }
+    }, 100);
   }, []);
 
-  const handleDevices = (mediaDevices: any) => {
-    setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
-    // setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[3].deviceId);
-  };
+  // const handleDevices = (mediaDevices: any) => {
+  //   setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
+  // };
 
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  }, [handleDevices]);
+  // useEffect(() => {
+  //   navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  // }, [handleDevices]);
 
   function deviceCheck() {
     const pcDevice = 'win16|win32|win64|mac|macintel';
@@ -209,7 +206,7 @@ function CameraFrontPage() {
           }}
         /> */}
         <div className="camera-page-icon-container">
-          <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
+          {/* <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} /> */}
           <img
             className="camera-button"
             src={CameraButton}
