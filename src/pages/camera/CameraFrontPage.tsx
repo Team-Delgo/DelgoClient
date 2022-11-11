@@ -35,14 +35,15 @@ function CameraFrontPage() {
     deviceCheck();
   }, []);
 
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  }, []);
-
   const handleDevices = (mediaDevices: any) => {
     console.log(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'))
     setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
   };
+
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  }, [handleDevices]);
 
   function deviceCheck() {
     const pcDevice = 'win16|win32|win64|mac|macintel';
