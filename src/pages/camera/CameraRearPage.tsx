@@ -153,6 +153,7 @@ function CameraRearPage() {
   }
 
   const asd = () => {
+    console.log(1)
     setCameraLoading(false);
   };
 
