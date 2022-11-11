@@ -32,17 +32,32 @@ function CameraFrontPage() {
   const [devices, setDevices] = useState<any>([]);
   const [devicesId, setDevicesId] = useState<any>();
   const camera = useRef<any>(null);
+  const [switchCameraLoading, setSwitchCameraLoading] = useState(false);
+
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
     deviceCheck();
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (camera.current !== null) {
+        camera.current.takePhoto();
+      }
+    }, 500);
+    // console.log('camera', camera);
+    // if (camera.current === null) {
+    //   console.log(true);
+    //   // camera.current.takePhoto();
+    // } else {
+    //   console.log(false);
+    // }
+  }, []);
+
   const handleDevices = (mediaDevices: any) => {
-    console.log('mediaDevices',mediaDevices)
     setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
     // setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[3].deviceId);
   };
-
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then(handleDevices);
@@ -77,8 +92,7 @@ function CameraFrontPage() {
 
   const captureImg = () => {
     if (camera.current) {
-      // const imageSrc = cameraRef.current.getScreenshot();
-      const imageSrc = camera.current.takePhoto()
+      const imageSrc = camera.current.takePhoto();
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
     }
@@ -99,11 +113,9 @@ function CameraFrontPage() {
       setCompressedFileName(event.target.files[0].name);
       const galleryImg = URL.createObjectURL(event.target.files[0]);
       console.log('event.target.files[0]', event.target.files[0]);
-      setImg(galleryImg)
+      setImg(galleryImg);
     }
   };
-
-
 
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -112,22 +124,21 @@ function CameraFrontPage() {
   const showCroppedImage = async () => {
     try {
       const blobFile = await getCroppedImg(img, croppedAreaPixels);
-      console.log('blobFile',blobFile);
-      
+      console.log('blobFile', blobFile);
 
       const metadata = { type: `image/jpeg` };
-      const newFile = new File([ blobFile as Blob], compressedFileName, metadata);
+      const newFile = new File([blobFile as Blob], compressedFileName, metadata);
       const croppedImage = URL.createObjectURL(newFile);
 
-      console.log('newFile',newFile)
-      console.log('croppedImage',croppedImage)
+      console.log('newFile', newFile);
+      console.log('croppedImage', croppedImage);
 
       dispatch(uploadAction.setImg({ img: croppedImage, tool: 'gallery', file: newFile }));
       moveToNextPage();
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   if (img !== '') {
     return (
@@ -151,6 +162,13 @@ function CameraFrontPage() {
       </>
     );
   }
+  const asd = () => {
+    console.log(1);
+  };
+
+  // if (switchCameraLoading === true) {
+  //   return <div>로딩중</div>;
+  // }
 
   return (
     <>
@@ -167,6 +185,7 @@ function CameraFrontPage() {
             ref={camera}
             aspectRatio={1}
             facingMode="user"
+            numberOfCamerasCallback={asd}
             errorMessages={{
               noCameraAccessible: undefined,
               permissionDenied: undefined,
@@ -175,20 +194,6 @@ function CameraFrontPage() {
             }}
           />
         </div>
-
-        {/* {devices.map((device: any, key: any) => (
-          <div key={device.id}>
-            <Webcam
-              audio={false}
-              screenshotQuality={1}
-              width={window.innerWidth}
-              mirrored
-              videoConstraints={{ facingMode: { exact: 'user' }, aspectRatio: 1 / 1, deviceId: device.deviceI }}
-              key={device.id}
-            />
-            {device.label || `Device ${key + 1}`}
-          </div>
-        ))} */}
         {/* <Webcam
           ref={cameraRef}
           className="web-camera"
