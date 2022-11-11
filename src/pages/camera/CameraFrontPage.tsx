@@ -160,11 +160,13 @@ function CameraFrontPage() {
     );
   }
   const asd = () => {
-    setCameraLoading(false);
+    console.log(1)
+    // setCameraLoading(false);
   };
 
   const asd2 = () => {
-    setCameraLoading(true);
+    console.log(2)
+    // setCameraLoading(true);
   };
 
   // if (switchCameraLoading === true) {
@@ -197,6 +199,7 @@ function CameraFrontPage() {
         </div> */}
         <Webcam
           ref={camera}
+          // style={{ visibility: 'hidden' }}
           style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}
           className="web-camera"
           screenshotFormat="image/jpeg"
