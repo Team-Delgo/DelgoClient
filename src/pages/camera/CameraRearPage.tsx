@@ -34,15 +34,15 @@ function CameraRearPage() {
     dispatch(uploadAction.setUploadInit);
   }, []);
 
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  }, []);
-
-
   const handleDevices = (mediaDevices: any) => {
-    // setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
+    console.log(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'))
     setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
   };
+
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  }, [handleDevices]);
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
