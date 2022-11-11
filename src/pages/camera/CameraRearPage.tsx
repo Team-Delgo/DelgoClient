@@ -32,7 +32,7 @@ function CameraRearPage() {
   const [devicesId, setDevicesId] = useState<any>();
   const [devices, setDevices] = useState<any>([]);
   const camera = useRef<any>(null);
-  const [switchCameraLoading, setSwitchCameraLoading] = useState(false);
+  const [cameraLoading, setCameraLoading] = useState(false);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -153,7 +153,7 @@ function CameraRearPage() {
   }
 
   const asd = () => {
-    console.log(1);
+    setCameraLoading(false);
   };
 
   return (
@@ -166,7 +166,7 @@ function CameraRearPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <div className="web-camera">
+        <div className="web-camera" style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}>
           <Camera
             ref={camera}
             aspectRatio={1}
