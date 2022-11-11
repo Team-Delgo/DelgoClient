@@ -38,7 +38,7 @@ function CameraFrontPage() {
 
   const handleDevices = (mediaDevices: any) => {
     setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
-    setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[3].deviceId);
+    // setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[3].deviceId);
   };
 
 
@@ -160,8 +160,15 @@ function CameraFrontPage() {
           onClick={moveToPreviousPage}
         />
         {devices.map((device: any, key: any) => (
-          <div>
-            <Webcam audio={false} videoConstraints={{ deviceId: device.deviceId }} />
+          <div key={device.id}>
+            <Webcam
+              audio={false}
+              screenshotQuality={1}
+              width={window.innerWidth}
+              mirrored
+              videoConstraints={{ facingMode: { exact: 'user' }, aspectRatio: 1 / 1 }}
+              key={device.id}
+            />
             {device.label || `Device ${key + 1}`}
           </div>
         ))}
