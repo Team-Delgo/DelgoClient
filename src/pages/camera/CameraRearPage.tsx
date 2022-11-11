@@ -28,10 +28,21 @@ function CameraRearPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
+  const [devicesId, setDevicesId] = useState<any>();
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
   }, []);
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  }, []);
+
+
+  const handleDevices = (mediaDevices: any) => {
+    // setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
+    setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
+  };
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
@@ -146,6 +157,7 @@ function CameraRearPage() {
           videoConstraints={{
             facingMode: { exact: 'environment' },
             aspectRatio: 1 / 1,
+            deviceId:devicesId
           }}
         />
         <div className="camera-page-icon-container">

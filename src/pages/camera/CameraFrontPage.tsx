@@ -28,10 +28,32 @@ function CameraFrontPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
+  const [devicesId, setDevicesId] = useState<any>();
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
+    deviceCheck();
   }, []);
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  }, []);
+
+  const handleDevices = (mediaDevices: any) => {
+    console.log(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'))
+    setDevicesId(mediaDevices.filter(({ kind }: any) => kind === 'videoinput')[1].deviceId);
+  };
+
+  function deviceCheck() {
+    const pcDevice = 'win16|win32|win64|mac|macintel';
+    if (navigator.platform) {
+      if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
+        console.log('MOBILE');
+      } else {
+        console.log('PC');
+      }
+    }
+  }
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
@@ -146,6 +168,7 @@ function CameraFrontPage() {
           videoConstraints={{
             facingMode: { exact: 'user' },
             aspectRatio: 1 / 1,
+            deviceId:devicesId
           }}
         />
         <div className="camera-page-icon-container">
