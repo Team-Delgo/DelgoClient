@@ -39,21 +39,25 @@ function CameraRearPage() {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
+    const interval = setInterval(() => {
       if (camera.current !== null) {
-        camera.current.takePhoto();
+        const img = camera.current.takePhoto();
+        if (img.includes('data') === true) {
+          console.log(img);
+          clearInterval(interval);
+        }
       }
-    }, 500);
+    }, 100);
   }, []);
 
-  const handleDevices = (mediaDevices: any) => {
-   setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
-  };
+  // const handleDevices = (mediaDevices: any) => {
+  //  setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
+  // };
 
 
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  }, [handleDevices]);
+  // useEffect(() => {
+  //   navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  // }, [handleDevices]);
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
