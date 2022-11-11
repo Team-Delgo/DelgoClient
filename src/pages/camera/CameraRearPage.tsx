@@ -31,7 +31,7 @@ function CameraRearPage() {
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [devicesId, setDevicesId] = useState<any>();
   const [devices, setDevices] = useState<any>([]);
-  const camera = useRef(null);
+  const camera = useRef<any>(null);
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
   }, []);
@@ -64,8 +64,9 @@ function CameraRearPage() {
   };
 
   const captureImg = () => {
-    if (cameraRef.current) {
-      const imageSrc = cameraRef.current.getScreenshot();
+    if (camera.current) {
+      // const imageSrc = cameraRef.current.getScreenshot();
+      const imageSrc = camera.current.takePhoto()
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
     }
@@ -149,17 +150,19 @@ function CameraRearPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <Camera
-          ref={camera}
-          aspectRatio={1}
-          facingMode="environment"
-          errorMessages={{
-            noCameraAccessible: undefined,
-            permissionDenied: undefined,
-            switchCamera: undefined,
-            canvas: undefined,
-          }}
-        />
+        <div className="web-camera">
+          <Camera
+            ref={camera}
+            aspectRatio={1}
+            facingMode="environment"
+            errorMessages={{
+              noCameraAccessible: undefined,
+              permissionDenied: undefined,
+              switchCamera: undefined,
+              canvas: undefined,
+            }}
+          />
+        </div>
         {/* {devices.map((device: any, key: any) => (
           <div key={device.id}>
             <Webcam
