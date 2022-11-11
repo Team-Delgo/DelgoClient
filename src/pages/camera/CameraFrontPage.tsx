@@ -32,7 +32,7 @@ function CameraFrontPage() {
   const [devices, setDevices] = useState<any>([]);
   const [devicesId, setDevicesId] = useState<any>();
   const camera = useRef<any>(null);
-  const [cameraLoading, setCameraLoading] = useState(false);
+  const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -45,6 +45,7 @@ function CameraFrontPage() {
         const img = camera.current.getScreenshot();
         if (img.includes('data') === true) {
           console.log(img);
+          setCameraLoading(false)
           clearInterval(interval);
         }
       }
