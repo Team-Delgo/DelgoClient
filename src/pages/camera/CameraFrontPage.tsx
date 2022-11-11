@@ -212,7 +212,7 @@ function CameraFrontPage() {
           }}
         />
         <div className="camera-page-icon-container">
-          <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
+          {/* <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} /> */}
           <img
             className="camera-button"
             src={CameraButton}
