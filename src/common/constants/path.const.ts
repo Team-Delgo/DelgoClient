@@ -1,4 +1,4 @@
-export const ROOT_PATH = '/home';
+export const ROOT_PATH = '/';
 export const MY_ACCOUNT_PATH = {
   MAIN: '/user/myaccount',
   COUPON: '/user/myaccount/coupon',
@@ -12,7 +12,7 @@ export const MY_ACCOUNT_PATH = {
   TERM2: '/user/myaccount/term2',
 };
 export const SIGN_IN_PATH = {
-  MAIN: '/',
+  MAIN: '/user/signin',
   SIGNIN: '/user/signin/login',
   FINDPASSWORD: '/user/signin/findpassword',
   PHONEAUTH: '/user/signin/phoneauth',
@@ -43,19 +43,18 @@ export const CAMERA_PATH = {
   CATEGORY: '/camera/captureImg/category',
   RESULT: '/camera/captureImg/result',
   UPDATE: '/camera/captureImg/update',
-}
+};
 
 export const RECORD_PATH = {
   PHOTO: '/photo',
   CALENDAR: '/calendar',
-  MAP: '/map'
-}
+  MAP: '/map',
+};
 
-export const ACHIEVEMENT_PATH = '/achievement'
+export const ACHIEVEMENT_PATH = '/achievement';
 
-export const NEIGHBOR_RANKING_PATH = '/neighbor-ranking'
+export const NEIGHBOR_RANKING_PATH = '/neighbor-ranking';
 
 export const KAKAO_REDIRECT_HANDLE_PATH = '/oauth/callback/kakao';
 export const NAVER_REDIRECT_HANDLE_PATH = '/oauth/callback/naver';
 export const APPLE_REDIRECT_HANDLE_PATH = '/oauth/callback/apple';
-
