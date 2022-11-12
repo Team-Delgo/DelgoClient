@@ -4,6 +4,8 @@ import "./AppleLoginButton.scss";
 
 function AppleLoginButton() {
   const appleClientId = process.env.REACT_APP_APPLE_CLIENT_ID;
+  console.log(appleClientId);
+  console.log("https://");
   return (
     <div className='apple-login-button'>
       <AppleLogin
