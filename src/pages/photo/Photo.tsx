@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
@@ -18,10 +19,11 @@ import { getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 
 function Photo() {
+  const navigate = useNavigate();
   const userId = useSelector((state: any) => state.persist.user.user.id);
-  const ref = useOnclickOutside(()=>{
+  const ref = useOnclickOutside(() => {
     setButtonIsClicked(false);
-  })
+  });
   const [photos, setPhotos] = useState<Cert[]>([]);
   const [page, setPage] = useState<number>(0);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
@@ -60,6 +62,7 @@ function Photo() {
         const { data } = response;
         console.log(response);
         setPage(1);
+        console.log(data.data.content);
         setPhotos(data.data.content);
         setLast(data.data.last);
         setFetching(false);
@@ -88,7 +91,16 @@ function Photo() {
   };
 
   const photoContext = photos.map((photo) => {
-    return <img src={photo.photoUrl} alt="cert" />;
+    return (
+      <img
+        src={photo.photoUrl}
+        alt="cert"
+        aria-hidden="true"
+        onClick={() => {
+          navigate('/record/certs', { state: [photo] });
+        }}
+      />
+    );
   });
   if (photoContext.length % 2 === 0) {
     photoContext.concat(<div className="photo-fake" />);
@@ -103,9 +115,12 @@ function Photo() {
 
   return (
     <div className="photo">
-      <RecordHeader />
       <FooterNavigation />
-      <div className="photo-history" >
+      <div className="photo-header">
+        <RecordHeader />
+      </div>
+
+      <div className="photo-history">
         <div className="photo-history-title">{categoryTab}기록</div>
         <div className="photo-history-select">
           {cateogory !== 'CA0000' && (
@@ -142,8 +157,8 @@ function Photo() {
             setCategoryTab('산책');
           }}
         >
-          <img className={classNames('CA0001',{ selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
-          {/* <span>산책 {10}회</span> */}
+          <img className={classNames('CA0001', { selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
+          <span>{10}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -153,8 +168,8 @@ function Photo() {
             setCategoryTab('카페');
           }}
         >
-          <img className={classNames('CA0002',{ selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
-          {/* <span>카페 {10}회</span> */}
+          <img className={classNames('CA0002', { selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
+          <span>{10}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -164,8 +179,8 @@ function Photo() {
             setCategoryTab('식당');
           }}
         >
-          <img className={classNames('CA0003',{ selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
-          {/* <span>미용 {10}회</span> */}
+          <img className={classNames('CA0003', { selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
+          <span>{10}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -175,8 +190,8 @@ function Photo() {
             setCategoryTab('목욕');
           }}
         >
-          <img className={classNames('CA0004',{ selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
-          {/* <span>목욕 {10}회</span> */}
+          <img className={classNames('CA0004', { selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
+          <span>{10}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -186,8 +201,8 @@ function Photo() {
             setCategoryTab('미용');
           }}
         >
-          <img className={classNames('CA0005',{ selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
-          {/* <span>병원 {10}회</span> */}
+          <img className={classNames('CA0005', { selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
+          <span>{10}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -197,32 +212,11 @@ function Photo() {
             setCategoryTab('병원');
           }}
         >
-          <img className={classNames('CA0006',{ selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
-          {/* <span>식당 {10}회</span> */}
+          <img className={classNames('CA0006', { selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
+          <span>{10}회</span>
         </div>
       </div>
-      <div className="photo-select">
-        {/* <button
-          className="photo-sort"
-          type="button"
-          onClick={() => {
-            setButtonIsClicked(!buttonIsClicked);
-          }}
-        >
-          <div>{sortOption === 1 ? '최신순' : '오래된순'}</div>
-          <img src={UnderArrow} alt="under-arrow" />
-        </button> */}
-        {/* {buttonIsClicked && (
-          <ul className={classNames('photo-ul', { visible: buttonIsClicked })}>
-            <li aria-hidden="true" value={1} onClick={optionClickHandler}>
-              최신순
-            </li>
-            <li aria-hidden="true" value={0} onClick={optionClickHandler}>
-              오래된순
-            </li>
-          </ul>
-        )} */}
-      </div>
+
       <div className="photo-wrapper">{photoContext}</div>
       {buttonIsClicked && (
         <div className="photo-sort-option" ref={ref}>

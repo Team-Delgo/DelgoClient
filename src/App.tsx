@@ -54,6 +54,7 @@ import PreventBack from './pages/sign/signin/PreventBack';
 
 import { RootState } from './redux/store';
 import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
+import RecordCertificationPage from './pages/post/RecordCertificationPage';
 
 
 
@@ -114,7 +115,7 @@ function App() {
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
-
+        <Route path='/record/certs' element={<RecordCertificationPage/>} />
       </Routes>
     </QueryClientProvider>
   );

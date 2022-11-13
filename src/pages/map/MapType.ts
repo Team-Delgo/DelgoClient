@@ -1,11 +1,14 @@
 export interface Cert{
   categoryCode:string;
+  address:string;
   certificationId:number;
   description:string;
   geoCode:string;
   isPhotoChecked:number;
   latitude:string;
   longitude:string;
+  likeCount:number;
+  commentCount:number;
   mungpleId:number;
   p_geoCode:string;
   photoUrl:string;
@@ -17,6 +20,9 @@ export const certDefault:Cert = {
   categoryCode:'',
   certificationId:0,
   description:'',
+  likeCount:0,
+  commentCount:0,
+  address:'',
   geoCode:'',
   isPhotoChecked:0,
   latitude:'',
