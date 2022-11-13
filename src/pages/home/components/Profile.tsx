@@ -117,7 +117,13 @@ function Profile() {
     <header className="home-page-dog-history-header">
       <img className="home-page-dog-history-header-logo" src={DelgoWhite} alt="copy url" />
       <header className="home-page-dog-history-header-profile" aria-hidden="true" onClick={moveToMyAccountPage}>
-        <img className="home-page-dog-history-header-profile-img" src={pet.image} alt="copy url" width={72} height={72} />
+        <img
+          className="home-page-dog-history-header-profile-img"
+          src={pet.image}
+          alt="copy url"
+          width={72}
+          height={72}
+        />
         <div className="home-page-dog-history-header-profile-detail">
           <div className="home-page-dog-history-header-profile-detail-first">서울시 송파구</div>
           <div className="home-page-dog-history-header-profile-detail-second">
@@ -141,19 +147,21 @@ function Profile() {
             alt="right-arrow-img"
           />
         </div>
-        <div className="home-page-dog-history-header-achievements-images">
-          {getAchievementListIsLoading ? (
+          {getAchievementListIsLoading  ? (
             <div className="loading-spinning-circles">
               <SpinningCircles />
             </div>
           ) : (
-            ahievementList?.data
-              .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
-              .map((achievement: AchievementDataType) => <img src={achievement.achievements.imgUrl} alt="bath-img" />)
+            <div className="home-page-dog-history-header-achievements-images">
+              {ahievementList?.data
+                .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
+                .map((achievement: AchievementDataType) => (
+                  <img src={achievement.achievements.imgUrl} alt="bath-img" />
+                ))}
+            </div>
           )}
-        </div>
       </body>
-    </header>
+    </header> 
   );
 }
 

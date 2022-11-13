@@ -71,15 +71,15 @@
                 border-radius: 6.5px;
             }
 
-            .loading-spinning-circles {
-                min-height: 151px;
-                text-align: center;
-                vertical-align: center;
-                margin: auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+            // .loading-spinning-circles {
+            //     min-height: 151px;
+            //     text-align: center;
+            //     vertical-align: center;
+            //     margin: auto;
+            //     display: flex;
+            //     align-items: center;
+            //     justify-content: center;
+            // }
         }
 
         &-right-arrow-img {
@@ -87,6 +87,17 @@
             height: 12px;
         }
     }
+}
+
+
+.loading-spinning-circles {
+    min-height: 151px;
+    text-align: center;
+    vertical-align: center;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .home-page-dog-history-body {
