@@ -19,11 +19,6 @@ function HomePage() {
     }
   }, []);
 
-  // const token = window.localStorage.getItem('accessToken');
-  // if (!token) {
-  //   navigate(SIGN_IN_PATH.MAIN);
-  // }
-
   return (
     <>
       <Profile />

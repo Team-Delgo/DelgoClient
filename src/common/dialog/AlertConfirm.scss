@@ -85,15 +85,15 @@
   width: 100%;
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
-  color: #ff9162;
+  color: black;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 22.54px;
   transition: 0.2s all ease;
   &:first-child {
-    color: #b0a69d;
-    font-weight: 500;
+    color: #c4c4c4;
+    font-weight: 400;
     border-bottom-left-radius: 5px;
   }
   &:last-child {
