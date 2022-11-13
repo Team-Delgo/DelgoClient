@@ -11,17 +11,17 @@ function PlaceCard (props:{img:string, title:string, address:string, categoryCod
   const {img, title, address, categoryCode} = props;
   let icon;
   if(categoryCode === "CA0001"){
-    icon = <img src={BathSmall} alt=""/>
+    icon = <img src={WalkSmall} alt=""/>
   } else if(categoryCode === "CA0002"){
     icon = <img src={CafeSmall} alt=""/>
   } else if(categoryCode === "CA0003"){
-    icon = <img src={BeautySmall} alt=""/>
-  } else if(categoryCode === "CA0004"){
-    icon = <img src={WalkSmall} alt=""/>
-  } else if(categoryCode === "CA0005"){
-    icon = <img src={HospitalSmall} alt=""/>
-  } else {
     icon = <img src={EatSmall} alt=""/>
+  } else if(categoryCode === "CA0004"){
+    icon = <img src={BathSmall} alt=""/>
+  } else if(categoryCode === "CA0005"){
+    icon = <img src={BeautySmall} alt=""/>
+  } else {
+    icon = <img src={HospitalSmall} alt=""/>
   }
   return <div className="placecard">
     <img src={img} alt="cardimg"/>

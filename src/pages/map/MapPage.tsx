@@ -225,7 +225,7 @@ function MapPage() {
             icon: {
               content: [
                 `<div id=${data.mungpleId} class="mungple ${data.categoryCode}" >`,
-                `<img src=${BathSmall}  style="" alt="pin"/>`,
+                `<img src=${WalkSmall}  style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
               size: new naver.maps.Size(20, 20),
@@ -255,7 +255,7 @@ function MapPage() {
             icon: {
               content: [
                 `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${BeautySmall} style="" alt="pin"/>`,
+                `<img src=${EatSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
               size: new naver.maps.Size(20, 20),
@@ -270,7 +270,7 @@ function MapPage() {
             icon: {
               content: [
                 `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${WalkSmall} style="" alt="pin"/>`,
+                `<img src=${BathSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
               size: new naver.maps.Size(20, 20),
@@ -285,7 +285,7 @@ function MapPage() {
             icon: {
               content: [
                 `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${HospitalSmall} style="" alt="pin"/>`,
+                `<img src=${BeautySmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
               size: new naver.maps.Size(20, 20),
@@ -300,7 +300,7 @@ function MapPage() {
             icon: {
               content: [
                 `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${EatSmall} style="" alt="pin"/>`,
+                `<img src=${HospitalSmall} style="" alt="pin"/>`,
                 `</div>`,
               ].join(''),
               size: new naver.maps.Size(20, 20),
@@ -340,7 +340,7 @@ function MapPage() {
               icon: {
                 content: [
                   `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Bath} style="" alt="pin"/>`,
+                  `<img src=${Walk} style="" alt="pin"/>`,
                   `</div>`,
                 ].join(''),
                 size: new naver.maps.Size(50, 59),
@@ -368,7 +368,7 @@ function MapPage() {
               icon: {
                 content: [
                   `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Beauty} style="" alt="pin"/>`,
+                  `<img src=${Eat} style="" alt="pin"/>`,
                   `</div>`,
                 ].join(''),
                 size: new naver.maps.Size(50, 59),
@@ -382,7 +382,7 @@ function MapPage() {
               icon: {
                 content: [
                   `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Walk} style="" alt="pin"/>`,
+                  `<img src=${Bath} style="" alt="pin"/>`,
                   `</div>`,
                 ].join(''),
                 size: new naver.maps.Size(50, 59),
@@ -396,7 +396,7 @@ function MapPage() {
               icon: {
                 content: [
                   `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Hospital} style="" alt="pin"/>`,
+                  `<img src=${Beauty} style="" alt="pin"/>`,
                   `</div>`,
                 ].join(''),
                 size: new naver.maps.Size(50, 59),
@@ -410,7 +410,7 @@ function MapPage() {
               icon: {
                 content: [
                   `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Eat} style="" alt="pin"/>`,
+                  `<img src=${Hospital} style="" alt="pin"/>`,
                   `</div>`,
                 ].join(''),
                 size: new naver.maps.Size(50, 59),
@@ -441,7 +441,7 @@ function MapPage() {
           icon: {
             content: [
               `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${BathSmall} style="" alt="pin"/>`,
+              `<img src=${WalkSmall} style="" alt="pin"/>`,
               `</div>`,
             ].join(''),
             size: new naver.maps.Size(20, 20),
@@ -471,7 +471,7 @@ function MapPage() {
           icon: {
             content: [
               `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${BeautySmall} style="" alt="pin"/>`,
+              `<img src=${EatSmall} style="" alt="pin"/>`,
               `</div>`,
             ].join(''),
             size: new naver.maps.Size(20, 20),
@@ -486,7 +486,7 @@ function MapPage() {
           icon: {
             content: [
               `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${WalkSmall} style="" alt="pin"/>`,
+              `<img src=${BathSmall} style="" alt="pin"/>`,
               `</div>`,
             ].join(''),
             size: new naver.maps.Size(20, 20),
@@ -501,7 +501,7 @@ function MapPage() {
           icon: {
             content: [
               `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${HospitalSmall} style="" alt="pin"/>`,
+              `<img src=${BeautySmall} style="" alt="pin"/>`,
               `</div>`,
             ].join(''),
             size: new naver.maps.Size(20, 20),
@@ -516,7 +516,7 @@ function MapPage() {
           icon: {
             content: [
               `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${EatSmall} style="" alt="pin"/>`,
+              `<img src=${HospitalSmall} style="" alt="pin"/>`,
               `</div>`,
             ].join(''),
             size: new naver.maps.Size(20, 20),

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import vConsole from 'vconsole';
 import App from './App';
 import store from './redux/store';
 import reportWebVitals from './reportWebVitals';
@@ -21,7 +20,6 @@ const initVConsole = () => {
     },
   };
   // eslint-disable-next-line no-new, new-cap
-  new vConsole(config);
 
 };
 if (process.env.NODE_ENV === 'production') {
