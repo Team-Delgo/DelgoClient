@@ -14,7 +14,7 @@ async function getCertificationDataCount(userId: number) {
   const accessToken = localStorage.getItem('accessToken') || '';
 
   const { data } = await axios.get(
-    `${process.env.REACT_APP_API_URL}/certification/category-data-count?userId=${userId}`,
+    `${process.env.REACT_APP_API_URL}/certification/category/count?userId=${userId}`,
   );
   return data;
 }
@@ -130,7 +130,7 @@ async function updateCertificationPost(
 
 async function getCertificationPostsByMain() {
   const accessToken = localStorage.getItem('accessToken') || '';
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/data/main`);
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/main`);
   console.log(data);
   return data;
 }
@@ -139,7 +139,7 @@ async function getCertificationPostAll(pageParam: number, dispatch: any) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/certification/data/all?currentPage=${pageParam}&pageSize=3`,
+      `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=3`,
     );
     console.log(res.data.data);
     const { content, last } = res.data.data;
