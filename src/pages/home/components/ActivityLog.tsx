@@ -63,7 +63,7 @@ function ActivityLog() {
         <div className="home-page-dog-history-body-activity-log-line-hospital">
           <div className="home-page-dog-history-body-activity-log-line-hospital-label">병원</div>
           <div className="home-page-dog-history-body-activity-log-line-hospital-count">
-            {certificationDataCount?.data.기타}회
+            {certificationDataCount?.data.병원}회
           </div>
         </div>
       </div>
