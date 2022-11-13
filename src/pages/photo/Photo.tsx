@@ -105,7 +105,7 @@ function Photo() {
     <div className="photo">
       <RecordHeader />
       <FooterNavigation />
-      <div className="photo-history">
+      <div className="photo-history" >
         <div className="photo-history-title">{categoryTab}기록</div>
         <div className="photo-history-select">
           {cateogory !== 'CA0000' && (
@@ -142,7 +142,7 @@ function Photo() {
             setCategoryTab('산책');
           }}
         >
-          <img className={classNames({ selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
+          <img className={classNames('CA0001',{ selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
           {/* <span>산책 {10}회</span> */}
         </div>
         <div
@@ -153,7 +153,7 @@ function Photo() {
             setCategoryTab('카페');
           }}
         >
-          <img className={classNames({ selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
+          <img className={classNames('CA0002',{ selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
           {/* <span>카페 {10}회</span> */}
         </div>
         <div
@@ -164,7 +164,7 @@ function Photo() {
             setCategoryTab('식당');
           }}
         >
-          <img className={classNames({ selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
+          <img className={classNames('CA0003',{ selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
           {/* <span>미용 {10}회</span> */}
         </div>
         <div
@@ -175,7 +175,7 @@ function Photo() {
             setCategoryTab('목욕');
           }}
         >
-          <img className={classNames({ selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
+          <img className={classNames('CA0004',{ selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
           {/* <span>목욕 {10}회</span> */}
         </div>
         <div
@@ -186,7 +186,7 @@ function Photo() {
             setCategoryTab('미용');
           }}
         >
-          <img className={classNames({ selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
+          <img className={classNames('CA0005',{ selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
           {/* <span>병원 {10}회</span> */}
         </div>
         <div
@@ -197,7 +197,7 @@ function Photo() {
             setCategoryTab('병원');
           }}
         >
-          <img className={classNames({ selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
+          <img className={classNames('CA0006',{ selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
           {/* <span>식당 {10}회</span> */}
         </div>
       </div>
