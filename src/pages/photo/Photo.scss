@@ -1,6 +1,12 @@
 .photo {
-  &-sort{
-    &-option{
+  &-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 9;
+  }
+  &-sort {
+    &-option {
       position: sticky;
       height: 122px;
       background-color: white;
@@ -13,22 +19,22 @@
       justify-content: center;
       z-index: 11;
       padding: 20px;
-      &-item{
+      &-item {
         font-size: 16px;
         font-weight: 500;
         height: 50%;
         display: flex;
         align-items: center;
         color: #8a8a8a;
-        &.selected{
+        &.selected {
           font-weight: 600;
           color: black;
         }
       }
-      &-devider{
+      &-devider {
         width: 100%;
         height: 1px;
-background-color: #f2f2f2;
+        background-color: #f2f2f2;
       }
     }
   }
@@ -52,7 +58,7 @@ background-color: #f2f2f2;
     justify-content: space-between;
     &-select {
       display: flex;
-        align-items: center;
+      align-items: center;
       &-all {
         display: flex;
         align-items: center;
@@ -61,8 +67,8 @@ background-color: #f2f2f2;
           margin-right: 5px;
         }
       }
-      &-sort{
-        img{
+      &-sort {
+        img {
           margin-left: 5px;
         }
       }
@@ -70,7 +76,6 @@ background-color: #f2f2f2;
       font-size: 14px;
       font-weight: 400;
       color: #8a8a8a;
-      
     }
   }
   &-category {
@@ -95,14 +100,32 @@ background-color: #f2f2f2;
         padding: 1px;
         border-radius: 100%;
         border: 2px solid white;
-        &.selected {
-          border: 2px solid #5898C6;
+        &.CA0001.selected {
+          border: 2px solid #4a8c48;
         }
-        width: 4.7rem;
+        &.CA0002.selected {
+          border: 2px solid #8e6947;
+        }
+        &.CA0003.selected {
+          border: 2px solid #ad912b;
+        }
+        &.CA0004.selected {
+          border: 2px solid #328995;
+        }
+        &.CA0005.selected {
+          border: 2px solid #b4588f;
+        }
+        &.CA0006.selected {
+          border: 2px solid #6f4ecf;
+        }
       }
       &.item {
         position: relative;
         margin: 5px;
+        span{
+          font-size: 14px;
+          font-weight: 500;
+        }
       }
     }
   }

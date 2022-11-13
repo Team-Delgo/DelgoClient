@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as Exit } from '../icons/exit.svg';
@@ -7,6 +8,7 @@ import './Calender.scss';
 import park from './park.jpg';
 import { getCalendarData } from '../api/record';
 import { DateType } from './CalendarType';
+import {Certification} from '../../pages/post/RecordCertificationPage';
 
 interface CalenderProps {
   closeCalender: () => void;
@@ -21,6 +23,7 @@ Calender.defaultProps = {
 function Calender() {
   const userId = useSelector((state:any)=>state.persist.user.user.id);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dateList, setDateList] = useState<DateType[]>([]);
   const getNextYear = (currentMonth: number, currentYear: number, add: number) => {
@@ -131,7 +134,7 @@ function Calender() {
           onClick={
             isCertificated
               ? () => {
-                  console.log();
+                // navigate('/record/certs',{state:datel})
                 }
               : undefined
           }

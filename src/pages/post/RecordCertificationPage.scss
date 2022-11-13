@@ -1,0 +1,17 @@
+.record-certs{
+  &-header{
+    margin-top: 50px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    img{
+      position: absolute;
+      left: 22px;
+    }
+    margin-bottom: 20px;
+    &-date{
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+}
