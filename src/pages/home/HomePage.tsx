@@ -13,13 +13,16 @@ function HomePage() {
 
   useEffect(() => {
     window.scroll(0, 0);
+    const token = window.localStorage.getItem('accessToken');
+    if (!token) {
+      navigate(SIGN_IN_PATH.MAIN);
+    }
   }, []);
 
-  const token = window.localStorage.getItem('accessToken');
-  if (!token) {
-    navigate(SIGN_IN_PATH.MAIN);
-  }
-
+  // const token = window.localStorage.getItem('accessToken');
+  // if (!token) {
+  //   navigate(SIGN_IN_PATH.MAIN);
+  // }
 
   return (
     <>

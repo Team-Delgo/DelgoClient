@@ -27,7 +27,7 @@ function Photo() {
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
   const [cateogory, setCategory] = useState('CA0000');
-  const [categoryTab, setCategoryTab] = useState('누적');
+  const [categoryTab, setCategoryTab] = useState('전체');
   const [sortOption, setSortOption] = useState<number>(1);
   const [isLast, setLast] = useState(false);
   const dispatch = useDispatch();
