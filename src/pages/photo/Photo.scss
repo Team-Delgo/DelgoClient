@@ -1,4 +1,37 @@
 .photo {
+  &-sort{
+    &-option{
+      position: sticky;
+      height: 122px;
+      background-color: white;
+      border-radius: 8px 8px 0px 0px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 11;
+      padding: 20px;
+      &-item{
+        font-size: 16px;
+        font-weight: 500;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        color: #8a8a8a;
+        &.selected{
+          font-weight: 600;
+          color: black;
+        }
+      }
+      &-devider{
+        width: 100%;
+        height: 1px;
+background-color: #f2f2f2;
+      }
+    }
+  }
   &-wrapper {
     display: flex;
     // justify-content: center;
@@ -12,8 +45,33 @@
   }
   &-history {
     margin: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
+    margin-top: 2rem;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    &-select {
+      display: flex;
+        align-items: center;
+      &-all {
+        display: flex;
+        align-items: center;
+        img {
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+      }
+      &-sort{
+        img{
+          margin-left: 5px;
+        }
+      }
+      display: flex;
+      font-size: 14px;
+      font-weight: 400;
+      color: #8a8a8a;
+      
+    }
   }
   &-category {
     margin: 1rem;
@@ -37,9 +95,8 @@
         padding: 1px;
         border-radius: 100%;
         border: 2px solid white;
-        &.selected{
-        border: 2px solid #366eff;
-
+        &.selected {
+          border: 2px solid #366eff;
         }
         width: 4.7rem;
       }
