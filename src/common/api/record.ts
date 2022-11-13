@@ -35,7 +35,7 @@ async function getPhotoData(
 ) {
   await axios
     .get(
-      `${process.env.REACT_APP_API_URL}/certification/category-data?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}&isDesc=${isDesc}`,
+      `${process.env.REACT_APP_API_URL}/certification/category?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}&isDesc=${isDesc}`,
     )
     .then((data) => {
       success(data);

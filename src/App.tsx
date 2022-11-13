@@ -53,6 +53,7 @@ import MyAccountPage from './pages/myaccount/MyAccountPage';
 import PreventBack from './pages/sign/signin/PreventBack';
 
 import { RootState } from './redux/store';
+import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
 
 
 
@@ -109,6 +110,7 @@ function App() {
         <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />
         <Route path={NEIGHBOR_RANKING_PATH} element={<NeighborRankingPage />} />
         <Route path={MY_ACCOUNT_PATH.MAIN} element={<MyAccountPage />} />
+        <Route path={MY_ACCOUNT_PATH.PETINFO} element={<ChangePetInfo/>} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
