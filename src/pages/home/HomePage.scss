@@ -61,11 +61,17 @@
 
         &-images {
             margin: 10px 5% 0 0;
-            display: flex;
-            justify-content: space-between;
+            // display: flex;
+            // justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            row-gap: 5px;
+            column-gap: 10px;
 
             img {
-                width: 32%;
+                width: 100%;
+                object-fit: cover;
+                border-radius: 6.5px;
             }
 
             .loading-spinning-circles {
