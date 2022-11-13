@@ -80,8 +80,9 @@ function AchievementPage() {
   };
 
   const selectionRepresentativeAchievementsCompletion = () => {
+    console.log('mainAchievementList',mainAchievementList)
     setMainAchievements(
-      1,
+      user.id,
       mainAchievementList[0] !== undefined ? mainAchievementList[0].achievementsId : 0,
       mainAchievementList[1] !== undefined ? mainAchievementList[1].achievementsId : 0,
       mainAchievementList[2] !== undefined ? mainAchievementList[2].achievementsId : 0,
