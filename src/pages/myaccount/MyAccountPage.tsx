@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
@@ -6,8 +6,9 @@ import './MyAccountPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import RightArrow from '../../common/icons/right-arrow.svg';
 import RightArrowGray from '../../common/icons/right-arrow-gray.svg';
-import { MY_ACCOUNT_PATH, ROOT_PATH } from '../../common/constants/path.const';
-import {RootState} from '../../redux/store';
+import { MY_ACCOUNT_PATH, ROOT_PATH, SIGN_IN_PATH } from '../../common/constants/path.const';
+import { RootState } from '../../redux/store';
+import AlertConfirm from '../../common/dialog/AlertConfirm';
 
 interface rankingType {
   geoCode: string;
@@ -21,6 +22,7 @@ const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 function MyAccountPage() {
   const { OS } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
   const pet = useSelector((state: RootState) => state.persist.user.pet);
   const { name, image } = pet;
   const location: any = useLocation();
@@ -35,7 +37,13 @@ function MyAccountPage() {
   //     window.webkit.messageHandlers.goToPlusFriends.postMessage('');
   //   }
   // },[])
-  
+
+  const logoutHandler = () => {
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('refreshToken');
+    navigate(SIGN_IN_PATH.MAIN);
+  };
+
   return (
     <div className="my-account-page">
       <img
@@ -84,7 +92,25 @@ function MyAccountPage() {
           </div>
           <img src={RightArrow} alt="more" />
         </div>
+        <div
+          className="my-account-page-body-item"
+          aria-hidden="true"
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          로그아웃
+          <img src={RightArrow} alt="more" />
+        </div>
       </body>
+      {modalOpen && <AlertConfirm
+        text="로그아웃 하시겠습니까?"
+        buttonText="로그아웃"
+        yesButtonHandler={logoutHandler}
+        noButtonHandler={() => {
+          setModalOpen(false);
+        }}
+      />}
       <FooterNavigation />
     </div>
   );
