@@ -7905,6 +7905,11 @@
     "@types/webrtc" "0.0.25"
     "detectrtc" "^1.3.9"
 
+"react-cool-onclickoutside@^1.7.0":
+  "integrity" "sha512-HVZK2155Unee+enpoHKyYP2UdQK69thw90XAOUCjvJBcgRSgfRPgWWt/W1dYzoGp3+nleAa8SJxF1d4FMA4Qmw=="
+  "resolved" "https://registry.npmjs.org/react-cool-onclickoutside/-/react-cool-onclickoutside-1.7.0.tgz"
+  "version" "1.7.0"
+
 "react-css-spinners@^4.0.2":
   "integrity" "sha512-grQ+LsvfZoYdqAOqO2iyIFErIxLeQ5S2EJSG35titZ+7A/Y2RBINKyKp+54PMSvJZ2wFfZFweh7PxJ6vYGvnqQ=="
   "resolved" "https://registry.npmjs.org/react-css-spinners/-/react-css-spinners-4.0.2.tgz"
