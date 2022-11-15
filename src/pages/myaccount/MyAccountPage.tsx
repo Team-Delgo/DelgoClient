@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import './MyAccountPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
@@ -9,6 +9,7 @@ import RightArrowGray from '../../common/icons/right-arrow-gray.svg';
 import { MY_ACCOUNT_PATH, ROOT_PATH, SIGN_IN_PATH } from '../../common/constants/path.const';
 import { RootState } from '../../redux/store';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
+import { userActions } from '../../redux/slice/userSlice';
 
 interface rankingType {
   geoCode: string;
@@ -20,6 +21,7 @@ interface rankingType {
 const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 
 function MyAccountPage() {
+  const dispatch = useDispatch();
   const { OS } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,6 +43,7 @@ function MyAccountPage() {
   const logoutHandler = () => {
     window.localStorage.removeItem('accessToken');
     window.localStorage.removeItem('refreshToken');
+    dispatch(userActions.signout());
     navigate(SIGN_IN_PATH.MAIN);
   };
 

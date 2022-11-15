@@ -55,6 +55,7 @@ import PreventBack from './pages/sign/signin/PreventBack';
 import { RootState } from './redux/store';
 import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
 import RecordCertificationPage from './pages/post/RecordCertificationPage';
+import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
 
 
 
@@ -94,6 +95,7 @@ function App() {
         <Route path={SIGN_UP_PATH.TERMS} element={<Terms />} />
         <Route path={SIGN_UP_PATH.VERIFY} element={<VerifyPhone />} />
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
+        <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo/>} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
         <Route path='/preventback' element={<PreventBack/>} />

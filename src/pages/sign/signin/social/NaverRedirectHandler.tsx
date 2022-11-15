@@ -95,7 +95,7 @@ function NaverRedirectHandler() {
       <Loading />
       {signUp && (
         <AlertConfirm
-          text="네이버로 가입된 계정이 없습니다"
+          text="네이버로 가입된 DELGO계정이 없습니다"
           buttonText="회원가입"
           yesButtonHandler={moveToSignUpPage}
           noButtonHandler={moveToPreviousPage}
