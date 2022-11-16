@@ -39,6 +39,11 @@ function RecordCertificationPage() {
     return <RecordCertification certification={e} />;
   });
 
+  let headerFrom:string;
+  if(pageFrom === RECORD_PATH.CALENDAR) headerFrom = 'calendar';
+  else if(pageFrom === RECORD_PATH.MAP) headerFrom = 'map';
+  else headerFrom = 'photo';
+
   return (
     <div className="record-certs" ref={scrollRef}>
       {loading ? (
@@ -51,7 +56,7 @@ function RecordCertificationPage() {
               alt="back"
               aria-hidden="true"
               onClick={() => {
-                navigate(pageFrom);
+                navigate(pageFrom,{state:headerFrom});
               }}
             />
             <div className="record-certs-header-date">{certifications[0].registDt.slice(0, 10)}</div>
