@@ -15,16 +15,22 @@ export interface Certification {
   categoryCode: string;
 }
 
+interface LocationState{
+  certifications : Cert[];
+  pageFrom: string;
+}
+
 function RecordCertificationPage() {
   const navigate = useNavigate();
-  const certifications = useLocation().state as Cert[];
+  const locationState = useLocation().state as LocationState;
+  const {certifications, pageFrom} = locationState;
   const contents = certifications.map((e:Cert) => {
     return <RecordCertification certification={e}/>
   }) 
 
   return <div className='record-certs'>
     <div className='record-certs-header'>
-      <img src={Back} alt="back" aria-hidden="true" onClick={()=>{navigate(RECORD_PATH.PHOTO)}}/>
+      <img src={Back} alt="back" aria-hidden="true" onClick={()=>{navigate(pageFrom)}}/>
       <div className='record-certs-header-date'>{certifications[0].registDt.slice(0,10)}</div>
     </div>
     {contents}

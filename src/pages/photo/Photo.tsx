@@ -17,6 +17,7 @@ import UnderArrow from '../../common/icons/under-arrow-gray.svg';
 import { Cert } from '../map/MapType';
 import { getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
+import { RECORD_PATH } from '../../common/constants/path.const';
 
 function Photo() {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ function Photo() {
         alt="cert"
         aria-hidden="true"
         onClick={() => {
-          navigate('/record/certs', { state: [photo] });
+          navigate('/record/certs', { state: {certifications:[photo], pageFrom: RECORD_PATH.PHOTO} });
         }}
       />
     );
