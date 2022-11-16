@@ -56,6 +56,7 @@ import { RootState } from './redux/store';
 import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
 import RecordCertificationPage from './pages/post/RecordCertificationPage';
 import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
+import SocialExist from './pages/sign/signin/social/SocialExist';
 
 
 
@@ -98,6 +99,7 @@ function App() {
         <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo/>} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
+        <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist/>} /> 
         <Route path='/preventback' element={<PreventBack/>} />
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
