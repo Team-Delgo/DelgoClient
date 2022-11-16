@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import './BirthSelector.scss';
 import classNames from 'classnames';
 import Birth from './birth';
+import RightArrow from '../../../../common/icons/right-arrow.svg';
 
-function BirthSelector(props: { changeBirth: (year: number, month: number, day: number) => void }) {
+function BirthSelector(props: { changeBirth: (year: number, month: number, day: number) => void, close:()=>void }) {
   const [selectedYear, setSelectedYear] = useState<number>(2000);
   const [selectedMonth, setSelectedMonth] = useState<number>(1);
   const [selectedDay, setSelectedDay] = useState<number>(1);
@@ -12,7 +13,7 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
   const yearRef = useRef<HTMLDivElement>(null);
   const monthRef = useRef<HTMLDivElement>(null);
   const dayRef = useRef<HTMLDivElement>(null);
-  const { changeBirth } = props;
+  const { changeBirth, close } = props;
 
   useEffect(() => {
     if (leapYear.includes(selectedYear)) {
@@ -25,17 +26,17 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
 
   useEffect(() => {
     if (selectedYear) {
-      if(yearRef.current){
+      if (yearRef.current) {
         yearRef.current.scrollTop = (selectedYear - 2000) * 30;
       }
     }
     if (selectedMonth) {
-      if(monthRef.current){
+      if (monthRef.current) {
         monthRef.current.scrollTop = (selectedMonth - 1) * 30;
       }
     }
     if (selectedDay) {
-      if(dayRef.current){
+      if (dayRef.current) {
         dayRef.current.scrollTop = (selectedDay - 1) * 30;
       }
     }
@@ -68,7 +69,7 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
   });
 
   const yearScrollHandler = () => {
-    if(yearRef.current){
+    if (yearRef.current) {
       const { scrollTop } = yearRef.current;
       const year = Math.round(scrollTop / 30) + 2000;
       setSelectedYear(year);
@@ -76,7 +77,7 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
   };
 
   const monthScrollHandler = () => {
-    if(monthRef.current){
+    if (monthRef.current) {
       const { scrollTop } = monthRef.current;
       const month = Math.round(scrollTop / 30) + 1;
       setSelectedMonth(month);
@@ -84,7 +85,7 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
   };
 
   const dayScrollHandler = () => {
-    if(dayRef.current){
+    if (dayRef.current) {
       const { scrollTop } = dayRef.current;
       const day = Math.round(scrollTop / 30) + 1;
       setSelectedDay(day);
@@ -92,17 +93,23 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
   };
 
   return (
-    <div className="birth">
-      <div className="birth-years tab" ref={yearRef} onScroll={yearScrollHandler}>
-        {yearContext}
+    <div className="birth-wrapper">
+      <div className='birth'>
+        <div className="birth-years tab" ref={yearRef} onScroll={yearScrollHandler}>
+          {yearContext}
+        </div>
+        <div className="birth-divider" />
+        <div className="birth-months tab" ref={monthRef} onScroll={monthScrollHandler}>
+          {monthContext}
+        </div>
+        <div className="birth-divider" />
+        <div className="birth-days tab" ref={dayRef} onScroll={dayScrollHandler}>
+          {dayContext}
+        </div>
       </div>
-      <div className='birth-divider' />
-      <div className="birth-months tab" ref={monthRef} onScroll={monthScrollHandler}>
-        {monthContext}
-      </div>
-      <div className='birth-divider' />
-      <div className="birth-days tab" ref={dayRef} onScroll={dayScrollHandler}>
-        {dayContext}
+      <div className="birth-button" aria-hidden="true" onClick={close}>
+        다음
+        <img src={RightArrow} alt="arrow" />
       </div>
     </div>
   );

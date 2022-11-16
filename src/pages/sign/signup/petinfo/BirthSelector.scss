@@ -1,4 +1,10 @@
 .birth {
+  &-wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+  }
   z-index: 10;
   display: flex;
   background-color: white;
@@ -6,10 +12,26 @@
   align-items: center;
   width: 335px;
   height: 272px;
+  padding-bottom: 30px;
   border-radius: 5px;
   text-align: center;
   font-size: 18px;
   font-weight: 300;
+  &-button{
+    position: absolute;
+    bottom: 10px;
+    z-index: 9999;
+    right: 10px;
+    width: 38px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 42px;
+    display: flex;
+    background-color: #3f3f3f;
+    color: white;
+    padding: 10px 30px;
+    font-size: 12px;
+  }
   &-years {
     width: 120px;
   }
