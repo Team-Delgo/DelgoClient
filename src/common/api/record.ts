@@ -15,7 +15,18 @@ async function getMapData(userId: number, success: (data: AxiosResponse) => void
 
 async function getCalendarData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/calendar/data?userId=${userId}`)
+    .get(`${process.env.REACT_APP_API_URL}/calendar/user?userId=${userId}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+async function getCategoryCount(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  await axios
+    .get(`${process.env.REACT_APP_API_URL}/certification/category/count?userId=${userId}`)
     .then((data) => {
       success(data);
     })
@@ -45,4 +56,4 @@ async function getPhotoData(
     });
 }
 
-export { getMapData, getCalendarData, getPhotoData };
+export { getMapData, getCalendarData, getPhotoData, getCategoryCount };

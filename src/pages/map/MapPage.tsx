@@ -169,6 +169,10 @@ function MapPage() {
           setSelectedCert((prev) => {
             return {
               ...prev,
+              userId: data.userId,
+              isLike: data.isLike,
+              likeCount: data.likeCount,
+              commentCount: data.commentCount,
               categoryCode: data.categoryCode,
               certificationId: data.certificationId,
               description: data.description,

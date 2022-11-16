@@ -1,3 +1,5 @@
+import {Cert} from "../../pages/map/MapType";
+
 interface DateList{
   categoryCode:string;
   certificationId:number;
@@ -16,7 +18,7 @@ interface DateList{
 
 export interface DateType{
   date:string;
-  dateList:DateList[];
+  dateList:Cert[];
   isAchievements:number;
 }
 

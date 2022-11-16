@@ -15,7 +15,7 @@ import Bath from '../../common/icons/bath.svg';
 import Eat from '../../common/icons/eat.svg';
 import UnderArrow from '../../common/icons/under-arrow-gray.svg';
 import { Cert } from '../map/MapType';
-import { getPhotoData } from '../../common/api/record';
+import { getCategoryCount, getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 import { RECORD_PATH } from '../../common/constants/path.const';
 
@@ -30,12 +30,14 @@ function Photo() {
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
   const [cateogory, setCategory] = useState('CA0000');
+  const [categoryCount, setCategoryCount] = useState({산책 : 0, 카페: 0, 식당: 0, 미용: 0, 병원: 0, 기타: 0, 목욕:0});
   const [categoryTab, setCategoryTab] = useState('전체');
   const [sortOption, setSortOption] = useState<number>(1);
   const [isLast, setLast] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    getCategoryCountList();
     getPhotoDataList();
     const handleScroll = () => {
       const { scrollTop, offsetHeight } = document.documentElement;
@@ -51,6 +53,8 @@ function Photo() {
     if (isFetching && !isLast) getPhotoDataList();
     else if (isLast) setFetching(true);
   }, [isFetching]);
+
+  
 
   useEffect(() => {
     getPhotoData(
@@ -71,6 +75,7 @@ function Photo() {
       dispatch,
     );
   }, [cateogory, sortOption]);
+
 
   const getPhotoDataList = async () => {
     getPhotoData(
@@ -108,6 +113,14 @@ function Photo() {
   }
 
   console.log(photos);
+
+  const getCategoryCountList = async () => {
+    getCategoryCount(userId,(response:AxiosResponse) => {
+      const {data} = response.data;
+      setCategoryCount(data);
+    },dispatch)
+  }
+  console.log(categoryCount);
 
   const optionClickHandler = (e: any) => {
     setSortOption(e.target.value);
@@ -159,7 +172,7 @@ function Photo() {
           }}
         >
           <img className={classNames('CA0001', { selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
-          <span>{10}회</span>
+          <span>{categoryCount.산책}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -170,7 +183,7 @@ function Photo() {
           }}
         >
           <img className={classNames('CA0002', { selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
-          <span>{10}회</span>
+          <span>{categoryCount.카페}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -181,7 +194,7 @@ function Photo() {
           }}
         >
           <img className={classNames('CA0003', { selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
-          <span>{10}회</span>
+          <span>{categoryCount.식당}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -192,7 +205,7 @@ function Photo() {
           }}
         >
           <img className={classNames('CA0004', { selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
-          <span>{10}회</span>
+          <span>{categoryCount.목욕}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -203,7 +216,7 @@ function Photo() {
           }}
         >
           <img className={classNames('CA0005', { selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
-          <span>{10}회</span>
+          <span>{categoryCount.미용}회</span>
         </div>
         <div
           aria-hidden="true"
@@ -214,7 +227,7 @@ function Photo() {
           }}
         >
           <img className={classNames('CA0006', { selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
-          <span>{10}회</span>
+          <span>{categoryCount.병원}회</span>
         </div>
       </div>
 

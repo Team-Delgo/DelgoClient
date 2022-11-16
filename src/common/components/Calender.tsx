@@ -7,8 +7,10 @@ import { ReactComponent as Exit } from '../icons/exit.svg';
 import './Calender.scss';
 import park from './park.jpg';
 import { getCalendarData } from '../api/record';
+import { Cert } from '../../pages/map/MapType';
 import { DateType } from './CalendarType';
 import {Certification} from '../../pages/post/RecordCertificationPage';
+import { RECORD_PATH } from '../constants/path.const';
 
 interface CalenderProps {
   closeCalender: () => void;
@@ -115,10 +117,13 @@ function Calender() {
       let achieve = 0;
       let isCertificated = false;
       let imageSrc;
+      let certification:Cert[];
       // let dateId;
       dateList.forEach((date) => {
+        console.log(dateList);
         if (date.date === id) {
           isCertificated = true;
+          certification = date.dateList;
           imageSrc = date.dateList[0].photoUrl;
           achieve = date.isAchievements;
           console.log(date);
@@ -134,7 +139,7 @@ function Calender() {
           onClick={
             isCertificated
               ? () => {
-                // navigate('/record/certs',{state:datel})
+                navigate('/record/certs',{state:{certifications:certification,pageFrom:RECORD_PATH.CALENDAR}})
                 }
               : undefined
           }
