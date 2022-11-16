@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import RecordHeader from '../../common/components/RecordHeader';
 import './MapPage.scss';
@@ -600,6 +600,8 @@ function MapPage() {
       )}
       {selectedCert.placeName.length > 0 && (
         <CertCard
+          cert={selectedCert}
+          // getCenter={}
           img={selectedCert.photoUrl}
           title={selectedCert.placeName}
           categoryCode={selectedCert.categoryCode}

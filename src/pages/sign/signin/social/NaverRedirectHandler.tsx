@@ -42,6 +42,7 @@ function NaverRedirectHandler() {
                 email: data.user.email,
                 phone: data.user.phoneNo,
                 userSocial: data.user.userSocial,
+                geoCode: data.user.geoCode,
               },
               pet: {
                 petId: data.pet.petId,
