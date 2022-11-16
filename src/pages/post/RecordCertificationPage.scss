@@ -1,15 +1,23 @@
 .record-certs{
+  &-content{
+    padding-top: 100px;
+  }
   &-header{
-    margin-top: 50px;
-    position: relative;
-    display: flex;
+    padding-top: 50px;
+    position: fixed;
+    width: 100vw;
+    height: 50px;
     justify-content: center;
+    background-color: white;
     img{
       position: absolute;
       left: 22px;
     }
     margin-bottom: 20px;
     &-date{
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);      
       font-weight: 600;
       font-size: 18px;
     }

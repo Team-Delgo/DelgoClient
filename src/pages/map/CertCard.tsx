@@ -19,6 +19,7 @@ function CertCard(props: {
   cert: Cert;
 }) {
   const { img, title, description, registDt, categoryCode,cert } = props;
+  console.log(cert);
   const navigate = useNavigate();
   const descriptionText = description.length > 50 ? `${description.substring(0, 50)}...` : description;
   let icon;

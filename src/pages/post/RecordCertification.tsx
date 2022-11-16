@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AxiosResponse } from 'axios';
 import { Certification } from './RecordCertificationPage';
 import VerticalDevider from '../../common/icons/vertical-devide.svg';
 import Cafe from '../../common/icons/cafe.svg';
@@ -12,10 +14,26 @@ import FillHeart from '../../common/icons/heart.svg';
 import Comments from '../../common/icons/comments.svg';
 import { Cert } from '../map/MapType';
 import './RecordCertification.scss';
+import { CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
+import { certificationLike } from '../../common/api/certification';
+import { useErrorHandlers } from '../../common/api/useErrorHandlers';
 
 function RecordCertification(props: { certification: Cert }) {
   const { certification } = props;
-  const [selfHeart, setSelfHeart] = useState(false);
+  const dispatch = useDispatch();
+  const [selfHeart, setSelfHeart] = useState(certification.isLike);
+  const [count, setCount] = useState(certification.likeCount);
+
+  const setCertificationLike = async () => {
+    certificationLike(
+      certification.userId,
+      certification.certificationId,
+      (response: AxiosResponse) => {
+        if (response.data.code === 200) setSelfHeart(selfHeart === 1 ? 0 : 1);
+      },
+      dispatch,
+    );
+  };
 
   let icon;
   if (certification.categoryCode === 'CA0001') icon = Walk;
@@ -45,14 +63,19 @@ function RecordCertification(props: { certification: Cert }) {
       <div className="record-cert-icons">
         <img
           className="record-cert-icons-heart"
-          src={selfHeart ? FillHeart:Heart}
+          src={selfHeart ? FillHeart : Heart}
           alt="heart"
           aria-hidden="true"
           onClick={() => {
-            setSelfHeart(!selfHeart);
+            setCertificationLike();
+            if(selfHeart){
+              setCount(count-1);
+            }else{
+              setCount(count+1);
+            }
           }}
         />
-        {certification.likeCount > 0 && <div className="record-cert-icons-count">{certification.likeCount}</div>}
+        {count > 0 && <div className="record-cert-icons-count">{count}</div>}
         <img className="record-cert-icons-comments" src={Comments} alt="comments" />
         {certification.commentCount > 0 && <div className="record-cert-icons-count">{certification.commentCount}</div>}
       </div>

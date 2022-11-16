@@ -19,6 +19,18 @@ async function getCertificationDataCount(userId: number) {
   return data;
 }
 
+async function certificationLike(userId: number, certificationId:number, success: (data: AxiosResponse) => void, dispatch: any){
+  const accessToken = localStorage.getItem('accessToken') || '';
+  await axios.post(`${process.env.REACT_APP_API_URL}/certification/like/${userId}/${certificationId}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+
 async function registerCameraCertificationPost(
   data: {
     userId: number;
@@ -157,5 +169,6 @@ export {
   registerGalleryCertificationImg,
   getCertificationPostsByMain,
   getCertificationPostAll,
-  updateCertificationPost
+  updateCertificationPost,
+  certificationLike
 };
