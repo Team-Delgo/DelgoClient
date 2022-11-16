@@ -64,6 +64,7 @@ function CaptureCategoryRecord() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
   const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const { categoryKo, img, latitude, longitude, mongPlaceId, title, tool, file } = useSelector(
     (state: RootState) => state.persist.upload,
   );
@@ -74,6 +75,10 @@ function CaptureCategoryRecord() {
   const formData = new FormData();
   
   const uploadCameraImgCertification = () => {
+    if (buttonDisabled) {
+      return;
+    }
+    setButtonDisabled(true);
     registerCameraCertificationPost(
       {
         userId: user.id,
@@ -113,6 +118,9 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 1000);
   };
 
   const uploadGalleryImgCertification = () => {
@@ -307,9 +315,9 @@ function CaptureCategoryRecord() {
                   className="review-content"
                   placeholder="남기고 싶은 기록을 작성해주세요"
                   onChange={writeContent}
-                  maxLength={200}
+                  maxLength={1000}
                 />
-                <div className="review-content-length">{certificationPostContent.length}/200</div>
+                <div className="review-content-length">{certificationPostContent.length}/1000</div>
               </body>
             </main>
           </Sheet.Content>

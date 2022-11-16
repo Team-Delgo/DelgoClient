@@ -13,7 +13,7 @@ async function getMyPetRanking(userId: number) {
   console.log('userId', userId);
   const accessToken = localStorage.getItem('accessToken') || '';
   const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/ranking/user?userId=${userId}`);
-  console.log(data);
+  console.log('myPetRanking',data);
   return data;
 }
 

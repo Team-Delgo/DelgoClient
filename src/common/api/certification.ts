@@ -128,18 +128,18 @@ async function updateCertificationPost(
   }
 }
 
-async function getCertificationPostsByMain() {
+async function getCertificationPostsByMain(userId: number) {
   const accessToken = localStorage.getItem('accessToken') || '';
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/main`);
-  console.log(data);
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/main?userId=${userId}`);
+  console.log('data', data);
   return data;
 }
 
-async function getCertificationPostAll(pageParam: number, dispatch: any) {
+async function getCertificationPostAll(pageParam: number, userId: number, dispatch: any) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=3`,
+      `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=3&userId=${userId}`,
     );
     console.log(res.data.data);
     const { content, last } = res.data.data;

@@ -3,10 +3,11 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
-import { AnyIfEmpty, useDispatch } from 'react-redux';
+import { AnyIfEmpty, useDispatch, useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import { getCertificationPostAll } from '../../common/api/certification';
 import './CertificationPostsPage.scss';
+import { RootState } from '../../redux/store';
 
 
 interface userType {
@@ -63,13 +64,14 @@ const weekDay: weekDayType = {
 };
 
 function CertificationPostsPage() {
+  const { user } = useSelector((state: RootState) => state.persist.user);
   const dispatch = useDispatch();
   const { ref, inView } = useInView();
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     'posts',
-    ({ pageParam = 0 }) => getCertificationPostAll(pageParam, dispatch),
+    ({ pageParam = 0 }) => getCertificationPostAll(pageParam, user.id, dispatch),
     {
-      getNextPageParam: (lastPage:any) => (!lastPage.last ? lastPage.nextPage : undefined),
+      getNextPageParam: (lastPage: any) => (!lastPage.last ? lastPage.nextPage : undefined),
     },
   );
 
