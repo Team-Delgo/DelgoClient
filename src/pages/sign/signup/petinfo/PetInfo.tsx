@@ -187,6 +187,7 @@ function PetInfo() {
         userName: nickname,
         phoneNo: phone,
         geoCode,
+        pGeoCode,
         petName: enteredInput.name,
         petSize: enteredInput.type,
         birthday: enteredInput.birth,

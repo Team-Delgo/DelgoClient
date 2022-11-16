@@ -12,12 +12,15 @@ async function setAccessCode(code: string | null, success: (data: AxiosResponse)
     });
 }
 
-async function oAuthSignup(data: {email:string,userName:string,phoneNo:string,petName:string,petSize:string,birthday:string|undefined,userSocial:string} , success: (data: AxiosResponse) => void, dispatch: any) {
-  const {email,userName,phoneNo,petName,petSize,birthday,userSocial} = data;
+async function oAuthSignup(data: {email:string,userName:string,phoneNo:string,geoCode:number,pGeoCode:number,petName:string,petSize:string,birthday:string|undefined,userSocial:string} , success: (data: AxiosResponse) => void, dispatch: any) {
+  const {email,geoCode,pGeoCode,userName,phoneNo,petName,petSize,birthday,userSocial} = data;
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/oAuthSignup `,{
+    .post(`${process.env.REACT_APP_API_URL}/signup/oauth `,{
+      email,
       userName,
       phoneNo,
+      geoCode,
+      pGeoCode,
       petName,
       petSize,
       birthday,
