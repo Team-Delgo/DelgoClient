@@ -77,7 +77,8 @@ function CertificationPostsPage() {
 
   useEffect(() => {
     window.scroll(0, 0);
-  }, []);
+    console.log('data', data);
+  }, [isFetchingNextPage]);
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -95,29 +96,29 @@ function CertificationPostsPage() {
     <>
       {data?.pages?.map((page) => (
         <>
-          {page?.content?.map((post: Array<any>) => (
+          {page?.content?.map((post: any) => (
             <>
               <header className="post-img-result-header">
                 <div className="post-img-result-header-date">
-                  {post[1]?.registDt.substring(0, 10)}&nbsp;
-                  {weekDay[post[1]?.registDt.substring(17, post[1]?.registDt.length)]}
+                  {post?.registDt.substring(0, 10)}&nbsp;
+                  {weekDay[post?.registDt.substring(17, post?.registDt.length)]}
                   &nbsp;&nbsp;&nbsp;
-                  {post[1]?.registDt.substring(11, 16)}
+                  {post?.registDt.substring(11, 16)}
                 </div>
                 <div className="post-img-result-header-report">신고</div>
               </header>
               <main className="post-img-result-main">
-                <img src={post[1]?.photoUrl} width={window.innerWidth} height={window.innerWidth} alt="postImg" />
+                <img src={post?.photoUrl} width={window.innerWidth} height={window.innerWidth} alt="postImg" />
                 <header className="post-img-result-main-profile">
-                  <img className="post-img-result-main-profile-img" src={post[0]?.profile} alt="copy url" />
+                  <img className="post-img-result-main-profile-img" src={post?.user?.profile} alt="copy url" />
                   <div className="post-img-result-main-profile-second">
-                    <div className="post-img-result-main-profile-second-address">{post[1]?.address}</div>
-                    <div className="post-img-result-main-profile-second-name">{post[0]?.name}</div>
+                    <div className="post-img-result-main-profile-second-address">{post?.user?.address}</div>
+                    <div className="post-img-result-main-profile-second-name">{post?.user?.name}</div>
                   </div>
                 </header>
                 <body className="post-img-result-main-body">
-                  <div className="post-img-result-main-body-title">{post[1]?.placeName}</div>
-                  <div className="post-img-result-main-body-content">{post[1]?.description}</div>
+                  <div className="post-img-result-main-body-title">{post?.placeName}</div>
+                  <div className="post-img-result-main-body-content">{post?.description}</div>
                 </body>
               </main>
             </>
