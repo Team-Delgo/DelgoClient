@@ -361,7 +361,7 @@ function PetInfo() {
             }}
           />
           <div className="modal">
-            <BirthSelector changeBirth={chagneBirthHandler} />
+            <BirthSelector changeBirth={chagneBirthHandler} close={()=>{setModalActive(false)}}/>
           </div>
         </div>
       )}
