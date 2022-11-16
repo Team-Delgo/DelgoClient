@@ -21,12 +21,14 @@ import AchievementHospital from '../../../common/icons/achievement-hospital.svg'
 import DelgoWhite from '../../../common/icons/delgo-white.svg';
 import RightArrow from '../../../common/icons/right-arrow.svg';
 import { ACHIEVEMENT_PATH, MY_ACCOUNT_PATH } from '../../../common/constants/path.const';
+import { getMyPoint } from '../../../common/api/point';
 import { getAchievementList, getAchievementListByMain } from '../../../common/api/achievement';
 import {
   CACHE_TIME,
   GET_ACHIEVEMENT_LIST,
   GET_MY_PET_RANKING_DATA,
   STALE_TIME,
+  GET_MY_POINT_DATA,
 } from '../../../common/constants/queryKey.const';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { getMyPetRanking } from '../../../common/api/ranking';
@@ -60,6 +62,22 @@ function Profile() {
   useEffect(() => {
     getTodayDateStr();
   }, []);
+
+  const { isLoading: getMyPointDataIsLoading, data: myPointData } = useQuery(
+    GET_MY_POINT_DATA,
+    () => getMyPoint(user.id),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
+    },
+  );
+
+  useEffect(() => {
+    console.log(myPointData)
+  }, [getMyPointDataIsLoading]);
 
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
     GET_ACHIEVEMENT_LIST,
@@ -99,18 +117,13 @@ function Profile() {
   const moveToAchievementPage = () => {
     navigate(ACHIEVEMENT_PATH, {
       state: {
-        rankingPoint: myPetRankingData?.data?.weeklyPoint,
+        rankingPoint: myPointData?.data?.accumulatedPoint
       },
     });
   };
 
   const moveToMyAccountPage = () => {
     navigate(MY_ACCOUNT_PATH.MAIN);
-    // navigate(MY_ACCOUNT_PATH.MAIN, {
-    //   state: {
-    //     rankingPoint: myPetRankingData?.data?.weeklyPoint,
-    //   },
-    // });
   };
 
   return (
@@ -133,7 +146,7 @@ function Profile() {
           <div className="home-page-dog-history-header-profile-detail-third">
             <div>{todayDate}</div>
             <div className="home-page-dog-history-header-profile-detail-third-point">
-              {myPetRankingData?.data?.weeklyPoint} P
+              {myPointData?.data?.accumulatedPoint} P
             </div>
           </div>
         </div>
@@ -147,21 +160,21 @@ function Profile() {
             alt="right-arrow-img"
           />
         </div>
-          {getAchievementListIsLoading  ? (
-            <div className="loading-spinning-circles">
-              <SpinningCircles />
-            </div>
-          ) : (
-            <div className="home-page-dog-history-header-achievements-images">
-              {ahievementList?.data
-                .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
-                .map((achievement: AchievementDataType) => (
-                  <img src={achievement.achievements.imgUrl} alt="bath-img" />
-                ))}
-            </div>
-          )}
+        {getAchievementListIsLoading ? (
+          <div className="loading-spinning-circles">
+            <SpinningCircles />
+          </div>
+        ) : (
+          <div className="home-page-dog-history-header-achievements-images">
+            {ahievementList?.data
+              .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
+              .map((achievement: AchievementDataType) => (
+                <img src={achievement.achievements.imgUrl} alt="bath-img" />
+              ))}
+          </div>
+        )}
       </body>
-    </header> 
+    </header>
   );
 }
 
