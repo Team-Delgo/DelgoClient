@@ -186,6 +186,7 @@ function PetInfo() {
         email,
         userName: nickname,
         phoneNo: phone,
+        geoCode,
         petName: enteredInput.name,
         petSize: enteredInput.type,
         birthday: enteredInput.birth,
@@ -198,8 +199,6 @@ function PetInfo() {
           if (code === 200) {
             const accessToken = response.headers.authorization_access;
             const refreshToken = response.headers.authorization_refresh;
-            console.log(accessToken);
-            console.log(refreshToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             userId = response.data.data.user.userId;
@@ -213,6 +212,7 @@ function PetInfo() {
                   nickname: data.user.name,
                   email: '',
                   phone: data.user.phoneNo,
+                  geoCode: data.user.geoCode,
                 },
                 pet: {
                   petId: data.pet.petId,
@@ -277,6 +277,7 @@ function PetInfo() {
                   email: data.user.email,
                   phone: data.user.phoneNo,
                   isSocial: false,
+                  geoCode: data.user.geoCode,
                 },
                 pet: {
                   petId: data.pet.petId,
