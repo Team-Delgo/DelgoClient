@@ -12,6 +12,7 @@ const initialState = {
   certificationId: 0,
   tool: '',
   file: '',
+  address:'',
   // file: {} as Blob,
 };
 
@@ -52,12 +53,13 @@ const uploadSlice = createSlice({
         mongPlaceId: action.payload.mungpleId,
       };
     },
-    setContentRegistDtCertificationId(state, action) {
+    setContentRegistDtCertificationIdAddress(state, action) {
       return {
         ...state,
         content: action.payload.content,
         registDt: action.payload.registDt,
         certificationId: action.payload.certificationId,
+        address:action.payload.address
       };
     },
     setContent(state, action) {

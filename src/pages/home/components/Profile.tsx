@@ -140,20 +140,20 @@ function Profile() {
         <div className="home-page-dog-history-header-profile-detail">
           <div className="home-page-dog-history-header-profile-detail-first">서울시 송파구</div>
           <div className="home-page-dog-history-header-profile-detail-second">
-            <div>{user.nickname}</div>
+            <div className="home-page-dog-history-header-profile-detail-second-name">{user.nickname}</div>
             <img src={Point} alt="point-img" />
           </div>
           <div className="home-page-dog-history-header-profile-detail-third">
             <div>{todayDate}</div>
             <div className="home-page-dog-history-header-profile-detail-third-point">
-              {myPointData?.data?.accumulatedPoint} P
+              {myPointData?.data?.accumulatedPoint}
             </div>
           </div>
         </div>
       </header>
       <body className="home-page-dog-history-header-achievements">
         <div aria-hidden="true" onClick={moveToAchievementPage}>
-          <span>{pet.name}의 대표 업적&nbsp;</span>
+          <span>{user.nickname}의 대표 업적&nbsp;</span>
           <img
             className="home-page-dog-history-header-achievements-right-arrow-img"
             src={RightArrow}

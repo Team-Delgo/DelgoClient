@@ -9,6 +9,7 @@ import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
+import WhiteCheck from '../../common/icons/white-check.svg'
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
@@ -51,15 +52,7 @@ function CameraFrontPage() {
     }, 100);
   }, []);
 
-  // const handleDevices = (mediaDevices: any) => {
-  //   setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
-  // };
-
-  // useEffect(() => {
-  //   navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  // }, [handleDevices]);
-
-  function deviceCheck() {
+  const deviceCheck = () => {
     const pcDevice = 'win16|win32|win64|mac|macintel';
     if (navigator.platform) {
       if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
@@ -139,41 +132,49 @@ function CameraFrontPage() {
     }
   };
 
+  const cancleImgCrop = () => {
+    setImg('')
+  }
+
   if (img !== '') {
     return (
       <>
         <div className="crop-wrapper">
-          <Cropper
-            image={img}
-            crop={crop}
-            zoom={zoom}
-            aspect={1}
-            onCropChange={setCrop}
-            onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
+          <img
+            src={PrevArrowBlack}
+            className="camera-page-prev-arrow"
+            alt="camera-page-prev-arrow"
+            aria-hidden="true"
+            onClick={cancleImgCrop}
           />
+          <img
+            src={WhiteCheck}
+            className="camera-page-complition-check"
+            alt="camera-page-complition-check"
+            aria-hidden="true"
+            onClick={showCroppedImage}
+          />
+          <div className="crop-wrappe">
+            <Cropper
+              image={img}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
+            />
+          </div>
         </div>
-        <div className="crop-button-wrapper">
+        {/* <div className="crop-button-wrapper">
           <button type="submit" onClick={showCroppedImage}>
             선택
           </button>
-        </div>
+        </div> */}
       </>
     );
   }
-  const asd = () => {
-    console.log(1)
-    // setCameraLoading(false);
-  };
-
-  const asd2 = () => {
-    console.log(2)
-    // setCameraLoading(true);
-  };
-
-  // if (switchCameraLoading === true) {
-  //   return <div>로딩중</div>;
-  // }
 
   return (
     <>
@@ -201,14 +202,11 @@ function CameraFrontPage() {
         </div> */}
         <Webcam
           ref={camera}
-          // style={{ visibility: 'hidden' }}
           style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}
           className="web-camera"
           screenshotFormat="image/jpeg"
           screenshotQuality={1}
           width={window.innerWidth}
-          onUserMedia={asd}
-          onUserMediaError={asd2}
           mirrored
           videoConstraints={{
             facingMode: { exact: 'user' },
