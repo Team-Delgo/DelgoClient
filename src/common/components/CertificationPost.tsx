@@ -135,7 +135,6 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
           className="post-img-result-main-img"
           src={post?.photoUrl}
           width={window.innerWidth}
-          height={window.innerWidth}
           alt="postImg"
         />
         <header className="post-img-result-main-header">
