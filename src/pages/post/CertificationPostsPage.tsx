@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
@@ -8,9 +8,19 @@ import FooterNavigation from '../../common/components/FooterNavigation';
 import { getCertificationPostAll } from '../../common/api/certification';
 import './CertificationPostsPage.scss';
 import { RootState } from '../../redux/store';
-
+import Bath from '../../common/icons/bath.svg';
+import Beauty from '../../common/icons/beauty.svg';
+import Cafe from '../../common/icons/cafe.svg';
+import Hospital from '../../common/icons/hospital.svg';
+import Walk from '../../common/icons/walk.svg';
+import Heart from '../../common/icons/heart-empty.svg';
+import FillHeart from '../../common/icons/heart.svg';
+import Comments from '../../common/icons/comments.svg';
+import { certificationLike } from '../../common/api/certification';
+import CertificationPost from '../../common/components/CertificationPost';
 
 interface userType {
+  address: string;
   appleUniqueNo: null;
   email: string;
   geoCode: string;
@@ -25,11 +35,15 @@ interface userType {
 }
 
 interface postType {
+  address: string;
   categoryCode: string;
   certificationId: number;
+  commentCount: number;
   description: string;
   geoCode: string;
   isAchievements: number;
+  isLike: number;
+  isLive: number;
   isPhotoChecked: number;
   latitude: string;
   likeCount: number;
@@ -39,29 +53,9 @@ interface postType {
   photoUrl: string;
   placeName: string;
   registDt: string;
-  userId: number;
+  userId: number
+  user:userType
 }
-
-interface weekDayType {
-  Mon: string;
-  Tue: string;
-  Wed: string;
-  Thu: string;
-  Fri: string;
-  Sat: string;
-  Sun: string;
-  [prop: string]: any;
-}
-
-const weekDay: weekDayType = {
-  Mon: '월',
-  Tue: '화',
-  Wed: '수',
-  Thu: '목',
-  Fri: '금',
-  Sat: '토',
-  Sun: '일',
-};
 
 function CertificationPostsPage() {
   const { user } = useSelector((state: RootState) => state.persist.user);
@@ -92,36 +86,24 @@ function CertificationPostsPage() {
   //   return <div>error</div>;
   // }
 
+  // const setCertificationLike = (userId:number,certificationId:number) => {
+  //   certificationLike(
+  //     userId,
+  //     certificationId,
+  //     (response: AxiosResponse) => {
+  //       if (response.data.code === 200)
+  //     },
+  //     dispatch,
+  //   );
+  // };
+
   return (
     <>
+    <div className="other-dog-history">친구들의 기록</div>
       {data?.pages?.map((page) => (
         <>
-          {page?.content?.map((post: any) => (
-            <>
-              <header className="post-img-result-header">
-                <div className="post-img-result-header-date">
-                  {post?.registDt.substring(0, 10)}&nbsp;
-                  {weekDay[post?.registDt.substring(17, post?.registDt.length)]}
-                  &nbsp;&nbsp;&nbsp;
-                  {post?.registDt.substring(11, 16)}
-                </div>
-                <div className="post-img-result-header-report">신고</div>
-              </header>
-              <main className="post-img-result-main">
-                <img src={post?.photoUrl} width={window.innerWidth} height={window.innerWidth} alt="postImg" />
-                <header className="post-img-result-main-profile">
-                  <img className="post-img-result-main-profile-img" src={post?.user?.profile} alt="copy url" />
-                  <div className="post-img-result-main-profile-second">
-                    <div className="post-img-result-main-profile-second-address">{post?.user?.address}</div>
-                    <div className="post-img-result-main-profile-second-name">{post?.user?.name}</div>
-                  </div>
-                </header>
-                <body className="post-img-result-main-body">
-                  <div className="post-img-result-main-body-title">{post?.placeName}</div>
-                  <div className="post-img-result-main-body-content">{post?.description}</div>
-                </body>
-              </main>
-            </>
+          {page?.content?.map((post: postType) => (
+            <CertificationPost post={post} />
           ))}
         </>
       ))}

@@ -1,10 +1,23 @@
+.border-line{
+    height: 5px;
+    background-color: #E5E5E5;
+}
+
+.other-dog-history{
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 50px;
+    position: relative;
+}
+
 .post-img-result {
     &-header {
         display: flex;
         justify-content: space-between;
         font-size: 14px;
         font-weight: 400;
-        padding: 70px 5% 10px 5%;
+        margin: 50px 5% 10px 5%;
 
         &-date {
             color: #8A8A8A;
@@ -22,36 +35,66 @@
     }
 
     &-main {
-        &-profile {
+        margin: 0 5%;
+        &-img{
+            width: 100%;
+            border-radius: 4px;
+        }
+        // &-profile {
+        //     display: flex;
+        //     margin: 15px 5%;
+        //     padding-bottom: 15px;
+        //     border-bottom: 2px solid #E5E5E5;
+        //     .post-img{
+        //         width: 45px;
+        //         height: 45px;
+        //         border-radius: 4px;
+        //         object-fit: contain;
+        //     }
+        //     &-second{
+           
+        //         margin-left: 15px;
+        //         &-address{
+        //             color:#8A8A8A;
+        //             font-weight: 500;
+        //             font-size: 12px;
+        //             margin-bottom: 6px;
+        //         }
+        //         &-name{
+        //             color:#3F3F3F;
+        //             font-weight: 700;
+        //             font-size: 20px;
+        //         }
+        //     }
+        // }
+        &-header {
             display: flex;
-            margin: 15px 5%;
+            margin: 15px 0;
             padding-bottom: 15px;
             border-bottom: 2px solid #E5E5E5;
-            &-img{
-                width: 45px;
-                height: 45px;
-                border-radius: 4px;
-                object-fit: contain;
-            }
-            &-second{
-           
-                margin-left: 15px;
-                &-address{
-                    color:#8A8A8A;
-                    font-weight: 500;
-                    font-size: 12px;
-                    margin-bottom: 6px;
-                }
-                &-name{
-                    color:#3F3F3F;
+            justify-content: space-between;
+            &-place{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                &-name {
+                    color: #232323;
                     font-weight: 700;
                     font-size: 20px;
+                }
+
+                &-address {
+                    color: #8A8A8A;
+                    font-weight: 500;
+                    font-size: 12px;
+                    padding-top: 5px;
                 }
             }
         }
         &-body{
             color: #232323;
-            padding: 10px 5% 0 5%;
+            padding-top: 5px;
             &-title {
                 font-size: 24px;
                 font-weight: bold;
@@ -62,6 +105,20 @@
                 font-size: 14px;
                 font-weight: 400;
             }
+        }
+
+        &-footer{
+            display: flex;
+            padding:50px 0 30px 0;
+            &-count{
+                font-size: 14px;
+                font-weight: 500;
+                color: #3f3f3f;
+                margin: 0 9px;
+              }
+              &-comments{
+                margin-left: 3px;
+              }
         }
     }
 }

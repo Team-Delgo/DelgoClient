@@ -161,6 +161,23 @@ async function getCertificationPostAll(pageParam: number, userId: number, dispat
   }
 }
 
+async function deleteCertificationPost(
+  userId: number,
+  certificationId: number,
+  success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
+  try {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const result = await axios.post(
+      `${process.env.REACT_APP_API_URL}/certification/delete/${userId}/${certificationId}`,
+    );
+    success(result);
+  } catch (error: any) {
+    useErrorHandlers(dispatch, error);
+  }
+}
+
 export {
   getMungPlaceList,
   getCertificationDataCount,
@@ -170,5 +187,6 @@ export {
   getCertificationPostsByMain,
   getCertificationPostAll,
   updateCertificationPost,
-  certificationLike
+  certificationLike,
+  deleteCertificationPost
 };

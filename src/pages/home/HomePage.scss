@@ -71,6 +71,7 @@
             grid-template-columns: 1fr 1fr 1fr;
             row-gap: 5px;
             column-gap: 10px;
+            padding-bottom: 15px;
 
             img {
                 width: 100%;
@@ -98,7 +99,7 @@
 
 
 .loading-spinning-circles {
-    min-height: 151px;
+    min-height: 171px;
     text-align: center;
     vertical-align: center;
     margin: auto;

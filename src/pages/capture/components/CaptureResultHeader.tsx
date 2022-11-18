@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AxiosResponse } from 'axios';
 import { RootState } from '../../../redux/store';
 import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
+import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
-import AlertConfirm from '../../../common/dialog/AlertConfirm'
+import AlertConfirm from '../../../common/dialog/AlertConfirm';
+import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
 
 interface weekDayType {
   Mon: string;
@@ -29,8 +32,30 @@ const weekDay: weekDayType = {
 
 function CaptureResultHeader() {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showDeleteCompleteAlert, setShowDeleteCompleteAlert] = useState(false);
+  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const navigate = useNavigate();
-  const { registDt } = useSelector((state: RootState) => state.persist.upload);
+  const dispatch = useDispatch();
+  const { registDt, certificationId } = useSelector((state: RootState) => state.persist.upload);
+  const { user } = useSelector((state: RootState) => state.persist.user);
+
+  const deleteCertification = () => {
+    closeDeleteAlert();
+    deleteCertificationPost(
+      user.id,
+      certificationId,
+      (response: AxiosResponse) => {
+        const { code } = response.data;
+        console.log(response);
+        if (code === 200) {
+          setShowDeleteCompleteAlert(true);
+        } else {
+          openDeleteErrorAlert();
+        }
+      },
+      dispatch,
+    );
+  };
 
   const moveToCategoryPage = () => {
     navigate(CAMERA_PATH.UPDATE);
@@ -41,12 +66,20 @@ function CaptureResultHeader() {
   };
 
   const openDeleteAlert = () => {
-    setShowDeleteAlert(true)
-  }
+    setShowDeleteAlert(true);
+  };
 
   const closeDeleteAlert = () => {
-    setShowDeleteAlert(false)
-  }
+    setShowDeleteAlert(false);
+  };
+
+  const openDeleteErrorAlert = () => {
+    setShowDeleteErrorAlert(true);
+  };
+
+  const closeDelteErrorAlert = () => {
+    setShowDeleteErrorAlert(false);
+  };
 
   return (
     <>
@@ -65,11 +98,7 @@ function CaptureResultHeader() {
             >
               수정&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
             </div>
-            <div
-              className="capture-img-result-header-record-work-delete"
-              aria-hidden="true"
-              onClick={openDeleteAlert}
-            >
+            <div className="capture-img-result-header-record-work-delete" aria-hidden="true" onClick={openDeleteAlert}>
               삭제
             </div>
           </div>
@@ -81,11 +110,11 @@ function CaptureResultHeader() {
           text="인증 기록을 삭제 하시겠습니까?"
           buttonText="삭제"
           noButtonHandler={closeDeleteAlert}
-          yesButtonHandler={() => {
-            console.log(1)
-          }}
+          yesButtonHandler={deleteCertification}
         />
       )}
+      {showDeleteCompleteAlert && <AlertConfirmOne text="삭제를 성공하였습니다" buttonHandler={moveToHomePage} />}
+      {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
     </>
   );
 }
