@@ -14,8 +14,13 @@
     position: absolute;
     top: 6vh;
     left: 6vw;
-    width: 6vw;
-    height: 3vh;
+    z-index: 100;
+}
+.camera-page-complition-check{
+    position: absolute;
+    top: 6vh;
+    right: 6vh;
+    z-index: 100;
 }
 
 .web-camera {
@@ -24,7 +29,12 @@
 
 .crop-wrapper {
     position: relative;
-    height: 70vh;
+    height: 100vh;
+    background-color: white;
+}
+
+.crop-wrappe {
+    margin-left: 40px;
 }
 
 .crop-button-wrapper {

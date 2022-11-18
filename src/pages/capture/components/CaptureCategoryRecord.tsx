@@ -95,10 +95,11 @@ function CaptureCategoryRecord() {
         console.log('response', response);
         if (code === 200) {
           dispatch(
-            uploadAction.setContentRegistDtCertificationId({
+            uploadAction.setContentRegistDtCertificationIdAddress({
               content: certificationPostContent,
               registDt: data.registDt,
               certificationId: data.certificationId,
+              address:data.address
             }),
           );
           openCertificateCompletionAlert();
@@ -155,10 +156,11 @@ function CaptureCategoryRecord() {
                 const { code, codeMsg } = response.data;
                 if (code === 200) {
                   dispatch(
-                    uploadAction.setContentRegistDtCertificationId({
+                    uploadAction.setContentRegistDtCertificationIdAddress({
                       content: certificationPostContent,
                       registDt: data.registDt,
                       certificationId: data.certificationId,
+                      address:data.address
                     }),
                   );
                   openCertificateCompletionAlert();

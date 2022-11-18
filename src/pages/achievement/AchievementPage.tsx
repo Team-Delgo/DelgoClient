@@ -18,7 +18,7 @@ import {
   ThreeDots,
 } from 'react-loading-icons';
 import Point from '../../common/icons/point.svg';
-import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
+import PrevArrowBlack from '../../common/icons/prev-arrow-white.svg';
 import { ROOT_PATH } from '../../common/constants/path.const';
 import Checked from '../../common/icons/checked.svg';
 import NotChecked from '../../common/icons/not-checked.svg';
@@ -63,8 +63,8 @@ function AchievementPage() {
     console.log(location.state?.rankingPoint);
   }, []);
 
-  const getgetAchievementDataList = async () => {
-    await getAchievementList(
+  const getgetAchievementDataList = () => {
+     getAchievementList(
       user.id,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
@@ -157,11 +157,11 @@ function AchievementPage() {
           aria-hidden="true"
           onClick={moveHomePage}
         />
-        <header className="achievement-page-header-profile">
+        {/* <header className="achievement-page-header-profile">
           <img className="achievement-page-header-profile-img" src={pet.image} alt="copy url" width={72} height={72} />
           <div className="achievement-page-header-profile-second">
             <div className="achievement-page-header-profile-second-address">서울시 송파구</div>
-            <div className="achievement-page-header-profile-second-name">{pet.name}</div>
+            <div className="achievement-page-header-profile-second-name">{user.nickname}</div>
           </div>
           <div className="achievement-page-header-profile-third">
             <img
@@ -173,10 +173,10 @@ function AchievementPage() {
             />
             <div className="achievement-page-header-profile-third-point">{location.state?.rankingPoint} P</div>
           </div>
-        </header>
-        <body className="achievement-page-header-achievements">
+        </header> */}
+        <div className="achievement-page-header-achievements">
           <div className="achievement-page-header-achievements-representative">
-            <div className="achievement-page-header-achievements-representative-text">{pet.name}의 대표 업적</div>
+            <div className="achievement-page-header-achievements-representative-text">{user.nickname}의 대표 업적</div>
             {editActivation === false ? (
               <div
                 className="achievement-page-header-achievements-representative-button"
@@ -220,7 +220,7 @@ function AchievementPage() {
               </div>
             ))}
           </div>
-        </body>
+        </div>
       </header>
       <body className="achievement-page-body">
         <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>

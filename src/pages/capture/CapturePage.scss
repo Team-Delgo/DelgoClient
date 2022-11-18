@@ -8,8 +8,13 @@
     position: absolute;
     top: 6vh;
     left: 6vw;
-    width: 6vw;
-    height: 3vh;
+}
+
+.capture-page-x{
+    position: absolute;
+    top: 6vh;
+    right: 6vw;
+    z-index: 100;
 }
 
 .capture-img-record {

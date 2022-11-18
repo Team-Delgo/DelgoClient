@@ -9,7 +9,7 @@
     &-profile {
         display: flex;
         height: 70px;
-        margin-top: 30px;
+        margin: 40px 0;
         &-img{
             object-fit: fill;
             border-radius: 4px;
@@ -18,12 +18,14 @@
         }
 
         &-detail {
-            padding: 0 5% 0 4%;
+            padding: 0 5% 0 5%;
+            // background-color: red;
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
+            
 
             &-first {
                 color: #8A8A8A;
@@ -34,15 +36,18 @@
                 display: flex;
                 justify-content: space-between;
                 color: #FFFFFF;
-                font-size: 24px;
+                font-size: 18px;
                 margin-right: 9px;
+                &-name{
+                    padding-top: 5px;
+                }
             }
 
             &-third {
                 display: flex;
                 justify-content: space-between;
                 color: #8A8A8A;
-                font-size: 14px;
+                font-size: 12px;
                 margin-right: 10px;
 
                 &-point {
@@ -54,7 +59,6 @@
     }
 
     &-achievements {
-        margin-top: 30px;
         padding-bottom: 5%;
         font-size: 14px;
         color: #8A8A8A;
@@ -67,6 +71,7 @@
             grid-template-columns: 1fr 1fr 1fr;
             row-gap: 5px;
             column-gap: 10px;
+            padding-bottom: 15px;
 
             img {
                 width: 100%;
@@ -94,7 +99,7 @@
 
 
 .loading-spinning-circles {
-    min-height: 151px;
+    min-height: 171px;
     text-align: center;
     vertical-align: center;
     margin: auto;
@@ -148,7 +153,7 @@
                 width: 100%;
                 height: 44px;
                 background-color: #474747;
-                border-radius: 2px;
+                border-radius: 8px;
                 margin: 10px 5px 0 0;
                 font-size: 16px;
 

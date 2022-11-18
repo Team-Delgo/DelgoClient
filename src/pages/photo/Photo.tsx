@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
@@ -19,6 +19,29 @@ import { getCategoryCount, getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 import { RECORD_PATH } from '../../common/constants/path.const';
 
+const categoryCode: categoryType = {
+  산책: 'CA0001',
+  카페: 'CA0002',
+  식당: 'CA0003',
+  목욕: 'CA0004',
+  미용: 'CA0005',
+  병원: 'CA0006',
+  기타: 'CA9999',
+};
+
+interface categoryType {
+  산책: string;
+  카페: string;
+  식당: string;
+  목욕: string;
+  미용: string;
+  병원: string;
+  기타: string;
+  [prop: string]: any;
+}
+
+const rightScrollCategory = ['목욕','미용','병원','기타'];
+
 function Photo() {
   const navigate = useNavigate();
   const userId = useSelector((state: any) => state.persist.user.user.id);
@@ -35,6 +58,18 @@ function Photo() {
   const [sortOption, setSortOption] = useState<number>(1);
   const [isLast, setLast] = useState(false);
   const dispatch = useDispatch();
+  const location: any = useLocation();
+  const categoryRef = useRef<any>();
+
+  useEffect(() => {
+    if (location?.state) {
+      setCategoryTab(location.state);
+      setCategory(categoryCode[location.state]);
+      if (rightScrollCategory.includes(location.state)) {
+        moveToCategoryRightScroll()
+      }
+    }
+  }, []);
 
   useEffect(() => {
     getCategoryCountList();
@@ -76,6 +111,21 @@ function Photo() {
     );
   }, [cateogory, sortOption]);
 
+
+  const moveToCategoryLeftScroll = () => {
+    categoryRef.current.scrollTo({
+      left: categoryRef.current.scrollLeft - categoryRef.current.offsetWidth,
+      behavior: 'smooth',
+    });
+  };
+
+
+  const moveToCategoryRightScroll = () => {
+    categoryRef.current.scrollTo({
+      left: categoryRef.current.offsetWidth,
+      behavior: 'smooth',
+    });
+  };
 
   const getPhotoDataList = async () => {
     getPhotoData(
@@ -162,13 +212,14 @@ function Photo() {
           </div>
         </div>
       </div>
-      <div className="photo-category">
+      <div className="photo-category" ref={categoryRef}>
         <div
           aria-hidden="true"
           className="photo-category-button item"
           onClick={() => {
             setCategory('CA0001');
             setCategoryTab('산책');
+            moveToCategoryLeftScroll()
           }}
         >
           <img className={classNames('CA0001', { selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
@@ -180,6 +231,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0002');
             setCategoryTab('카페');
+            moveToCategoryLeftScroll()
           }}
         >
           <img className={classNames('CA0002', { selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
@@ -191,6 +243,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0003');
             setCategoryTab('식당');
+            moveToCategoryLeftScroll()
           }}
         >
           <img className={classNames('CA0003', { selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
@@ -202,6 +255,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0004');
             setCategoryTab('목욕');
+            moveToCategoryRightScroll()
           }}
         >
           <img className={classNames('CA0004', { selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
@@ -213,6 +267,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0005');
             setCategoryTab('미용');
+            moveToCategoryRightScroll()
           }}
         >
           <img className={classNames('CA0005', { selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
@@ -224,6 +279,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0006');
             setCategoryTab('병원');
+            moveToCategoryRightScroll()
           }}
         >
           <img className={classNames('CA0006', { selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />

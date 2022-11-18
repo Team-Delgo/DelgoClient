@@ -3,8 +3,9 @@ import { useNavigate ,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import PrevArrowWhite from '../../../common/icons/prev-arrow-white.svg';
-import { CAMERA_PATH } from '../../../common/constants/path.const';
+import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
 import PrevArrowBlack from '../../../common/icons/prev-arrow-black.svg';
+import X from '../../../common/icons/xx.svg';
 
 function CaptureImg() {
   const { img } = useSelector((state: RootState) => state.persist.upload);
@@ -15,14 +16,25 @@ function CaptureImg() {
     if (location.pathname === CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.FRONT);
     else navigate(CAMERA_PATH.CAPTURE);
   };
+
+  const moveToHomePage = () => {
+    navigate(ROOT_PATH);
+  };
   return (
     <>
       <img
         src={PrevArrowBlack}
-        className="camera-page-prev-arrow"
-        alt="camera-page-prev-arrow"
+        className="capture-page-prev-arrow"
+        alt="capture-page-prev-arrow"
         aria-hidden="true"
         onClick={moveToPreviousPage}
+      />
+      <img
+        src={X}
+        className="capture-page-x"
+        alt="capture-page-x"
+        aria-hidden="true"
+        onClick={moveToHomePage}
       />
       <img className="captured-img" src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
     </>

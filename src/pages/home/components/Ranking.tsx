@@ -66,7 +66,7 @@ function Ranking() {
       <header className="home-page-dog-history-body-ranking-summary">
         <div className="home-page-dog-history-body-ranking-summary-first-line">
           <div>
-            <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">{pet.name} /</span>
+            <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">{user.nickname} /</span>
             <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number">
               {' '}
               {myPetRankingData?.data?.ranking}등
