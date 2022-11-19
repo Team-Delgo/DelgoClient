@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Certification } from './RecordCertificationPage';
 import VerticalDevider from '../../common/icons/vertical-devide.svg';
 import Cafe from '../../common/icons/cafe.svg';
@@ -23,6 +24,7 @@ function RecordCertification(props: { certification: Cert }) {
   const dispatch = useDispatch();
   const [selfHeart, setSelfHeart] = useState(certification.isLike);
   const [count, setCount] = useState(certification.likeCount);
+  const navigate = useNavigate();
 
   const setCertificationLike = async () => {
     certificationLike(
@@ -68,15 +70,23 @@ function RecordCertification(props: { certification: Cert }) {
           aria-hidden="true"
           onClick={() => {
             setCertificationLike();
-            if(selfHeart){
-              setCount(count-1);
-            }else{
-              setCount(count+1);
+            if (selfHeart) {
+              setCount(count - 1);
+            } else {
+              setCount(count + 1);
             }
           }}
         />
         {count > 0 && <div className="record-cert-icons-count">{count}</div>}
-        <img className="record-cert-icons-comments" src={Comments} alt="comments" />
+        <img
+          className="record-cert-icons-comments"
+          src={Comments}
+          alt="comments"
+          aria-hidden="true"
+          onClick={() => {
+            navigate(`/record/comments/${certification.certificationId}`);
+          }}
+        />
         {certification.commentCount > 0 && <div className="record-cert-icons-count">{certification.commentCount}</div>}
       </div>
     </div>

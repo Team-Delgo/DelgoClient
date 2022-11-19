@@ -57,6 +57,7 @@ import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
 import RecordCertificationPage from './pages/post/RecordCertificationPage';
 import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
 import SocialExist from './pages/sign/signin/social/SocialExist';
+import Comments from './pages/post/Comments';
 
 
 
@@ -120,6 +121,7 @@ function App() {
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
         <Route path='/record/certs' element={<RecordCertificationPage/>} />
+        <Route path='/record/comments/:id' element={<Comments/>} /> 
       </Routes>
     </QueryClientProvider>
   );
