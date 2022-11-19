@@ -84,7 +84,7 @@ function RecordCertification(props: { certification: Cert }) {
           alt="comments"
           aria-hidden="true"
           onClick={() => {
-            navigate(`/record/comments/${certification.certificationId}`);
+            navigate(`/record/comments/${certification.certificationId}`, { state: certification.certificationId });
           }}
         />
         {certification.commentCount > 0 && <div className="record-cert-icons-count">{certification.commentCount}</div>}
