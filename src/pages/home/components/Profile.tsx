@@ -168,6 +168,9 @@ function Profile() {
           <div className="home-page-dog-history-header-achievements-images">
             {ahievementList?.data
               .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
+              .sort((a: AchievementDataType, b: AchievementDataType) => {
+                return a.isMain - b.isMain;
+              })
               .map((achievement: AchievementDataType) => (
                 <img src={achievement.achievements.imgUrl} alt="bath-img" />
               ))}

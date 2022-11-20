@@ -122,8 +122,6 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
 
-  console.log('post', post);
-
   const setCertificationLike = () => {
     certificationLike(
       user.id,
@@ -174,6 +172,7 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
   };
 
   const openDeleteAlert = (event: any) => {
+    console.log(1)
     event.stopPropagation();
     setShowDeleteAlert(true);
   };
