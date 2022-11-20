@@ -54,17 +54,22 @@ const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [470, 470, 470, 470];
 
 function CaptureCategoryUpdateRecord() {
-  const [certificationPostContent, setCertificationPostContent] = useState('');
+  const { categoryKo, title, certificationId, content } = useSelector(
+    (state: RootState) => state.persist.upload,
+  );
+  const [certificationPostContent, setCertificationPostContent] = useState(content);
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
   const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
-  const { categoryKo, img, latitude, longitude, mongPlaceId, title, certificationId } = useSelector(
-    (state: RootState) => state.persist.upload,
-  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
+
+  // useEffect(() => {
+  //   setCertificationPostContent(content);
+  // }, [content]);
 
   const writeContent = useCallback((e) => {
     setCertificationPostContent(e.target.value.trim());
@@ -116,13 +121,7 @@ function CaptureCategoryUpdateRecord() {
 
   return (
     <>
-      <Sheet
-        isOpen
-        onClose={closeBottomSheet}
-        snapPoints={sheetSnapPoints}
-        disableDrag
-        className="modal-bottom-sheet"
-      >
+      <Sheet isOpen onClose={closeBottomSheet} snapPoints={sheetSnapPoints} disableDrag className="modal-bottom-sheet">
         <Sheet.Container style={sheetStyle}>
           <Sheet.Content>
             <main className="capture-img-record">
@@ -150,6 +149,7 @@ function CaptureCategoryUpdateRecord() {
                   placeholder="남기고 싶은 기록을 작성해주세요"
                   onChange={writeContent}
                   maxLength={200}
+                  value={certificationPostContent}
                 />
                 <div className="review-content-length">{certificationPostContent.length}/200</div>
               </body>

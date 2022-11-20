@@ -59,12 +59,22 @@ const uploadSlice = createSlice({
         content: action.payload.content,
         registDt: action.payload.registDt,
         certificationId: action.payload.certificationId,
-        address:action.payload.address
+        address: action.payload.address,
       };
     },
     setContent(state, action) {
       return {
         ...state,
+        content: action.payload.content,
+      };
+    },
+    setCertificationUpdate(state, action) {
+      return {
+        ...initialState,
+        img: action.payload.img,
+        categoryKo: action.payload.categoryKo,
+        title: action.payload.title,
+        certificationId: action.payload.certificationId,
         content: action.payload.content,
       };
     },

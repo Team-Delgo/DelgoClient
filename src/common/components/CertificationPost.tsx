@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { certificationLike } from '../../common/api/certification';
+import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
 import Cafe from '../icons/cafe.svg';
@@ -13,6 +13,10 @@ import Heart from '../icons/heart-empty.svg';
 import FillHeart from '../icons/heart.svg';
 import Comments from '../icons/comments.svg';
 import { RootState } from '../../redux/store';
+import AlertConfirm from '../dialog/AlertConfirm';
+import AlertConfirmOne from '../dialog/AlertConfirmOne';
+import { CAMERA_PATH } from '../constants/path.const';
+import { uploadAction } from '../../redux/slice/uploadSlice';
 
 interface userType {
   address: string;
@@ -29,32 +33,33 @@ interface userType {
   userSocial: string;
 }
 
-interface RecommendedPlaceProps  {
-    post: postType;
-  };
-  
-  interface postType {
-    address: string;
-    categoryCode: string;
-    certificationId: number;
-    commentCount: number;
-    description: string;
-    geoCode: string;
-    isAchievements: number;
-    isLike: number;
-    isLive: number;
-    isPhotoChecked: number;
-    latitude: string;
-    likeCount: number;
-    longitude: string;
-    mungpleId: number;
-    pgeoCode: string;
-    photoUrl: string;
-    placeName: string;
-    registDt: string;
-    userId: number
-    user:userType
-  }
+interface RecommendedPlaceProps {
+  post: postType;
+  refetch: () => void;
+}
+
+interface postType {
+  address: string;
+  categoryCode: string;
+  certificationId: number;
+  commentCount: number;
+  description: string;
+  geoCode: string;
+  isAchievements: number;
+  isLike: number;
+  isLive: number;
+  isPhotoChecked: number;
+  latitude: string;
+  likeCount: number;
+  longitude: string;
+  mungpleId: number;
+  pgeoCode: string;
+  photoUrl: string;
+  placeName: string;
+  registDt: string;
+  userId: number;
+  user: userType;
+}
 
 interface weekDayType {
   Mon: string;
@@ -98,12 +103,26 @@ const categoryIcon: categoryType = {
   CA9999: Hospital,
 };
 
-function CertificationPost({ post }: RecommendedPlaceProps) {
+const categoryCode: categoryType = {
+  CA0001: '산책',
+  CA0002: '카페',
+  CA0003: '식당',
+  CA0004: '목욕',
+  CA0005: '미용',
+  CA0006: '병원',
+  CA9999: '기타',
+};
+
+function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
+
+  console.log('post', post);
 
   const setCertificationLike = () => {
     certificationLike(
@@ -119,20 +138,86 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
     );
   };
 
+  const deleteCertification = () => {
+    closeDeleteAlert();
+    deleteCertificationPost(
+      user.id,
+      post?.certificationId,
+      (response: AxiosResponse) => {
+        const { code } = response.data;
+        console.log(response);
+        if (code === 200) {
+          refetch();
+        } else {
+          openDeleteErrorAlert();
+        }
+      },
+      dispatch,
+    );
+  };
+
   const moveToCommentPage = () => {
     navigate(`/comments/${post?.certificationId}`, { state: post?.certificationId });
+  };
+
+  const moveToUpdatePage = () => {
+    dispatch(
+      uploadAction.setCertificationUpdate({
+        img: post?.photoUrl,
+        categoryKo: categoryCode[post?.categoryCode],
+        title: post?.placeName,
+        certificationId: post?.certificationId,
+        content: post?.description,
+      }),
+    );
+    navigate(CAMERA_PATH.UPDATE);
+  };
+
+  const openDeleteAlert = (event: any) => {
+    event.stopPropagation();
+    setShowDeleteAlert(true);
+  };
+
+  const closeDeleteAlert = () => {
+    setShowDeleteAlert(false);
+  };
+
+  const openDeleteErrorAlert = () => {
+    setShowDeleteErrorAlert(true);
+  };
+
+  const closeDelteErrorAlert = () => {
+    setShowDeleteErrorAlert(false);
   };
 
   return (
     <>
       <header className="post-img-result-header">
-        <div className="post-img-result-header-date">
-          {post?.registDt.substring(0, 10)}&nbsp;
-          {weekDay[post?.registDt.substring(17, post?.registDt.length)]}
-          &nbsp;&nbsp;
-          {post?.registDt.substring(11, 16)}
+        <div className="post-img-result-header-profile">
+          <img className="post-img-result-header-profile-img" src={post?.user.profile} alt="copy url" />
+          <div>
+            <div className="post-img-result-header-profile-date">
+              {' '}
+              {post?.registDt.substring(0, 10)}&nbsp;
+              {weekDay[post?.registDt.substring(17, post?.registDt.length)]}
+              &nbsp;&nbsp;
+              {post?.registDt.substring(11, 16)}
+            </div>
+            <div className="post-img-result-header-profile-name">{post?.user?.name}</div>
+          </div>
         </div>
-        <div className="post-img-result-header-report">신고</div>
+        {user.id !== post?.user.userId ? (
+          <div className="post-img-result-header-report">신고</div>
+        ) : (
+          <div className="post-img-result-header-report">
+            <span aria-hidden="true" onClick={moveToUpdatePage}>
+              수정&nbsp;&nbsp;|
+            </span>
+            <span aria-hidden="true" onClick={openDeleteAlert}>
+              &nbsp;&nbsp;삭제
+            </span>
+          </div>
+        )}
       </header>
       <main className="post-img-result-main">
         <img className="post-img-result-main-img" src={post?.photoUrl} width={window.innerWidth} alt="postImg" />
@@ -141,7 +226,7 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
             <div className="post-img-result-main-header-place-name">{post?.placeName}</div>
             <div className="post-img-result-main-header-place-address">{post?.address}</div>
           </div>
-          <img src={categoryIcon[post?.categoryCode]} alt="category-img" width={48} height={48}/>
+          <img src={categoryIcon[post?.categoryCode]} alt="category-img" width={48} height={48} />
         </header>
         <body className="post-img-result-main-body">{post?.description}</body>
         <footer className="post-img-result-main-footer">
@@ -164,6 +249,15 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
         </footer>
       </main>
       <div className="border-line" />
+      {showDeleteAlert && (
+        <AlertConfirm
+          text="인증 기록을 삭제 하시겠습니까?"
+          buttonText="삭제"
+          noButtonHandler={closeDeleteAlert}
+          yesButtonHandler={deleteCertification}
+        />
+      )}
+      {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
     </>
   );
 }
