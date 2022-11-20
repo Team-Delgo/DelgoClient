@@ -64,10 +64,12 @@ function AchievementPage() {
   }, []);
 
   const getgetAchievementDataList = () => {
-     getAchievementList(
+    getAchievementList(
       user.id,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
+
+        console.log('data', data);
 
         const achievementList = data.filter((element: AchievementDataType) => element.isMain === 0);
         setAchievementList(achievementList);
@@ -199,26 +201,30 @@ function AchievementPage() {
             최대 3개까지 선택 할 수 있어요
           </div>
           <div className="achievement-page-header-achievements-images">
-            {mainAchievementList.map((achievement: AchievementDataType) => (
-              <div
-                className="achievement-page-header-achievements-image-container"
-                aria-hidden="true"
-                onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
-              >
-                <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                  <img src={achievement.achievements.imgUrl} alt="post-img" />
+            {mainAchievementList
+              .sort((a: AchievementDataType, b: AchievementDataType) => {
+                return a.isMain - b.isMain;
+              })
+              .map((achievement: AchievementDataType) => (
+                <div
+                  className="achievement-page-header-achievements-image-container"
+                  aria-hidden="true"
+                  onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
+                >
+                  <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
+                    <img src={achievement.achievements.imgUrl} alt="post-img" />
+                  </div>
+                  {editActivation === true ? (
+                    <img
+                      src={Checked}
+                      className="achievement-page-header-achievements-image-check-img"
+                      alt="post-img"
+                      width={20}
+                      height={20}
+                    />
+                  ) : null}
                 </div>
-                {editActivation === true ? (
-                  <img
-                    src={Checked}
-                    className="achievement-page-header-achievements-image-check-img"
-                    alt="post-img"
-                    width={20}
-                    height={20}
-                  />
-                ) : null}
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </header>

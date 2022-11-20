@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Certification } from './RecordCertificationPage';
@@ -16,15 +16,44 @@ import Comments from '../../common/icons/comments.svg';
 import { Cert } from '../map/MapType';
 import './RecordCertification.scss';
 import { CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
-import { certificationLike } from '../../common/api/certification';
+import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import { useErrorHandlers } from '../../common/api/useErrorHandlers';
+import { uploadAction } from '../../redux/slice/uploadSlice';
+import { CAMERA_PATH, RECORD_PATH } from '../../common/constants/path.const';
+import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
+import AlertConfirm from '../../common/dialog/AlertConfirm';
+import { RootState } from '../../redux/store';
+
+interface categoryType {
+  CA0001: string;
+  CA0002: string;
+  CA0003: string;
+  CA0004: string;
+  CA0005: string;
+  CA0006: string;
+  CA9999: string;
+  [prop: string]: any;
+}
+
+const categoryCode: categoryType = {
+  CA0001: '산책',
+  CA0002: '카페',
+  CA0003: '식당',
+  CA0004: '목욕',
+  CA0005: '미용',
+  CA0006: '병원',
+  CA9999: '기타',
+};
 
 function RecordCertification(props: { certification: Cert }) {
   const { certification } = props;
   const dispatch = useDispatch();
   const [selfHeart, setSelfHeart] = useState(certification.isLike);
   const [count, setCount] = useState(certification.likeCount);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.persist.user);
 
   const setCertificationLike = async () => {
     certificationLike(
@@ -37,6 +66,55 @@ function RecordCertification(props: { certification: Cert }) {
     );
   };
 
+  const deleteCertification = () => {
+    closeDeleteAlert();
+    deleteCertificationPost(
+      user.id,
+      certification?.certificationId,
+      (response: AxiosResponse) => {
+        const { code } = response.data;
+        console.log(response);
+        if (code === 200) {
+          navigate(RECORD_PATH.PHOTO);
+        } else {
+          openDeleteErrorAlert();
+        }
+      },
+      dispatch,
+    );
+  };
+
+  const moveToUpdatePage = () => {
+    dispatch(
+      uploadAction.setCertificationUpdate({
+        img: certification?.photoUrl,
+        categoryKo: categoryCode[certification?.categoryCode],
+        title: certification?.placeName,
+        certificationId: certification?.certificationId,
+        content: certification?.description,
+      }),
+    );
+    navigate(CAMERA_PATH.UPDATE);
+  };
+
+  const openDeleteAlert = (event: any) => {
+    console.log(1)
+    event.stopPropagation();
+    setShowDeleteAlert(true);
+  };
+
+  const closeDeleteAlert = () => {
+    setShowDeleteAlert(false);
+  };
+
+  const openDeleteErrorAlert = () => {
+    setShowDeleteErrorAlert(true);
+  };
+
+  const closeDelteErrorAlert = () => {
+    setShowDeleteErrorAlert(false);
+  };
+
   let icon;
   if (certification.categoryCode === 'CA0001') icon = Walk;
   else if (certification.categoryCode === 'CA0002') icon = Cafe;
@@ -46,11 +124,12 @@ function RecordCertification(props: { certification: Cert }) {
   else if (certification.categoryCode === 'CA0006') icon = Hospital;
   else icon = Walk;
   return (
+    <>
     <div className="record-cert">
       <div className="record-cert-edit">
-        <div>수정</div>
+        <div aria-hidden="true" onClick={moveToUpdatePage}>수정</div>
         <img src={VerticalDevider} alt="devider" />
-        <div>삭제</div>
+        <div aria-hidden="true" onClick={openDeleteAlert}>삭제</div>
       </div>
       <img className="record-cert-img" src={certification.photoUrl} alt={certification.placeName} />
       <div className="record-cert-main">
@@ -90,6 +169,16 @@ function RecordCertification(props: { certification: Cert }) {
         {certification.commentCount > 0 && <div className="record-cert-icons-count">{certification.commentCount}</div>}
       </div>
     </div>
+          {showDeleteAlert && (
+            <AlertConfirm
+              text="인증 기록을 삭제 하시겠습니까?"
+              buttonText="삭제"
+              noButtonHandler={closeDeleteAlert}
+              yesButtonHandler={deleteCertification}
+            />
+          )}
+          {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
+    </>
   );
 }
 
