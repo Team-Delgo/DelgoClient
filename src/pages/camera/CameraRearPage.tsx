@@ -14,6 +14,7 @@ import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../common/utils/CropImg';
+import WhiteCheck from '../../common/icons/white-check.svg'
 
 
 const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
@@ -49,7 +50,7 @@ function CameraRearPage() {
         }
       }
     }, 100);
-  }, []);
+  }, [img]);
 
   // const handleDevices = (mediaDevices: any) => {
   //  setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
@@ -133,33 +134,50 @@ function CameraRearPage() {
     }
   }
 
+  const cancleImgCrop = () => {
+    setCameraLoading(true);
+    setImg('');
+  };
+
   if (img !== '') {
     return (
       <>
         <div className="crop-wrapper">
-          <Cropper
-            image={img}
-            crop={crop}
-            zoom={zoom}
-            aspect={1}
-            onCropChange={setCrop}
-            onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
+          <img
+            src={PrevArrowBlack}
+            className="camera-page-prev-arrow"
+            alt="camera-page-prev-arrow"
+            aria-hidden="true"
+            onClick={cancleImgCrop}
           />
+          <img
+            src={WhiteCheck}
+            className="camera-page-complition-check"
+            alt="camera-page-complition-check"
+            aria-hidden="true"
+            onClick={showCroppedImage}
+          />
+          <div className="crop-wrappe">
+            <Cropper
+              image={img}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
+            />
+          </div>
         </div>
-        <div className="crop-button-wrapper">
+        {/* <div className="crop-button-wrapper">
           <button type="submit" onClick={showCroppedImage}>
             선택
           </button>
-        </div>
+        </div> */}
       </>
     );
   }
-
-  const asd = () => {
-    console.log(1)
-    // setCameraLoading(false);
-  };
 
   return (
     <>
@@ -176,7 +194,6 @@ function CameraRearPage() {
             ref={camera}
             aspectRatio={1}
             facingMode="environment"
-            numberOfCamerasCallback={asd}
             errorMessages={{
               noCameraAccessible: undefined,
               permissionDenied: undefined,

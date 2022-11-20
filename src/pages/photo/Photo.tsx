@@ -63,10 +63,11 @@ function Photo() {
 
   useEffect(() => {
     if (location?.state) {
+      console.log('location.state', location.state);
       setCategoryTab(location.state);
       setCategory(categoryCode[location.state]);
       if (rightScrollCategory.includes(location.state)) {
-        moveToCategoryRightScroll()
+        moveToCategoryRightScroll();
       }
     }
   }, []);
@@ -162,15 +163,12 @@ function Photo() {
     photoContext.concat(<div className="photo-fake" />);
   }
 
-  console.log(photos);
-
   const getCategoryCountList = async () => {
     getCategoryCount(userId,(response:AxiosResponse) => {
       const {data} = response.data;
       setCategoryCount(data);
     },dispatch)
   }
-  console.log(categoryCount);
 
   const optionClickHandler = (e: any) => {
     setSortOption(e.target.value);

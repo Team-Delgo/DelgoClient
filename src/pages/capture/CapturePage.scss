@@ -10,7 +10,7 @@
     left: 6vw;
 }
 
-.capture-page-x{
+.capture-page-x {
     position: absolute;
     top: 6vh;
     right: 6vw;
@@ -30,8 +30,10 @@
     }
 
     &-body::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera*/
+        display: none;
+        /* Chrome, Safari, Opera*/
     }
+
     &-body {
         margin-top: 30px;
         padding-bottom: 30px;
@@ -39,8 +41,11 @@
         justify-content: space-between;
         align-items: center;
         overflow-x: scroll;
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+
+        /* Firefox */
         &-walk,
         &-cafe,
         &-restaurant,
@@ -62,11 +67,21 @@
                 font-size: 16px;
                 text-align: center;
             }
+            &-img {
+                border: 2px solid white;
+                border-radius: 100%;
+                background-color: white;
+            }
         }
 
         &-walk {
             &-count {
                 color: #4A8C48;
+            }
+            &-img-active {
+                border: 2px solid #4a8c48;
+                border-radius: 100%;
+                background-color: #4a8c48;
             }
         }
 
@@ -74,11 +89,21 @@
             &-count {
                 color: #8E6947;
             }
+            &-img-active {
+                border: 2px solid #8E6947;
+                border-radius: 100%;
+                background-color: #8E6947;
+            }
         }
 
         &-restaurant {
             &-count {
                 color: #AD912B;
+            }
+            &-img-active {
+                border: 2px solid #AD912B;
+                border-radius: 100%;
+                background-color: #AD912B;
             }
         }
 
@@ -86,11 +111,21 @@
             &-count {
                 color: #8269CB;
             }
+            &-img-active {
+                border: 2px solid #8269CB;
+                border-radius: 100%;
+                background-color: #8269CB;
+            }
         }
 
         &-beauty {
             &-count {
                 color: #B4588F;
+            }
+            &-img-active {
+                border: 2px solid #B4588F;
+                border-radius: 100%;
+                background-color: #B4588F;
             }
         }
 
@@ -98,11 +133,21 @@
             &-count {
                 color: #328995;
             }
+            &-img-active {
+                border: 2px solid #328995;
+                border-radius: 100%;
+                background-color: #328995;
+            }
         }
 
         &-etc {
             &-count {
                 color: #000000;
+            }
+            &-img-active {
+                border: 2px solid #000000;
+                border-radius: 100%;
+                background-color: #000000;
             }
         }
     }

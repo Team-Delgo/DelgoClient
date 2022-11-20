@@ -50,7 +50,7 @@ function CameraFrontPage() {
         }
       }
     }, 100);
-  }, []);
+  }, [img]);
 
   const deviceCheck = () => {
     const pcDevice = 'win16|win32|win64|mac|macintel';
@@ -133,8 +133,9 @@ function CameraFrontPage() {
   };
 
   const cancleImgCrop = () => {
-    setImg('')
-  }
+    setCameraLoading(true);
+    setImg('');
+  };
 
   if (img !== '') {
     return (
