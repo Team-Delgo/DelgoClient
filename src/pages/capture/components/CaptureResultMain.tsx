@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import BottomButton from '../../../common/components/BottomButton';
+import Restorant from '../../../common/icons/restorant.svg';
 import Bath from '../../../common/icons/bath.svg';
 import Beauty from '../../../common/icons/beauty.svg';
 import Cafe from '../../../common/icons/cafe.svg';
 import Hospital from '../../../common/icons/hospital.svg';
 import Walk from '../../../common/icons/walk.svg';
+import ETC from '../../../common/icons/etc.svg';
 import { ROOT_PATH } from '../../../common/constants/path.const';
 
 interface categoryType {
@@ -24,11 +26,11 @@ interface categoryType {
 const categoryIcon: categoryType = {
   산책: Walk,
   카페: Cafe,
-  식당: Bath,
+  식당: Restorant,
   목욕: Bath,
   미용: Beauty,
   병원: Hospital,
-  기타: Hospital,
+  기타: ETC,
 };
 
 const categoryEnglish: categoryType = {
