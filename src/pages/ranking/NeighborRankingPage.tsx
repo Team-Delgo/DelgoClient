@@ -45,7 +45,7 @@ function NeighborRankingPage() {
         <body className="neighbor-ranking-page-header-my-pet">
           <img className="neighbor-ranking-page-header-my-pet-img" src={pet.image} alt="copy url" />
           <div className="neighbor-ranking-page-header-my-pet-profie">
-            <div className="neighbor-ranking-page-header-my-pet-profie-address">서울시 송파구</div>
+            <div className="neighbor-ranking-page-header-my-pet-profie-address">{user.address}</div>
             <div className="neighbor-ranking-page-header-my-pet-profie-name">{user.nickname}</div>
           </div>
         </body>
