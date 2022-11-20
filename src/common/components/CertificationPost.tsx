@@ -103,8 +103,6 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
   const [likeCount, setLikeCount] = useState(post?.likeCount);
   const { user } = useSelector((state: RootState) => state.persist.user);
 
-  console.log('post',post)
-
   const setCertificationLike = () => {
     certificationLike(
       user.id,
