@@ -71,8 +71,7 @@ function CertificationPostsPage() {
 
   useEffect(() => {
     window.scroll(0, 0);
-    console.log('data', data);
-  }, [isFetchingNextPage]);
+  }, []);
 
   useEffect(() => {
     if (inView) fetchNextPage();

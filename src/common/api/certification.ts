@@ -153,7 +153,7 @@ async function getCertificationPostAll(pageParam: number, userId: number, dispat
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=3&userId=${userId}`,
     );
-    console.log(res.data.data);
+    // console.log(res.data.data);
     const { content, last } = res.data.data;
     return { content, nextPage: pageParam + 1, last };
   } catch (error: any) {

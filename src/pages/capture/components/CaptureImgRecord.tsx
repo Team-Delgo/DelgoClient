@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
@@ -27,7 +27,8 @@ function CaptureImgRecord() {
   const dispatch = useDispatch();
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
-
+  const categoryRef = useRef<any>();
+  
   const { isLoading: getCertificationDataCountIsLoading, data: certificationDataCount } = useQuery(
     GET_CERTIFICATION_DATA_COUNT,
     () => getCertificationDataCount(user.id),
@@ -55,20 +56,36 @@ function CaptureImgRecord() {
     setBottomSheetIsOpen(false);
   };
 
-  // snapPoints={sheetSnapPoints}
+  const moveToCategoryLeftScroll = (category: string) => (e: React.MouseEvent) => {
+    categoryRef.current.scrollTo({
+      left: categoryRef.current.scrollLeft - categoryRef.current.offsetWidth,
+      behavior: 'smooth',
+    });
+    // setTimeout(() => {
+    //   moveToCategoryPage(category);
+    // }, 1000);
+  };
+
+
+  const moveToCategoryRightScroll = (category: string) => (e: React.MouseEvent) => {
+    categoryRef.current.scrollTo({
+      left: categoryRef.current.offsetWidth,
+      behavior: 'smooth',
+    });
+  };
   return (
     <div className="capture-img-record">
       <header className="capture-img-record-header">어떤 기록인가요?</header>
-      <body className="capture-img-record-body">
-        <div className="capture-img-record-body-walk" aria-hidden="true" onClick={moveToCategoryPage('산책')}>
+      <body className="capture-img-record-body" ref={categoryRef}>
+        <div className="capture-img-record-body-walk" aria-hidden="true" onClick={moveToCategoryLeftScroll('산책')}>
           <img src={Walk} alt="category-img" />
           <div className="capture-img-record-body-walk-count">{certificationDataCount?.data.산책}</div>
         </div>
-        <div className="capture-img-record-body-cafe" aria-hidden="true" onClick={moveToCategoryPage('카페')}>
+        <div className="capture-img-record-body-cafe" aria-hidden="true" onClick={moveToCategoryLeftScroll('카페')}>
           <img src={Cafe} alt="category-img" />
           <div className="capture-img-record-body-cafe-count">{certificationDataCount?.data.카페}</div>
         </div>
-        <div className="capture-img-record-body-restaurant" aria-hidden="true" onClick={moveToCategoryPage('식당')}>
+        <div className="capture-img-record-body-restaurant" aria-hidden="true" onClick={moveToCategoryLeftScroll('식당')}>
           <img src={Restorant} alt="category-img" />
           <div className="capture-img-record-body-restaurant-count">{certificationDataCount?.data.식당}</div>
         </div>
