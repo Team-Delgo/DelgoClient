@@ -139,7 +139,7 @@ function Calender() {
           onClick={
             isCertificated
               ? () => {
-                navigate('/record/certs',{state:{certifications:certification,pageFrom:RECORD_PATH.CALENDAR}})
+                navigate('/certs',{state:{certifications:certification,pageFrom:RECORD_PATH.CALENDAR}})
                 }
               : undefined
           }

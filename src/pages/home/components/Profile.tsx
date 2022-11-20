@@ -138,7 +138,7 @@ function Profile() {
           height={72}
         />
         <div className="home-page-dog-history-header-profile-detail">
-          <div className="home-page-dog-history-header-profile-detail-first">서울시 송파구</div>
+          <div className="home-page-dog-history-header-profile-detail-first">{user.address}</div>
           <div className="home-page-dog-history-header-profile-detail-second">
             <div className="home-page-dog-history-header-profile-detail-second-name">{user.nickname}</div>
             <img src={Point} alt="point-img" />

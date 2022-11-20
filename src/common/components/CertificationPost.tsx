@@ -120,7 +120,7 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
   };
 
   const moveToCommentPage = () => {
-    navigate(`/record/comments/${post?.certificationId}`, { state: post?.certificationId });
+    navigate(`/comments/${post?.certificationId}`, { state: post?.certificationId });
   };
 
   return (
@@ -141,7 +141,7 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
             <div className="post-img-result-main-header-place-name">{post?.placeName}</div>
             <div className="post-img-result-main-header-place-address">{post?.address}</div>
           </div>
-          <img src={categoryIcon[post?.categoryCode]} alt="category-img" />
+          <img src={categoryIcon[post?.categoryCode]} alt="category-img" width={48} height={48}/>
         </header>
         <body className="post-img-result-main-body">{post?.description}</body>
         <footer className="post-img-result-main-footer">

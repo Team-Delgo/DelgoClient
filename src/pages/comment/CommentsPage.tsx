@@ -2,11 +2,12 @@ import React,{useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './Comments.scss';
+import './CommentsPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
+import {RECORD_PATH} from '../../common/constants/path.const'
 
 interface Comment {
   certificationId: number;
@@ -19,7 +20,7 @@ interface Comment {
   commentId: number;
 }
 
-function Comments() {
+function CommentsPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
@@ -160,4 +161,4 @@ function Comments() {
   );
 }
 
-export default Comments;
+export default CommentsPage;

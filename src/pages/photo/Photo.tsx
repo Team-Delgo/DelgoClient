@@ -153,7 +153,7 @@ function Photo() {
         alt="cert"
         aria-hidden="true"
         onClick={() => {
-          navigate('/record/certs', { state: {certifications:[photo], pageFrom: RECORD_PATH.PHOTO} });
+          navigate('/certs', { state: {certifications:[photo], pageFrom: RECORD_PATH.PHOTO} });
         }}
       />
     );
