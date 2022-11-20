@@ -125,6 +125,9 @@ function CaptureCategoryRecord() {
   };
 
   const uploadGalleryImgCertification = () => {
+    if (buttonDisabled) {
+      return;
+    }
     registerGalleryCertificationPost(
       {
         userId: user.id,
@@ -224,6 +227,9 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 1000);
   };
 
   const handlingDataForm = async (dataURI: any) => {

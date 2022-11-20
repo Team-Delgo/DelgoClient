@@ -57,7 +57,7 @@ function CaptureResultHeader() {
     );
   };
 
-  const moveToCategoryPage = () => {
+  const moveToUpdatePage = () => {
     navigate(CAMERA_PATH.UPDATE);
   };
 
@@ -94,7 +94,7 @@ function CaptureResultHeader() {
             <div
               className="capture-img-result-header-record-work-modify"
               aria-hidden="true"
-              onClick={moveToCategoryPage}
+              onClick={moveToUpdatePage}
             >
               수정&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
             </div>

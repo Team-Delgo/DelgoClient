@@ -61,7 +61,7 @@ function CertificationPostsPage() {
   const { user } = useSelector((state: RootState) => state.persist.user);
   const dispatch = useDispatch();
   const { ref, inView } = useInView();
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+  const { data, status, fetchNextPage, isFetchingNextPage, refetch } = useInfiniteQuery(
     'posts',
     ({ pageParam = 0 }) => getCertificationPostAll(pageParam, user.id, dispatch),
     {
@@ -102,7 +102,7 @@ function CertificationPostsPage() {
       {data?.pages?.map((page) => (
         <>
           {page?.content?.map((post: postType) => (
-            <CertificationPost post={post} />
+            <CertificationPost post={post} refetch={refetch}/>
           ))}
         </>
       ))}
