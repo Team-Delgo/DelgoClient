@@ -41,7 +41,7 @@ function CertCard(props: {
       className="placecard"
       aria-hidden="true"
       onClick={() => {
-        navigate('/record/certs', { state: {certifications:[cert], pageFrom:RECORD_PATH.MAP} });
+        navigate(RECORD_PATH.CERT, { state: {certifications:[cert], pageFrom:RECORD_PATH.MAP} });
       }}
     >
       <img src={img} alt="cardimg" />
