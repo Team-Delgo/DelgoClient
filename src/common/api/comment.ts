@@ -31,9 +31,17 @@ async function postComment(
   }
 }
 
-async function deleteComment(userId: number, commentId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+async function deleteComment(
+  userId: number,
+  commentId: number,
+  certificationId: number,
+  success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
   try {
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/comment/delete/${commentId}/${userId}`);
+    const result = await axios.post(
+      `${process.env.REACT_APP_API_URL}/comment/delete/${commentId}/${userId}/${certificationId}`,
+    );
     success(result);
   } catch (error: any | AxiosError) {
     useErrorHandlers(dispatch, error);

@@ -65,14 +65,15 @@ function CommentsPage() {
     );
   };
 
-  const deleteCommentOnCert = ()  => {
+  const deleteCommentOnCert = () => {
     deleteComment(
       userId,
       deleteCommentId,
+      certificationId,
       (response: AxiosResponse) => {
         if (response.data.code === 200) {
           getComments();
-          closeDeleteAlert()
+          closeDeleteAlert();
         }
       },
       dispatch,
