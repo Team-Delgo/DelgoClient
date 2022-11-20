@@ -2,6 +2,7 @@
 import { AxiosResponse } from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { certificationLike } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
@@ -102,6 +103,7 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const navigate = useNavigate();
 
   const setCertificationLike = () => {
     certificationLike(
@@ -117,6 +119,10 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
     );
   };
 
+  const moveToCommentPage = () => {
+    navigate(`/record/comments/${post?.certificationId}`, { state: post?.certificationId });
+  };
+
   return (
     <>
       <header className="post-img-result-header">
@@ -129,12 +135,7 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
         <div className="post-img-result-header-report">신고</div>
       </header>
       <main className="post-img-result-main">
-        <img
-          className="post-img-result-main-img"
-          src={post?.photoUrl}
-          width={window.innerWidth}
-          alt="postImg"
-        />
+        <img className="post-img-result-main-img" src={post?.photoUrl} width={window.innerWidth} alt="postImg" />
         <header className="post-img-result-main-header">
           <div className="post-img-result-main-header-place">
             <div className="post-img-result-main-header-place-name">{post?.placeName}</div>
@@ -152,7 +153,13 @@ function CertificationPost({ post }: RecommendedPlaceProps) {
             onClick={setCertificationLike}
           />
           <div className="post-img-result-main-footer-count">{likeCount}</div>
-          <img className="post-img-result-main-footer-comments" src={Comments} alt="comments" />
+          <img
+            className="post-img-result-main-footer-comments"
+            src={Comments}
+            alt="comments"
+            aria-hidden="true"
+            onClick={moveToCommentPage}
+          />
           <div className="post-img-result-main-footer-count">{post?.commentCount}</div>
         </footer>
       </main>

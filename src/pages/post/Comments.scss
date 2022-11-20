@@ -9,6 +9,8 @@
   &-content{
     width: 100%;
     margin-left: 10px;
+    font-size: 14px;
+    font-weight: 400;
     &-header{
       display: flex;
       justify-content: space-between;
@@ -16,15 +18,26 @@
         font-size: 14px;
         font-weight: 700;
       }
-      &-date{
-       font-size: 12px;
-       font-weight: 400;
-       color: #8a8a8a; 
+
+      &-work{
+        font-size: 12px;
+        font-weight: 400;
+        color: #8a8a8a; 
+        display: flex;
+        &-date{
+          padding-right: 20px;
+         }
+         &-delete{
+        }
       }
+    }
+    &-text{
+      padding-top: 8px;
     }
   }
 }
 .comments{
+  padding-bottom: 100px;
   &-header{
     position: fixed;
     width: 100%;
@@ -53,21 +66,27 @@
     bottom: 0;
     margin: 0 20px;
     padding-bottom: 30px;
+    font-size: 14px;
     img{
       width: 41px;
       height: 41px;
       border-radius: 4px;
     }
     &-input{
-      width: 100%;
+      width: 65%;
       height: 23px;
       background-color: #f2f2f2;
       border-radius: 4px;
       padding: 9px 12px;
       border: none;
-      margin: 0 5px;
+      margin: 0 15px;
     }
     &-button{
+      font-weight: 600;
+    }
+    &-button-disabled{
+      font-weight: 600;
+      color:#8a8a8a
     }
   }
 }
