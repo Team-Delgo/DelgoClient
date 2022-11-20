@@ -49,7 +49,11 @@ export const RECORD_PATH = {
   PHOTO: '/photo',
   CALENDAR: '/calendar',
   MAP: '/map',
+  CERT:'/certs',
+  COMMENT:'/comments/:id'
 };
+
+
 
 export const ACHIEVEMENT_PATH = '/achievement';
 

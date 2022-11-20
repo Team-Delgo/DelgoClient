@@ -57,7 +57,7 @@ import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
 import RecordCertificationPage from './pages/post/RecordCertificationPage';
 import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
 import SocialExist from './pages/sign/signin/social/SocialExist';
-import Comments from './pages/post/Comments';
+import CommentsPage from './pages/comment/CommentsPage';
 
 
 
@@ -105,6 +105,8 @@ function App() {
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
+        <Route path={RECORD_PATH.CERT} element={<RecordCertificationPage/>} />
+        <Route path={RECORD_PATH.COMMENT} element={<CommentsPage/>} /> 
         <Route path={CAMERA_PATH.FRONT} element={<CameraFrontPage />} />
         <Route path={CAMERA_PATH.REAR} element={<CameraRearPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
@@ -120,8 +122,6 @@ function App() {
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
-        <Route path='/record/certs' element={<RecordCertificationPage/>} />
-        <Route path='/record/comments/:id' element={<Comments/>} /> 
       </Routes>
     </QueryClientProvider>
   );

@@ -44,6 +44,7 @@ function KakaoRedirectHandler() {
               couponList: data.couponList,
               user: {
                 id: data.user.userId,
+                address: data.user.address,
                 nickname: data.user.name,
                 email: data.user.email,
                 phone: data.user.phoneNo,

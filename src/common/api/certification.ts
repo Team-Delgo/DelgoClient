@@ -178,33 +178,6 @@ async function deleteCertificationPost(
   }
 }
 
-async function getCommentList(certificationId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
-    .get(`${process.env.REACT_APP_API_URL}/comment?certificationId=${certificationId}`)
-    .then((data) => {
-      success(data);
-    })
-    .catch((error) => {
-      useErrorHandlers(dispatch, error);
-    });
-}
-
-async function postComment(userId: number, certificationId:number, content:string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
-    .post(`${process.env.REACT_APP_API_URL}/comment`,{
-      userId,
-      certificationId,
-      isReply:false,
-      content
-    })
-    .then((data) => {
-      success(data);
-    })
-    .catch((error) => {
-      useErrorHandlers(dispatch, error);
-    });
-}
-
 export {
   getMungPlaceList,
   getCertificationDataCount,
@@ -216,6 +189,4 @@ export {
   updateCertificationPost,
   certificationLike,
   deleteCertificationPost,
-  getCommentList,
-  postComment
 };
