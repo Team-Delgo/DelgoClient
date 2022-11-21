@@ -58,6 +58,7 @@ import RecordCertificationPage from './pages/post/RecordCertificationPage';
 import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
 import SocialExist from './pages/sign/signin/social/SocialExist';
 import CommentsPage from './pages/comment/CommentsPage';
+import Setting from './pages/myaccount/Setting';
 
 
 
@@ -97,16 +98,16 @@ function App() {
         <Route path={SIGN_UP_PATH.TERMS} element={<Terms />} />
         <Route path={SIGN_UP_PATH.VERIFY} element={<VerifyPhone />} />
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
-        <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo/>} />
+        <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo />} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
-        <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist/>} /> 
-        <Route path='/preventback' element={<PreventBack/>} />
+        <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist />} />
+        <Route path='/preventback' element={<PreventBack />} />
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
-        <Route path={RECORD_PATH.CERT} element={<RecordCertificationPage/>} />
-        <Route path={RECORD_PATH.COMMENT} element={<CommentsPage/>} /> 
+        <Route path={RECORD_PATH.CERT} element={<RecordCertificationPage />} />
+        <Route path={RECORD_PATH.COMMENT} element={<CommentsPage />} />
         <Route path={CAMERA_PATH.FRONT} element={<CameraFrontPage />} />
         <Route path={CAMERA_PATH.REAR} element={<CameraRearPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
@@ -118,7 +119,8 @@ function App() {
         <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />
         <Route path={NEIGHBOR_RANKING_PATH} element={<NeighborRankingPage />} />
         <Route path={MY_ACCOUNT_PATH.MAIN} element={<MyAccountPage />} />
-        <Route path={MY_ACCOUNT_PATH.PETINFO} element={<ChangePetInfo/>} />
+        <Route path={MY_ACCOUNT_PATH.PETINFO} element={<ChangePetInfo />} />
+        <Route path={MY_ACCOUNT_PATH.SETTINGS} element={<Setting />} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
