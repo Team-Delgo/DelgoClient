@@ -61,43 +61,65 @@ function Ranking() {
   };
 
   return (
-    <div className="home-page-dog-history-body-ranking" aria-hidden="true" onClick={moveToAchievementPage}>
-      <div className="home-page-dog-history-body-ranking-title">이번 주 우리 동네 랭킹</div>
-      <header className="home-page-dog-history-body-ranking-summary">
-        <div className="home-page-dog-history-body-ranking-summary-first-line">
-          <div>
-            <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">{user.nickname} /</span>
-            <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number">
-              {' '}
-              {myPetRankingData?.data?.ranking}등
-            </span>
-          </div>
-          <div className="home-page-dog-history-body-ranking-summary-first-line-point">
-            {myPetRankingData?.data?.weeklyPoint}p
+    <>
+      <div className="home-page-dog-history-body-ranking">
+        <div className="home-page-dog-history-body-ranking-header">
+          <div className="home-page-dog-history-body-ranking-header-title">이번 주 우리 동네 랭킹</div>
+          <div
+            className="home-page-dog-history-body-ranking-header-all"
+            aria-hidden="true"
+            onClick={moveToAchievementPage}
+          >
+            더보기
           </div>
         </div>
-        <div className="home-page-dog-history-body-ranking-summary-second-line">
-          지난 주&nbsp;{myPetRankingData?.data?.lastRanking}등
-        </div>
-      </header>
-      <main className="home-page-dog-history-body-ranking-detail">
-        {topRankingDataList?.data
-          .sort((a: rankingType, b: rankingType) => a.ranking - b.ranking)
-          .slice(0, 3)
-          .map((rankingData: rankingType) => (
-            <div className="home-page-dog-history-body-ranking-detail-container" key={rankingData.userId}>
-              <div className="home-page-dog-history-body-ranking-detail-rank">{rankingData.ranking}</div>
-              <div className="home-page-dog-history-body-ranking-detail-dog-profile">
-                <img src={rankingData.profile} alt="dog-img-url" />
-                <div className="home-page-dog-history-body-ranking-detail-dog-profile-name-point">
-                  <div>{rankingData.name}</div>
-                  <div>{rankingData.weeklyPoint}p</div>
+        <header className="home-page-dog-history-body-ranking-summary">
+          <div className="home-page-dog-history-body-ranking-summary-first">
+            <div className="home-page-dog-history-body-ranking-summary-first-ranking">
+              {myPetRankingData?.data?.ranking}
+            </div>
+            <div className="home-page-dog-history-body-ranking-summary-first-name">{user.nickname}</div>
+            <div className="home-page-dog-history-body-ranking-summary-first-last-ranking">
+              지난 주&nbsp;{myPetRankingData?.data?.lastRanking}등
+            </div>
+          </div>
+          <div className="home-page-dog-history-body-ranking-summary-point">{myPetRankingData?.data?.weeklyPoint}p</div>
+          {/* <div className="home-page-dog-history-body-ranking-summary-first-line">
+            <div>
+              <span className="home-page-dog-history-body-ranking-summary-first-line-dog-name">{user.nickname} /</span>
+              <span className="home-page-dog-history-body-ranking-summary-first-line-ranking-number">
+                {' '}
+                {myPetRankingData?.data?.ranking}등
+              </span>
+            </div>
+            <div className="home-page-dog-history-body-ranking-summary-first-line-point">
+              {myPetRankingData?.data?.weeklyPoint}p
+            </div>
+          </div>
+          <div className="home-page-dog-history-body-ranking-summary-second-line">
+            지난 주&nbsp;{myPetRankingData?.data?.lastRanking}등
+          </div> */}
+        </header>
+        <main className="home-page-dog-history-body-ranking-detail">
+          {topRankingDataList?.data
+            .sort((a: rankingType, b: rankingType) => a.ranking - b.ranking)
+            .slice(0, 3)
+            .map((rankingData: rankingType) => (
+              <div className="home-page-dog-history-body-ranking-detail-container" key={rankingData.userId}>
+                <div className="home-page-dog-history-body-ranking-detail-rank">{rankingData.ranking}</div>
+                <div className="home-page-dog-history-body-ranking-detail-dog-profile">
+                  <img src={rankingData.profile} alt="dog-img-url" />
+                  <div className="home-page-dog-history-body-ranking-detail-dog-profile-name-point">
+                    <div className="dog-name">{rankingData.name}</div>
+                    <div className="dog-point">{rankingData.weeklyPoint}p</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-      </main>
-    </div>
+            ))}
+        </main>
+      </div>
+      <div className="border-line" />
+    </>
   );
 }
 

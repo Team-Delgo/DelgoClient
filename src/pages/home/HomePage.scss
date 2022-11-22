@@ -110,13 +110,14 @@
 
 .home-page-dog-history-body {
     &-activity-log {
-        padding: 50px 5% 80px 5%;
+        padding: 50px 5% 40px 5%;
         font-weight: bold;
 
         &-title {
             line-height: 30px;
-            font-size: 20px;
+            font-size: 16px;
             color: black;
+            padding-bottom: 10px;
         }
 
         &-sub-title {
@@ -127,7 +128,7 @@
 
         &-line {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
 
             &-walk:active,
             &-cafe:active,
@@ -148,22 +149,24 @@
             &-bath,
             &-etc {
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-between;
                 align-items: center;
                 width: 100%;
                 height: 44px;
                 background-color: #474747;
                 border-radius: 8px;
                 margin: 10px 5px 0 0;
-                font-size: 16px;
+                padding: 0 18px;
 
                 &-label {
                     color: #FFFFFF;
                     font-weight: 500;
+                    font-size: 14px;
                 }
 
                 &-count {
                     font-weight: 700;
+                    font-size: 16px;
                 }
             }
 
@@ -206,55 +209,67 @@
     }
 
     &-ranking {
-        &-title {
-            padding: 0 5% 20px 5%;
-            font-weight: bold;
-            font-size: 20px;
-            color: black;
+        margin:40px 5%;
+
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            &-title {
+                font-weight: bold;
+                font-size: 16px;
+                color: black;
+            }
+    
+            &-all {
+                font-size: 14px;
+                font-weight: 400;
+                color: #8A8A8A;
+    
+            }
         }
 
         &-summary {
-            height: 76px;
-            background: #565656;
-
-            &-first-line {
+            height: 55px;
+            background: #3F3F3F;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding:0 6%;
+            &-first{
                 display: flex;
                 justify-content: space-between;
-                padding: 20px 10% 0 5%;
-                color: #FFFFFF;
-
-                &-dog-name {
-                    font-size: 18px;
+                &-ranking{
+                    color:#AA93EC;
+                    font-size:16px;
                     font-weight: 700;
                 }
-
-                &-ranking-number {
-                    font-size: 14px;
-                    font-weight: 700;
-                }
-
-                &-point {
+                &-name{
+                    color:white;
+                    font-size:16px;
                     font-weight: 500;
-                    font-size: 16px;
-                    color: #FFFFFF;
+                    padding: 0 30px 0 20px;
+                }
+                &-last-ranking{
+                    color:#8A8A8A;
+                    font-size: 12px;
+                    font-weight: 400;
+                    display: flex;
+                    align-items: center;
                 }
             }
-
-            &-second-line {
+            &-point{
+                color:#8A8A8A;
+                font-size: 14px;
                 font-weight: 500;
-                font-size: 12px;
-                padding: 2px 0 0 5%;
-                color: #C4C4C4;
             }
         }
 
         &-detail {
-            padding: 20px 5% 20px 5%;
-            margin-bottom: 80px;
-            background: #F3F3F3;
+            padding-top: 20px;
 
             &-container {   
-                // background-color: black;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -269,34 +284,35 @@
                     width: 36px;
                     height: 32px;
                     object-fit: cover;
-                    border-radius: 100%;
-                    margin-right: 20px;
-                    color: white;
-                    background: #565656;
+                    margin-right: 10px;
+                    font-weight: 500;
+                    color: black;
                 }
 
                 .home-page-dog-history-body-ranking-detail-dog-profile {
                     display: flex;
+                    align-items: center;
                     width: 100%;
                     height: 49px;
                     background: #FFFFFF;
-                    border-radius: 4px;
-                    // margin-bottom: 7px;
                     img{
-                        width: 49px;
-                        height: 49px;
+                        width: 35px;
+                        height: 35px;
                         border-radius: 2px;
-                        object-fit: contain
                     }
                     &-name-point {
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
-                        color: #474747;
-                        font-size: 16px;
-                        font-weight: 700;
+                        color: #8A8A8A;
+                        font-size: 14px;
+                        font-weight: 500;
                         width: 100%;
                         padding: 0 7%;
+                        .dog-name{
+                            color:black;
+                            font-weight: 600;
+                        }
                     }
                 }
             }
@@ -305,24 +321,22 @@
 }
 
 .home-page-neighbord-posts {
-    margin: 0 5% 20px 5%;
+    margin: 40px 5% 20px 5%;
 
     &-header {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 30px;
-        font-weight: bold;
+        margin-bottom: 20px;
 
         &-title {
-            font-size: 20px;
+            font-size: 16px;
             color: black;
+            font-weight: bold;
         }
 
         &-all {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-size: 14px;
+            font-weight: 400;
             color: #8A8A8A;
 
         }
