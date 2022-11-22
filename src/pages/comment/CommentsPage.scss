@@ -1,5 +1,5 @@
 .comment{
-  margin: 30px 20px;
+  margin: 30px 5%;
   display: flex;
   img{
     width: 33px;
@@ -60,32 +60,37 @@
   }
   &-post{
     display: flex;
+    justify-content: space-around;
     align-items: center;
     position: fixed;
-    width: 90%;
+    width: 100%;
     bottom: 0;
-    margin: 0 20px;
-    padding-bottom: 30px;
     font-size: 14px;
+    height: 65px;
+    box-shadow: 0 -5px 5px -5px rgb(208, 206, 206);
+    background-color: white;
+
     img{
       width: 41px;
       height: 41px;
       border-radius: 4px;
+      padding-left: 5%
     }
     &-input{
-      width: 65%;
-      height: 23px;
+      width: 60%;
+      height: 41px;
+      padding-left: 10px;
       background-color: #f2f2f2;
       border-radius: 4px;
-      padding: 9px 12px;
       border: none;
-      margin: 0 15px;
     }
     &-button{
       font-weight: 600;
+      padding-right: 5%;
     }
     &-button-disabled{
       font-weight: 600;
+      padding-right: 5%;
       color:#8a8a8a
     }
   }

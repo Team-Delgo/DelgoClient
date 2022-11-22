@@ -55,7 +55,7 @@ function NeighborPosts() {
       <header className="home-page-neighbord-posts-header">
         <div className="home-page-neighbord-posts-header-title">다른 친구들의 하루</div>
         <div className="home-page-neighbord-posts-header-all" aria-hidden="true" onClick={moveToPostsPage}>
-          전체보기
+          더보기
         </div>
       </header>
       <main className="home-page-neighbord-posts-container">
