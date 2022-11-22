@@ -11,13 +11,17 @@ import { MY_ACCOUNT_PATH } from '../../common/constants/path.const';
 import { RootState } from '../../redux/store';
 import { nicknameCheck } from '../../common/api/signup';
 import { checkNickname } from '../sign/validcheck';
+import RegionSelector from '../sign/signup/userinfo/RegionSelector';
+import { Region } from "../sign/signup/userinfo/UserInfo";
+import { regionType, GetRegion } from '../sign/signup/userinfo/region';
 
 function ChangeUserInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const nickname = useSelector((state: RootState) => state.persist.user.user.nickname);
-  const region = useSelector((state: RootState) => state.persist.user.user.address);
-  const [enteredInput, setEnteredInput] = useState({ nickname, region: '' });
+  const initregion = useSelector((state: RootState) => state.persist.user.user.address);
+  const [enteredInput, setEnteredInput] = useState({ nickname, region: initregion });
+  const [modalActive, setModalActive] = useState(false);
   const [validInput, setValidInput] = useState('');
   const [nicknameDuplicated, setNicknameDuplicated] = useState(true);
   const [nicknameDupCheckFail, setNicknameDupCheckFail] = useState(false);
@@ -28,9 +32,17 @@ function ChangeUserInfo() {
   const phoneNumber = `${phone.slice(0, 3)}-****-${phone.slice(7, 11)}`;
   const userEmail = `${email.slice(0, 4)}****${email.slice(8)}`;
   const location: any = useLocation();
+  const [regionList, setRegionList] = useState<regionType[]>();
+  const [region, setRegion] = useState<Region>();
+
+  const getRegionData = async () => {
+    const response = await GetRegion();
+    setRegionList(response);
+  };
 
   useEffect(() => {
     window.scroll(0, 0);
+    getRegionData();
   }, []);
 
 
@@ -81,8 +93,42 @@ function ChangeUserInfo() {
     })
   };
 
+  const closeModal = () => {
+    setModalActive(false);
+  };
+
+  const regionChangeHandler = (regionName: string, region: Region) => {
+    setEnteredInput((prev) => {
+      return {
+        ...prev,
+        region: regionName,
+      };
+    });
+    setRegion(region);
+  };
+
   return (
     <div className="userinfo">
+      {modalActive && (
+        <div>
+          <div
+            aria-hidden="true"
+            className="backdrop"
+            onClick={() => {
+              setModalActive(false);
+            }}
+          />
+          <div className="modal">
+            <RegionSelector
+              list={regionList!}
+              close={closeModal}
+              change={regionChangeHandler}
+              rIndex={region?.indexRegion}
+              pIndex={region?.indexPlace}
+            />
+          </div>
+        </div>
+      )}
       <div className="userinfo-header">
         <img
           src={LeftArrow}
@@ -105,18 +151,18 @@ function ChangeUserInfo() {
           중복확인
         </span>
       </div>
-      <div className="login-input-wrapper">
+      <div className="userinfo-nickname-label">지역</div>
+      <div className="userinfo-nickname">
         <input
           className={classNames('login-input input-location')}
           placeholder="지역"
           value={enteredInput.region}
-          // id={Id.REGION}
-          // onClick={() => {
-          //   setModalActive(true);
-          // }}
-          // onFocus={() => {
-          //   setModalActive(true);
-          // }}
+          onClick={() => {
+            setModalActive(true);
+          }}
+          onFocus={() => {
+            setModalActive(true);
+          }}
           required
           onChange={inputChangeHandler}
         />
