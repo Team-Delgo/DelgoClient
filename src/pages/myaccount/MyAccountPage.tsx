@@ -80,7 +80,7 @@ function MyAccountPage() {
         </body>
       </header>
       <body className="my-account-page-body" style={neighborRankingPageBodyStyle}>
-        <div className="my-account-page-body-item">
+        <div className="my-account-page-body-item" aria-hidden="true" onClick={() => { navigate(MY_ACCOUNT_PATH.USERINFO) }}>
           내정보 관리
           <img src={RightArrow} alt="more" />
         </div>
