@@ -15,8 +15,9 @@ import { checkNickname } from '../sign/validcheck';
 function ChangeUserInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const initialNickName = useSelector((state: RootState) => state.persist.user.user.nickname);
-  const [enteredInput, setEnteredInput] = useState(initialNickName);
+  const nickname = useSelector((state: RootState) => state.persist.user.user.nickname);
+  const region = useSelector((state: RootState) => state.persist.user.user.address);
+  const [enteredInput, setEnteredInput] = useState({ nickname, region: '' });
   const [validInput, setValidInput] = useState('');
   const [nicknameDuplicated, setNicknameDuplicated] = useState(true);
   const [nicknameDupCheckFail, setNicknameDupCheckFail] = useState(false);
@@ -34,7 +35,9 @@ function ChangeUserInfo() {
 
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setEnteredInput(e.target.value);
+    setEnteredInput((prev) => {
+      return { ...prev, nickname: e.target.value };
+    });
     nicknameValidCheck(e.target.value);
     setNicknameDuplicated(true);
     setNicknameDupCheckFail(false);
@@ -42,7 +45,7 @@ function ChangeUserInfo() {
 
   const nicknameDupCheck = () => {
     nicknameCheck(
-      enteredInput,
+      enteredInput.nickname,
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
@@ -94,13 +97,29 @@ function ChangeUserInfo() {
       <div className="userinfo-nickname">
         {/* <span className="userinfo-phone-value">{nickName}</span> */}
         {/* 아직 닉네임 변경 api가 없어서 막아놈 */}
-        <input onChange={inputChangeHandler} className="login-input change-nickname" value={enteredInput} ref={nicknameRef} />
+        <input onChange={inputChangeHandler} className="login-input change-nickname" value={enteredInput.nickname} ref={nicknameRef} />
         <p className={classNames('input-feedback', { fine: !nicknameDuplicated && validInput })}>
           {nicknameDupCheckFail ? '이미 사용중인 닉네임입니다.' : feedback}
         </p>
         <span aria-hidden="true" className="input-email-check" onClick={nicknameDupCheck}>
           중복확인
         </span>
+      </div>
+      <div className="login-input-wrapper">
+        <input
+          className={classNames('login-input input-location')}
+          placeholder="지역"
+          value={enteredInput.region}
+          // id={Id.REGION}
+          // onClick={() => {
+          //   setModalActive(true);
+          // }}
+          // onFocus={() => {
+          //   setModalActive(true);
+          // }}
+          required
+          onChange={inputChangeHandler}
+        />
       </div>
       <div className="userinfo-phone">
         <div className="userinfo-phone-label">휴대전화</div>
