@@ -17,7 +17,7 @@ import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
-import PrevArrowBlack from '../../../../common/icons/prev-arrow-black.svg';
+import PrevArrowWhite from '../../../../common/icons/prev-arrow-white.svg';
 import WhiteCheck from '../../../../common/icons/white-check.svg'
 import getCroppedImg from '../../../../common/utils/CropImg';
 
@@ -373,7 +373,7 @@ function PetInfo() {
     return (
         <div className="crop-wrapper">
           <img
-            src={PrevArrowBlack}
+            src={PrevArrowWhite}
             className="camera-page-prev-arrow"
             alt="camera-page-prev-arrow"
             aria-hidden="true"
