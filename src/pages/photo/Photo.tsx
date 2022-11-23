@@ -52,7 +52,6 @@ function Photo() {
   const [page, setPage] = useState<number>(0);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
-  const [cateogory, setCategory] = useState('CA0000');
   const [categoryCount, setCategoryCount] = useState({산책 : 0, 카페: 0, 식당: 0, 미용: 0, 병원: 0, 기타: 0, 목욕:0});
   const [categoryTab, setCategoryTab] = useState('전체');
   const [sortOption, setSortOption] = useState<number>(1);
@@ -60,10 +59,11 @@ function Photo() {
   const dispatch = useDispatch();
   const location: any = useLocation();
   const categoryRef = useRef<any>();
-
+  const [cateogory, setCategory] = useState(location.state.category ? categoryCode[location?.state?.category] : 'CA0000');
+  
   useEffect(() => {
     getCategoryCountList();
-    if (location?.state.from === 'home') {
+    if (location?.state?.from === 'home') {
       console.log('location.state', location.state);
       setCategoryTab(location.state.category);
       setCategory(categoryCode[location.state.category]);
@@ -71,7 +71,9 @@ function Photo() {
         moveToCategoryRightScroll();
       }
     }
-    getPhotoDataList();
+    if(location?.state?.from !== 'home'){
+      getPhotoDataList();
+    }
     const handleScroll = () => {
       const { scrollTop, offsetHeight } = document.documentElement;
       if (window.innerHeight + scrollTop >= offsetHeight) {
@@ -87,10 +89,8 @@ function Photo() {
     else if (isLast) setFetching(true);
   }, [isFetching]);
 
-  
-
-  useEffect(() => {
-    getPhotoData(
+  const changePhotoData = async () => {
+    await getPhotoData(
       userId,
       cateogory,
       0,
@@ -100,13 +100,17 @@ function Photo() {
         const { data } = response;
         console.log(response);
         setPage(1);
-        console.log(data.data.content);
         setPhotos(data.data.content);
         setLast(data.data.last);
         setFetching(false);
       },
       dispatch,
     );
+  }
+
+  useEffect(() => {
+    console.log(cateogory);
+    changePhotoData();
   }, [cateogory, sortOption]);
 
 
