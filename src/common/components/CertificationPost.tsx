@@ -155,7 +155,9 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
   };
 
   const moveToCommentPage = () => {
-    navigate(`/comments/${post?.certificationId}`, { state: post?.certificationId });
+    navigate(`/comments/${post?.certificationId}`, {
+      state: { certificationId: post?.certificationId, posterId: post?.userId },
+    });
   };
 
   const moveToUpdatePage = () => {
