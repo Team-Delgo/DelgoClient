@@ -77,7 +77,7 @@ function CertificationPostsPage() {
   // }
 
   return (
-    <>
+    <div className="certificationPostsPage">
     <div className="other-dog-history">친구들의 기록</div>
       {data?.pages?.map((page) => (
         <>
@@ -88,7 +88,7 @@ function CertificationPostsPage() {
       ))}
       <div ref={ref}>&nbsp;</div>
       <FooterNavigation />
-    </>
+    </div>
   );
 }
 
