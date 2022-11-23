@@ -127,8 +127,8 @@ function RegionSelector(props: {
     if (isChange) {
       changeGeoCode(
         email,
-        selectedRegion.selected.code.toString(),
         selectedPlace.selected.code.toString(),
+        selectedRegion.selected.code.toString(),
         (response: AxiosResponse) => {
           console.log(response);
         },
@@ -137,8 +137,8 @@ function RegionSelector(props: {
       dispatch(
         userActions.changeGeoCode({
           address: `${selectedRegion.selected.region}-${selectedPlace.selected.place}`,
-          geoCode: selectedRegion.selected.code,
-          pGeoCode: selectedPlace.selected.code,
+          geoCode: selectedPlace.selected.code,
+          pGeoCode: selectedRegion.selected.code,
         }),
       );
       close();
