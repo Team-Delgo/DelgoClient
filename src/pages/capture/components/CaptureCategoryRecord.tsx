@@ -99,7 +99,7 @@ function CaptureCategoryRecord() {
               content: certificationPostContent,
               registDt: data.registDt,
               certificationId: data.certificationId,
-              address:data.address
+              address: data.address,
             }),
           );
           openCertificateCompletionAlert();
@@ -119,15 +119,17 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
+    console.log('test');
     setTimeout(() => {
       setButtonDisabled(false);
-    }, 1000);
+    }, 5000);
   };
 
   const uploadGalleryImgCertification = () => {
     if (buttonDisabled) {
       return;
     }
+    setButtonDisabled(true);
     registerGalleryCertificationPost(
       {
         userId: user.id,
@@ -227,9 +229,10 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
+    console.log('test')
     setTimeout(() => {
       setButtonDisabled(false);
-    }, 1000);
+    }, 5000);
   };
 
   const handlingDataForm = async (dataURI: any) => {
