@@ -59,7 +59,7 @@ function Photo() {
   const dispatch = useDispatch();
   const location: any = useLocation();
   const categoryRef = useRef<any>();
-  const [cateogory, setCategory] = useState(location.state.category ? categoryCode[location?.state?.category] : 'CA0000');
+  const [cateogory, setCategory] = useState(location?.state?.category ? categoryCode[location?.state?.category] : 'CA0000');
   
   useEffect(() => {
     getCategoryCountList();

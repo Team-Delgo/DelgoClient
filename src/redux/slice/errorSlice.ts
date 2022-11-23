@@ -2,20 +2,35 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   hasError: false,
+  tokenExpried: false,
 };
 
 const errorSlice = createSlice({
   name: 'hasError',
   initialState,
   reducers: {
-    setError() {
+    setError(state) {
       return {
+        ...state,
         hasError: true,
       };
     },
-    setFine() {
+    setFine(state) {
       return {
+        ...state,
         hasError: false,
+      };
+    },
+    setTokenExpriedError(state) {
+      return {
+        ...state,
+        tokenExpried: true,
+      };
+    },
+    setTokenFine(state) {
+      return {
+        ...state,
+        tokenExpried: false,
       };
     },
   },
