@@ -59,6 +59,7 @@ import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
 import SocialExist from './pages/sign/signin/social/SocialExist';
 import CommentsPage from './pages/comment/CommentsPage';
 import Setting from './pages/myaccount/Setting';
+import ChangeUserInfo from './pages/myaccount/ChangeUserInfo';
 
 
 
@@ -121,6 +122,7 @@ function App() {
         <Route path={MY_ACCOUNT_PATH.MAIN} element={<MyAccountPage />} />
         <Route path={MY_ACCOUNT_PATH.PETINFO} element={<ChangePetInfo />} />
         <Route path={MY_ACCOUNT_PATH.SETTINGS} element={<Setting />} />
+        <Route path={MY_ACCOUNT_PATH.USERINFO} element={<ChangeUserInfo />} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />

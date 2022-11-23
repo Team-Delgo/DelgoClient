@@ -26,6 +26,8 @@ function MyAccountPage() {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const pet = useSelector((state: RootState) => state.persist.user.pet);
+  const user = useSelector((state: RootState) => state.persist.user.user);
+  const { address, registDt } = user;
   const { name, image } = pet;
   const location: any = useLocation();
   useEffect(() => {
@@ -74,13 +76,13 @@ function MyAccountPage() {
                 }}
               />
             </div>
-            <div className="my-account-page-header-my-pet-profile-address">서울시 송파구</div>
-            <div className="my-account-page-header-my-pet-profile-date">기록시작 2020.10.11</div>
+            <div className="my-account-page-header-my-pet-profile-address">{address}</div>
+            <div className="my-account-page-header-my-pet-profile-date">기록시작 {registDt}</div>
           </div>
         </body>
       </header>
       <body className="my-account-page-body" style={neighborRankingPageBodyStyle}>
-        <div className="my-account-page-body-item">
+        <div className="my-account-page-body-item" aria-hidden="true" onClick={() => { navigate(MY_ACCOUNT_PATH.USERINFO) }}>
           내정보 관리
           <img src={RightArrow} alt="more" />
         </div>

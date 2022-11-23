@@ -60,8 +60,7 @@ function Login() {
       { email, password: enteredInput.password },
       (response: AxiosResponse) => {
         const { code, data } = response.data;
-        console.log(data);
-        console.log(response);
+        const { registDt } = data.user;
         if (code === 200) {
           setIsLoading(true);
           dispatch(
@@ -75,6 +74,7 @@ function Login() {
                 phone: data.user.phoneNo,
                 isSocial: false,
                 geoCode: data.user.geoCode,
+                registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
               },
               pet: {
                 petId: data.pet.petId,
