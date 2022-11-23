@@ -123,20 +123,22 @@ async function updateCertificationPost(
   data: {
     certificationId: number;
     description: string;
+    userId: number;
   },
   success: (data: AxiosResponse) => void,
-  dispatch: any
+  dispatch: any,
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
     const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/modify`, {
       certificationId: data.certificationId,
       description: data.description,
+      userId:data.userId,
     });
     console.log(result);
     success(result);
   } catch (err: any) {
-    useErrorHandlers(dispatch,err);
+    useErrorHandlers(dispatch, err);
   }
 }
 
