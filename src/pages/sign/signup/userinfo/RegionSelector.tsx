@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { AxiosResponse } from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
-import regions, { regionType, placeType,GetRegion } from './region';
+import regions, { regionType, placeType, GetRegion } from './region';
 import './RegionSelector.scss';
 import RightArrow from '../../../../common/icons/right-arrow.svg';
 import { Region } from './UserInfo';
+import { changeGeoCode } from '../../../../common/api/myaccount';
+import { RootState } from '../../../../redux/store';
+import { userActions } from '../../../../redux/slice/userSlice';
 
 interface selectedRegion {
   index: number;
@@ -20,9 +25,11 @@ function RegionSelector(props: {
   list: regionType[];
   rIndex: number | undefined;
   pIndex: number | undefined;
+  isChange: boolean;
 }) {
-  const { change, close, list,rIndex, pIndex } = props;
+  const { change, close, list, rIndex, pIndex, isChange } = props;
   const [regionList, setRegionList] = useState<regionType[]>([]);
+  const email = useSelector((state: RootState) => state.persist.user.user.email);
   const [index, setIndex] = useState({ rIndex, pIndex });
   const [selectedRegion, setSelectedRegion] = useState<selectedRegion>({
     index: index.rIndex || 3,
@@ -34,26 +41,16 @@ function RegionSelector(props: {
   });
   const yearRef = useRef<HTMLDivElement>(null);
   const monthRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
   const getRegionData = async () => {
-    const response = await GetRegion(); 
+    const response = await GetRegion();
     setRegionList(response);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getRegionData();
-  },[])
-  console.log(regionList);
-  // useEffect(() => {
-  //   if (rIndex && pIndex) {
-  //     if (yearRef.current) {
-  //       yearRef.current.scrollTop = 40 * (rIndex - 3);
-  //     }
-  //     if (monthRef.current) {
-  //       monthRef.current.scrollTop = 40 * (pIndex - 3);
-  //     }
-  //   }
-  // }, []);
+  }, []);
 
   useEffect(() => {
     if (index.rIndex && index.pIndex) {
@@ -113,7 +110,7 @@ function RegionSelector(props: {
       const index = Math.round(scrollTop / 40) + 3;
       if (index !== selectedRegion.index) {
         setSelectedRegion({ index, selected: list[index] });
-        setSelectedPlace({ index:3, selected: list[index].places[3] });
+        setSelectedPlace({ index: 3, selected: list[index].places[3] });
       }
     }
   };
@@ -123,6 +120,30 @@ function RegionSelector(props: {
       const { scrollTop } = monthRef.current;
       const index = Math.round(scrollTop / 40) + 3;
       setSelectedPlace({ index, selected: selectedRegion.selected.places[index] });
+    }
+  };
+
+  const buttonClickHandler = async () => {
+    if (isChange) {
+      changeGeoCode(
+        email,
+        selectedRegion.selected.code.toString(),
+        selectedPlace.selected.code.toString(),
+        (response: AxiosResponse) => {
+          console.log(response);
+        },
+        dispatch,
+      );
+      dispatch(
+        userActions.changeGeoCode({
+          address: `${selectedRegion.selected.region}-${selectedPlace.selected.place}`,
+          geoCode: selectedRegion.selected.code,
+          pGeoCode: selectedPlace.selected.code,
+        }),
+      );
+      close();
+    } else {
+      close();
     }
   };
 
@@ -138,12 +159,7 @@ function RegionSelector(props: {
         </div>
       </div>
       <div className="region-button">
-        <button
-          type="button"
-          onClick={() => {
-            close();
-          }}
-        >
+        <button type="button" onClick={buttonClickHandler}>
           <div>다음</div>
           <img src={RightArrow} alt="right-arrow" />
         </button>

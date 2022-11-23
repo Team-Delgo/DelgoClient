@@ -56,4 +56,6 @@ async function getPhotoData(
     });
 }
 
+
+
 export { getMapData, getCalendarData, getPhotoData, getCategoryCount };

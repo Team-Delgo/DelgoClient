@@ -63,13 +63,12 @@ function SignIn() {
   
 
 
-  const enterKey = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      buttonClickHandler();
-    }
-  };
+  // const enterKey = (e: KeyboardEvent) => {
+  //   if (e.key === 'Enter') {
+  //     buttonClickHandler();
+  //   }
+  // };
 
-  window.addEventListener('keyup', enterKey);
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
