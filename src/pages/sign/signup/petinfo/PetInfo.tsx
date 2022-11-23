@@ -75,11 +75,6 @@ function PetInfo() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
-
-  useEffect(() => {
-    console.log('image', image);
-  }, []);
-
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
       setReviewImgExtensionAlert(true);
@@ -341,7 +336,7 @@ function PetInfo() {
   };
 
   const cancleImgCrop = () => {
-    setImage('');
+    setImage(undefined);
   };
 
   const showCroppedImage = async () => {
