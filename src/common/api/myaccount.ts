@@ -44,4 +44,19 @@ async function changePassword(email: string, password: string, success: (data: A
     });
 }
 
-export { getMyAccountDataList, changePetInfo, changePassword };
+async function changeGeoCode(email: string, geoCode:string, pGeoCode:string, success: (data: AxiosResponse) => void, dispatch: any) {
+  await axios
+    .post(`${process.env.REACT_APP_API_URL}/changeUserInfo`, {
+      email,
+      geoCode,
+      pGeoCode
+    })
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+export { getMyAccountDataList, changePetInfo, changePassword, changeGeoCode };

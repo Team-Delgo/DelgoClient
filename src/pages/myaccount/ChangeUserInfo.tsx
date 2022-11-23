@@ -125,6 +125,7 @@ function ChangeUserInfo() {
               change={regionChangeHandler}
               rIndex={region?.indexRegion}
               pIndex={region?.indexPlace}
+              isChange
             />
           </div>
         </div>
@@ -148,7 +149,7 @@ function ChangeUserInfo() {
           {nicknameDupCheckFail ? '이미 사용중인 닉네임입니다.' : feedback}
         </p>
         <span aria-hidden="true" className="input-email-check" onClick={nicknameDupCheck}>
-          중복확인
+          닉네임 변경
         </span>
       </div>
       <div className="userinfo-nickname-label">지역</div>

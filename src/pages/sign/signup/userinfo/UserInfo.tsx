@@ -362,6 +362,7 @@ function UserInfo() {
                   list={regionList!}
                   close={closeModal}
                   change={regionChangeHandler}
+                  isChange={false}
                   rIndex={region?.indexRegion}
                   pIndex={region?.indexPlace}
                 />

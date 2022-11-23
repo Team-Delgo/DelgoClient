@@ -184,6 +184,7 @@ function SocialUserInfo() {
                 change={regionChangeHandler}
                 rIndex={region?.indexRegion}
                 pIndex={region?.indexPlace}
+                isChange={false}
               />
             </div>
           </div>

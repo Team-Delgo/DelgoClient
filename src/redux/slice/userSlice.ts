@@ -53,6 +53,18 @@ const userSlice = createSlice({
         },
       };
     },
+    changeGeoCode(state, action){
+      return {
+        isSignIn: state.isSignIn,
+        user: {
+          ...state.user,
+          address: action.payload.address,
+          geoCode: action.payload.geoCode,
+          pGeoCode: action.payload.pGeoCode,
+        },
+        pet: state.pet
+      }
+    }
   },
 });
 
