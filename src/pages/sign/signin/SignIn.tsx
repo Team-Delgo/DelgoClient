@@ -16,7 +16,6 @@ import { emailAuth } from '../../../common/api/login';
 import Loading from '../../../common/utils/Loading';
 import AppleLoginButton from './social/AppleLogin';
 
-
 function SignIn() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
@@ -24,13 +23,10 @@ function SignIn() {
   const emailRef = useRef<HTMLInputElement>(null);
   const navigation = useNavigate();
   const history = createBrowserHistory();
-  // const location: any = useLocation();
   const dispatch = useDispatch();
   
   const preventGoBack = () => {
-    // change start
     window.history.pushState(null, '', window.location.href);
-    // change end
     console.log('prevent go back!');
   };
 
@@ -38,37 +34,11 @@ function SignIn() {
     if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
       navigation('/');
     }
-    // localStorage.removeItem('refreshToken');
-    // localStorage.removeItem('accessToken')
     setTimeout(() => {
       setLoading(false);
     }, 700);
     
-    // history.replace(window.location.href);
-
-    // window.addEventListener('popstate',()=>{
-    //   window.history.pushState(null,'','/preventback');
-    // })
-    
-    // console.log(1);
-    // console.log(window.history);
-    
-    // window.history.pushState(null, '', window.location.href);
-    // console.log(window.history);
-    // window.addEventListener('popstate', preventGoBack);
-    
-    // return () => window.removeEventListener('popstate', preventGoBack);
   }, []);
-
-  
-
-
-  // const enterKey = (e: KeyboardEvent) => {
-  //   if (e.key === 'Enter') {
-  //     buttonClickHandler();
-  //   }
-  // };
-
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -120,15 +90,6 @@ function SignIn() {
               계속
             </button>
             <div className="login-signup-wrapper">
-              {/* <div
-                aria-hidden="true"
-                className="login-signup-text"
-                onClick={() => {
-                  navigation(ROOT_PATH, { replace: true });
-                }}
-              >
-                가입없이 둘러보기
-              </div> */}
               <div
                 aria-hidden="true"
                 className="login-signup-text"
@@ -151,9 +112,6 @@ function SignIn() {
                   <Naver className="icon" />
                 </button>
               </a>
-              {/* <button type="button" className="login-apple">
-                <Apple className="icon" />
-              </button> */}
               <div className="login-apple">
               <Apple className="icon" />
                 <AppleLoginButton />

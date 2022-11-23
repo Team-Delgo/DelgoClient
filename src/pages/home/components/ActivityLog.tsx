@@ -27,7 +27,7 @@ function ActivityLog() {
 
   const moveToPhotoPage = (category: string) => (event: React.MouseEvent) => {
     setTimeout(() => {
-      navigate(RECORD_PATH.PHOTO, { state: category });
+      navigate(RECORD_PATH.PHOTO, { state: {category, from:'home'} });
     }, 200);
   };
 

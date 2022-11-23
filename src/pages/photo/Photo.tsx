@@ -62,18 +62,15 @@ function Photo() {
   const categoryRef = useRef<any>();
 
   useEffect(() => {
-    if (location?.state) {
+    getCategoryCountList();
+    if (location?.state.from === 'home') {
       console.log('location.state', location.state);
-      setCategoryTab(location.state);
-      setCategory(categoryCode[location.state]);
-      if (rightScrollCategory.includes(location.state)) {
+      setCategoryTab(location.state.category);
+      setCategory(categoryCode[location.state.category]);
+      if (rightScrollCategory.includes(location.state.category)) {
         moveToCategoryRightScroll();
       }
     }
-  }, []);
-
-  useEffect(() => {
-    getCategoryCountList();
     getPhotoDataList();
     const handleScroll = () => {
       const { scrollTop, offsetHeight } = document.documentElement;
