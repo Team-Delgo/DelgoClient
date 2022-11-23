@@ -119,7 +119,6 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
-    console.log('test');
     setTimeout(() => {
       setButtonDisabled(false);
     }, 5000);
@@ -229,7 +228,6 @@ function CaptureCategoryRecord() {
       },
       dispatch,
     );
-    console.log('test')
     setTimeout(() => {
       setButtonDisabled(false);
     }, 5000);

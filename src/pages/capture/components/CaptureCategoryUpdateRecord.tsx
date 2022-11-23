@@ -61,6 +61,7 @@ function CaptureCategoryUpdateRecord() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
   const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -79,6 +80,10 @@ function CaptureCategoryUpdateRecord() {
   };
 
   const uploadCertificationPost = () => {
+    if (buttonDisabled) {
+      return;
+    }
+    setButtonDisabled(true);
     updateCertificationPost(
       {
         certificationId,
@@ -102,6 +107,9 @@ function CaptureCategoryUpdateRecord() {
       },
       dispatch,
     );
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 5000);
   };
   const openCertificateErrorAlert = () => {
     setShowCertificateErrorAlert(true);
