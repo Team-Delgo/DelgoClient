@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React,{useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
@@ -20,13 +21,18 @@ interface Comment {
   commentId: number;
 }
 
+interface StateType {
+  certificationId: number;
+  posterId: number;
+}
+
 function CommentsPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation()
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const profile = useSelector((state: RootState) => state.persist.user.pet.image);
-  console.log(userId);
-  const certificationId = useLocation().state as number;
+  const {certificationId,posterId} = useLocation()?.state as StateType
   const [enteredInput, setEnteredInput] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -41,7 +47,7 @@ function CommentsPage() {
     getCommentList(
       certificationId,
       (response: AxiosResponse) => {
-        console.log(response.data.data)
+        console.log(response.data.data);
         setCommentList(response.data.data);
       },
       dispatch,
@@ -105,8 +111,16 @@ function CommentsPage() {
               <div
                 className="comment-content-header-work-delete"
                 aria-hidden="true"
-                onClick={userId === comment.userId ? openDeleteAlert(comment.commentId) : undefined}
-                style={userId !== comment.userId ? { visibility: 'hidden' } : undefined}
+                onClick={
+                  userId === posterId
+                    ? openDeleteAlert(comment.commentId)
+                    : userId === comment.userId
+                    ? openDeleteAlert(comment.commentId)
+                    : undefined
+                }
+                style={
+                  userId === posterId ? undefined : userId === comment.userId ? undefined : { visibility: 'hidden' }
+                }
               >
                 삭제
               </div>
