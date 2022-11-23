@@ -1,22 +1,13 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
-import { AnyIfEmpty, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import { getCertificationPostAll } from '../../common/api/certification';
 import './CertificationPostsPage.scss';
 import { RootState } from '../../redux/store';
-import Bath from '../../common/icons/bath.svg';
-import Beauty from '../../common/icons/beauty.svg';
-import Cafe from '../../common/icons/cafe.svg';
-import Hospital from '../../common/icons/hospital.svg';
-import Walk from '../../common/icons/walk.svg';
-import Heart from '../../common/icons/heart-empty.svg';
-import FillHeart from '../../common/icons/heart.svg';
-import Comments from '../../common/icons/comments.svg';
-import { certificationLike } from '../../common/api/certification';
 import CertificationPost from '../../common/components/CertificationPost';
 
 interface userType {
@@ -84,17 +75,6 @@ function CertificationPostsPage() {
   // if (status === 'error') {
   //   return <div>error</div>;
   // }
-
-  // const setCertificationLike = (userId:number,certificationId:number) => {
-  //   certificationLike(
-  //     userId,
-  //     certificationId,
-  //     (response: AxiosResponse) => {
-  //       if (response.data.code === 200)
-  //     },
-  //     dispatch,
-  //   );
-  // };
 
   return (
     <>

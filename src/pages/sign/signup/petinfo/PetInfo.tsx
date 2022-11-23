@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { AxiosResponse } from 'axios';
+import Cropper from 'react-easy-crop';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { checkPetName } from '../../validcheck';
@@ -16,6 +17,9 @@ import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
+import PrevArrowBlack from '../../../../common/icons/prev-arrow-black.svg';
+import WhiteCheck from '../../../../common/icons/white-check.svg'
+import getCroppedImg from '../../../../common/utils/CropImg';
 
 interface LocationState {
   phone: string;
@@ -51,8 +55,8 @@ function PetInfo() {
   const navigation = useNavigate();
   const state = useLocation().state as LocationState;
   const { email, password, nickname, phone, isSocial, geoCode, pGeoCode } = state;
-  const [image, setImage] = useState<any>();
-  const [sendingImage, setSendingImage] = useState<any>([]);
+  const [image, setImage] = useState<any>('');
+  const [sendingImage, setSendingImage] = useState<any>('');
   const [enteredInput, setEnteredInput] = useState<Input>({ name: '', birth: undefined, type: '' });
   const [nameFeedback, setNameFeedback] = useState('');
   const [modalActive, setModalActive] = useState(false);
@@ -65,6 +69,11 @@ function PetInfo() {
   const [reviewImgExtensionAlert, setReviewImgExtensionAlert] = useState(false);
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
   const formData = new FormData();
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [compressedFileName, setCompressedFileName] = useState('');
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
@@ -75,20 +84,22 @@ function PetInfo() {
     reader.onload = function () {
       setImage(reader.result);
     };
-    const { files } = event.target;
-    // let {petImage} = files;
-    const options = {
-      maxSizeMB: 0.2,
-      maxWidthOrHeight: 1920,
-      useWebWorker: true,
-    };
-    const compressedFile = await imageCompression(event.target.files![0], options);
-    reader.readAsDataURL(compressedFile);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      console.log(compressedFile.type);
-      setSendingImage(base64data);
-    };
+    // const { files } = event.target;
+    // // let {petImage} = files;
+    // const options = {
+    //   maxSizeMB: 0.2,
+    //   maxWidthOrHeight: 1920,
+    //   useWebWorker: true,
+    // };
+    // const compressedFile = await imageCompression(event.target.files![0], options);
+    // setCompressedFileName(event.target.files![0].name);
+    // reader.readAsDataURL(compressedFile);
+    // reader.onloadend = () => {
+    //   const base64data = reader.result;
+    //   console.log(compressedFile.type);
+    //   console.log('base64data',base64data)
+    //   setSendingImage(base64data);
+    // };
 
     // let {petImage} = files;
   };
@@ -318,9 +329,81 @@ function PetInfo() {
     // signup({ email, password, nickname, phone, pet: {petName:enteredInput.name,petBirth:enteredInput.birth,petImage:} }, () => {});
   };
 
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
   const alertReviewImgExtensionClose = useCallback(() => {
     setReviewImgExtensionAlert(false);
   }, []);
+
+  const cancleImgCrop = () => {
+    setImage('');
+  };
+
+  const showCroppedImage = async () => {
+    try {
+      const blobFile = await getCroppedImg(image, croppedAreaPixels);
+      console.log('blobFile', blobFile);
+
+      const metadata = { type: `image/jpeg` };
+      const newFile = new File([blobFile as Blob], compressedFileName, metadata);
+      // const croppedImage = URL.createObjectURL(newFile);
+
+
+      const reader = new FileReader();
+      const options = {
+        maxSizeMB: 0.2,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      const compressedFile = await imageCompression(newFile, options);
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        console.log(compressedFile.type);
+        console.log('base64data',base64data)
+        setSendingImage(base64data);
+        setImage('')
+      };
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  if (image !== '') {
+    return (
+        <div className="crop-wrapper">
+          <img
+            src={PrevArrowBlack}
+            className="camera-page-prev-arrow"
+            alt="camera-page-prev-arrow"
+            aria-hidden="true"
+            onClick={cancleImgCrop}
+          />
+          <img
+            src={WhiteCheck}
+            className="camera-page-complition-check"
+            alt="camera-page-complition-check"
+            aria-hidden="true"
+            onClick={showCroppedImage}
+          />
+          <div className="crop-wrappe">
+            <Cropper
+              image={image}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
+            />
+          </div>
+        </div>
+    );
+  }
 
   return (
     <div className="login">
@@ -349,7 +432,7 @@ function PetInfo() {
           />
           <Camera className="petinfo-image-icon" />
         </label>
-        <div className="petinfo-image-preview" style={{ backgroundImage: `url(${image})` }} />
+        <div className="petinfo-image-preview" style={{ backgroundImage: `url(${sendingImage})` }} />
       </div>
       {modalActive && (
         <div>
