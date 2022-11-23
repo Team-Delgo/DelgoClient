@@ -8,13 +8,14 @@ import {Camera} from "react-camera-pro";
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
-import PrevArrowWhite from '../../../../common/icons/prev-arrow-white.svg';
+import PrevArrowWhite from '../../common/icons/prev-arrow-white.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../common/utils/CropImg';
 import WhiteCheck from '../../common/icons/white-check.svg'
+import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 
 
 const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
