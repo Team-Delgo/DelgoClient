@@ -5,7 +5,10 @@ import "./RecordHeader.scss";
 import Delgo from "../icons/delgo-small.svg";
 
 function RecordHeader() {
-  const tab = useLocation().state as string || 'photo';
+  let tab = useLocation().state as any || 'photo';
+  if(tab.from === 'home'){
+    tab = 'photo';
+  }
   const [selected, setSeleceted] = useState({
     photo: false,
     calendar: true,
