@@ -202,9 +202,6 @@ function AchievementPage() {
           </div>
           <div className="achievement-page-header-achievements-images">
             {mainAchievementList
-              .sort((a: AchievementDataType, b: AchievementDataType) => {
-                return a.isMain - b.isMain;
-              })
               .map((achievement: AchievementDataType) => (
                 <div
                   className="achievement-page-header-achievements-image-container"

@@ -172,7 +172,6 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
   };
 
   const openDeleteAlert = (event: any) => {
-    console.log(1)
     event.stopPropagation();
     setShowDeleteAlert(true);
   };
@@ -209,12 +208,12 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
           <div className="post-img-result-header-report">신고</div>
         ) : (
           <div className="post-img-result-header-report">
-            <span aria-hidden="true" onClick={moveToUpdatePage}>
+            <div aria-hidden="true" onClick={moveToUpdatePage}>
               수정&nbsp;&nbsp;|
-            </span>
-            <span aria-hidden="true" onClick={openDeleteAlert}>
+            </div>
+            <div aria-hidden="true" onClick={openDeleteAlert}>
               &nbsp;&nbsp;삭제
-            </span>
+            </div>
           </div>
         )}
       </header>

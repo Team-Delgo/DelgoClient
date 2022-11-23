@@ -1,10 +1,10 @@
-import React, { ChangeEvent, useState, useCallback } from 'react';
+import React, { ChangeEvent, useState, useCallback,useEffect } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { AxiosResponse } from 'axios';
-import Cropper from 'react-easy-crop';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Cropper from 'react-easy-crop';
 import { checkPetName } from '../../validcheck';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import { ReactComponent as Camera } from '../../../../common/icons/camera.svg';
@@ -20,6 +20,7 @@ import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import PrevArrowBlack from '../../../../common/icons/prev-arrow-black.svg';
 import WhiteCheck from '../../../../common/icons/white-check.svg'
 import getCroppedImg from '../../../../common/utils/CropImg';
+
 
 interface LocationState {
   phone: string;
@@ -55,8 +56,8 @@ function PetInfo() {
   const navigation = useNavigate();
   const state = useLocation().state as LocationState;
   const { email, password, nickname, phone, isSocial, geoCode, pGeoCode } = state;
-  const [image, setImage] = useState<any>('');
-  const [sendingImage, setSendingImage] = useState<any>('');
+  const [image, setImage] = useState<any>();
+  const [sendingImage, setSendingImage] = useState<any>([]);
   const [enteredInput, setEnteredInput] = useState<Input>({ name: '', birth: undefined, type: '' });
   const [nameFeedback, setNameFeedback] = useState('');
   const [modalActive, setModalActive] = useState(false);
@@ -75,6 +76,10 @@ function PetInfo() {
   const [zoom, setZoom] = useState(1);
 
 
+  useEffect(() => {
+    console.log('image', image);
+  }, []);
+
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
       setReviewImgExtensionAlert(true);
@@ -84,24 +89,22 @@ function PetInfo() {
     reader.onload = function () {
       setImage(reader.result);
     };
-    // const { files } = event.target;
-    // // let {petImage} = files;
-    // const options = {
-    //   maxSizeMB: 0.2,
-    //   maxWidthOrHeight: 1920,
-    //   useWebWorker: true,
-    // };
-    // const compressedFile = await imageCompression(event.target.files![0], options);
-    // setCompressedFileName(event.target.files![0].name);
-    // reader.readAsDataURL(compressedFile);
-    // reader.onloadend = () => {
-    //   const base64data = reader.result;
-    //   console.log(compressedFile.type);
-    //   console.log('base64data',base64data)
-    //   setSendingImage(base64data);
-    // };
-
+    const { files } = event.target;
     // let {petImage} = files;
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    const compressedFile = await imageCompression(event.target.files![0], options);
+    reader.readAsDataURL(compressedFile);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      console.log(compressedFile.type);
+      setSendingImage(base64data);
+    };
+
+    // let { petImage } = files;
   };
 
   const handlingDataForm = async (dataURI: any) => {
@@ -310,7 +313,7 @@ function PetInfo() {
                 console.log(response);
                 const { code, data } = response.data;
                 if (code === 200) {
-                  dispatch(userActions.setpetprofile({ image }));
+                  dispatch(userActions.setpetprofile({ image: data }));
                 }
               },
               dispatch,
@@ -329,14 +332,13 @@ function PetInfo() {
     // signup({ email, password, nickname, phone, pet: {petName:enteredInput.name,petBirth:enteredInput.birth,petImage:} }, () => {});
   };
 
+  const alertReviewImgExtensionClose = useCallback(() => {
+    setReviewImgExtensionAlert(false);
+  }, []);
 
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
-
-  const alertReviewImgExtensionClose = useCallback(() => {
-    setReviewImgExtensionAlert(false);
-  }, []);
 
   const cancleImgCrop = () => {
     setImage('');
@@ -365,14 +367,14 @@ function PetInfo() {
         console.log(compressedFile.type);
         console.log('base64data',base64data)
         setSendingImage(base64data);
-        setImage('')
+        setImage(undefined)
       };
     } catch (e) {
       console.error(e);
     }
   };
 
-  if (image !== '') {
+  if (image !== undefined) {
     return (
         <div className="crop-wrapper">
           <img

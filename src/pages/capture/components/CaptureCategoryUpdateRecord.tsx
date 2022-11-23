@@ -54,9 +54,8 @@ const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [470, 470, 470, 470];
 
 function CaptureCategoryUpdateRecord() {
-  const { categoryKo, title, certificationId, content } = useSelector(
-    (state: RootState) => state.persist.upload,
-  );
+  const { categoryKo, title, certificationId, content } = useSelector((state: RootState) => state.persist.upload);
+  const { user } = useSelector((state: RootState) => state.persist.user);
   const [certificationPostContent, setCertificationPostContent] = useState(content);
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
@@ -84,6 +83,7 @@ function CaptureCategoryUpdateRecord() {
       {
         certificationId,
         description: certificationPostContent,
+        userId: user.id,
       },
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
@@ -95,6 +95,9 @@ function CaptureCategoryUpdateRecord() {
             }),
           );
           openCertificateCompletionAlert();
+        } else {
+          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
+          openCertificateErrorAlert();
         }
       },
       dispatch,
@@ -148,10 +151,10 @@ function CaptureCategoryUpdateRecord() {
                   className="review-content"
                   placeholder="남기고 싶은 기록을 작성해주세요"
                   onChange={writeContent}
-                  maxLength={200}
+                  maxLength={1000}
                   value={certificationPostContent}
                 />
-                <div className="review-content-length">{certificationPostContent.length}/200</div>
+                <div className="review-content-length">{certificationPostContent.length}/1000</div>
               </body>
             </main>
           </Sheet.Content>
