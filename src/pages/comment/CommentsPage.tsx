@@ -135,7 +135,7 @@ function CommentsPage() {
         <div className="comments-context">{context}</div>
         <div className="comments-post">
           <img src={profile} alt="myprofile" />
-          <input
+          <textarea
             value={enteredInput}
             onChange={inputChangeHandler}
             placeholder="댓글 남기기..."
