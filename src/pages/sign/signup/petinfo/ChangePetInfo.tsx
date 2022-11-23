@@ -4,6 +4,7 @@ import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import { useNavigate } from 'react-router-dom';
+import Cropper from 'react-easy-crop';
 import { checkPetName } from '../../validcheck';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import { ReactComponent as Camera } from '../../../../common/icons/camera.svg';
@@ -16,7 +17,10 @@ import { userActions } from '../../../../redux/slice/userSlice';
 import { MY_ACCOUNT_PATH } from '../../../../common/constants/path.const';
 import { changePetInfo } from '../../../../common/api/myaccount';
 import { RootState } from '../../../../redux/store';
-import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne'
+import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
+import PrevArrowBlack from '../../../../common/icons/prev-arrow-black.svg';
+import WhiteCheck from '../../../../common/icons/white-check.svg';
+import getCroppedImg from '../../../../common/utils/CropImg';
 
 interface Input {
   name: string;
@@ -44,10 +48,11 @@ function ChangePetInfo() {
 
   const state = useSelector((state: RootState) => state.persist.user.pet);
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
+  const userEmail = useSelector((state: RootState) => state.persist.user.user.email);
   const { petId, birthday, name, size, image: petImage } = state;
 
   const [image, setImage] = useState<any>(petImage);
-  const [sendingImage, setSendingImage] = useState<any>();
+  const [sendingImage, setSendingImage] = useState<any>(petImage);
   const [enteredInput, setEnteredInput] = useState<Input>({ name, birthday, type: size });
   const [nameFeedback, setNameFeedback] = useState('');
   const [modalActive, setModalActive] = useState(false);
@@ -61,7 +66,11 @@ function ChangePetInfo() {
   const [reviewImgExtensionAlert,setReviewImgExtensionAlert]=useState(false)
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
   const formData = new FormData();
-
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [compressedFileName, setCompressedFileName] = useState('');
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  
   const isChecked = { s: false, m: false, l: false };
   if (enteredInput.type === 'S') {
     isChecked.s = true;
@@ -70,6 +79,10 @@ function ChangePetInfo() {
   } else {
     isChecked.l = true;
   }
+
+  // useEffect(() => {
+  //   console.log('image', image);
+  // }, []);
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if(!reviewImgExtension.includes((event.target.files as FileList)[0].type)){
@@ -175,7 +188,7 @@ function ChangePetInfo() {
       size: enteredInput.type,
     };
     const data = {
-      email: 'cksr1@naver.com',
+      email: userEmail,
       name: enteredInput.name,
       birthday: enteredInput.birthday,
       size: enteredInput.type,
@@ -204,7 +217,7 @@ function ChangePetInfo() {
         name: enteredInput.name,
         birth: enteredInput.birthday,
         size: enteredInput.type,
-        image,
+        image: sendingImage,
       }),
     );
     navigation(MY_ACCOUNT_PATH.MAIN);
@@ -216,6 +229,77 @@ function ChangePetInfo() {
   const alertReviewImgExtensionClose = useCallback(() => {
     setReviewImgExtensionAlert(false)
   },[])
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const cancleImgCrop = () => {
+    setImage(petImage);
+  };
+
+  const showCroppedImage = async () => {
+    try {
+      const blobFile = await getCroppedImg(image, croppedAreaPixels);
+      console.log('blobFile', blobFile);
+
+      const metadata = { type: `image/jpeg` };
+      const newFile = new File([blobFile as Blob], compressedFileName, metadata);
+      // const croppedImage = URL.createObjectURL(newFile);
+
+
+      const reader = new FileReader();
+      const options = {
+        maxSizeMB: 0.2,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      const compressedFile = await imageCompression(newFile, options);
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        console.log(compressedFile.type);
+        console.log('base64data',base64data)
+        setSendingImage(base64data);
+        setImage(petImage)
+      };
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  if (image !== petImage) {
+    return (
+        <div className="crop-wrapper">
+          <img
+            src={PrevArrowBlack}
+            className="camera-page-prev-arrow"
+            alt="camera-page-prev-arrow"
+            aria-hidden="true"
+            onClick={cancleImgCrop}
+          />
+          <img
+            src={WhiteCheck}
+            className="camera-page-complition-check"
+            alt="camera-page-complition-check"
+            aria-hidden="true"
+            onClick={showCroppedImage}
+          />
+          <div className="crop-wrappe">
+            <Cropper
+              image={image}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
+            />
+          </div>
+        </div>
+    );
+  }
 
   return (
     <div className="login">
@@ -236,7 +320,7 @@ function ChangePetInfo() {
           />
           <Camera className="petinfo-image-icon" />
         </label>
-        <div className="petinfo-image-preview" style={{ backgroundImage: `url(${image})` }} />
+        <div className="petinfo-image-preview" style={{ backgroundImage: `url(${sendingImage})` }} />
       </div>
       {modalActive && (
         <div>
