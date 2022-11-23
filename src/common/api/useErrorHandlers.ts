@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
 import { errorActions } from '../../redux/slice/errorSlice';
+import { userActions } from '../../redux/slice/userSlice';
 
 function useErrorHandlers(dispatch: any, error: AxiosError) {
+  if (error.message === 'token exprired') {
+    dispatch(errorActions.setTokenExpriedError());
+    return;
+  }
   dispatch(errorActions.setError());
   if (error.response) {
     console.log(error.response);

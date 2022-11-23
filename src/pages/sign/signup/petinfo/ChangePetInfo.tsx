@@ -80,10 +80,6 @@ function ChangePetInfo() {
     isChecked.l = true;
   }
 
-  // useEffect(() => {
-  //   console.log('image', image);
-  // }, []);
-
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if(!reviewImgExtension.includes((event.target.files as FileList)[0].type)){
       setReviewImgExtensionAlert(true)

@@ -62,15 +62,27 @@ import Setting from './pages/myaccount/Setting';
 import ChangeUserInfo from './pages/myaccount/ChangeUserInfo';
 import ChangePasswordCheck from './pages/myaccount/ChangePasswordCheck';
 import ChangePassword from './pages/myaccount/ChangePassword';
+import AlertConfirmOne from './common/dialog/AlertConfirmOne';
+import { errorActions } from './redux/slice/errorSlice';
+import { userActions } from './redux/slice/userSlice';
 
-
+declare global {
+  interface Window {
+    BRIDGE: any;
+    webkit: any;
+    Kakao: any;
+  }
+}
 
 function App() {
   const queryClient = new QueryClient();
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const navigation = useNavigate();
   const isSignIn = useSelector((state: RootState) => state.persist.user.isSignIn);
+  const hasError = useSelector((state: RootState) => state.persist.error.hasError);
+  const tokenExpriedError = useSelector((state: RootState) => state.persist.error.tokenExpried);
 
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
@@ -81,16 +93,25 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (isSignIn) {
-  //     navigate(ROOT_PATH);
-  //   } else {
-  //     navigate(SIGN_IN_PATH.MAIN);
-  //   }
-  // }, [isSignIn]);
+
+  const alertButtonHandler = () => {
+    dispatch(errorActions.setFine());
+  };
+
+  const AlertLoginSessionExpried = () => {
+    dispatch(errorActions.setTokenFine());
+    dispatch(userActions.signout());
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    navigation(SIGN_IN_PATH.MAIN);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
+      {hasError && <AlertConfirmOne text="네트워크를 확인해주세요" buttonHandler={alertButtonHandler} />}
+      {tokenExpriedError && (
+        <AlertConfirmOne text="로그인 세션이 만료되었습니다." buttonHandler={AlertLoginSessionExpried} />
+      )}
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
         <Route path={SIGN_IN_PATH.MAIN} element={<SignIn />} />
@@ -105,7 +126,7 @@ function App() {
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
         <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist />} />
-        <Route path='/preventback' element={<PreventBack />} />
+        <Route path="/preventback" element={<PreventBack />} />
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />
@@ -125,8 +146,8 @@ function App() {
         <Route path={MY_ACCOUNT_PATH.PETINFO} element={<ChangePetInfo />} />
         <Route path={MY_ACCOUNT_PATH.SETTINGS} element={<Setting />} />
         <Route path={MY_ACCOUNT_PATH.USERINFO} element={<ChangeUserInfo />} />
-        <Route path={MY_ACCOUNT_PATH.PASSWORDCHECK} element={<ChangePasswordCheck/>} />
-        <Route path={MY_ACCOUNT_PATH.PASSWORDCHANGE} element={<ChangePassword/>} />
+        <Route path={MY_ACCOUNT_PATH.PASSWORDCHECK} element={<ChangePasswordCheck />} />
+        <Route path={MY_ACCOUNT_PATH.PASSWORDCHANGE} element={<ChangePassword />} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />
