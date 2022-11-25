@@ -78,9 +78,7 @@ function App() {
   const queryClient = new QueryClient();
   const location = useLocation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const navigation = useNavigate();
-  const isSignIn = useSelector((state: RootState) => state.persist.user.isSignIn);
   const hasError = useSelector((state: RootState) => state.persist.error.hasError);
   const tokenExpriedError = useSelector((state: RootState) => state.persist.error.tokenExpried);
 
