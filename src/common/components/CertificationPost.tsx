@@ -17,6 +17,7 @@ import AlertConfirm from '../dialog/AlertConfirm';
 import AlertConfirmOne from '../dialog/AlertConfirmOne';
 import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
+import { scrollActions } from '../../redux/slice/scrollSlice';
 
 interface userType {
   address: string;
@@ -33,9 +34,10 @@ interface userType {
   userSocial: string;
 }
 
-interface RecommendedPlaceProps {
+interface CertificationPostProps {
   post: postType;
   refetch: () => void;
+  pageSize:number;
 }
 
 interface postType {
@@ -113,7 +115,7 @@ const categoryCode: categoryType = {
   CA9999: '기타',
 };
 
-function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
+function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) {
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
@@ -154,12 +156,14 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
   };
 
   const moveToCommentPage = () => {
+    dispatch(scrollActions.postsScroll({ scroll: window.scrollY, pageSize }));
     navigate(`/comments/${post?.certificationId}`, {
       state: { certificationId: post?.certificationId, posterId: post?.userId },
     });
   };
 
   const moveToUpdatePage = () => {
+    dispatch(scrollActions.postsScroll({ scroll: window.scrollY, pageSize }));
     dispatch(
       uploadAction.setCertificationUpdate({
         img: post?.photoUrl,

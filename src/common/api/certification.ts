@@ -149,11 +149,11 @@ async function getCertificationPostsByMain(userId: number) {
   return data;
 }
 
-async function getCertificationPostAll(pageParam: number, userId: number, dispatch: any) {
+async function getCertificationPostAll(pageParam: number, userId: number, pageSize: number, dispatch: any) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=3&userId=${userId}`,
+      `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`,
     );
     // console.log(res.data.data);
     const { content, last } = res.data.data;
