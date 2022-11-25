@@ -143,7 +143,6 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
       post?.certificationId,
       (response: AxiosResponse) => {
         const { code } = response.data;
-        console.log(response);
         if (code === 200) {
           refetch();
         } else {
@@ -173,8 +172,7 @@ function CertificationPost({ post, refetch }: RecommendedPlaceProps) {
     navigate(CAMERA_PATH.UPDATE);
   };
 
-  const openDeleteAlert = (event: any) => {
-    event.stopPropagation();
+  const openDeleteAlert = () => {
     setShowDeleteAlert(true);
   };
 
