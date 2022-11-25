@@ -60,9 +60,8 @@ function NeighborPosts() {
       </header>
       <main className="home-page-neighbord-posts-container">
         {certificationPostsDataList?.data?.map((post: rankingType) => (
-          <div className="home-page-neighbord-post" key={post.certificationId}>
-            <div className="img-overLay" />
-            <img src={post.photoUrl} alt="post-img" />
+          <div className="home-page-neighbord-post" key={post.certificationId} >
+            <img src={post.photoUrl} alt="post-img"  aria-hidden="true" onClick={moveToPostsPage}/>
           </div>
         ))}
       </main>

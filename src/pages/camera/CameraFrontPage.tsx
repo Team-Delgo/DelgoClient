@@ -30,8 +30,6 @@ function CameraFrontPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
-  const [devices, setDevices] = useState<any>([]);
-  const [devicesId, setDevicesId] = useState<any>();
   const camera = useRef<any>(null);
   const [cameraLoading, setCameraLoading] = useState(true);
 
@@ -213,7 +211,6 @@ function CameraFrontPage() {
           videoConstraints={{
             facingMode: { exact: 'user' },
             aspectRatio: 1 / 1,
-            deviceId: devicesId,
           }}
         />
         <div className="camera-page-icon-container">
