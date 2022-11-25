@@ -27,12 +27,9 @@ function CameraRearPage() {
   const [zoom, setZoom] = useState(1);
   const [img, setImg] = useState('');
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
-  const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
-  const [devicesId, setDevicesId] = useState<any>();
-  const [devices, setDevices] = useState<any>([]);
   const camera = useRef<any>(null);
   const [cameraLoading, setCameraLoading] = useState(true);
 

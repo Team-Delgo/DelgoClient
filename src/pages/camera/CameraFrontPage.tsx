@@ -26,7 +26,6 @@ function CameraFrontPage() {
   const [zoom, setZoom] = useState(1);
   const [img, setImg] = useState('');
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
-  const cameraRef = useRef<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
