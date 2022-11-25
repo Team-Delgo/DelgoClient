@@ -106,7 +106,6 @@ function CaptureResultHeader() {
       {showDeleteCompleteAlert && <AlertConfirmOne text="삭제를 성공하였습니다" buttonHandler={moveToHomePage} />}
       {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
       <Sheet
-        style={{ borderRadius: '19px 19px 0 0' }}
         isOpen={bottomSheetIsOpen}
         onClose={closeBottomSheet}
         snapPoints={[300, 300, 100, 0]}
