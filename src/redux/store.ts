@@ -6,7 +6,7 @@ import errorSlice from './slice/errorSlice';
 import deviceSlice from './slice/deviceSlice';
 import uploadSlice from './slice/uploadSlice';
 import userSlice from './slice/userSlice';
-
+import scrollSlice from './slice/scrollSlice';
 
 const persistConfig = {
   key: 'root',
@@ -17,7 +17,8 @@ const reducers = combineReducers({
   error: errorSlice,
   device: deviceSlice,
   upload: uploadSlice,
-  user:userSlice,
+  user: userSlice,
+  scroll: scrollSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -28,7 +29,3 @@ const store = configureStore({
 });
 export type RootState = ReturnType<typeof store.getState>;
 export default store;
-
-
-
-
