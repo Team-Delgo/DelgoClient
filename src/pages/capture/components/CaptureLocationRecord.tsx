@@ -154,11 +154,11 @@ function CaptureLocationRecord() {
       disableDrag
       className="modal-bottom-sheet"
     >
-      <Sheet.Container>
+      <Sheet.Container style={sheetStyle}>
         <Sheet.Content>
           <main className="capture-img-record">
             <header className="capture-img-record-container">
-              <img src={categoryIcon[categoryKo]} alt="category-img" />
+              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48}/>
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
                 <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>

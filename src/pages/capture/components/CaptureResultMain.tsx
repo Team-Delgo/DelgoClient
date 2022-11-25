@@ -55,7 +55,7 @@ function CaptureResultMain() {
           <div className="capture-img-result-main-header-place-name">{title}</div>
           <div className="capture-img-result-main-header-place-address">{address}</div>
         </div>
-        <img src={categoryIcon[categoryKo]} alt="category-img" />
+        <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48}/>
       </header>
       <body className="capture-img-result-main-body">{content}</body>
     </main>
