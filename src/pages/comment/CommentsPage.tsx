@@ -8,7 +8,6 @@ import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
-import {RECORD_PATH} from '../../common/constants/path.const'
 
 interface Comment {
   certificationId: number;
@@ -29,15 +28,14 @@ interface StateType {
 function CommentsPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation()
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const profile = useSelector((state: RootState) => state.persist.user.pet.image);
   const {certificationId,posterId} = useLocation()?.state as StateType
   const [enteredInput, setEnteredInput] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [commentDisabled, setCommentDisabled] = useState(false);
   const [deleteCommentId,setDeleteCommentId] = useState(-1)
+
 
   useEffect(() => {
     getComments();
@@ -56,7 +54,6 @@ function CommentsPage() {
 
   const postCommentOnCert = () => {
     setEnteredInput('');
-    setCommentDisabled(true)
     postComment(
       userId,
       certificationId,
@@ -77,16 +74,20 @@ function CommentsPage() {
       deleteCommentId,
       certificationId,
       (response: AxiosResponse) => {
+        console.log(response)
         if (response.data.code === 200) {
+          closeDeleteAlert()
           getComments();
-          closeDeleteAlert();
+        }
+        else{
+          closeDeleteAlert()
         }
       },
       dispatch,
     );
   };
 
-  const inputChangeHandler = (e: any) => {
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEnteredInput(e.target.value);
   };
 

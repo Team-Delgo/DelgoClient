@@ -60,21 +60,13 @@ function CertificationPostsPage() {
     },
   );
 
-  useEffect(() => {
+  useEffect(() => {  
     window.scroll(0, 0);
   }, []);
 
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
-
-  // if (status === 'loading') {
-  //   return <div>loading</div>;
-  // }
-
-  // if (status === 'error') {
-  //   return <div>error</div>;
-  // }
 
   return (
     <div className="certificationPostsPage">
