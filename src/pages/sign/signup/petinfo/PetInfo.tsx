@@ -268,15 +268,12 @@ function PetInfo() {
         async (response: AxiosResponse) => {
           const { code, codeMsg, data } = response.data;
           if (code === 200) {
+            const { registDt } = data.user;
             const accessToken = response.headers.authorization_access;
             const refreshToken = response.headers.authorization_refresh;
-            console.log(accessToken);
-            console.log(refreshToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             userId = response.data.data.user.userId;
-            console.log(response);
-            console.log(userId);
             dispatch(
               userActions.signin({
                 isSignIn: true,
@@ -288,6 +285,8 @@ function PetInfo() {
                   phone: data.user.phoneNo,
                   isSocial: false,
                   geoCode: data.user.geoCode,
+                  address: data.user.address,
+                  registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
                 },
                 pet: {
                   petId: data.pet.petId,
@@ -298,10 +297,7 @@ function PetInfo() {
                 },
               }),
             );
-            console.log(1, userId);
             formData.append('photo', sendingImage[0]);
-            console.log(sendingImage[0]);
-            console.log(formData);
             await petImageUpload(
               { formData, userId },
               (response: AxiosResponse) => {
@@ -313,7 +309,6 @@ function PetInfo() {
               },
               dispatch,
             );
-            console.log(2);
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);

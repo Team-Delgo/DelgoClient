@@ -1,13 +1,19 @@
 import axios, { AxiosResponse } from 'axios';
 import { useErrorHandlers } from './useErrorHandlers';
 
-async function setAccessCode(code: string | null, success: (data: AxiosResponse) => void, dispatch: any) {
+async function setAccessCode(
+  code: string | null,
+  success: (data: AxiosResponse) => void,
+  navigate: () => void,
+  dispatch: any,
+) {
   await axios
     .post(`${process.env.REACT_APP_API_URL}/kakao/access-code/${code}`)
     .then((data) => {
       success(data);
     })
     .catch((error) => {
+      navigate();
       useErrorHandlers(dispatch, error);
     });
 }
@@ -51,7 +57,7 @@ async function oAuthSignup(
 async function setStateCode(
   data: { code: string | null; state: string | null },
   success: (data: AxiosResponse) => void,
-  error: () => void,
+  navigate: () => void,
   dispatch: any,
 ) {
   const { code, state } = data;
@@ -62,7 +68,7 @@ async function setStateCode(
     })
     .catch((error) => {
       console.log(1);
-      error();
+      navigate();
       useErrorHandlers(dispatch, error);
     });
 }
