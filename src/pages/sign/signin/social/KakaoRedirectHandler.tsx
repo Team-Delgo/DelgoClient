@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAccessCode } from '../../../../common/api/social';
-import { ROOT_PATH, SIGN_UP_PATH } from '../../../../common/constants/path.const';
+import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import AlertConfirm from '../../../../common/dialog/AlertConfirm';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
@@ -18,7 +18,7 @@ declare global {
 function KakaoRedirectHandler() {
   const dispatch = useDispatch();
   const code = new URL(window.location.href).searchParams.get('code');
-  const [userData, setUserData] = useState({phone:'',email:''});
+  const [userData, setUserData] = useState({ phone: '', email: '' });
   const [signUp, setSignUp] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const navigate = useNavigate();
@@ -80,6 +80,7 @@ function KakaoRedirectHandler() {
           setLoginFailed(true);
         }
       },
+      () => { navigate(SIGN_IN_PATH.MAIN) },
       dispatch,
     );
   };
@@ -87,21 +88,21 @@ function KakaoRedirectHandler() {
   const moveToPreviousPage = () => {
     navigate('/user/signin');
   };
-  
+
   const moveToSignUpPage = () => {
     navigate(SIGN_UP_PATH.TERMS, { state: { isSocial: 'K', phone: userData.phone, email: userData.email } });
   };
 
   return (
     <div>
-      <Loading/>
+      <Loading />
       {signUp && <AlertConfirm
         text="카카오로 가입된 계정이 없습니다"
         buttonText="회원가입"
         yesButtonHandler={moveToSignUpPage}
         noButtonHandler={moveToPreviousPage}
       />}
-      {loginFailed && <AlertConfirmOne text='카카오 로그인에 실패하였습니다' buttonHandler={moveToPreviousPage}/>}
+      {loginFailed && <AlertConfirmOne text='카카오 로그인에 실패하였습니다' buttonHandler={moveToPreviousPage} />}
     </div>
   );
 }
