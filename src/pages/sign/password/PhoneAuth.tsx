@@ -55,6 +55,8 @@ function PhoneAuth() {
           if (code === 200) {
             setSMSid(data);
             setButtonIsClicked(true);
+            setTimeIsValid(true);
+            setIsReSended(true);
           } else {
             console.log('network error!');
           }
