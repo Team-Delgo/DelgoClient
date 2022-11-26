@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../../redux/slice/userSlice';
-import { ROOT_PATH, SIGN_UP_PATH } from '../../../../common/constants/path.const';
+import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { setStateCode } from '../../../../common/api/social';
 import AlertConfirm from '../../../../common/dialog/AlertConfirm';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
@@ -80,6 +80,7 @@ function NaverRedirectHandler() {
 
         }
       },
+      () => { navigate(SIGN_IN_PATH.MAIN) },
       dispatch,
     );
   }, []);

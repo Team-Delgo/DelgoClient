@@ -12,15 +12,29 @@ async function setAccessCode(code: string | null, success: (data: AxiosResponse)
     });
 }
 
-async function oAuthSignup(data: {email:string,userName:string,phoneNo:string,geoCode:number,pGeoCode:number,petName:string,petSize:string,birthday:string|undefined,userSocial:string} , success: (data: AxiosResponse) => void, dispatch: any) {
-  const {email,geoCode,pGeoCode,userName,phoneNo,petName,petSize,birthday,userSocial} = data;
+async function oAuthSignup(
+  data: {
+    email: string;
+    userName: string;
+    phoneNo: string;
+    geoCode: number;
+    pGeoCode: number;
+    petName: string;
+    petSize: string;
+    birthday: string | undefined;
+    userSocial: string;
+  },
+  success: (data: AxiosResponse) => void,
+  dispatch: any,
+) {
+  const { email, geoCode, pGeoCode, userName, phoneNo, petName, petSize, birthday, userSocial } = data;
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/signup/oauth `,{
+    .post(`${process.env.REACT_APP_API_URL}/signup/oauth `, {
       email,
       userName,
       phoneNo,
-      geoCode:geoCode.toString(),
-      pGeoCode:pGeoCode.toString(),
+      geoCode: geoCode.toString(),
+      pGeoCode: pGeoCode.toString(),
       petName,
       petSize,
       birthday,
@@ -37,6 +51,7 @@ async function oAuthSignup(data: {email:string,userName:string,phoneNo:string,ge
 async function setStateCode(
   data: { code: string | null; state: string | null },
   success: (data: AxiosResponse) => void,
+  error: () => void,
   dispatch: any,
 ) {
   const { code, state } = data;
@@ -46,13 +61,12 @@ async function setStateCode(
       success(data);
     })
     .catch((error) => {
+      error();
       useErrorHandlers(dispatch, error);
     });
 }
 
-async function appleSendToken(token:string|null ,success: (data: AxiosResponse) => void,
-  dispatch: any,
-) {
+async function appleSendToken(token: string | null, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
     .post(`${process.env.REACT_APP_API_URL}/apple/id_token/${token}`)
     .then((data) => {
@@ -64,5 +78,3 @@ async function appleSendToken(token:string|null ,success: (data: AxiosResponse) 
 }
 
 export { setAccessCode, oAuthSignup, setStateCode, appleSendToken };
-
-

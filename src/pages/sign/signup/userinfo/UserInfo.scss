@@ -1,4 +1,4 @@
-@import "../../Sign.scss";
+@import '../../Sign.scss';
 @mixin spanposition {
   margin: 0 auto 0 0;
   padding-left: 30px;
@@ -15,7 +15,6 @@
     }
     &.password {
       // margin-top: 0;
-      font-size: 25px;
     }
     font-weight: 500;
     &::placeholder {
@@ -34,7 +33,7 @@
   padding: 5px;
   right: 11px;
   cursor: pointer;
-  transition: .3s;
+  transition: 0.3s;
   &:active {
     bottom: -33px;
     background-color: #d9d6d2;

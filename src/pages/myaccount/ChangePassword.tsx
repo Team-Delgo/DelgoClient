@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { changePassword } from '../../common/api/myaccount';
 import { MY_ACCOUNT_PATH } from '../../common/constants/path.const';
-import {RootState} from '../../redux/store'
+import { RootState } from '../../redux/store'
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { checkPassword, checkPasswordConfirm } from '../sign/validcheck';
 import "./ChangePassword.scss";
@@ -19,7 +19,7 @@ function ChangePassword() {
   const email = useSelector((state: RootState) => state.persist.user.user.email);
   const isValid = validInput.confirm.length && validInput.password.length;
   const dispatch = useDispatch();
-  
+
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
 
@@ -100,7 +100,7 @@ function ChangePassword() {
   };
 
   const submitButtonHandler = () => {
-    changePassword(email, validInput.password,dispatch, (response: AxiosResponse) => {
+    changePassword(email, validInput.password, dispatch, (response: AxiosResponse) => {
       navigate(MY_ACCOUNT_PATH.MAIN);
     });
   };
