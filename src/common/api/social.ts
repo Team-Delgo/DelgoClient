@@ -61,6 +61,7 @@ async function setStateCode(
       success(data);
     })
     .catch((error) => {
+      console.log(1);
       error();
       useErrorHandlers(dispatch, error);
     });

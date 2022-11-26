@@ -63,14 +63,14 @@ function UserInfo() {
   const firstPageIsValid =
     validInput.email.length && validInput.password.length && validInput.confirm.length && !emailDuplicated;
 
-    const getRegionData = async () => {
-      const response = await GetRegion();
-      setRegionList(response);
-    };
+  const getRegionData = async () => {
+    const response = await GetRegion();
+    setRegionList(response);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getRegionData();
-  },[]);
+  }, []);
 
   const emailValidCheck = (value: string) => {
     const response = checkEmail(value);
@@ -234,6 +234,7 @@ function UserInfo() {
   };
 
   const nicknameDupCheck = () => {
+    if (validInput.nickname.length === 0) return;
     nicknameCheck(
       enteredInput.nickname,
       (response: AxiosResponse) => {
@@ -276,10 +277,10 @@ function UserInfo() {
         onClick={
           !nextPage
             ? () => {
-                setTimeout(() => {
-                  navigation(-1);
-                }, 200);
-              }
+              setTimeout(() => {
+                navigation(-1);
+              }, 200);
+            }
             : () => setNextPage(false)
         }
       >

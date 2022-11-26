@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useCallback,useEffect } from 'react';
+import React, { ChangeEvent, useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { AxiosResponse } from 'axios';
@@ -360,7 +360,7 @@ function PetInfo() {
       reader.onloadend = () => {
         const base64data = reader.result;
         console.log(compressedFile.type);
-        console.log('base64data',base64data)
+        console.log('base64data', base64data)
         setSendingImage(base64data);
         setImage(undefined)
       };
@@ -369,36 +369,46 @@ function PetInfo() {
     }
   };
 
+  const openModal = () => {
+    setModalActive(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setModalActive(false);
+    document.body.style.overflow = "unset";
+  };
+
   if (image !== undefined) {
     return (
-        <div className="crop-wrapper">
-          <img
-            src={PrevArrowWhite}
-            className="camera-page-prev-arrow"
-            alt="camera-page-prev-arrow"
-            aria-hidden="true"
-            onClick={cancleImgCrop}
+      <div className="crop-wrapper">
+        <img
+          src={PrevArrowWhite}
+          className="camera-page-prev-arrow"
+          alt="camera-page-prev-arrow"
+          aria-hidden="true"
+          onClick={cancleImgCrop}
+        />
+        <img
+          src={WhiteCheck}
+          className="camera-page-complition-check"
+          alt="camera-page-complition-check"
+          aria-hidden="true"
+          onClick={showCroppedImage}
+        />
+        <div className="crop-wrappe">
+          <Cropper
+            image={image}
+            crop={crop}
+            zoom={zoom}
+            aspect={1}
+            onCropChange={setCrop}
+            onCropComplete={onCropComplete}
+            onZoomChange={setZoom}
+          // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
           />
-          <img
-            src={WhiteCheck}
-            className="camera-page-complition-check"
-            alt="camera-page-complition-check"
-            aria-hidden="true"
-            onClick={showCroppedImage}
-          />
-          <div className="crop-wrappe">
-            <Cropper
-              image={image}
-              crop={crop}
-              zoom={zoom}
-              aspect={1}
-              onCropChange={setCrop}
-              onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
-             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
-            />
-          </div>
         </div>
+      </div>
     );
   }
 
@@ -436,12 +446,10 @@ function PetInfo() {
           <div
             aria-hidden="true"
             className="backdrop"
-            onClick={() => {
-              setModalActive(false);
-            }}
+            onClick={closeModal}
           />
           <div className="modal">
-            <BirthSelector changeBirth={chagneBirthHandler} close={()=>{setModalActive(false)}}/>
+            <BirthSelector changeBirth={chagneBirthHandler} close={closeModal} />
           </div>
         </div>
       )}
@@ -462,12 +470,8 @@ function PetInfo() {
           placeholder="생일"
           value={enteredInput.birth}
           id={Id.BIRTH}
-          onClick={() => {
-            setModalActive(true);
-          }}
-          onFocus={() => {
-            setModalActive(true);
-          }}
+          onClick={openModal}
+          onFocus={openModal}
           required
           onChange={inputChangeHandler}
         />
