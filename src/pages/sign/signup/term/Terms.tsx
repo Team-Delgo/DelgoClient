@@ -90,10 +90,14 @@ function Terms() {
         onClick={
           !selectedId
             ? () => {
-                setTimeout(() => {
+              setTimeout(() => {
+                if (isSocial === 'K' || isSocial === 'N') {
+                  navigation(SIGN_IN_PATH.MAIN);
+                } else {
                   navigation(-1);
-                }, 200);
-              }
+                }
+              }, 200);
+            }
             : viewCloesHandler
         }
       >
