@@ -104,7 +104,7 @@ function SignIn() {
             </div>
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
-              <a href={kakaoIntentUrl}>
+              <a href={KAKAO.KAKAO_AUTH_URL}>
                 <button type="button" className="login-kakao">
                   <Kakao className="icon" />
                 </button>
