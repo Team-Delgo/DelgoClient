@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
-import { Point, Area } from 'react-easy-crop/types';
+import {Camera} from "react-camera-pro";
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
@@ -176,20 +176,17 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        {/* <div className="web-camera">
-          <Camera
-            ref={camera}
-            aspectRatio={1}
-            facingMode="user"
-            numberOfCamerasCallback={asd}
-            errorMessages={{
-              noCameraAccessible: undefined,
-              permissionDenied: undefined,
-              switchCamera: undefined,
-              canvas: undefined,
-            }}
-          />
-        </div> */}
+        <Camera
+          ref={camera}
+          aspectRatio={1}
+          facingMode="user"
+          errorMessages={{
+            noCameraAccessible: undefined,
+            permissionDenied: undefined,
+            switchCamera: undefined,
+            canvas: undefined,
+          }}
+        />
         <Webcam
           ref={camera}
           style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}
