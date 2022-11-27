@@ -62,14 +62,8 @@ function CaptureCategoryUpdateRecord() {
   const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
   const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const ref = useRef<SheetRef>();
-
-  // useEffect(() => {
-  //   setCertificationPostContent(content);
-  // }, [content]);
 
   const writeContent = useCallback((e) => {
     setCertificationPostContent(e.target.value.trim());
