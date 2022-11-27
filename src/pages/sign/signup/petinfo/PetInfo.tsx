@@ -17,10 +17,8 @@ import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
-import PrevArrowBlack from '../../../../common/icons/prev-arrow-black.svg';
-import WhiteCheck from '../../../../common/icons/white-check.svg'
-import getCroppedImg from '../../../../common/utils/CropImg';
-
+import getCroppedImg from '../../../../common/utils/CropHandle';
+import Crop from '../../../../common/utils/Crop';
 
 interface LocationState {
   phone: string;
@@ -42,6 +40,13 @@ interface IsValid {
   name: boolean;
   birth: boolean;
   type: boolean;
+}
+
+interface croppendAreaPixelType {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
 }
 
 enum Id {
@@ -70,10 +75,8 @@ function PetInfo() {
   const [reviewImgExtensionAlert, setReviewImgExtensionAlert] = useState(false);
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
   const formData = new FormData();
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
@@ -368,33 +371,12 @@ function PetInfo() {
 
   if (image !== undefined) {
     return (
-        <div className="crop-wrapper">
-          <img
-            src={PrevArrowBlack}
-            className="camera-page-prev-arrow"
-            alt="camera-page-prev-arrow"
-            aria-hidden="true"
-            onClick={cancleImgCrop}
-          />
-          <img
-            src={WhiteCheck}
-            className="camera-page-complition-check"
-            alt="camera-page-complition-check"
-            aria-hidden="true"
-            onClick={showCroppedImage}
-          />
-          <div className="crop-wrappe">
-            <Cropper
-              image={image}
-              crop={crop}
-              zoom={zoom}
-              aspect={1}
-              onCropChange={setCrop}
-              onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
-            />
-          </div>
-        </div>
+      <Crop
+        img={image}
+        cancleImgCrop={cancleImgCrop}
+        showCroppedImage={showCroppedImage}
+        onCropComplete={onCropComplete}
+      />
     );
   }
 

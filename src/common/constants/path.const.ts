@@ -40,9 +40,9 @@ export const CAMERA_PATH = {
   REAR: '/camera/rear',
   CAPTURE: '/camera/captureImg',
   LOCATION: '/camera/captureImg/location',
-  CATEGORY: '/camera/captureImg/category',
+  CERTIFICATION: '/camera/captureImg/certification',
   RESULT: '/camera/captureImg/result',
-  UPDATE: '/camera/captureImg/update',
+  UPDATE: '/camera/captureImg/certification/update',
 };
 
 export const RECORD_PATH = {

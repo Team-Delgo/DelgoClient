@@ -109,7 +109,7 @@ function CaptureLocationRecord() {
     setCheckedPlaceId(mungpleId);
     dispatch(uploadAction.setMongPlace({ mungpleId, placeName }));
     setTimeout(() => {
-      navigate(CAMERA_PATH.CATEGORY);
+      navigate(CAMERA_PATH.CERTIFICATION);
     }, 1000);
   };
 
@@ -117,7 +117,7 @@ function CaptureLocationRecord() {
     setManualChecked(true);
     dispatch(uploadAction.setMongPlace({ mungpleId: 0, placeName }));
     setTimeout(() => {
-      navigate(CAMERA_PATH.CATEGORY);
+      navigate(CAMERA_PATH.CERTIFICATION);
     }, 500);
   };
 
