@@ -83,6 +83,7 @@ function CommentsPage() {
         if (response.data.code === 200) {
           closeBottomSheet()
           getComments();
+          window.BRIDGE.deleteComment()
         }
         else{
           closeBottomSheet()

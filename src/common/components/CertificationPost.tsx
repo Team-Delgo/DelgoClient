@@ -147,6 +147,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
+          window.BRIDGE.deleteCertification()
           refetch();
         } else {
           openDeleteErrorAlert();
