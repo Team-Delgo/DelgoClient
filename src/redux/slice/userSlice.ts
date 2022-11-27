@@ -64,8 +64,19 @@ const userSlice = createSlice({
         },
         pet: state.pet
       }
+    },
+    changeNickName(state, action){
+      return {
+        isSignIn: state.isSignIn,
+        user: {
+          ...state.user,
+          nickname: action.payload.name
+        },
+        pet: state.pet
+      }
     }
   },
+  
 });
 
 export const userActions = userSlice.actions;

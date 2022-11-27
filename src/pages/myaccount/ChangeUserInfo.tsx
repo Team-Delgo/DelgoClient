@@ -1,4 +1,3 @@
-
 import React, { ChangeEvent, useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
@@ -12,8 +11,10 @@ import { RootState } from '../../redux/store';
 import { nicknameCheck } from '../../common/api/signup';
 import { checkNickname } from '../sign/validcheck';
 import RegionSelector from '../sign/signup/userinfo/RegionSelector';
-import { Region } from "../sign/signup/userinfo/UserInfo";
+import { Region } from '../sign/signup/userinfo/UserInfo';
 import { regionType, GetRegion } from '../sign/signup/userinfo/region';
+import { changeName } from '../../common/api/myaccount';
+import { userActions } from '../../redux/slice/userSlice';
 
 function ChangeUserInfo() {
   const navigate = useNavigate();
@@ -45,7 +46,6 @@ function ChangeUserInfo() {
     getRegionData();
   }, []);
 
-
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setEnteredInput((prev) => {
       return { ...prev, nickname: e.target.value };
@@ -63,6 +63,14 @@ function ChangeUserInfo() {
         if (code === 200) {
           setNicknameDuplicated(false);
           setNicknameDupCheckFail(false);
+          changeName(
+            email,
+            enteredInput.nickname,
+            (response: AxiosResponse) => {
+              dispatch(userActions.changeNickName({ name: enteredInput.nickname }));
+            },
+            dispatch,
+          );
         } else {
           setNicknameDuplicated(true);
           setNicknameDupCheckFail(true);
@@ -90,7 +98,7 @@ function ChangeUserInfo() {
       state: {
         prevPath: location.pathname,
       },
-    })
+    });
   };
 
   const closeModal = () => {
@@ -144,7 +152,12 @@ function ChangeUserInfo() {
       <div className="userinfo-nickname">
         {/* <span className="userinfo-phone-value">{nickName}</span> */}
         {/* 아직 닉네임 변경 api가 없어서 막아놈 */}
-        <input onChange={inputChangeHandler} className="login-input change-nickname" value={enteredInput.nickname} ref={nicknameRef} />
+        <input
+          onChange={inputChangeHandler}
+          className="login-input change-nickname"
+          value={enteredInput.nickname}
+          ref={nicknameRef}
+        />
         <p className={classNames('input-feedback', { fine: !nicknameDuplicated && validInput })}>
           {nicknameDupCheckFail ? '이미 사용중인 닉네임입니다.' : feedback}
         </p>
