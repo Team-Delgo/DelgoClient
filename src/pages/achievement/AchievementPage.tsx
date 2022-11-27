@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -41,15 +42,16 @@ interface AchievementDataType {
 interface AchievementType {
   achievementsId: number;
   imgUrl: string;
-  isMain: string;
+  isActive: boolean;
+  isMain: number;
   isMungple: number;
   name: string;
   registDt: string;
 }
 
 function AchievementPage() {
-  const [achievementList, setAchievementList] = useState<AchievementDataType[]>([]);
-  const [mainAchievementList, setMainAchievementList] = useState<AchievementDataType[]>([]);
+  const [achievementList, setAchievementList] = useState<AchievementType[]>([]);
+  const [mainAchievementList, setMainAchievementList] = useState<AchievementType[]>([]);
   const [showAchievementCompletionAlert, setShowAchievementCompletionAlert] = useState(false);
   const [showAchievementLimitAlert, setShowAchievementLimitAlert] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
@@ -71,10 +73,10 @@ function AchievementPage() {
 
         console.log('data', data);
 
-        const achievementList = data.filter((element: AchievementDataType) => element.isMain === 0);
+        const achievementList = data.filter((element: AchievementType) => element.isMain === 0);
         setAchievementList(achievementList);
 
-        const mainAchievementList = data.filter((element: AchievementDataType) => element.isMain > 0);
+        const mainAchievementList = data.filter((element: AchievementType) => element.isMain > 0);
         setMainAchievementList(mainAchievementList);
       },
       dispatch,
@@ -98,20 +100,20 @@ function AchievementPage() {
     );
   };
 
-  const filterRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
+  const filterRepresentativeAchievements = (achievement: AchievementType) => (event: React.MouseEvent) => {
     setTimeout(() => {
       const newMainAchievementList = mainAchievementList.filter(
-        (element: AchievementDataType) => element !== achievement,
+        (element: AchievementType) => element !== achievement,
       );
       setMainAchievementList(newMainAchievementList);
       setAchievementList([...achievementList, achievement]);
     }, 300);
   };
 
-  const selectRepresentativeAchievements = (achievement: AchievementDataType) => (event: React.MouseEvent) => {
+  const selectRepresentativeAchievements = (achievement: AchievementType) => (event: React.MouseEvent) => {
     if (mainAchievementList.length < 3) {
       setTimeout(() => {
-        const newAchievementList = achievementList.filter((element: AchievementDataType) => element !== achievement);
+        const newAchievementList = achievementList.filter((element: AchievementType) => element !== achievement);
         setMainAchievementList([...mainAchievementList, achievement]);
         setAchievementList(newAchievementList);
       }, 300);
@@ -201,53 +203,56 @@ function AchievementPage() {
             최대 3개까지 선택 할 수 있어요
           </div>
           <div className="achievement-page-header-achievements-images">
-            {mainAchievementList
-              .map((achievement: AchievementDataType) => (
-                <div
-                  className="achievement-page-header-achievements-image-container"
-                  aria-hidden="true"
-                  onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
-                >
-                  <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                    <img src={achievement.achievements.imgUrl} alt="post-img" />
-                  </div>
-                  {editActivation === true ? (
-                    <img
-                      src={Checked}
-                      className="achievement-page-header-achievements-image-check-img"
-                      alt="post-img"
-                      width={20}
-                      height={20}
-                    />
-                  ) : null}
+            {mainAchievementList.map((achievement: AchievementType) => (
+              <div
+                className="achievement-page-header-achievements-image-container"
+                aria-hidden="true"
+                onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
+              >
+                <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
+                  <img src={achievement.imgUrl} alt="post-img" />
                 </div>
-              ))}
+                {editActivation === true ? (
+                  <img
+                    src={Checked}
+                    className="achievement-page-header-achievements-image-check-img"
+                    alt="post-img"
+                    width={20}
+                    height={20}
+                  />
+                ) : null}
+              </div>
+            ))}
           </div>
         </div>
       </header>
       <body className="achievement-page-body">
         <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
         <div className="achievement-page-body-achievements-images">
-          {achievementList.map((achievement: AchievementDataType) => (
-            <div
-              className="achievement-page-body-achievements-image-container"
-              aria-hidden="true"
-              onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
-            >
-              <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-                <img src={achievement.achievements.imgUrl} alt="post-img" />
+          {achievementList
+            .sort((a: AchievementType, b: AchievementType) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1))
+            .map((achievement: AchievementType) => (
+              <div
+                className="achievement-page-body-achievements-image-container"
+                aria-hidden="true"
+                onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
+              >
+                <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
+                  <img src={achievement.imgUrl} alt="post-img" />
+                </div>
+                {editActivation ? (
+                  achievement.isActive ? (
+                    <img
+                      src={NotChecked}
+                      className="achievement-page-body-achievements-image-check-img"
+                      alt="post-img"
+                      width={20}
+                      height={20}
+                    />
+                  ) : null
+                ) : null}
               </div>
-              {editActivation === true ? (
-                <img
-                  src={NotChecked}
-                  className="achievement-page-body-achievements-image-check-img"
-                  alt="post-img"
-                  width={20}
-                  height={20}
-                />
-              ) : null}
-            </div>
-          ))}
+            ))}
         </div>
       </body>
       <FooterNavigation />

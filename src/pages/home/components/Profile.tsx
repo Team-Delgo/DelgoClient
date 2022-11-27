@@ -34,20 +34,11 @@ import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { getMyPetRanking } from '../../../common/api/ranking';
 import { RootState } from '../../../redux/store';
 
-
-interface AchievementDataType {
-  achievements: AchievementType;
-  achievementsId: number;
-  archiveId: number;
-  isMain: number;
-  registDt: string;
-  userId: number;
-}
-
 interface AchievementType {
   achievementsId: number;
   imgUrl: string;
-  isMain: string;
+  isActive: boolean;
+  isMain: number;
   isMungple: number;
   name: string;
   registDt: string;
@@ -75,10 +66,6 @@ function Profile() {
     },
   );
 
-  useEffect(() => {
-    console.log(myPointData)
-  }, [getMyPointDataIsLoading]);
-
   const { isLoading: getAchievementListIsLoading, data: ahievementList } = useQuery(
     GET_ACHIEVEMENT_LIST,
     () => getAchievementListByMain(user.id),
@@ -102,6 +89,12 @@ function Profile() {
       },
     },
   );
+
+
+  
+  useEffect(() => {
+    console.log('ahievementList', ahievementList);
+  }, [getAchievementListIsLoading]);
 
   const getTodayDateStr = () => {
     const today = new Date();
@@ -167,9 +160,9 @@ function Profile() {
         ) : (
           <div className="home-page-dog-history-header-achievements-images">
             {ahievementList?.data
-              .filter((ahievement: AchievementDataType) => ahievement.isMain > 0)
-              .map((achievement: AchievementDataType) => (
-                <img src={achievement.achievements.imgUrl} alt="bath-img" />
+              .filter((ahievement: AchievementType) => ahievement.isMain > 0)
+              .map((achievement: AchievementType) => (
+                <img src={achievement.imgUrl} alt="bath-img" />
               ))}
           </div>
         )}
