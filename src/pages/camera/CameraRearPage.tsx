@@ -60,6 +60,7 @@ function CameraRearPage() {
 
   const swtichCamera = () => {
     navigate(CAMERA_PATH.FRONT, { state: { prevPath: CAMERA_PATH.REAR } });
+    window.location.reload();
   };
 
   const moveToNextPage = () => {
