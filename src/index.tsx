@@ -12,21 +12,21 @@ import reportWebVitals from './reportWebVitals';
 
 const persistor = persistStore(store);
 
-const initVConsole = () => {
-  const config: any = {
-    onReady: () => {
-      const button = document.querySelector('.vc-switch') as HTMLElement;
-      button.style.position = 'fixed';
-      button.style.bottom = '200px';
-    },
-  };
-  // eslint-disable-next-line no-new, new-cap
-  new vConsole(config);
-};
+// const initVConsole = () => {
+//   const config: any = {
+//     onReady: () => {
+//       const button = document.querySelector('.vc-switch') as HTMLElement;
+//       button.style.position = 'fixed';
+//       button.style.bottom = '200px';
+//     },
+//   };
+//   // eslint-disable-next-line no-new, new-cap
+//   new vConsole(config);
+// };
 
-if (process.env.NODE_ENV === 'production') {
-  initVConsole();
-}
+// if (process.env.NODE_ENV === 'production') {
+//   initVConsole();
+// }
 
 
 ReactDOM.render(
