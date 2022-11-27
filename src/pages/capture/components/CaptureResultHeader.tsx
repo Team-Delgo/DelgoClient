@@ -9,6 +9,7 @@ import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
 import AlertConfirm from '../../../common/dialog/AlertConfirm';
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
+import DeleteBottomSheet from '../../../common/utils/DeleteBottomSheet';
 
 interface weekDayType {
   Mon: string;
@@ -30,7 +31,6 @@ const weekDay: weekDayType = {
   Sat: '토',
   Sun: '일',
 };
-const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
 function CaptureResultHeader() {
   const [showDeleteCompleteAlert, setShowDeleteCompleteAlert] = useState(false);
@@ -105,28 +105,12 @@ function CaptureResultHeader() {
       </header>
       {showDeleteCompleteAlert && <AlertConfirmOne text="삭제를 성공하였습니다" buttonHandler={moveToHomePage} />}
       {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
-      <Sheet
-        isOpen={bottomSheetIsOpen}
-        onClose={closeBottomSheet}
-        snapPoints={[300, 300, 100, 0]}
-      >
-        <Sheet.Container style={sheetStyle}>
-          {/* <Sheet.Header /> */}
-          <Sheet.Content>
-            <div className="delete-bottom-sheet">
-              <div className="delete-bottom-sheet-title">
-                <div className="delete-bottom-sheet-title-text">기록을 삭제하실건가요?</div>
-                <div className="delete-bottom-sheet-title-sub-text">지우면 다시 볼 수 없어요</div>
-              </div>
-              <div className="delete-bottom-sheet-button">
-                <div className="delete-bottom-sheet-button-cancle" aria-hidden="true" onClick={closeBottomSheet}>취소</div>
-                <div className="delete-bottom-sheet-button-delete" aria-hidden="true" onClick={deleteCertification}>삭제</div>
-              </div>
-            </div>
-          </Sheet.Content>
-        </Sheet.Container>
-        <Sheet.Backdrop />
-      </Sheet>
+      <DeleteBottomSheet
+        text="기록"
+        deleteButtonHandler={deleteCertification}
+        cancleButtonHandler={closeBottomSheet}
+        bottomSheetIsOpen={bottomSheetIsOpen}
+      />
     </>
   );
 }

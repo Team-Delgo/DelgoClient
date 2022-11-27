@@ -68,8 +68,6 @@ const categoryIcon: categoryType = {
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [470, 470, 470, 470];
 
-// -window.innerWidth + 20
-
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
   const [certificationPostContent, setCertificationPostContent] = useState('');
