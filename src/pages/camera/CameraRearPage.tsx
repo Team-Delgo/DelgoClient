@@ -40,7 +40,9 @@ function CameraRearPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (camera.current !== null) {
+        console.log('camera.current',camera.current)
         const img = camera.current.takePhoto();
+        console.log('img',img)
         if (img.includes('data') === true) {
           console.log(img);
           setCameraLoading(false)
@@ -49,15 +51,6 @@ function CameraRearPage() {
       }
     }, 100);
   }, [img]);
-
-  // const handleDevices = (mediaDevices: any) => {
-  //  setDevices(mediaDevices.filter(({ kind }: any) => kind === 'videoinput'));
-  // };
-
-
-  // useEffect(() => {
-  //   navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  // }, [handleDevices]);
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
@@ -80,7 +73,6 @@ function CameraRearPage() {
       return;
     }
     if (camera.current) {
-      // const imageSrc = cameraRef.current.getScreenshot();
       const imageSrc = camera.current.takePhoto()
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();

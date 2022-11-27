@@ -70,13 +70,9 @@ const sheetSnapPoints = [470, 470, 470, 470];
 
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
-  const [certificationPostContent, setCertificationPostContent] = useState('');
-  const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
-  const [certificationPostContentLengthLimitAlert, setCertificationPostContentLengthLimitAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [checkedPlaceId, setCheckedPlaceId] = useState(-1);
   const [manualChecked, setManualChecked] = useState(false);
-  const [manualShow, setManualShow] = useState(false);
   const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
   const categoryKo = useSelector((state: RootState) => state.persist.upload.categoryKo);
@@ -156,7 +152,7 @@ function CaptureLocationRecord() {
         <Sheet.Content>
           <main className="capture-img-record">
             <header className="capture-img-record-container">
-              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48}/>
+              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48} />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
                 <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
