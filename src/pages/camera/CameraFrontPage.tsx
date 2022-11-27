@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
-import {Camera} from "react-camera-pro";
+// import {Camera} from "react-camera-pro";
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
@@ -30,7 +30,6 @@ function CameraFrontPage() {
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const camera = useRef<any>(null);
-  const camera2 = useRef<any>(null);
   const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
@@ -48,19 +47,6 @@ function CameraFrontPage() {
           console.log(img);
           setCameraLoading(false)
           clearInterval(interval);
-        }
-      }
-    }, 100);
-
-    const interval2 = setInterval(() => {
-      if (camera.current !== null) {
-        console.log('camera.current',camera2.current)
-        const img = camera2.current.takePhoto();
-        console.log('img',img)
-        if (img.includes('data') === true) {
-          console.log(img);
-          setCameraLoading(false)
-          clearInterval(interval2);
         }
       }
     }, 100);
@@ -85,10 +71,9 @@ function CameraFrontPage() {
   const captureImg = () => {
     // if (cameraLoading) {
     //   return;
-    // }
-    if (camera2.current) {
-      // const imageSrc = camera.current.getScreenshot();
-      const imageSrc = camera2.current.takePhoto();
+    //
+    if (camera.current) {
+      const imageSrc = camera.current.getScreenshot();
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
     }
@@ -191,9 +176,10 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        <Camera
+        {/* <Camera
           ref={camera2}
           aspectRatio={1}
+          mirrored
           facingMode="user"
           errorMessages={{
             noCameraAccessible: undefined,
@@ -201,8 +187,8 @@ function CameraFrontPage() {
             switchCamera: undefined,
             canvas: undefined,
           }}
-        />
-        {/* <Webcam
+        /> */}
+        <Webcam
           ref={camera}
           style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}
           className="web-camera"
@@ -214,7 +200,7 @@ function CameraFrontPage() {
             facingMode: { exact: 'user' },
             aspectRatio: 1 / 1,
           }}
-        /> */}
+        />
         <div className="camera-page-icon-container">
           <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
           <img
