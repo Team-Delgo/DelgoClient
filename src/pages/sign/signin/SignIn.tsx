@@ -40,6 +40,7 @@ function SignIn() {
 
   useEffect(() => {
     window.Kakao.init('1fc2794c1008fd96115d7f57e7f68e04');
+    console.log(window.Kakao.isInitialized());
     if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
       navigation('/');
     }
@@ -114,7 +115,9 @@ function SignIn() {
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
               <div aria-hidden="true" onClick={()=>{
-                window.Kakao.Auth.authorize()
+                window.Kakao.Auth.authorize({
+                  redirectUri: `${process.env.REACT_APP_BASE_URL}/oauth/callback/kakao`
+                })
                 }}>
                 <button type="button" className="login-kakao">
                   <KakaoButton className="icon" />
