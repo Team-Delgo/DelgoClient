@@ -17,7 +17,7 @@ import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
-import PrevArrowWhite from '../../../../common/icons/prev-arrow-white.svg';
+import PrevArrowBlack from '../../../../common/icons/prev-arrow-black.svg';
 import WhiteCheck from '../../../../common/icons/white-check.svg'
 import getCroppedImg from '../../../../common/utils/CropImg';
 
@@ -260,6 +260,7 @@ function PetInfo() {
           phoneNo: phone,
           geoCode,
           pGeoCode,
+          
           petName: enteredInput.name,
           petSize: enteredInput.type,
           birthday: enteredInput.birth,
@@ -297,7 +298,10 @@ function PetInfo() {
                 },
               }),
             );
+            console.log(1, userId);
             formData.append('photo', sendingImage[0]);
+            console.log(sendingImage[0]);
+            console.log(formData);
             await petImageUpload(
               { formData, userId },
               (response: AxiosResponse) => {
@@ -309,6 +313,7 @@ function PetInfo() {
               },
               dispatch,
             );
+            console.log(2);
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);
@@ -355,7 +360,7 @@ function PetInfo() {
       reader.onloadend = () => {
         const base64data = reader.result;
         console.log(compressedFile.type);
-        console.log('base64data', base64data)
+        console.log('base64data',base64data)
         setSendingImage(base64data);
         setImage(undefined)
       };
@@ -376,34 +381,34 @@ function PetInfo() {
 
   if (image !== undefined) {
     return (
-      <div className="crop-wrapper">
-        <img
-          src={PrevArrowWhite}
-          className="camera-page-prev-arrow"
-          alt="camera-page-prev-arrow"
-          aria-hidden="true"
-          onClick={cancleImgCrop}
-        />
-        <img
-          src={WhiteCheck}
-          className="camera-page-complition-check"
-          alt="camera-page-complition-check"
-          aria-hidden="true"
-          onClick={showCroppedImage}
-        />
-        <div className="crop-wrappe">
-          <Cropper
-            image={image}
-            crop={crop}
-            zoom={zoom}
-            aspect={1}
-            onCropChange={setCrop}
-            onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
-          // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
+        <div className="crop-wrapper">
+          <img
+            src={PrevArrowBlack}
+            className="camera-page-prev-arrow"
+            alt="camera-page-prev-arrow"
+            aria-hidden="true"
+            onClick={cancleImgCrop}
           />
+          <img
+            src={WhiteCheck}
+            className="camera-page-complition-check"
+            alt="camera-page-complition-check"
+            aria-hidden="true"
+            onClick={showCroppedImage}
+          />
+          <div className="crop-wrappe">
+            <Cropper
+              image={image}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
+            />
+          </div>
         </div>
-      </div>
     );
   }
 
@@ -444,7 +449,7 @@ function PetInfo() {
             onClick={closeModal}
           />
           <div className="modal">
-            <BirthSelector changeBirth={chagneBirthHandler} close={closeModal} />
+            <BirthSelector changeBirth={chagneBirthHandler} close={closeModal}/>
           </div>
         </div>
       )}

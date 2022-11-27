@@ -27,7 +27,7 @@ function VerifyPhone() {
   const [isSended, setIsSended] = useState(false);
   const [timeIsValid, setTimeIsValid] = useState(true);
   const [isReSended, setIsReSended] = useState(false);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState({phone:'',auth:''});
   const [SMSid, setSMSid] = useState(0);
   const [phoneIsExist, setPhoneIsExist] = useState(false);
   const [authFailed, setAuthFailed] = useState(false);
@@ -39,9 +39,14 @@ function VerifyPhone() {
   const isEntered = phoneNumber.length > 0;
 
   const buttonClickHandler = () => {
-    //  인증번호 전송 요청
-
-    const phone = phoneNumber.slice(0, 3) + phoneNumber.slice(4, 8) + phoneNumber.slice(9, 13);
+    const phone:any = phoneNumber.slice(0, 3) + phoneNumber.slice(4, 8) + phoneNumber.slice(9, 13);
+    console.log(phone, Number.isNaN(phone*1));
+    if(Number.isNaN(phone*1)){
+      setFeedback({phone:'잘못된 입력입니다.', auth:''});
+      phoneRef.current.focus();
+      return;
+    }
+    setFeedback({phone:'',auth:''});
     phoneSendMessage(
       phone,
       (response: AxiosResponse) => {
@@ -54,6 +59,7 @@ function VerifyPhone() {
           setPhoneIsExist(false);
         } else {
           setPhoneIsExist(true);
+          // setFeedback({phone:'이미 가입된 전화번호입니다.', auth:''});
           phoneRef.current.focus();
         }
       },
@@ -105,7 +111,7 @@ function VerifyPhone() {
   const authChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (authNumber.length === 4 && event.target.value.length > 4) return;
     setAuthNumber(event.target.value);
-    setFeedback('');
+    setFeedback({phone:'', auth:''});
     setAuthFailed(false);
   };
 
@@ -147,7 +153,7 @@ function VerifyPhone() {
               navigation(SIGN_UP_PATH.USER_INFO, { state: { phone: phoneNumber } });
             }
           } else {
-            setFeedback('인증번호를 확인해주세요');
+            setFeedback({phone: '', auth:'인증번호를 확인해주세요'});
             setAuthFailed(true);
             authRef.current.focus();
           }
@@ -191,12 +197,12 @@ function VerifyPhone() {
         <input
           value={phoneNumber}
           onChange={inputChangeHandler}
-          className={classNames('login-input phonenumber', { invalid: phoneIsExist })}
+          className={classNames('login-input phonenumber', { invalid: feedback.phone.length })}
           placeholder="휴대폰 번호"
           autoComplete="off"
           ref={phoneRef}
         />
-        <p className={classNames('input-feedback')}>{phoneIsExist && '이미 가입된 전화번호입니다.'}</p>
+        <p className={classNames('input-feedback')}>{feedback.phone}</p>
 
         <span
           aria-hidden="true"
@@ -211,7 +217,7 @@ function VerifyPhone() {
           <input
             value={authNumber}
             onChange={authChangeHandler}
-            className={classNames('login-input authnumber', { invalid: feedback.length })}
+            className={classNames('login-input authnumber', { invalid: feedback.auth.length })}
             placeholder="인증번호 4자리"
             autoComplete="off"
             type="number"
@@ -223,7 +229,7 @@ function VerifyPhone() {
           <p aria-hidden="true" className="login-authnumber-resend" onClick={authNumberResend}>
             인증번호 재전송
           </p>
-          <p className="input-feedback">{feedback}</p>
+          <p className="input-feedback">{feedback.auth}</p>
         </div>
       )}
       {buttonContext}
