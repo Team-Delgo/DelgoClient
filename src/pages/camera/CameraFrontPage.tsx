@@ -40,7 +40,9 @@ function CameraFrontPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (camera.current !== null) {
+        console.log('camera.current',camera.current)
         const img = camera.current.getScreenshot();
+        console.log('img',img)
         if (img.includes('data') === true) {
           console.log(img);
           setCameraLoading(false)
@@ -49,17 +51,6 @@ function CameraFrontPage() {
       }
     }, 100);
   }, [img]);
-
-  const deviceCheck = () => {
-    const pcDevice = 'win16|win32|win64|mac|macintel';
-    if (navigator.platform) {
-      if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
-        console.log('MOBILE');
-      } else {
-        console.log('PC');
-      }
-    }
-  }
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
