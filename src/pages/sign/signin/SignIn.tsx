@@ -6,7 +6,7 @@ import AppleLogin from 'react-apple-login';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ReactComponent as Kakao } from '../../../common/icons/kakao.svg';
+import { ReactComponent as KakaoButton } from '../../../common/icons/kakao.svg';
 import { ReactComponent as Naver } from '../../../common/icons/naver.svg';
 import { ReactComponent as Apple } from '../../../common/icons/apple.svg';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../common/constants/path.const';
@@ -31,6 +31,7 @@ function SignIn() {
   };
 
   useEffect(() => {
+    window.Kakao.init('1fc2794c1008fd96115d7f57e7f68e04');
     if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
       navigation('/');
     }
@@ -104,11 +105,11 @@ function SignIn() {
             </div>
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
-              <a href={KAKAO.KAKAO_AUTH_URL}>
+              <div aria-hidden="true" onClick={()=>{window.Kakao.Auth.authorize()}}>
                 <button type="button" className="login-kakao">
-                  <Kakao className="icon" />
+                  <KakaoButton className="icon" />
                 </button>
-              </a>
+              </div>
               <a href={NAVER.NAVER_AUTH_URL}>
                 <button type="button" className="login-naver">
                   <Naver className="icon" />
