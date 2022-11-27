@@ -29,7 +29,7 @@ function CameraRearPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
-  const camera = useRef<any>(null);
+  const camera2 = useRef<any>(null);
   const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
@@ -38,9 +38,9 @@ function CameraRearPage() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (camera.current !== null) {
-        console.log('camera.current',camera.current)
-        const img = camera.current.takePhoto();
+      if (camera2.current !== null) {
+        console.log('camera.current',camera2.current)
+        const img = camera2.current.takePhoto();
         console.log('img',img)
         if (img.includes('data') === true) {
           console.log(img);
@@ -71,8 +71,8 @@ function CameraRearPage() {
     if (cameraLoading) {
       return;
     }
-    if (camera.current) {
-      const imageSrc = camera.current.takePhoto()
+    if (camera2.current) {
+      const imageSrc = camera2.current.takePhoto()
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
     }
@@ -180,7 +180,7 @@ function CameraRearPage() {
         />
         <div className="web-camera" style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}>
           <Camera
-            ref={camera}
+            ref={camera2}
             aspectRatio={1}
             facingMode="environment"
             errorMessages={{
