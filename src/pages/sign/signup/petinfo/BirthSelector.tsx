@@ -43,15 +43,19 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
     changeBirth(selectedYear, selectedMonth, selectedDay);
   }, [selectedYear, selectedMonth, selectedDay]);
 
+  let key = 0;
   const yearContext = years.map((year, i) => {
-    if (year === '.') return <div className="birth-item blank">.</div>;
+    key+=1;
+    if (year === '.') return <div key={`dummyYear${key}`} className="birth-item blank">.</div>;
     return (
       <div key={year} className={classNames('birth-item', { selected: year === selectedYear })}>{`${year} 년`}</div>
     );
   });
 
+  key = 0;
   const monthContext = months.map((month, i) => {
-    if (month === '.') return <div className="birth-item blank">.</div>;
+    key+=1;
+    if (month === '.') return <div key={`dummyMonth${key}`} className="birth-item blank">.</div>;
     return (
       <div key={`m${month}`} className={classNames('birth-item', { selected: month === selectedMonth })}>
         {month >= 10 ? `${month} 월` : `0${month} 월`}
@@ -59,8 +63,10 @@ function BirthSelector(props: { changeBirth: (year: number, month: number, day: 
     );
   });
 
+  key = 0;
   const dayContext = dayArray.map((day, i) => {
-    if (day === '.') return <div className="birth-item blank">.</div>;
+    key+=1;
+    if (day === '.') return <div key={`dummyDay${key}`} className="birth-item blank">.</div>;
     return (
       <div key={`d${day}`} className={classNames('birth-item', { selected: day === selectedDay })}>
         {day >= 10 ? `${day} 일` : `0${day} 일`}

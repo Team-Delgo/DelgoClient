@@ -81,10 +81,12 @@ function RegionSelector(props: {
     });
   }, [selectedRegion, selectedPlace]);
 
+  let key = 0;
   const regionContext = list.map((region) => {
+    key+=1;
     if (region.code < 6)
       return (
-        <div className="region-item blank" key={region.code}>
+        <div className="region-item blank" key={`dummyRegion${key}`}>
           .
         </div>
       );
@@ -96,7 +98,8 @@ function RegionSelector(props: {
   });
 
   const placeContext = selectedRegion.selected.places.map((place) => {
-    if (place.code < 6) return <div className="region-item blank">.</div>;
+    key+=1;
+    if (place.code < 6) return <div className="region-item blank" key={`dummyRegion${key}`}>.</div>;
     return (
       <div key={place.code} className={classNames('region-item', { selected: place === selectedPlace.selected })}>
         {place.place}
