@@ -35,6 +35,7 @@ function CommentsPage() {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const profile = useSelector((state: RootState) => state.persist.user.pet.image);
+  const { OS } = useSelector((state: any) => state.persist.device);
   const {certificationId,posterId} = useLocation()?.state as StateType
   const [enteredInput, setEnteredInput] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
@@ -83,7 +84,6 @@ function CommentsPage() {
         if (response.data.code === 200) {
           closeBottomSheet()
           getComments();
-          window.BRIDGE.deleteComment()
         }
         else{
           closeBottomSheet()
@@ -91,6 +91,15 @@ function CommentsPage() {
       },
       dispatch,
     );
+    deleteToastMessage()
+  };
+
+  const deleteToastMessage = () => {
+    if (OS === 'android') {
+      window.BRIDGE.deleteComment();
+    } else {
+      console.log(1);
+    }
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

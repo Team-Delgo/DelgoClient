@@ -124,6 +124,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const { OS } = useSelector((state: any) => state.persist.device);
   const navigate = useNavigate();
 
   const setCertificationLike = () => {
@@ -147,15 +148,24 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
-          window.BRIDGE.deleteCertification()
+          closeBottomSheet();
           refetch();
         } else {
+          closeBottomSheet();
           openDeleteErrorAlert();
         }
       },
       dispatch,
     );
-    closeBottomSheet();
+    deletePostToastMessage()
+  };
+
+  const deletePostToastMessage = () => {
+    if (OS === 'android') {
+      window.BRIDGE.deleteCertification();
+    } else {
+      console.log(1);
+    }
   };
 
   const moveToCommentPage = () => {
