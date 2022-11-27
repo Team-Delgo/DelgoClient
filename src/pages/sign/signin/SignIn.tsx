@@ -114,7 +114,7 @@ function SignIn() {
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
               <div aria-hidden="true" onClick={()=>{
-                window.BRIDGE.goToKakaoLogin();
+                window.Kakao.Auth.authorize()
                 }}>
                 <button type="button" className="login-kakao">
                   <KakaoButton className="icon" />
