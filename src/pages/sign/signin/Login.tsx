@@ -59,9 +59,10 @@ function Login() {
     login(
       { email, password: enteredInput.password },
       (response: AxiosResponse) => {
+        console.log(response);
         const { code, data } = response.data;
-        const { registDt } = data.user;
         if (code === 200) {
+          const { registDt } = data.user;
           setIsLoading(true);
           dispatch(
             userActions.signin({
@@ -92,6 +93,7 @@ function Login() {
           localStorage.setItem('refreshToken', refreshToken);
           navigation(ROOT_PATH, { replace: true });
         } else if (code === 304) {
+          console.log(2);
           setIsLoading(false);
           setFeedback((prev) => {
             return { ...prev, password: '비밀번호를 확인하세요' };
