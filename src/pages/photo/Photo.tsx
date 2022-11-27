@@ -13,6 +13,7 @@ import Hair from '../../common/icons/beauty.svg';
 import Hospital from '../../common/icons/hospital.svg';
 import Bath from '../../common/icons/bath.svg';
 import Eat from '../../common/icons/eat.svg';
+import Else from "../../common/icons/else.svg";
 import UnderArrow from '../../common/icons/under-arrow-gray.svg';
 import { Cert } from '../map/MapType';
 import { getCategoryCount, getPhotoData } from '../../common/api/record';
@@ -269,7 +270,7 @@ function Photo() {
             moveToCategoryRightScroll()
           }}
         >
-          <img className={classNames('CA0005', { selected: cateogory === 'CA0005' })} src={Hair} alt="hospital" />
+          <img className={classNames('CA0005', { selected: cateogory === 'CA0005' })} src={Hair} alt="beauty" />
           <span>{categoryCount.미용}회</span>
         </div>
         <div
@@ -283,6 +284,18 @@ function Photo() {
         >
           <img className={classNames('CA0006', { selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
           <span>{categoryCount.병원}회</span>
+        </div>
+        <div
+          aria-hidden="true"
+          className="photo-category-button item"
+          onClick={() => {
+            setCategory('CA9999');
+            setCategoryTab('기타');
+            moveToCategoryRightScroll()
+          }}
+        >
+          <img className={classNames('CA9999', { selected: cateogory === 'CA9999' })} src={Else} alt="else" />
+          <span>{categoryCount.기타}회</span>
         </div>
       </div>
 

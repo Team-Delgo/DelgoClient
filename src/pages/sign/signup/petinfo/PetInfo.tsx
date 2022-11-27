@@ -85,7 +85,6 @@ function PetInfo() {
       setImage(reader.result);
     };
     const { files } = event.target;
-    // let {petImage} = files;
     const options = {
       maxSizeMB: 0.2,
       maxWidthOrHeight: 1920,
@@ -98,13 +97,10 @@ function PetInfo() {
       console.log(compressedFile.type);
       setSendingImage(base64data);
     };
-
-    // let { petImage } = files;
   };
 
   const handlingDataForm = async (dataURI: any) => {
     const byteString = atob(dataURI.split(',')[1]);
-
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
     for (let i = 0; i < byteString.length; i += 1) {
@@ -190,7 +186,6 @@ function PetInfo() {
     };
     console.log(userInfo);
     if (isSocial) {
-      // oauthSignup();
       const requestBody = {
         email,
         userName: nickname,
@@ -313,7 +308,6 @@ function PetInfo() {
               },
               dispatch,
             );
-            console.log(2);
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);
@@ -322,9 +316,6 @@ function PetInfo() {
         dispatch,
       );
     }
-
-    // 비동기 처리
-    // signup({ email, password, nickname, phone, pet: {petName:enteredInput.name,petBirth:enteredInput.birth,petImage:} }, () => {});
   };
 
   const alertReviewImgExtensionClose = useCallback(() => {
@@ -346,8 +337,6 @@ function PetInfo() {
 
       const metadata = { type: `image/jpeg` };
       const newFile = new File([blobFile as Blob], compressedFileName, metadata);
-      // const croppedImage = URL.createObjectURL(newFile);
-
 
       const reader = new FileReader();
       const options = {
@@ -359,8 +348,6 @@ function PetInfo() {
       reader.readAsDataURL(compressedFile);
       reader.onloadend = () => {
         const base64data = reader.result;
-        console.log(compressedFile.type);
-        console.log('base64data',base64data)
         setSendingImage(base64data);
         setImage(undefined)
       };
@@ -405,7 +392,6 @@ function PetInfo() {
               onCropChange={setCrop}
               onCropComplete={onCropComplete}
               onZoomChange={setZoom}
-             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
             />
           </div>
         </div>
@@ -488,21 +474,21 @@ function PetInfo() {
           <DogType mount={isOpenDogType} />
         </div>
         <label htmlFor="S">
-          <input type="radio" id="S" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
+          <input checked={enteredInput.type === 'S'} type="radio" id="S" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
           <span className="dogtype-button">
             <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
           </span>
           소형견
         </label>
         <label htmlFor="M">
-          <input type="radio" id="M" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
+          <input checked={enteredInput.type === 'M'} type="radio" id="M" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
           <span className="dogtype-button">
             <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
           </span>
           중형견
         </label>
         <label htmlFor="L">
-          <input type="radio" id="L" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
+          <input checked={enteredInput.type === 'L'} type="radio" id="L" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
           <span className="dogtype-button">
             <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
           </span>
