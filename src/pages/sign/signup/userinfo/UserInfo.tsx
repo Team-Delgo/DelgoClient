@@ -409,7 +409,6 @@ function UserInfo() {
                 setModalActive(true);
               }}
               required
-              onChange={inputChangeHandler}
             />
           </div>
           <button

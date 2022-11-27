@@ -1,6 +1,10 @@
 import React from 'react';
 
 function Birth(yearStart: number, yearEnd: number, forSelector: boolean) {
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const currentDate = new Date().getDate();
+  console.log(currentYear, currentMonth, currentDate);
   let years: (number | string)[] = [];
   let months: (number | string)[] = [];
   const days: (number | string)[][] = [];

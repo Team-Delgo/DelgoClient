@@ -64,3 +64,12 @@ export interface Mungple{
   roadAddress:string;
   photoUrl:string;
 }
+
+export interface WardOffice{
+  geoCode:string;
+  latitude:string;
+  longitude:string;
+  name:string;
+  registDt:string;
+  wardOfficeId:number;
+}

@@ -62,6 +62,8 @@ function SignIn() {
     );
   };
 
+  const kakaoIntentUrl = `intent://${KAKAO.KAKAO_AUTH_URL.replace(/https?:\/\//i, '')}#Intent;scheme=http;package=com.android.chrome;end`
+
   return (
     <div className="login-signin">
       {loading ? (
@@ -102,7 +104,7 @@ function SignIn() {
             </div>
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
-              <a href={KAKAO.KAKAO_AUTH_URL}>
+              <a href={kakaoIntentUrl}>
                 <button type="button" className="login-kakao">
                   <Kakao className="icon" />
                 </button>

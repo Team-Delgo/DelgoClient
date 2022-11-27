@@ -3,6 +3,18 @@
   height: 400px;
 }
 
+.wardOffice{
+  position: relative;
+  &-name{
+    left: 10px;
+    top: 12px;
+    position: absolute;
+    font-weight: 700;
+    font-size: 13.81px;
+    color: #6836f9;
+  }
+}
+
 .map{
   width: 100vw;
   height: 81.6vh;

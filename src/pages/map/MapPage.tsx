@@ -9,7 +9,7 @@ import './MapPage.scss';
 import park from './park.jpg';
 import { dummyData } from './dummypin';
 import { getMapData } from '../../common/api/record';
-import { Mungple, Cert, certDefault, idDefault } from './MapType';
+import { Mungple, Cert, certDefault, idDefault, WardOffice } from './MapType';
 import { markerRender } from './MarkerRender';
 import UserLocation from '../../common/icons/user-location.svg';
 import Bath from '../../common/icons/bath-map.svg';
@@ -28,6 +28,7 @@ import PlaceCard from './PlaceCard';
 import UserPin from '../../common/icons/userpin.svg';
 import MungpleToggle from './MungpleToggle';
 import CertCard from './CertCard';
+import Flag from '../../common/icons/flag.svg';
 
 interface MakerItem {
   id: number;
@@ -36,7 +37,7 @@ interface MakerItem {
 
 function MapPage() {
   const mapElement = useRef(null);
-  const userId = useSelector((state:any) => state.persist.user.user.id);
+  const userId = useSelector((state: any) => state.persist.user.user.id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mungple, setMungple] = useState('ON');
@@ -52,6 +53,7 @@ function MapPage() {
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [test, setTest] = useState({ value: 1 });
   const [markerList, setMarkerList] = useState<MakerItem[]>([]);
+  const [wardOffice, setWardOffice] = useState<WardOffice>();
   const [certMarkerList, setCertMarkerList] = useState<naver.maps.Marker[]>([]);
   const [certMungpleMarkerList, setCertMungpleMarkerList] = useState<naver.maps.Marker[]>([]);
   const [currentLocation, setCurrentLocation] = useState({
@@ -86,10 +88,11 @@ function MapPage() {
       userId,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
+        console.log(data);
+        setWardOffice(data.wardOffice);
         setCertMungpleList(data.certMungpleList);
         setCertNormalList(data.certNormalList);
         setMungpleList(data.mungpleList);
-        console.log(response.data);
       },
       dispatch,
     );
@@ -119,7 +122,6 @@ function MapPage() {
         anchor: new naver.maps.Point(16, 16),
       },
     };
-    console.log(userLocation);
     const userMarker = new naver.maps.Marker(userMarkerOption);
     globarMap?.panTo(new window.naver.maps.LatLng(userLocation.lat, userLocation.lng), {
       duration: 500,
@@ -147,6 +149,23 @@ function MapPage() {
   }, []);
 
   useEffect(() => {
+    if (wardOffice) {
+      const markerOptions = {
+        position: new window.naver.maps.LatLng(parseFloat(wardOffice.latitude), parseFloat(wardOffice.longitude)),
+        map: globarMap!,
+        icon: {
+          content: [
+            `<div class="wardOffice" style="z-index:9998">`,
+            `<div class="wardOffice-name">${wardOffice.name}</div>`,
+            `<img src=${Flag} style="z-index:9999" alt="pin"/>`,
+            `</div>`,
+          ].join(''),
+          size: new naver.maps.Size(63, 75),
+          origin: new naver.maps.Point(0, 0),
+        },
+      };
+      const marker = new naver.maps.Marker(markerOptions);
+    }
     if (mungple === 'OFF') {
       deleteMungpleList();
       deleteCertList();
@@ -428,7 +447,7 @@ function MapPage() {
       });
       setMarkerList(tempList);
     }
-  }, [mungple, mungpleList, certMungpleList, certNormalList]);
+  }, [mungple, mungpleList, certMungpleList, certNormalList, wardOffice]);
 
   useEffect(() => {
     if (selectedId.prevId === selectedId.id) return;
@@ -436,7 +455,6 @@ function MapPage() {
       const index = markerList.findIndex((e) => {
         return e.id === selectedId.prevId;
       });
-      console.log(selectedId);
       let markerOptions;
       if (selectedId.prevCategoryCode === 'CA0001') {
         markerOptions = {
@@ -534,15 +552,6 @@ function MapPage() {
     }
   }, [selectedId]);
 
-  console.log(selectedId);
-
-  const mapStyle = {
-    width: '100vw',
-    height: '80vh',
-    position: 'absolute',
-    bottom: 0,
-  };
-
   const mungpleButtonHandler = () => {
     setMungple('OFF');
     setSelectedId(idDefault);
@@ -579,20 +588,11 @@ function MapPage() {
   return (
     <div>
       <RecordHeader />
-      <div className='map' ref={mapElement} style={{position:'absolute'}}>
+      <div className="map" ref={mapElement} style={{ position: 'absolute' }}>
         <div aria-hidden="true" className="userLocation" onClick={setCenterUserLocation}>
           <img src={UserLocation} alt="user-location" />
         </div>
         <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler} />
-        {/* {!isLoading && (
-          <div
-            aria-hidden="true"
-            onClick={mungpleButtonHandler}
-            className={classNames('mungplace-toggle', { mungpleOff: mungple !== 'ON' })}
-          >
-            {`멍플 ${mungple}`}
-          </div>
-        )} */}
       </div>
       {selectedId.title.length > 0 && (
         <PlaceCard
@@ -605,7 +605,6 @@ function MapPage() {
       {selectedCert.placeName.length > 0 && (
         <CertCard
           cert={selectedCert}
-          // getCenter={}
           img={selectedCert.photoUrl}
           title={selectedCert.placeName}
           categoryCode={selectedCert.categoryCode}
