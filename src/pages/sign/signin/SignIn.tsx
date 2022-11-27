@@ -16,6 +16,14 @@ import { emailAuth } from '../../../common/api/login';
 import Loading from '../../../common/utils/Loading';
 import AppleLoginButton from './social/AppleLogin';
 
+declare global {
+  interface Window {
+    BRIDGE: any;
+    webkit: any;
+    Kakao: any;
+  }
+}
+
 function SignIn() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
@@ -105,7 +113,9 @@ function SignIn() {
             </div>
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
-              <div aria-hidden="true" onClick={()=>{window.Kakao.Auth.authorize()}}>
+              <div aria-hidden="true" onClick={()=>{
+                window.BRIDGE.goToKakaoLogin();
+                }}>
                 <button type="button" className="login-kakao">
                   <KakaoButton className="icon" />
                 </button>
