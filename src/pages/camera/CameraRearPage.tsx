@@ -34,6 +34,9 @@ function CameraRearPage() {
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
+    return () => {
+      camera2.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -56,7 +59,7 @@ function CameraRearPage() {
   };
 
   const swtichCamera = () => {
-    navigate(CAMERA_PATH.FRONT);
+    navigate(CAMERA_PATH.FRONT, { state: { prevPath: CAMERA_PATH.REAR } });
   };
 
   const moveToNextPage = () => {
@@ -130,7 +133,6 @@ function CameraRearPage() {
 
   if (img !== '') {
     return (
-      <>
         <div className="crop-wrapper">
           <img
             src={PrevArrowWhite}
@@ -159,12 +161,6 @@ function CameraRearPage() {
             />
           </div>
         </div>
-        {/* <div className="crop-button-wrapper">
-          <button type="submit" onClick={showCroppedImage}>
-            선택
-          </button>
-        </div> */}
-      </>
     );
   }
 

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
-// import {Camera} from "react-camera-pro";
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
@@ -28,13 +27,23 @@ function CameraFrontPage() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const camera = useRef<any>(null);
   const [cameraLoading, setCameraLoading] = useState(true);
 
+  // useEffect(() => {
+  //   console.log('location?.state', location);
+  //   if (location?.state !== null) {
+  //     window.location.replace('/camera/front');
+  //   }
+  // }, []);
+
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
-    // deviceCheck();
+    return () => {
+      camera.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -69,9 +78,9 @@ function CameraFrontPage() {
   };
 
   const captureImg = () => {
-    // if (cameraLoading) {
-    //   return;
-    //
+    if (cameraLoading) {
+      return;
+    }
     if (camera.current) {
       const imageSrc = camera.current.getScreenshot();
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
@@ -128,7 +137,6 @@ function CameraFrontPage() {
 
   if (img !== '') {
     return (
-      <>
         <div className="crop-wrapper">
           <img
             src={PrevArrowWhite}
@@ -157,12 +165,6 @@ function CameraFrontPage() {
             />
           </div>
         </div>
-        {/* <div className="crop-button-wrapper">
-          <button type="submit" onClick={showCroppedImage}>
-            선택
-          </button>
-        </div> */}
-      </>
     );
   }
 
