@@ -9,7 +9,7 @@ import park from './park.jpg';
 import { getCalendarData } from '../api/record';
 import { Cert } from '../../pages/map/MapType';
 import { DateType } from './CalendarType';
-import {Certification} from '../../pages/post/RecordCertificationPage';
+import {Certification} from '../../pages/certification/RecordCertificationPage';
 import { RECORD_PATH } from '../constants/path.const';
 
 interface CalenderProps {

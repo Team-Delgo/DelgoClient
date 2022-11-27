@@ -20,7 +20,8 @@ import { RootState } from '../../../../redux/store';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import PrevArrowWhite from '../../../../common/icons/prev-arrow-white.svg';
 import WhiteCheck from '../../../../common/icons/white-check.svg';
-import getCroppedImg from '../../../../common/utils/CropImg';
+import getCroppedImg from '../../../../common/utils/CropHandle';
+import Crop from '../../../../common/utils/Crop';
 
 interface Input {
   name: string;
@@ -32,6 +33,13 @@ interface IsValid {
   name: boolean;
   birth: boolean;
   type: boolean;
+}
+
+interface croppendAreaPixelType {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
 }
 
 enum Id {
@@ -65,11 +73,8 @@ function ChangePetInfo() {
   });
   const [reviewImgExtensionAlert,setReviewImgExtensionAlert]=useState(false)
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
-  const formData = new FormData();
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
   
   const isChecked = { s: false, m: false, l: false };
   if (enteredInput.type === 'S') {
@@ -266,34 +271,12 @@ function ChangePetInfo() {
 
   if (image !== petImage) {
     return (
-        <div className="crop-wrapper">
-          <img
-            src={PrevArrowWhite}
-            className="camera-page-prev-arrow"
-            alt="camera-page-prev-arrow"
-            aria-hidden="true"
-            onClick={cancleImgCrop}
-          />
-          <img
-            src={WhiteCheck}
-            className="camera-page-complition-check"
-            alt="camera-page-complition-check"
-            aria-hidden="true"
-            onClick={showCroppedImage}
-          />
-          <div className="crop-wrappe">
-            <Cropper
-              image={image}
-              crop={crop}
-              zoom={zoom}
-              aspect={1}
-              onCropChange={setCrop}
-              onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
-             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
-            />
-          </div>
-        </div>
+      <Crop
+        img={image}
+        cancleImgCrop={cancleImgCrop}
+        showCroppedImage={showCroppedImage}
+        onCropComplete={onCropComplete}
+      />
     );
   }
 

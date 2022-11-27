@@ -1,6 +1,7 @@
 import { AnyCnameRecord } from 'dns';
 import React from 'react';
 import Sheet, { SheetRef } from 'react-modal-sheet';
+import './DeleteBottomSheet.scss'
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 

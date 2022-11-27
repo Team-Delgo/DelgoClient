@@ -3,11 +3,9 @@ import React,{useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Sheet, { SheetRef } from 'react-modal-sheet';
 import './CommentsPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
-import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
 import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
 
@@ -26,9 +24,6 @@ interface StateType {
   certificationId: number;
   posterId: number;
 }
-
-
-const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
 function CommentsPage() {
   const navigate = useNavigate();
@@ -91,10 +86,10 @@ function CommentsPage() {
       },
       dispatch,
     );
-    deleteToastMessage()
+    deleteCommentToastMessage()
   };
 
-  const deleteToastMessage = () => {
+  const deleteCommentToastMessage = () => {
     if (OS === 'android') {
       window.BRIDGE.deleteComment();
     } else {

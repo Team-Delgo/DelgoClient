@@ -22,7 +22,7 @@ import Etc from '../../../common/icons/etc.svg';
 import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
-import getCroppedImg from '../../../common/utils/CropImg';
+import getCroppedImg from '../../../common/utils/CropHandle';
 
 interface categoryType {
   산책: string;
@@ -58,7 +58,7 @@ const categoryIcon: categoryType = {
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [470, 470, 470, 470];
 
-function CaptureCategoryRecord() {
+function CaptureCertificationRecord() {
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
@@ -342,4 +342,4 @@ function CaptureCategoryRecord() {
   );
 }
 
-export default CaptureCategoryRecord;
+export default CaptureCertificationRecord;

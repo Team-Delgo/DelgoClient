@@ -6,7 +6,7 @@ import PrevArrowWhite from '../../../common/icons/prev-arrow-white.svg';
 import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
 import X from '../../../common/icons/white-x.svg';
 
-function CaptureCategoryImg() {
+function CaptureCertificationImg() {
   const img = useSelector((state: RootState) => state.persist.upload.img);
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,4 +35,4 @@ function CaptureCategoryImg() {
   );
 }
 
-export default CaptureCategoryImg;
+export default CaptureCertificationImg;

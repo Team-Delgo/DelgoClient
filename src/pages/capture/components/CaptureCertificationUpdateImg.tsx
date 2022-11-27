@@ -5,7 +5,7 @@ import { RootState } from '../../../redux/store';
 import WhiteX from '../../../common/icons/white-x.svg';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
 
-function CaptureCategoryUpdateImg() {
+function CaptureCertificationUpdateImg() {
   const img = useSelector((state: RootState) => state.persist.upload.img);
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,4 +28,4 @@ function CaptureCategoryUpdateImg() {
   );
 }
 
-export default CaptureCategoryUpdateImg;
+export default CaptureCertificationUpdateImg;

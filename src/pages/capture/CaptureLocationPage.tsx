@@ -1,5 +1,5 @@
 import React from 'react'
-import CaptureCategoryImg from './components/CaptureCategoryImg';
+import CaptureCategoryImg from './components/CaptureCertificationImg';
 import CaptureLocationRecord from './components/CaptureLocationRecord';
 import './CaptureLocationPage.scss';
 

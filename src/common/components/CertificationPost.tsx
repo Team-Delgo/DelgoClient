@@ -120,7 +120,6 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
