@@ -80,7 +80,7 @@ function KakaoRedirectHandler() {
           setLoginFailed(true);
         }
       },
-      () => { navigate(SIGN_IN_PATH.MAIN) },
+      () => { console.log(1); },
       dispatch,
     );
   };
