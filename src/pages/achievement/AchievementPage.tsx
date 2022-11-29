@@ -143,7 +143,6 @@ function AchievementPage() {
         achievementList={achievementList}
         selectRepresentativeAchievements={selectRepresentativeAchievements}
       />
-      <FooterNavigation />
       {showAchievementCompletionAlert && (
         <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />
       )}
