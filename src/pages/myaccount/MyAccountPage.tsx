@@ -116,7 +116,6 @@ function MyAccountPage() {
           setModalOpen(false);
         }}
       />}
-      <FooterNavigation />
     </div>
   );
 }
