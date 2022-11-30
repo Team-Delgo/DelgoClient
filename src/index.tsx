@@ -11,6 +11,7 @@ import store from './redux/store';
 import reportWebVitals from './reportWebVitals';
 
 const persistor = persistStore(store);
+window.Kakao.init('1fc2794c1008fd96115d7f57e7f68e04');
 
 const initVConsole = () => {
   const config: any = {
