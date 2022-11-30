@@ -16,7 +16,8 @@
     left: 6vw;
     z-index: 100;
 }
-.camera-page-complition-check{
+
+.camera-page-complition-check {
     position: absolute;
     top: 6vh;
     right: 6vw;
@@ -26,26 +27,3 @@
 .web-camera {
     margin-top: 15vh;
 }
-
-.crop-wrapper {
-    position: relative;
-    height: 100vh;
-    background-color: white;
-}
-
-.crop-wrappe {
-    margin-left: 40px;
-}
-
-.crop-button-wrapper {
-    height: 30vh;
-    // background-color: blue;
-    text-align: center;
-    button{
-        display: flex;
-        flex-direction: column;
-    }
-}
-// .camera-button:active {
-//     transform: scale(0.90);
-// }

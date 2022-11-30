@@ -2,30 +2,31 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
-import Cropper from 'react-easy-crop';
-import { Point, Area } from 'react-easy-crop/types';
 import { CAMERA_PATH, ROOT_PATH } from '../../common/constants/path.const';
 import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
-import PrevArrowWhite from '../../common/icons/prev-arrow-white.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
-import WhiteCheck from '../../common/icons/white-check.svg'
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
-import getCroppedImg from '../../common/utils/CropImg';
+import getCroppedImg from '../../common/utils/CropHandle';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
+import Crop from '../../common/utils/Crop'
 
+interface croppendAreaPixelType {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+}
 
 const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
 
 function CameraFrontPage() {
   const [imgExtensionAlert, setImgExtensionAlert] = useState(false);
   const [compressedFileName, setCompressedFileName] = useState('');
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
   const [img, setImg] = useState('');
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
@@ -34,13 +35,17 @@ function CameraFrontPage() {
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
-    // deviceCheck();
+    return () => {
+      camera.current = null;
+    };
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (camera.current !== null) {
+        console.log('camera.current',camera.current)
         const img = camera.current.getScreenshot();
+        console.log('img',img)
         if (img.includes('data') === true) {
           console.log(img);
           setCameraLoading(false)
@@ -49,17 +54,6 @@ function CameraFrontPage() {
       }
     }, 100);
   }, [img]);
-
-  const deviceCheck = () => {
-    const pcDevice = 'win16|win32|win64|mac|macintel';
-    if (navigator.platform) {
-      if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
-        console.log('MOBILE');
-      } else {
-        console.log('PC');
-      }
-    }
-  }
 
   const moveToPreviousPage = () => {
     navigate(ROOT_PATH);
@@ -137,41 +131,12 @@ function CameraFrontPage() {
 
   if (img !== '') {
     return (
-      <>
-        <div className="crop-wrapper">
-          <img
-            src={PrevArrowWhite}
-            className="camera-page-prev-arrow"
-            alt="camera-page-prev-arrow"
-            aria-hidden="true"
-            onClick={cancleImgCrop}
-          />
-          <img
-            src={WhiteCheck}
-            className="camera-page-complition-check"
-            alt="camera-page-complition-check"
-            aria-hidden="true"
-            onClick={showCroppedImage}
-          />
-          <div className="crop-wrappe">
-            <Cropper
-              image={img}
-              crop={crop}
-              zoom={zoom}
-              aspect={1}
-              onCropChange={setCrop}
-              onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
-             // initialCroppedAreaPercentages={{ width: 80, height: 80, x: 10, y: 10 }}
-            />
-          </div>
-        </div>
-        {/* <div className="crop-button-wrapper">
-          <button type="submit" onClick={showCroppedImage}>
-            선택
-          </button>
-        </div> */}
-      </>
+      <Crop
+        img={img}
+        cancleImgCrop={cancleImgCrop}
+        showCroppedImage={showCroppedImage}
+        onCropComplete={onCropComplete}
+      />
     );
   }
 
@@ -185,20 +150,6 @@ function CameraFrontPage() {
           aria-hidden="true"
           onClick={moveToPreviousPage}
         />
-        {/* <div className="web-camera">
-          <Camera
-            ref={camera}
-            aspectRatio={1}
-            facingMode="user"
-            numberOfCamerasCallback={asd}
-            errorMessages={{
-              noCameraAccessible: undefined,
-              permissionDenied: undefined,
-              switchCamera: undefined,
-              canvas: undefined,
-            }}
-          />
-        </div> */}
         <Webcam
           ref={camera}
           style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}

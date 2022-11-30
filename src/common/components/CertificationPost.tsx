@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Sheet, { SheetRef } from 'react-modal-sheet';
 import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
@@ -13,11 +14,11 @@ import Heart from '../icons/heart-empty.svg';
 import FillHeart from '../icons/heart.svg';
 import Comments from '../icons/comments.svg';
 import { RootState } from '../../redux/store';
-import AlertConfirm from '../dialog/AlertConfirm';
 import AlertConfirmOne from '../dialog/AlertConfirmOne';
 import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
+import DeleteBottomSheet from '../utils/DeleteBottomSheet';
 
 interface userType {
   address: string;
@@ -119,9 +120,10 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const { OS } = useSelector((state: any) => state.persist.device);
   const navigate = useNavigate();
 
   const setCertificationLike = () => {
@@ -139,20 +141,30 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   };
 
   const deleteCertification = () => {
-    closeDeleteAlert();
     deleteCertificationPost(
       user.id,
       post?.certificationId,
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
+          closeBottomSheet();
           refetch();
         } else {
+          closeBottomSheet();
           openDeleteErrorAlert();
         }
       },
       dispatch,
     );
+    deletePostToastMessage()
+  };
+
+  const deletePostToastMessage = () => {
+    if (OS === 'android') {
+      window.BRIDGE.deleteCertification();
+    } else {
+      console.log(1);
+    }
   };
 
   const moveToCommentPage = () => {
@@ -176,20 +188,20 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
     navigate(CAMERA_PATH.UPDATE);
   };
 
-  const openDeleteAlert = () => {
-    setShowDeleteAlert(true);
-  };
-
-  const closeDeleteAlert = () => {
-    setShowDeleteAlert(false);
-  };
-
   const openDeleteErrorAlert = () => {
     setShowDeleteErrorAlert(true);
   };
 
   const closeDelteErrorAlert = () => {
     setShowDeleteErrorAlert(false);
+  };
+
+  const openBottomSheet = () => {
+    setBottomSheetIsOpen(true);
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetIsOpen(false);
   };
 
   return (
@@ -215,7 +227,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
             <div aria-hidden="true" onClick={moveToUpdatePage}>
               수정&nbsp;&nbsp;|
             </div>
-            <div aria-hidden="true" onClick={openDeleteAlert}>
+            <div aria-hidden="true" onClick={openBottomSheet}>
               &nbsp;&nbsp;삭제
             </div>
           </div>
@@ -251,15 +263,13 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         </footer>
       </main>
       <div className="border-line" />
-      {showDeleteAlert && (
-        <AlertConfirm
-          text="인증 기록을 삭제 하시겠습니까?"
-          buttonText="삭제"
-          noButtonHandler={closeDeleteAlert}
-          yesButtonHandler={deleteCertification}
-        />
-      )}
       {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
+      <DeleteBottomSheet
+        text="기록"
+        deleteButtonHandler={deleteCertification}
+        cancleButtonHandler={closeBottomSheet}
+        bottomSheetIsOpen={bottomSheetIsOpen}
+      />
     </>
   );
 }

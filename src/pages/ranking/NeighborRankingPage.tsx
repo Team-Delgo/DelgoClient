@@ -24,8 +24,6 @@ function NeighborRankingPage() {
   
   useEffect(() => {
     window.scroll(0, 0);
-    console.log(location.state?.topRankingDataList);
-    console.log('location.state?.myPetRankingData', location.state?.myPetRankingData);
   }, []);
 
   const moveToHomePage = () => {

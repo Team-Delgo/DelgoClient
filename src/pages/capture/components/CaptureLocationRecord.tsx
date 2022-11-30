@@ -68,17 +68,11 @@ const categoryIcon: categoryType = {
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [470, 470, 470, 470];
 
-// -window.innerWidth + 20
-
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
-  const [certificationPostContent, setCertificationPostContent] = useState('');
-  const [certificationCompleteAlert, setCertificationCompleteAlert] = useState(false);
-  const [certificationPostContentLengthLimitAlert, setCertificationPostContentLengthLimitAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [checkedPlaceId, setCheckedPlaceId] = useState(-1);
   const [manualChecked, setManualChecked] = useState(false);
-  const [manualShow, setManualShow] = useState(false);
   const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
   const categoryKo = useSelector((state: RootState) => state.persist.upload.categoryKo);
@@ -115,7 +109,7 @@ function CaptureLocationRecord() {
     setCheckedPlaceId(mungpleId);
     dispatch(uploadAction.setMongPlace({ mungpleId, placeName }));
     setTimeout(() => {
-      navigate(CAMERA_PATH.CATEGORY);
+      navigate(CAMERA_PATH.CERTIFICATION);
     }, 1000);
   };
 
@@ -123,7 +117,7 @@ function CaptureLocationRecord() {
     setManualChecked(true);
     dispatch(uploadAction.setMongPlace({ mungpleId: 0, placeName }));
     setTimeout(() => {
-      navigate(CAMERA_PATH.CATEGORY);
+      navigate(CAMERA_PATH.CERTIFICATION);
     }, 500);
   };
 
@@ -158,7 +152,7 @@ function CaptureLocationRecord() {
         <Sheet.Content>
           <main className="capture-img-record">
             <header className="capture-img-record-container">
-              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48}/>
+              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48} />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
                 <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>

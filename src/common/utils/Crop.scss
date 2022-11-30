@@ -1,0 +1,19 @@
+.crop-container {
+    position: relative;
+    height: 100vh;
+    background-color: white;
+
+    &-prev-arrow {
+        position: absolute;
+        top: 6vh;
+        left: 6vw;
+        z-index: 100;
+    }
+
+    &-complition-check {
+        position: absolute;
+        top: 6vh;
+        right: 6vw;
+        z-index: 100;
+    }
+}

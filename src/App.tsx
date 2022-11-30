@@ -23,13 +23,13 @@ import MapPage from './pages/map/MapPage';
 import CameraFrontPage from './pages/camera/CameraFrontPage';
 import CameraRearPage from './pages/camera/CameraRearPage';
 import CapturePage from './pages/capture/CapturePage';
-import CaptureCategoryPage from './pages/capture/CaptureCategoryPage';
+import CaptureCertificationPage from './pages/capture/CaptureCertificationPage';
 import CaptureResultPage from './pages/capture/CaptureResultPage';
 import CaptureLocationPage from './pages/capture/CaptureLocationPage';
-import CaptureCategoryUpatePage from './pages/capture/CaptureCategoryUpatePage';
+import CaptureCertificationUpatePage from './pages/capture/CaptureCertificationUpatePage';
 import Photo from './pages/photo/Photo';
 import HomePage from './pages/home/HomePage';
-import PostsPage from './pages/post/CertificationPostsPage';
+import PostsPage from './pages/certification/CertificationPostsPage';
 import AchievementPage from './pages/achievement/AchievementPage';
 import './App.scss';
 import SignIn from './pages/sign/signin/SignIn';
@@ -54,7 +54,7 @@ import PreventBack from './pages/sign/signin/PreventBack';
 
 import { RootState } from './redux/store';
 import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
-import RecordCertificationPage from './pages/post/RecordCertificationPage';
+import RecordCertificationPage from './pages/certification/RecordCertificationPage';
 import SocialUserInfo from './pages/sign/signin/social/SocialUserInfo';
 import SocialExist from './pages/sign/signin/social/SocialExist';
 import CommentsPage from './pages/comment/CommentsPage';
@@ -133,9 +133,9 @@ function App() {
         <Route path={CAMERA_PATH.FRONT} element={<CameraFrontPage />} />
         <Route path={CAMERA_PATH.REAR} element={<CameraRearPage />} />
         <Route path={CAMERA_PATH.CAPTURE} element={<CapturePage />} />
-        <Route path={CAMERA_PATH.CATEGORY} element={<CaptureCategoryPage />} />
+        <Route path={CAMERA_PATH.CERTIFICATION} element={<CaptureCertificationPage />} />
         <Route path={CAMERA_PATH.LOCATION} element={<CaptureLocationPage />} />
-        <Route path={CAMERA_PATH.UPDATE} element={<CaptureCategoryUpatePage />} />
+        <Route path={CAMERA_PATH.UPDATE} element={<CaptureCertificationUpatePage />} />
         <Route path={CAMERA_PATH.RESULT} element={<CaptureResultPage />} />
         <Route path={POSTS_PATH} element={<PostsPage />} />
         <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />

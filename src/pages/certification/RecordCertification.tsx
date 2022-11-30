@@ -23,6 +23,7 @@ import { CAMERA_PATH, RECORD_PATH } from '../../common/constants/path.const';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
+import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
 
 interface categoryType {
   CA0001: string;
@@ -50,7 +51,7 @@ function RecordCertification(props: { certification: Cert }) {
   const dispatch = useDispatch();
   const [selfHeart, setSelfHeart] = useState(certification.isLike);
   const [count, setCount] = useState(certification.likeCount);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
@@ -67,7 +68,7 @@ function RecordCertification(props: { certification: Cert }) {
   };
 
   const deleteCertification = () => {
-    closeDeleteAlert();
+    closeBottomSheet();
     deleteCertificationPost(
       user.id,
       certification?.certificationId,
@@ -97,23 +98,22 @@ function RecordCertification(props: { certification: Cert }) {
     navigate(CAMERA_PATH.UPDATE);
   };
 
-  const openDeleteAlert = (event: any) => {
-    console.log(1)
-    event.stopPropagation();
-    setShowDeleteAlert(true);
+
+  const openBottomSheet = () => {
+    setBottomSheetIsOpen(true);
   };
 
-  const closeDeleteAlert = () => {
-    setShowDeleteAlert(false);
-  };
-
-  const openDeleteErrorAlert = () => {
-    setShowDeleteErrorAlert(true);
+  const closeBottomSheet = () => {
+    setBottomSheetIsOpen(false);
   };
 
   const closeDelteErrorAlert = () => {
     setShowDeleteErrorAlert(false);
   };
+
+  const openDeleteErrorAlert = () =>{
+    setShowDeleteErrorAlert(true)
+  }
 
   let icon;
   if (certification.categoryCode === 'CA0001') icon = Walk;
@@ -125,59 +125,65 @@ function RecordCertification(props: { certification: Cert }) {
   else icon = Walk;
   return (
     <>
-    <div className="record-cert">
-      <div className="record-cert-edit">
-        <div aria-hidden="true" onClick={moveToUpdatePage}>수정</div>
-        <img src={VerticalDevider} alt="devider" />
-        <div aria-hidden="true" onClick={openDeleteAlert}>삭제</div>
-      </div>
-      <img className="record-cert-img" src={certification.photoUrl} alt={certification.placeName} />
-      <div className="record-cert-main">
-        <div className="record-cert-main-text">
-          <div className="record-cert-main-text-title">{certification.placeName}</div>
-          <div className="record-cert-main-text-sub">{certification.address}</div>
+      <div className="record-cert">
+        <div className="record-cert-edit">
+          <div aria-hidden="true" onClick={moveToUpdatePage}>
+            수정
+          </div>
+          <img src={VerticalDevider} alt="devider" />
+          <div aria-hidden="true" onClick={openBottomSheet}>
+            삭제
+          </div>
         </div>
-        <img src={icon} alt="icon" />
-      </div>
-      <div className="record-cert-devider" />
-      <div className="record-cert-description">{certification.description}</div>
-      <div className="record-cert-icons">
-        <img
-          className="record-cert-icons-heart"
-          src={selfHeart ? FillHeart : Heart}
-          alt="heart"
-          aria-hidden="true"
-          onClick={() => {
-            setCertificationLike();
-            if (selfHeart) {
-              setCount(count - 1);
-            } else {
-              setCount(count + 1);
-            }
-          }}
-        />
-        {count > 0 && <div className="record-cert-icons-count">{count}</div>}
-        <img
-          className="record-cert-icons-comments"
-          src={Comments}
-          alt="comments"
-          aria-hidden="true"
-          onClick={() => {
-            navigate(`/comments/${certification.certificationId}`, {  state: { certificationId: certification?.certificationId, posterId: certification?.userId }});
-          }}
-        />
-        {certification.commentCount > 0 && <div className="record-cert-icons-count">{certification.commentCount}</div>}
-      </div>
-    </div>
-          {showDeleteAlert && (
-            <AlertConfirm
-              text="인증 기록을 삭제 하시겠습니까?"
-              buttonText="삭제"
-              noButtonHandler={closeDeleteAlert}
-              yesButtonHandler={deleteCertification}
-            />
+        <img className="record-cert-img" src={certification.photoUrl} alt={certification.placeName} />
+        <div className="record-cert-main">
+          <div className="record-cert-main-text">
+            <div className="record-cert-main-text-title">{certification.placeName}</div>
+            <div className="record-cert-main-text-sub">{certification.address}</div>
+          </div>
+          <img src={icon} alt="icon" />
+        </div>
+        <div className="record-cert-devider" />
+        <div className="record-cert-description">{certification.description}</div>
+        <div className="record-cert-icons">
+          <img
+            className="record-cert-icons-heart"
+            src={selfHeart ? FillHeart : Heart}
+            alt="heart"
+            aria-hidden="true"
+            onClick={() => {
+              setCertificationLike();
+              if (selfHeart) {
+                setCount(count - 1);
+              } else {
+                setCount(count + 1);
+              }
+            }}
+          />
+          {count > 0 && <div className="record-cert-icons-count">{count}</div>}
+          <img
+            className="record-cert-icons-comments"
+            src={Comments}
+            alt="comments"
+            aria-hidden="true"
+            onClick={() => {
+              navigate(`/comments/${certification.certificationId}`, {
+                state: { certificationId: certification?.certificationId, posterId: certification?.userId },
+              });
+            }}
+          />
+          {certification.commentCount > 0 && (
+            <div className="record-cert-icons-count">{certification.commentCount}</div>
           )}
-          {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
+        </div>
+      </div>
+      <DeleteBottomSheet
+        text="기록"
+        deleteButtonHandler={deleteCertification}
+        cancleButtonHandler={closeBottomSheet}
+        bottomSheetIsOpen={bottomSheetIsOpen}
+      />
+      {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
     </>
   );
 }

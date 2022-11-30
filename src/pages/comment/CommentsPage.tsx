@@ -6,8 +6,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './CommentsPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
-import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
+import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
 
 interface Comment {
   certificationId: number;
@@ -30,11 +30,12 @@ function CommentsPage() {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const profile = useSelector((state: RootState) => state.persist.user.pet.image);
+  const { OS } = useSelector((state: any) => state.persist.device);
   const {certificationId,posterId} = useLocation()?.state as StateType
   const [enteredInput, setEnteredInput] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [deleteCommentId,setDeleteCommentId] = useState(-1)
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
 
   useEffect(() => {
@@ -76,28 +77,37 @@ function CommentsPage() {
       (response: AxiosResponse) => {
         console.log(response)
         if (response.data.code === 200) {
-          closeDeleteAlert()
+          closeBottomSheet()
           getComments();
         }
         else{
-          closeDeleteAlert()
+          closeBottomSheet()
         }
       },
       dispatch,
     );
+    deleteCommentToastMessage()
+  };
+
+  const deleteCommentToastMessage = () => {
+    if (OS === 'android') {
+      window.BRIDGE.deleteComment();
+    } else {
+      console.log(1);
+    }
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEnteredInput(e.target.value);
   };
 
-  const openDeleteAlert = (commentId: number) => (e: React.MouseEvent) => {
-    setShowDeleteAlert(true);
+  const openBottomSheet = (commentId: number) => (e: React.MouseEvent) => {
+    setBottomSheetIsOpen(true);
     setDeleteCommentId(commentId);
   };
 
-  const closeDeleteAlert = () => {
-    setShowDeleteAlert(false);
+  const closeBottomSheet = () => {
+    setBottomSheetIsOpen(false);
   };
 
   const context = commentList.map((comment: Comment) => {
@@ -114,9 +124,9 @@ function CommentsPage() {
                 aria-hidden="true"
                 onClick={
                   userId === posterId
-                    ? openDeleteAlert(comment.commentId)
+                    ? openBottomSheet(comment.commentId)
                     : userId === comment.userId
-                    ? openDeleteAlert(comment.commentId)
+                    ? openBottomSheet(comment.commentId)
                     : undefined
                 }
                 style={
@@ -165,14 +175,12 @@ function CommentsPage() {
           </div>
         </div>
       </div>
-      {showDeleteAlert && (
-        <AlertConfirm
-          text="댓글을 삭제 하시겠습니까?"
-          buttonText="삭제"
-          noButtonHandler={closeDeleteAlert}
-          yesButtonHandler={deleteCommentOnCert}
-        />
-      )}
+      <DeleteBottomSheet
+        text="댓글"
+        deleteButtonHandler={deleteCommentOnCert}
+        cancleButtonHandler={closeBottomSheet}
+        bottomSheetIsOpen={bottomSheetIsOpen}
+      />
     </>
   );
 }

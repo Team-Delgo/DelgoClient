@@ -17,11 +17,6 @@ import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { RootState } from '../../../redux/store';
 
 
-const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [-window.innerWidth + 20, 0, 0, 0];
-
-// [window.innerHeight - window.innerWidth + 5, 0, 0, 0];
-
 function CaptureImgRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
