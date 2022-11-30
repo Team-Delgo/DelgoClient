@@ -612,7 +612,7 @@ function MapPage() {
           description={selectedCert.description}
         />
       )}
-      <FooterNavigation />
+      {/* <FooterNavigation /> */}
     </div>
   );
 }

@@ -1,13 +1,18 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import classNames from 'classnames';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CAMERA_PATH, RECORD_PATH, ROOT_PATH } from '../constants/path.const';
 import './FooterNavigation.scss';
 import Home from '../icons/home.svg';
+import HomeGray from '../icons/home-gray.svg';
 import Plus from '../icons/plus.svg';
 import DogFoot from '../icons/dog-foot.svg';
+import DogFootGray from '../icons/dog-foot-gray.svg';
 
 function FooterNavigation() {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const moveToCameraPage = () => {
     setTimeout(() => {
@@ -30,15 +35,15 @@ function FooterNavigation() {
   return (
     <div className="footer">
       <div className="footer-side" aria-hidden="true" onClick={moveToHomePage}>
-        <img src={Home} alt="home-button" />
-        <div>홈</div>
+        <img src={location.pathname === '/' ? Home : HomeGray} alt="home-button" />
+        <div className={classNames({ active: location.pathname === '/' })}>홈</div>
       </div>
       <div className="footer-center" aria-hidden="true" onClick={moveToCameraPage}>
         <img src={Plus} alt="plus-button" />
       </div>
       <div className="footer-side" aria-hidden="true" onClick={moveToRecord}>
-        <img src={DogFoot} alt="record-button" />
-        <div>내 기록</div>
+        <img src={location.pathname !== '/' ? DogFoot : DogFootGray} alt="record-button" />
+        <div className={classNames({ active: location.pathname !== '/' })}>내 기록</div>
       </div>
     </div>
   );
