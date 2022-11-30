@@ -4,7 +4,7 @@ import { DELGO_REWARD_URL } from '../constants/url.cosnt';
 
 async function getMapData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/map/data?userId=${userId}`)
+    .get(`${process.env.REACT_APP_API_URL}/map/${userId}`)
     .then((data) => {
       success(data);
     })

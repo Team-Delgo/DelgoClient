@@ -23,6 +23,8 @@ Calender.defaultProps = {
 };
 
 function Calender() {
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const userId = useSelector((state:any)=>state.persist.user.user.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +35,16 @@ function Calender() {
       return currentYear + 1;
     }
     return currentYear;
+  };
+
+  const touchStartFunc = (e: any) => {
+    setTouchStart(e.touches[0].clientX);
+    console.log(e.touches[0].clientX);
+  };
+
+  const touchEndFunc = (e: any) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    console.log(e.changedTouches[0].clientX);
   };
 
   const getToday = () => {
@@ -54,6 +66,15 @@ function Calender() {
       dispatch,
     );
   }, []);
+
+  useEffect(()=>{
+    if (touchStart - touchEnd > 200) {
+      navigate(RECORD_PATH.MAP, { state: 'map' });
+    }
+    else if (touchStart - touchEnd < - 200) {
+      navigate(RECORD_PATH.PHOTO, { state: 'photo' });
+    }
+  },[touchEnd]);
 
   useEffect(()=>{
     scrollRef.current?.scrollIntoView({block:'end'});
@@ -199,7 +220,7 @@ function Calender() {
 
   return (
     <div className="calender">
-      <div className="date-wrapper" ref={scrollRef}>
+      <div className="date-wrapper" ref={scrollRef} onTouchStart={touchStartFunc} onTouchEnd={touchEndFunc}>
         {datesElement}
         {/* <div className="current-month">{`${datesElement0.currentYear}.${datesElement0.currentMonth}`}</div>
         {weekDay}

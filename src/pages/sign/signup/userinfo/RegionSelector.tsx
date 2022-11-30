@@ -71,19 +71,31 @@ function RegionSelector(props: {
   }, [selectedRegion]);
 
   useEffect(() => {
-    change(`${selectedRegion.selected.region}-${selectedPlace.selected.place}`, {
-      indexRegion: selectedRegion.index,
-      indexPlace: selectedPlace.index,
-      region: selectedRegion.selected.region,
-      place: selectedPlace.selected.place,
-      pGeoCode: selectedRegion.selected.code,
-      geoCode: selectedPlace.selected.code,
-    });
+    console.log(selectedRegion.selected.region);
+    if (selectedRegion.selected.region === '세종특별시') {
+      change(`${selectedRegion.selected.region}`, {
+        indexRegion: selectedRegion.index,
+        indexPlace: selectedPlace.index,
+        region: selectedRegion.selected.region,
+        place: selectedPlace.selected.place,
+        pGeoCode: selectedRegion.selected.code,
+        geoCode: selectedPlace.selected.code,
+      });
+    } else {
+      change(`${selectedRegion.selected.region}-${selectedPlace.selected.place}`, {
+        indexRegion: selectedRegion.index,
+        indexPlace: selectedPlace.index,
+        region: selectedRegion.selected.region,
+        place: selectedPlace.selected.place,
+        pGeoCode: selectedRegion.selected.code,
+        geoCode: selectedPlace.selected.code,
+      });
+    }
   }, [selectedRegion, selectedPlace]);
 
   let key = 0;
   const regionContext = list.map((region) => {
-    key+=1;
+    key += 1;
     if (region.code < 6)
       return (
         <div className="region-item blank" key={`dummyRegion${key}`}>
@@ -98,8 +110,13 @@ function RegionSelector(props: {
   });
 
   const placeContext = selectedRegion.selected.places.map((place) => {
-    key+=1;
-    if (place.code < 6) return <div className="region-item blank" key={`dummyRegion${key}`}>.</div>;
+    key += 1;
+    if (place.code < 6)
+      return (
+        <div className="region-item blank" key={`dummyRegion${key}`}>
+          .
+        </div>
+      );
     return (
       <div key={place.code} className={classNames('region-item', { selected: place === selectedPlace.selected })}>
         {place.place}

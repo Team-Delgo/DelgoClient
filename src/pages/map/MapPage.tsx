@@ -29,6 +29,7 @@ import UserPin from '../../common/icons/userpin.svg';
 import MungpleToggle from './MungpleToggle';
 import CertCard from './CertCard';
 import Flag from '../../common/icons/flag.svg';
+import { ROOT_PATH } from '../../common/constants/path.const';
 
 interface MakerItem {
   id: number;
@@ -590,7 +591,7 @@ function MapPage() {
       <RecordHeader />
       <div className="map" ref={mapElement} style={{ position: 'absolute' }}>
         <div aria-hidden="true" className="userLocation" onClick={setCenterUserLocation}>
-          <img src={UserLocation} alt="user-location" />
+          <img src={UserLocation} alt="user-location"/>
         </div>
         <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler} />
       </div>
