@@ -42,7 +42,6 @@ function KakaoRedirectHandler() {
           dispatch(
             userActions.signin({
               isSignIn: true,
-              couponList: data.couponList,
               user: {
                 id: data.user.userId,
                 address: data.user.address,
