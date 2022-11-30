@@ -31,17 +31,19 @@ function NaverRedirectHandler() {
         console.log(response);
         const { code, data } = response.data;
         if (code === 200) {
+          const { registDt } = data.user;
           console.log('로그인 성공');
           dispatch(
             userActions.signin({
               isSignIn: true,
-              couponList: data.couponList,
               user: {
                 id: data.user.userId,
                 address: data.user.address,
                 nickname: data.user.name,
                 email: data.user.email,
                 phone: data.user.phoneNo,
+                isSocial:true,
+                registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
                 userSocial: data.user.userSocial,
                 geoCode: data.user.geoCode,
               },
