@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, TouchEventHandler, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
@@ -13,7 +13,7 @@ import Hair from '../../common/icons/beauty.svg';
 import Hospital from '../../common/icons/hospital.svg';
 import Bath from '../../common/icons/bath.svg';
 import Eat from '../../common/icons/eat.svg';
-import Else from "../../common/icons/else.svg";
+import Else from '../../common/icons/else.svg';
 import UnderArrow from '../../common/icons/under-arrow-gray.svg';
 import { Cert } from '../map/MapType';
 import { getCategoryCount, getPhotoData } from '../../common/api/record';
@@ -41,7 +41,7 @@ interface categoryType {
   [prop: string]: any;
 }
 
-const rightScrollCategory = ['목욕','미용','병원','기타'];
+const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 
 function Photo() {
   const navigate = useNavigate();
@@ -50,18 +50,23 @@ function Photo() {
     setButtonIsClicked(false);
   });
   const [photos, setPhotos] = useState<Cert[]>([]);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isTouched, setIsTouched] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
-  const [categoryCount, setCategoryCount] = useState({산책 : 0, 카페: 0, 식당: 0, 미용: 0, 병원: 0, 기타: 0, 목욕:0});
+  const [categoryCount, setCategoryCount] = useState({ 산책: 0, 카페: 0, 식당: 0, 미용: 0, 병원: 0, 기타: 0, 목욕: 0 });
   const [categoryTab, setCategoryTab] = useState('전체');
   const [sortOption, setSortOption] = useState<number>(1);
   const [isLast, setLast] = useState(false);
   const dispatch = useDispatch();
   const location: any = useLocation();
   const categoryRef = useRef<any>();
-  const [cateogory, setCategory] = useState(location?.state?.category ? categoryCode[location?.state?.category] : 'CA0000');
-  
+  const [cateogory, setCategory] = useState(
+    location?.state?.category ? categoryCode[location?.state?.category] : 'CA0000',
+  );
+
   useEffect(() => {
     getCategoryCountList();
     if (location?.state?.from === 'home') {
@@ -72,7 +77,7 @@ function Photo() {
         moveToCategoryRightScroll();
       }
     }
-    if(location?.state?.from !== 'home'){
+    if (location?.state?.from !== 'home') {
       getPhotoDataList();
     }
     const handleScroll = () => {
@@ -82,8 +87,26 @@ function Photo() {
       }
     };
     window.addEventListener('scroll', handleScroll);
+    window.scrollTo(0,0);
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const touchStartFunc = (e: any) => {
+    setTouchStart(e.touches[0].clientX);
+    console.log(e.touches[0].clientX);
+  };
+
+  const touchEndFunc = (e: any) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    console.log(e.changedTouches[0].clientX);
+  };
+
+  useEffect(() => {
+    if (touchStart - touchEnd > 200) {
+      navigate(RECORD_PATH.CALENDAR, { state: 'calendar' });
+    }
+  }, [touchEnd]);
 
   useEffect(() => {
     if (isFetching && !isLast) getPhotoDataList();
@@ -107,13 +130,12 @@ function Photo() {
       },
       dispatch,
     );
-  }
+  };
 
   useEffect(() => {
     console.log(cateogory);
     changePhotoData();
   }, [cateogory, sortOption]);
-
 
   const moveToCategoryLeftScroll = () => {
     categoryRef.current.scrollTo({
@@ -121,7 +143,6 @@ function Photo() {
       behavior: 'smooth',
     });
   };
-
 
   const moveToCategoryRightScroll = () => {
     categoryRef.current.scrollTo({
@@ -156,7 +177,7 @@ function Photo() {
         alt="cert"
         aria-hidden="true"
         onClick={() => {
-          navigate('/certs', { state: {certifications:[photo], pageFrom: RECORD_PATH.PHOTO} });
+          navigate('/certs', { state: { certifications: [photo], pageFrom: RECORD_PATH.PHOTO } });
         }}
       />
     );
@@ -166,11 +187,15 @@ function Photo() {
   }
 
   const getCategoryCountList = async () => {
-    getCategoryCount(userId,(response:AxiosResponse) => {
-      const {data} = response.data;
-      setCategoryCount(data);
-    },dispatch)
-  }
+    getCategoryCount(
+      userId,
+      (response: AxiosResponse) => {
+        const { data } = response.data;
+        setCategoryCount(data);
+      },
+      dispatch,
+    );
+  };
 
   const optionClickHandler = (e: any) => {
     setSortOption(e.target.value);
@@ -219,7 +244,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0001');
             setCategoryTab('산책');
-            moveToCategoryLeftScroll()
+            moveToCategoryLeftScroll();
           }}
         >
           <img className={classNames('CA0001', { selected: cateogory === 'CA0001' })} src={Walk} alt="walk" />
@@ -231,7 +256,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0002');
             setCategoryTab('카페');
-            moveToCategoryLeftScroll()
+            moveToCategoryLeftScroll();
           }}
         >
           <img className={classNames('CA0002', { selected: cateogory === 'CA0002' })} src={Cafe} alt="cafe" />
@@ -243,7 +268,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0003');
             setCategoryTab('식당');
-            moveToCategoryLeftScroll()
+            moveToCategoryLeftScroll();
           }}
         >
           <img className={classNames('CA0003', { selected: cateogory === 'CA0003' })} src={Eat} alt="hair" />
@@ -255,7 +280,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0004');
             setCategoryTab('목욕');
-            moveToCategoryRightScroll()
+            moveToCategoryRightScroll();
           }}
         >
           <img className={classNames('CA0004', { selected: cateogory === 'CA0004' })} src={Bath} alt="bath" />
@@ -267,7 +292,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0005');
             setCategoryTab('미용');
-            moveToCategoryRightScroll()
+            moveToCategoryRightScroll();
           }}
         >
           <img className={classNames('CA0005', { selected: cateogory === 'CA0005' })} src={Hair} alt="beauty" />
@@ -279,7 +304,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA0006');
             setCategoryTab('병원');
-            moveToCategoryRightScroll()
+            moveToCategoryRightScroll();
           }}
         >
           <img className={classNames('CA0006', { selected: cateogory === 'CA0006' })} src={Hospital} alt="eat" />
@@ -291,7 +316,7 @@ function Photo() {
           onClick={() => {
             setCategory('CA9999');
             setCategoryTab('기타');
-            moveToCategoryRightScroll()
+            moveToCategoryRightScroll();
           }}
         >
           <img className={classNames('CA9999', { selected: cateogory === 'CA9999' })} src={Else} alt="else" />
@@ -299,7 +324,9 @@ function Photo() {
         </div>
       </div>
 
-      <div className="photo-wrapper">{photoContext}</div>
+      <div className="photo-wrapper" onTouchStart={touchStartFunc} onTouchEnd={touchEndFunc}>
+        {photoContext}
+      </div>
       {buttonIsClicked && (
         <div className="photo-sort-option" ref={ref}>
           <div

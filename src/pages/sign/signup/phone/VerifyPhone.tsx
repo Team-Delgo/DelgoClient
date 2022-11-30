@@ -59,7 +59,7 @@ function VerifyPhone() {
           setPhoneIsExist(false);
         } else {
           setPhoneIsExist(true);
-          // setFeedback({phone:'이미 가입된 전화번호입니다.', auth:''});
+          setFeedback({phone:'이미 가입된 전화번호입니다.', auth:''});
           phoneRef.current.focus();
         }
       },

@@ -12,7 +12,6 @@ import DogFootGray from '../icons/dog-foot-gray.svg';
 function FooterNavigation() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
 
   const moveToCameraPage = () => {
     setTimeout(() => {
