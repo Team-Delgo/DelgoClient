@@ -112,7 +112,12 @@ function CaptureCertificationRecord() {
         } else if (code === 312) {
           setCertificateErrorAlertMessage('인증 가능한 장소에 있지 않습니다');
           openCertificateErrorAlert();
-        } else {
+        }
+        else if (code === 316) {
+          setCertificateErrorAlertMessage('GPS가 켜져 있지 않거나 권한 설정이 되어있지 않습니다');
+          openCertificateErrorAlert();
+        } 
+        else {
           setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
           openCertificateErrorAlert();
         }
