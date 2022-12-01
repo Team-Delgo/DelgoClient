@@ -10,7 +10,6 @@ import Cafe from '../../../common/icons/cafe.svg';
 import Hospital from '../../../common/icons/hospital.svg';
 import Walk from '../../../common/icons/walk.svg';
 import ETC from '../../../common/icons/etc.svg';
-import { ROOT_PATH } from '../../../common/constants/path.const';
 
 interface categoryType {
   산책: string;
@@ -33,19 +32,8 @@ const categoryIcon: categoryType = {
   기타: ETC,
 };
 
-const categoryEnglish: categoryType = {
-  산책: 'walk',
-  카페: 'cafe',
-  식당: 'restaurant',
-  목욕: 'hospital',
-  미용: 'beauty',
-  병원: 'bath',
-  기타: 'etc',
-};
-
 function CaptureResultMain() {
   const { img, title, content, categoryKo, address } = useSelector((state: RootState) => state.persist.upload);
-  const { user, pet } = useSelector((state: RootState) => state.persist.user);
 
   return (
     <main className="capture-img-result-main">

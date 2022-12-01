@@ -50,7 +50,7 @@ function CaptureResultHeader() {
         const { code } = response.data;
         console.log(response);
         if (code === 200) {
-          setShowDeleteCompleteAlert(true);
+          openDeleteCompleteAlert();
         } else {
           openDeleteErrorAlert();
         }
@@ -66,6 +66,10 @@ function CaptureResultHeader() {
   const moveToHomePage = () => {
     navigate(ROOT_PATH);
   };
+
+  const openDeleteCompleteAlert = ()=>{
+    setShowDeleteCompleteAlert(true);
+  }
 
   const openDeleteErrorAlert = () => {
     setShowDeleteErrorAlert(true);

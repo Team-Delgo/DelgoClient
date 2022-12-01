@@ -35,10 +35,10 @@ interface postType {
   commentCount: number;
   description: string;
   geoCode: string;
-  isAchievements: number;
-  isLike: number;
-  isLive: number;
-  isPhotoChecked: number;
+  isAchievements: boolean;
+  isLike: boolean;
+  isLive: boolean;
+  isPhotoChecked: boolean;
   latitude: string;
   likeCount: number;
   longitude: string;
@@ -67,6 +67,7 @@ function CertificationPostsPage() {
   );
 
   useEffect(() => {
+    console.log('data',data)
     if (typeof data?.pages[0]?.content?.length === 'number') {
       setPageSizeCount(data?.pages[0]?.content?.length + pageSizeCount);
     }

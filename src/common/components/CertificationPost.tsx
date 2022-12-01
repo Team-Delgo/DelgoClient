@@ -48,10 +48,10 @@ interface postType {
   commentCount: number;
   description: string;
   geoCode: string;
-  isAchievements: number;
-  isLike: number;
-  isLive: number;
-  isPhotoChecked: number;
+  isAchievements: boolean;
+  isLike: boolean;
+  isLive: boolean;
+  isPhotoChecked: boolean;
   latitude: string;
   likeCount: number;
   longitude: string;
@@ -132,8 +132,8 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       post?.certificationId,
       (response: AxiosResponse) => {
         if (response.data.code === 200) {
-          setLikeCount(isLike === 1 ? likeCount - 1 : likeCount + 1);
-          setIsLike(isLike === 1 ? 0 : 1);
+          setLikeCount(isLike ? likeCount - 1 : likeCount + 1);
+          setIsLike(!isLike);
         }
       },
       dispatch,
@@ -246,7 +246,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         <footer className="post-img-result-main-footer">
           <img
             className="post-img-result-main-footer-heart"
-            src={isLike === 1 ? FillHeart : Heart}
+            src={isLike  ? FillHeart : Heart}
             alt="heart"
             aria-hidden="true"
             onClick={setCertificationLike}
