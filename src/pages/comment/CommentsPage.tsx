@@ -176,9 +176,12 @@ function CommentsPage() {
         </div>
       </div>
       <DeleteBottomSheet
-        text="댓글"
-        deleteButtonHandler={deleteCommentOnCert}
-        cancleButtonHandler={closeBottomSheet}
+        text="댓글을 삭제하실건가요?"
+        description='지우면 다시 볼 수 없어요'
+        cancelText='취소'
+        acceptText='삭제'
+        acceptButtonHandler={deleteCommentOnCert}
+        cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
     </>

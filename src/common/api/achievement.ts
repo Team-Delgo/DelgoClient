@@ -24,7 +24,7 @@ async function getAchievementList(userId: number, success: (data: AxiosResponse)
 
 async function getAchievementListByMain(userId: number) {
   const accessToken = localStorage.getItem('accessToken') || '';
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/achievements/user?userId=${userId}`);
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`);
   console.log(data);
   return data;
 }

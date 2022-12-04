@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
+import { Ring } from 'react-css-spinners';
+import '../../common/utils/Loading.scss';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import RecordHeader from '../../common/components/RecordHeader';
 import './Photo.scss';
@@ -19,6 +21,7 @@ import { Cert } from '../map/MapType';
 import { getCategoryCount, getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 import { RECORD_PATH } from '../../common/constants/path.const';
+import Loading from '../../common/utils/Loading';
 
 const categoryCode: categoryType = {
   산책: 'CA0001',
@@ -50,6 +53,7 @@ function Photo() {
     setButtonIsClicked(false);
   });
   const [photos, setPhotos] = useState<Cert[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [page, setPage] = useState<number>(0);
@@ -86,7 +90,7 @@ function Photo() {
       }
     };
     window.addEventListener('scroll', handleScroll);
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -151,7 +155,8 @@ function Photo() {
   };
 
   const getPhotoDataList = async () => {
-    getPhotoData(
+    setIsLoading(true);
+    await getPhotoData(
       userId,
       cateogory,
       page,
@@ -167,6 +172,7 @@ function Photo() {
       },
       dispatch,
     );
+    setIsLoading(false);
   };
 
   const photoContext = photos.map((photo) => {
@@ -324,6 +330,11 @@ function Photo() {
       </div>
 
       <div className="photo-wrapper" onTouchStart={touchStartFunc} onTouchEnd={touchEndFunc}>
+        {isLoading && (
+          <div className="loader photo">
+            <Ring color="#aa98ec" size={60} />
+          </div>
+        )}
         {photoContext}
       </div>
       {buttonIsClicked && (

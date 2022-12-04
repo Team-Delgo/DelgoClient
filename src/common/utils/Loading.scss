@@ -1,6 +1,13 @@
 .loader{
   height: 100vh;
+  // position: absolute;
   display: flex;
+  // top: 50vh;
+  // left: 50vw;
+  // transform: translate(-50%,-50%);
   justify-content: center;
   align-items: center;
+  &.photo{
+    height: 50vh;
+  }
 }

@@ -65,6 +65,7 @@ import ChangePassword from './pages/myaccount/ChangePassword';
 import AlertConfirmOne from './common/dialog/AlertConfirmOne';
 import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
+import ServiceTerm from './pages/myaccount/term/ServiceTerm';
 
 declare global {
   interface Window {
@@ -146,6 +147,8 @@ function App() {
         <Route path={MY_ACCOUNT_PATH.USERINFO} element={<ChangeUserInfo />} />
         <Route path={MY_ACCOUNT_PATH.PASSWORDCHECK} element={<ChangePasswordCheck />} />
         <Route path={MY_ACCOUNT_PATH.PASSWORDCHANGE} element={<ChangePassword />} />
+        <Route path={MY_ACCOUNT_PATH.TERM1} element={<ServiceTerm id={1} />} />
+        <Route path={MY_ACCOUNT_PATH.TERM2} element={<ServiceTerm id={2} />} />
         <Route path={KAKAO_REDIRECT_HANDLE_PATH} element={<KakaoRedirectHandler />} />
         <Route path={APPLE_REDIRECT_HANDLE_PATH} element={<AppleRedirectHandler />} />
         <Route path={NAVER_REDIRECT_HANDLE_PATH} element={<NaverRedirectHandler />} />

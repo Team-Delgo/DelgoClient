@@ -1,5 +1,4 @@
 import React from 'react';
-import { Oval } from 'react-loader-spinner';
 import { Ring} from 'react-css-spinners'
 import "./Loading.scss";
 

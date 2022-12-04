@@ -21,7 +21,7 @@ interface selectedPlace {
 
 function RegionSelector(props: {
   change: (r: string, rg: Region) => void;
-  close: () => void;
+  close: (comment:string) => void;
   list: regionType[];
   rIndex: number | undefined;
   pIndex: number | undefined;
@@ -161,9 +161,9 @@ function RegionSelector(props: {
           pGeoCode: selectedRegion.selected.code,
         }),
       );
-      close();
+      close('지역이 설정되었습니다.');
     } else {
-      close();
+      close('');
     }
   };
 
