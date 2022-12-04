@@ -41,12 +41,6 @@ function CameraFrontPage() {
   }, []);
 
   useEffect(() => {
-    setInterval(()=>{
-      console.log('camera.current.onClick()', camera.current.click());
-    },100)
-  }, []);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       if (camera.current !== null) {
         console.log('camera.current', camera.current);

@@ -29,59 +29,65 @@
                     padding-bottom: 10px;
                     color: #8A8A8A;
                 }
-                        }
-            
-                        &-images {
-                            display: grid;
-                            grid-template-columns: 1fr 1fr 1fr;
-                            row-gap: 5px;
-                            column-gap: 10px;
-                            padding-top: 10px;
-            
-                            .achievement-page-header-achievements-image-container:active {
-                                transform: scale(0.93);
-                            }
-            
-                            .achievement-page-header-achievements-image-container {
-                                position: relative;
-            
-                                .achievement-page-header-achievements-image {
-                                    width: 100%;
-            
-                                    img {
-                                        width: 100%;
-                                        object-fit: cover;
-                                        border-radius: 6.5px;
-                                    }
-            
-                                    &-check-img {
-                                        position: absolute;
-                                        top: 10px;
-                                        left: 3px;
-                                        z-index: 10;
-                                    }
-                                }
-                            }
-                        }
-                        }
-                        }
-            
-                        &-body {
-        margin:40px 5% 0 5%;
+            }
 
-        &-achievements-title {
-            padding-bottom: 15px;
+            &-images {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                row-gap: 5px;
+                column-gap: 10px;
+                padding-top: 10px;
+
+                .achievement-page-header-achievements-image-container:active {
+                    transform: scale(0.93);
+                }
+
+                .achievement-page-header-achievements-image-container {
+                    position: relative;
+
+                    .achievement-page-header-achievements-image {
+                        width: 100%;
+
+                        img {
+                            width: 100%;
+                            object-fit: cover;
+                            border-radius: 6.5px;
+                        }
+
+                        &-check-img {
+                            position: absolute;
+                            top: 10px;
+                            left: 3px;
+                            z-index: 10;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-body {
+        margin: 40px 5% 0 5%;
+
+        &-achievements{
+           &-title {
+            padding-bottom: 2px;
             font-size: 16px;
             font-weight: 600;
             color: #000000
-        }
+        } 
+        &-count {
+            padding-bottom: 15px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #8A8A8A
 
-        &-achievements-images {
+        }
+        &-images {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             row-gap: 5px;
             column-gap: 10px;
-            // grid-template-columns: 10px 10px 10px;
 
             .achievement-page-body-achievements-image-container:active {
                 transform: scale(0.93);
@@ -91,7 +97,8 @@
                 position: relative;
 
                 .achievement-page-body-achievements-image {
-                    // padding:4px;
+                    padding-bottom: 20px;
+
                     img {
                         width: 100%;
                         object-fit: cover;
@@ -109,9 +116,11 @@
                         text-align: center;
                         font-size: 14px;
                         font-weight: 600;
+                        padding-top: 8px;
                     }
                 }
             }
+        }
         }
     }
 }
