@@ -151,7 +151,7 @@ function CaptureLocationRecord() {
         <Sheet.Content>
           <main className="capture-img-record" style={{ height: window.innerHeight - window.innerWidth }}>
             <header className="capture-img-record-container">
-              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48} />
+              <img src={categoryIcon[categoryKo]} alt="category-img" />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
                 <div
