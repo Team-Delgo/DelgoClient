@@ -62,7 +62,7 @@ function RecordCertification(props: { certification: Cert }) {
       certification.userId,
       certification.certificationId,
       (response: AxiosResponse) => {
-        if (response.data.code === 200) setSelfHeart(selfHeart === 1 ? 0 : 1);
+        if (response.data.code === 200) setSelfHeart(!selfHeart);
       },
       dispatch,
     );
