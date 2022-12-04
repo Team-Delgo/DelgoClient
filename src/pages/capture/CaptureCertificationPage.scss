@@ -1,6 +1,9 @@
 @import "./CapturePage.scss";
 
-
+.capture-certification-img{
+    position: relative;
+    z-index: -1;
+}
 .review-container{
     position: relative;
     .review-place-name{
