@@ -29,43 +29,44 @@
                     padding-bottom: 10px;
                     color: #8A8A8A;
                 }
-            }
-
-            &-images {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                row-gap: 5px;
-                column-gap: 10px;
-                padding-top: 10px;
-
-                .achievement-page-header-achievements-image-container:active {
-                    transform: scale(0.93);
-                }
-
-                .achievement-page-header-achievements-image-container {
-                    position: relative;
-
-                    .achievement-page-header-achievements-image {
-                        width: 100%;
-                        img {
-                            width: 100%;
-                            object-fit: cover;
-                            border-radius: 6.5px;
                         }
-
-                        &-check-img {
-                            position: absolute;
-                            top: 10px;
-                            left: 8px;
-                            z-index: 10;
+            
+                        &-images {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr 1fr;
+                            row-gap: 5px;
+                            column-gap: 10px;
+                            padding-top: 10px;
+            
+                            .achievement-page-header-achievements-image-container:active {
+                                transform: scale(0.93);
+                            }
+            
+                            .achievement-page-header-achievements-image-container {
+                                position: relative;
+            
+                                .achievement-page-header-achievements-image {
+                                    width: 100%;
+            
+                                    img {
+                                        width: 100%;
+                                        object-fit: cover;
+                                        border-radius: 6.5px;
+                                    }
+            
+                                    &-check-img {
+                                        position: absolute;
+                                        top: 10px;
+                                        left: 3px;
+                                        z-index: 10;
+                                    }
+                                }
+                            }
                         }
-                    }
-                }
-            }
-        }
-    }
-
-    &-body {
+                        }
+                        }
+            
+                        &-body {
         margin:40px 5% 0 5%;
 
         &-achievements-title {
@@ -100,8 +101,14 @@
                     &-check-img {
                         position: absolute;
                         top: 10px;
-                        left: 8px;
+                        left: 3px;
                         z-index: 10;
+                    }
+
+                    &-name {
+                        text-align: center;
+                        font-size: 14px;
+                        font-weight: 600;
                     }
                 }
             }

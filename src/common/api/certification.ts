@@ -129,6 +129,9 @@ async function updateCertificationPost(
   dispatch: any,
 ) {
   try {
+    console.log('data.certificationId',data.certificationId)
+    console.log('data.description',data.description)
+    console.log('data.userId',data.userId)
     const accessToken = localStorage.getItem('accessToken') || '';
     const result = await axios.put(`${process.env.REACT_APP_API_URL}/certification`, {
       certificationId: data.certificationId,
