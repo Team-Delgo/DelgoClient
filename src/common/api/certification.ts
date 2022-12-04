@@ -47,7 +47,7 @@ async function registerCameraCertificationPost(
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register/live`, {
+    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/live`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -79,7 +79,7 @@ async function registerGalleryCertificationPost(
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/register/past`, {
+    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/past`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -130,7 +130,7 @@ async function updateCertificationPost(
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/modify`, {
+    const result = await axios.put(`${process.env.REACT_APP_API_URL}/certification`, {
       certificationId: data.certificationId,
       description: data.description,
       userId:data.userId,
@@ -171,8 +171,8 @@ async function deleteCertificationPost(
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(
-      `${process.env.REACT_APP_API_URL}/certification/delete/${userId}/${certificationId}`,
+    const result = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/certification/${userId}/${certificationId}`,
     );
     success(result);
   } catch (error: any) {

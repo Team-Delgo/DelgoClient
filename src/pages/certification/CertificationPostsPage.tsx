@@ -96,7 +96,7 @@ function CertificationPostsPage() {
         </>
       ))}
       <div ref={ref}>&nbsp;</div>
-      {/* <FooterNavigation /> */}
+      <FooterNavigation />
     </div>
   );
 }
