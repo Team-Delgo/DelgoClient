@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import NotChecked from '../../../common/icons/not-checked.svg';
@@ -27,6 +28,7 @@ function Achievement({ editActivation, achievementList, selectRepresentativeAchi
             >
               <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
                 <img src={achievement.imgUrl} alt="post-img" />
+                <div className="achievement-page-body-achievements-image-name">{achievement.name}</div>
               </div>
               {editActivation ? (
                 achievement.isActive ? (
