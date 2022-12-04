@@ -27,6 +27,7 @@ function ChangeUserInfo() {
   const [nicknameDuplicated, setNicknameDuplicated] = useState(true);
   const [nicknameDupCheckFail, setNicknameDupCheckFail] = useState(false);
   const [feedback, setFeedback] = useState('');
+  const [locationFeedback, setLocationFeedback] = useState('');
   const user = useSelector((state: RootState) => state.persist.user.user);
   const { email, phone } = user;
   const nicknameRef = useRef<any>();
@@ -63,6 +64,7 @@ function ChangeUserInfo() {
         if (code === 200) {
           setNicknameDuplicated(false);
           setNicknameDupCheckFail(false);
+          setFeedback('닉네임이 변경되었습니다.');
           changeName(
             email,
             enteredInput.nickname,
@@ -74,6 +76,7 @@ function ChangeUserInfo() {
         } else {
           setNicknameDuplicated(true);
           setNicknameDupCheckFail(true);
+          setFeedback('이미 사용중인 닉네임입니다.');
           nicknameRef.current.focus();
         }
       },
@@ -101,8 +104,9 @@ function ChangeUserInfo() {
     });
   };
 
-  const closeModal = () => {
+  const closeModal = (comment:string) => {
     setModalActive(false);
+    setLocationFeedback(comment);
   };
 
   const regionChangeHandler = (regionName: string, region: Region) => {
@@ -159,14 +163,14 @@ function ChangeUserInfo() {
           ref={nicknameRef}
         />
         <p className={classNames('input-feedback', { fine: !nicknameDuplicated && validInput })}>
-          {nicknameDupCheckFail ? '이미 사용중인 닉네임입니다.' : feedback}
+          {feedback}
         </p>
         <span aria-hidden="true" className="input-email-check" onClick={nicknameDupCheck}>
           닉네임 변경
         </span>
       </div>
       <div className="userinfo-nickname-label">지역</div>
-      <div className="userinfo-nickname">
+      <div className="userinfo-nickname location">
         <input
           className={classNames('login-input input-location')}
           placeholder="지역"
@@ -180,6 +184,9 @@ function ChangeUserInfo() {
           required
           onChange={inputChangeHandler}
         />
+        <p className={classNames('input-feedback', { fine: !nicknameDuplicated && validInput })}>
+          {locationFeedback}
+        </p>
       </div>
       <div className="userinfo-phone">
         <div className="userinfo-phone-label">휴대전화</div>

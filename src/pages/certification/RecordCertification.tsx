@@ -187,9 +187,12 @@ function RecordCertification(props: { certification: Cert }) {
         </div>
       </div>
       <DeleteBottomSheet
-        text="기록"
-        deleteButtonHandler={deleteCertification}
-        cancleButtonHandler={closeBottomSheet}
+        text="기록을 삭제하실건가요?"
+        description='지우면 다시 볼 수 없어요'
+        cancelText='취소'
+        acceptText='삭제'
+        acceptButtonHandler={deleteCertification}
+        cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
       

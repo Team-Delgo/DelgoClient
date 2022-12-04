@@ -10,6 +10,7 @@ import { MY_ACCOUNT_PATH, ROOT_PATH, SIGN_IN_PATH } from '../../common/constants
 import { RootState } from '../../redux/store';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { userActions } from '../../redux/slice/userSlice';
+import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
 
 interface rankingType {
   geoCode: string;
@@ -108,14 +109,17 @@ function MyAccountPage() {
           <img src={RightArrow} alt="more" />
         </div>
       </body>
-      {modalOpen && <AlertConfirm
+      <DeleteBottomSheet 
         text="로그아웃 하시겠습니까?"
-        buttonText="로그아웃"
-        yesButtonHandler={logoutHandler}
-        noButtonHandler={() => {
+        description=""
+        cancelText="취소"
+        acceptText="로그아웃"
+        acceptButtonHandler={logoutHandler}
+        cancelButtonHandler={() => {
           setModalOpen(false);
         }}
-      />}
+        bottomSheetIsOpen={modalOpen}
+      />
     </div>
   );
 }

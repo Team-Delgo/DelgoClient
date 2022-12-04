@@ -12,6 +12,9 @@
   margin: 46px 34px;
   max-height: 60vh;
   overflow: scroll;
+  &.serviceterm{
+    max-height: 70vh;
+  }
 }
 .title {
   width: 63vw;

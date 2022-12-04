@@ -265,9 +265,12 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       <div className="border-line" />
       {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
       <DeleteBottomSheet
-        text="기록"
-        deleteButtonHandler={deleteCertification}
-        cancleButtonHandler={closeBottomSheet}
+        text="기록을 삭제하실건가요?"
+        description='지우면 다시 볼 수 없어요'
+        cancelText='취소'
+        acceptText='삭제'
+        acceptButtonHandler={deleteCertification}
+        cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
     </>
