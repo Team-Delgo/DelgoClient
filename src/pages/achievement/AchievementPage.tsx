@@ -40,6 +40,7 @@ function AchievementPage() {
   const [showAchievementCompletionAlert, setShowAchievementCompletionAlert] = useState(false);
   const [showAchievementLimitAlert, setShowAchievementLimitAlert] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
+  const [achievementListCount,setAchievementListCount] = useState(0)
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
 
@@ -54,6 +55,9 @@ function AchievementPage() {
         const { code, data } = response.data;
 
         console.log('data', data);
+
+        const achievementList1 = data.filter((element: AchievementType) => element.isActive === true);
+        setAchievementListCount(achievementList1.length);
 
         const achievementList = data.filter((element: AchievementType) => element.isMain === 0);
         setAchievementList(achievementList);
@@ -142,6 +146,7 @@ function AchievementPage() {
         editActivation={editActivation}
         achievementList={achievementList}
         selectRepresentativeAchievements={selectRepresentativeAchievements}
+        achievementListCount = {achievementListCount}
       />
       {showAchievementCompletionAlert && (
         <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />

@@ -13,10 +13,15 @@ interface AchievementType {
   registDt: string;
 }
 
-function Achievement({ editActivation, achievementList, selectRepresentativeAchievements }: any) {
+function Achievement({ editActivation, achievementList, selectRepresentativeAchievements,achievementListCount }: any) {
+
+  console.log('achievementListCount',achievementListCount)
   return (
     <body className="achievement-page-body">
       <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
+      <div className="achievement-page-body-achievements-count">
+        총 {achievementListCount}개 획득
+      </div>
       <div className="achievement-page-body-achievements-images">
         {achievementList
           .sort((a: AchievementType, b: AchievementType) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1))
@@ -27,7 +32,7 @@ function Achievement({ editActivation, achievementList, selectRepresentativeAchi
               onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
             >
               <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-                <img src={achievement.imgUrl} alt="post-img" />
+                <img src={achievement.imgUrl} alt="post-img" width={107} height={143} />
                 <div className="achievement-page-body-achievements-image-name">{achievement.name}</div>
               </div>
               {editActivation ? (
