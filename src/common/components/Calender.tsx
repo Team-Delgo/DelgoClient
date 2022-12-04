@@ -86,7 +86,7 @@ function Calender() {
     let currentMonth: string | number = date.getMonth() + prev;
     console.log(currentMonth, prev);
     if(currentMonth <= -1) {
-      currentMonth = 12 + prev + date.getMonth() + 1;
+      currentMonth = 12 + prev + date.getMonth();
       currentYear -= 1;
     }
 
