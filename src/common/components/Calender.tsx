@@ -84,6 +84,11 @@ function Calender() {
 
     let currentYear = date.getFullYear();
     let currentMonth: string | number = date.getMonth() + prev;
+    console.log(currentMonth, prev);
+    if(currentMonth <= -1) {
+      currentMonth = 12 + prev + 1;
+      currentYear -= 1;
+    }
 
     currentYear = getNextYear(currentMonth, currentYear, prev);
 
