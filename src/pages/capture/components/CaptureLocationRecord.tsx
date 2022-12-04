@@ -75,7 +75,7 @@ function CaptureLocationRecord() {
   const [manualChecked, setManualChecked] = useState(false);
   const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
-  const categoryKo = useSelector((state: RootState) => state.persist.upload.categoryKo);
+  const { categoryKo } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -140,22 +140,22 @@ function CaptureLocationRecord() {
   };
 
   return (
-    <Sheet
-      isOpen
-      onClose={closeBottomSheet}
-      snapPoints={sheetSnapPoints}
-      // ref={ref}
-      disableDrag
-      className="modal-bottom-sheet"
-    >
-      <Sheet.Container style={sheetStyle}>
-        <Sheet.Content>
-          <main className="capture-img-record">
-            <header className="capture-img-record-container">
+    // <Sheet
+    //   isOpen
+    //   onClose={closeBottomSheet}
+    //   snapPoints={sheetSnapPoints}
+    //   // ref={ref}
+    //   disableDrag
+    //   className="modal-bottom-sheet"
+    // >
+    //   <Sheet.Container style={sheetStyle}>
+    //     <Sheet.Content>
+          <main className="capture-location-record" style={{height:window.innerHeight-window.innerWidth}}>
+            <header className="capture-location-record-container">
               <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48} />
-              <div className="capture-img-record-category">
-                <div className="capture-img-record-category-label">{categoryKo}</div>
-                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
+              <div className="capture-location-record-category">
+                <div className="capture-location-record-category-label">{categoryKo}</div>
+                <div className="capture-location-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
                   다시선택
                 </div>
               </div>
@@ -205,9 +205,9 @@ function CaptureLocationRecord() {
               {placeName.length > 0 && manualPlace()}
             </body>
           </main>
-        </Sheet.Content>
-      </Sheet.Container>
-    </Sheet>
+    //     </Sheet.Content>
+    //   </Sheet.Container>
+    // </Sheet>
   );
 }
 

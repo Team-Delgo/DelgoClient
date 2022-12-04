@@ -7,17 +7,22 @@
     right: 20px;
     top:15px;
 }
-.capture-img-record{
+.capture-location-record{
+    padding: 30px 5%;
+    border-radius: 18px 18px 0px 0px;
+    background: #FFFFFF;
+    z-index: 999;
     overflow: hidden;
+    margin-top: -20px;
 }
 
-.capture-img-record-container{
+.capture-location-record-container{
     display: flex;
     padding-bottom: 15px;
     border-bottom: 2px solid #E5E5E5;
     position: relative;
 
-    .capture-img-record-category{
+    .capture-location-record-category{
         display: flex;
         flex-direction: column; 
         justify-content: center; 
