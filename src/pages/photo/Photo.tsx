@@ -52,13 +52,12 @@ function Photo() {
   const [photos, setPhotos] = useState<Cert[]>([]);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const [isTouched, setIsTouched] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
   const [categoryCount, setCategoryCount] = useState({ 산책: 0, 카페: 0, 식당: 0, 미용: 0, 병원: 0, 기타: 0, 목욕: 0 });
   const [categoryTab, setCategoryTab] = useState('전체');
-  const [sortOption, setSortOption] = useState<number>(1);
+  const [sortOption, setSortOption] = useState<boolean>(true);
   const [isLast, setLast] = useState(false);
   const dispatch = useDispatch();
   const location: any = useLocation();
@@ -232,7 +231,7 @@ function Photo() {
               setButtonIsClicked(!buttonIsClicked);
             }}
           >
-            {sortOption === 1 ? '최신순' : '오래된순'}
+            {sortOption ? '최신순' : '오래된순'}
             <img src={UnderArrow} alt="arrow" />
           </div>
         </div>
@@ -330,10 +329,10 @@ function Photo() {
       {buttonIsClicked && (
         <div className="photo-sort-option" ref={ref}>
           <div
-            className={classNames('photo-sort-option-item', { selected: sortOption === 1 })}
+            className={classNames('photo-sort-option-item', { selected: sortOption })}
             aria-hidden="true"
             onClick={() => {
-              setSortOption(1);
+              setSortOption(true);
               setButtonIsClicked(false);
             }}
           >
@@ -341,10 +340,10 @@ function Photo() {
           </div>
           <div className="photo-sort-option-devider" />
           <div
-            className={classNames('photo-sort-option-item', { selected: sortOption === 0 })}
+            className={classNames('photo-sort-option-item', { selected: !sortOption })}
             aria-hidden="true"
             onClick={() => {
-              setSortOption(0);
+              setSortOption(false);
               setButtonIsClicked(false);
             }}
           >

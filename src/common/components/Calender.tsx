@@ -39,12 +39,10 @@ function Calender() {
 
   const touchStartFunc = (e: any) => {
     setTouchStart(e.touches[0].clientX);
-    console.log(e.touches[0].clientX);
   };
 
   const touchEndFunc = (e: any) => {
     setTouchEnd(e.changedTouches[0].clientX);
-    console.log(e.changedTouches[0].clientX);
   };
 
   const getToday = () => {
@@ -60,6 +58,7 @@ function Calender() {
     getCalendarData(
       userId,
       (response: AxiosResponse) => {
+        console.log(response);
         const { code, data } = response.data;
         setDateList(data);
       },
@@ -135,19 +134,17 @@ function Calender() {
       const condition = i >= firstDateIndex && i <= lastDateIndex;
       const id = condition ? `${currentYear}-${currentMonth}-${rdate}` : `f${currentYear}-${currentMonth}-${rdate}`;
 
-      let achieve = 0;
+      let achieve = false;
       let isCertificated = false;
       let imageSrc;
       let certification:Cert[];
       // let dateId;
       dateList.forEach((date) => {
-        console.log(dateList);
         if (date.date === id) {
           isCertificated = true;
           certification = date.dateList;
           imageSrc = date.dateList[0].photoUrl;
           achieve = date.isAchievements;
-          console.log(date);
         }
       });
 
@@ -166,7 +163,7 @@ function Calender() {
           }
         >
           {date}
-          {achieve > 0 && <div className='date-day-achieve' />}
+          {achieve && <div className='date-day-achieve' />}
           {isCertificated && <img src={imageSrc} alt="park" className="date-day-after" />}
         </div>
       );
@@ -196,7 +193,6 @@ function Calender() {
   }
 
   const datesElement = monthArray.map((i) => {
-    console.log(monthArray.length + i);
     const element = getDateContext(-(monthArray.length + i) + 1);
     const weekDay = (
       <div className="day-header">

@@ -5,7 +5,7 @@ interface DateList{
   certificationId:number;
   description:string;
   geoCode:string;
-  isPhotoChecked:number;
+  isPhotoChecked:boolean;
   latitude:string;
   logitude:string;
   munpleId:number;
@@ -19,6 +19,6 @@ interface DateList{
 export interface DateType{
   date:string;
   dateList:Cert[];
-  isAchievements:number;
+  isAchievements:boolean;
 }
 
