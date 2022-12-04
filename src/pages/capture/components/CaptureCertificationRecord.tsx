@@ -292,7 +292,7 @@ function CaptureCertificationRecord() {
 
   return (
     <>
-      {/* <Sheet
+      <Sheet
         isOpen
         onClose={closeBottomSheet}
         snapPoints={sheetSnapPoints}
@@ -301,13 +301,13 @@ function CaptureCertificationRecord() {
         className="modal-bottom-sheet"
       >
         <Sheet.Container style={sheetStyle}>
-          <Sheet.Content> */}
-            <main className="capture-location-record">
-              <header className="capture-location-record-container">
+          <Sheet.Content>
+            <main className="capture-img-record">
+              <header className="capture-img-record-container">
                 <img src={categoryIcon[categoryKo]} alt="category-img" />
-                <div className="capture-location-record-category">
-                  <div className="capture-location-record-category-label">{categoryKo}</div>
-                  <div className="capture-location-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
+                <div className="capture-img-record-category">
+                  <div className="capture-img-record-category-label">{categoryKo}</div>
+                  <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
                     다시선택
                   </div>
                 </div>
@@ -334,9 +334,9 @@ function CaptureCertificationRecord() {
                 <div className="review-content-length">{certificationPostContent.length}/1000</div>
               </body>
             </main>
-          {/* </Sheet.Content>
+          </Sheet.Content>
         </Sheet.Container>
-      </Sheet> */}
+      </Sheet>
       {showCertificateErrorAlert && (
         <AlertConfirmOne text={certificateErrorAlertMessage} buttonHandler={closeCertificateErrorAlert} />
       )}
