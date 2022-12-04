@@ -12,7 +12,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 async function getAchievementList(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   const accessToken = localStorage.getItem('accessToken') || '';
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/achievements/user?userId=${userId}`)
+    .get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`)
     .then((data) => {
       console.log(data)
       success(data);
