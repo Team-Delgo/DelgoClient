@@ -103,7 +103,6 @@ function CaptureLocationRecord() {
     setPlaceName(e.target.value.trim());
   }, []);
 
-
   const selectMongPlace = (place: MungPlaceType) => (event: React.MouseEvent) => {
     const { mungpleId, placeName } = place;
     setCheckedPlaceId(mungpleId);
@@ -140,22 +139,26 @@ function CaptureLocationRecord() {
   };
 
   return (
-    // <Sheet
-    //   isOpen
-    //   onClose={closeBottomSheet}
-    //   snapPoints={sheetSnapPoints}
-    //   // ref={ref}
-    //   disableDrag
-    //   className="modal-bottom-sheet"
-    // >
-    //   <Sheet.Container style={sheetStyle}>
-    //     <Sheet.Content>
-          <main className="capture-location-record" style={{height:window.innerHeight-window.innerWidth}}>
-            <header className="capture-location-record-container">
+    <Sheet
+      isOpen
+      onClose={closeBottomSheet}
+      snapPoints={sheetSnapPoints}
+      // ref={ref}
+      disableDrag
+      className="modal-bottom-sheet"
+    >
+      <Sheet.Container style={sheetStyle}>
+        <Sheet.Content>
+          <main className="capture-img-record" style={{ height: window.innerHeight - window.innerWidth }}>
+            <header className="capture-img-record-container">
               <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48} />
-              <div className="capture-location-record-category">
-                <div className="capture-location-record-category-label">{categoryKo}</div>
-                <div className="capture-location-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
+              <div className="capture-img-record-category">
+                <div className="capture-img-record-category-label">{categoryKo}</div>
+                <div
+                  className="capture-img-record-category-rechoice"
+                  aria-hidden="true"
+                  onClick={moveToCapturePage}
+                >
                   다시선택
                 </div>
               </div>
@@ -205,9 +208,9 @@ function CaptureLocationRecord() {
               {placeName.length > 0 && manualPlace()}
             </body>
           </main>
-    //     </Sheet.Content>
-    //   </Sheet.Container>
-    // </Sheet>
+        </Sheet.Content>
+      </Sheet.Container>
+    </Sheet>
   );
 }
 

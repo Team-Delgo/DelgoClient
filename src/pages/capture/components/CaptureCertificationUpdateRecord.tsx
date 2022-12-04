@@ -126,14 +126,14 @@ function CaptureCategoryUpdateRecord() {
 
   return (
     <>
-      {/* <Sheet isOpen onClose={closeBottomSheet} snapPoints={sheetSnapPoints} disableDrag className="modal-bottom-sheet">
+      <Sheet isOpen onClose={closeBottomSheet} snapPoints={sheetSnapPoints} disableDrag className="modal-bottom-sheet">
         <Sheet.Container style={sheetStyle}>
-          <Sheet.Content> */}
-            <main className="capture-location-record" style={{height:window.innerHeight-window.innerWidth}}>
-              <header className="capture-location-record-container">
+          <Sheet.Content>
+            <main className="capture-img-record" style={{height:window.innerHeight-window.innerWidth}}>
+              <header className="capture-img-record-container">
                 <img src={categoryIcon[categoryKo]} alt="category-img" />
-                <div className="capture-location-record-category">
-                  <div className="capture-location-record-category-label">{categoryKo}</div>
+                <div className="capture-img-record-category">
+                  <div className="capture-img-record-category-label">{categoryKo}</div>
                 </div>
                 {certificationPostContent.length > 0 ? (
                   <img
@@ -159,9 +159,9 @@ function CaptureCategoryUpdateRecord() {
                 <div className="review-content-length">{certificationPostContent.length}/1000</div>
               </body>
             </main>
-          {/* </Sheet.Content>
+          </Sheet.Content>
         </Sheet.Container>
-      </Sheet> */}
+      </Sheet>
       {showCertificateErrorAlert && (
         <AlertConfirmOne text={certificateErrorAlertMessage} buttonHandler={closeCertificateErrorAlert} />
       )}
