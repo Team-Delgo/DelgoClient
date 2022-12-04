@@ -14,7 +14,7 @@ async function getCertificationDataCount(userId: number) {
   const accessToken = localStorage.getItem('accessToken') || '';
 
   const { data } = await axios.get(
-    `${process.env.REACT_APP_API_URL}/certification/category/count?userId=${userId}`,
+    `${process.env.REACT_APP_API_URL}/certification/category/count/${userId}`,
   );
   return data;
 }
