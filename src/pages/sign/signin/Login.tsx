@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -11,6 +12,7 @@ import './Login.scss';
 import { checkEmail, checkPasswordLogin } from '../validcheck';
 import Loading from '../../../common/utils/Loading';
 import { ROOT_PATH } from '../../../common/constants/path.const';
+import {analytics} from "../../../index";
 
 interface Input {
   email: string;
@@ -30,6 +32,17 @@ function Login() {
   const dispatch = useDispatch();
   const state = useLocation().state as State;
   const { email } = state;
+
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
+
+  useEffect(()=>{
+    mutation.mutate({
+      params: {
+        firebase_screen: "SignIn-Password",
+        firebase_screen_class: "SignInPasswordPage"
+      }
+    });
+  },[]);
 
   const enterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

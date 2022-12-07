@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import axios, { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import classNames from 'classnames';
@@ -35,6 +36,7 @@ import FlagCard from './FlagCard';
 import { CACHE_TIME, GET_MY_PET_RANKING_DATA, GET_TOP_RANKING_LIST, STALE_TIME } from '../../common/constants/queryKey.const';
 import { getMyPetRanking, getTopRankingList } from '../../common/api/ranking';
 import { useErrorHandlers } from '../../common/api/useErrorHandlers';
+import {analytics} from "../../index";
 
 interface MakerItem {
   id: number;
@@ -70,6 +72,7 @@ function MapPage() {
     zoom: 17,
     option: { zoom: 2, size: 70 },
   });
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
 
   let map: naver.maps.Map;
 
@@ -131,6 +134,12 @@ function MapPage() {
   };
 
   useEffect(() => {
+    mutation.mutate({
+      params: {
+        firebase_screen: "Map",
+        firebase_screen_class: "MapPage"
+      }
+    });
     getMapPageData();
     navigator.geolocation.getCurrentPosition((pos) => {
       setCurrentLocation({
