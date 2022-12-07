@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 import classNames from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FooterNavigation from '../../common/components/FooterNavigation';
@@ -29,7 +30,11 @@ import UserPin from '../../common/icons/userpin.svg';
 import MungpleToggle from './MungpleToggle';
 import CertCard from './CertCard';
 import Flag from '../../common/icons/flag.svg';
-import { ROOT_PATH } from '../../common/constants/path.const';
+import { NEIGHBOR_RANKING_PATH, ROOT_PATH } from '../../common/constants/path.const';
+import FlagCard from './FlagCard';
+import { CACHE_TIME, GET_MY_PET_RANKING_DATA, GET_TOP_RANKING_LIST, STALE_TIME } from '../../common/constants/queryKey.const';
+import { getMyPetRanking, getTopRankingList } from '../../common/api/ranking';
+import { useErrorHandlers } from '../../common/api/useErrorHandlers';
 
 interface MakerItem {
   id: number;
@@ -39,6 +44,7 @@ interface MakerItem {
 function MapPage() {
   const mapElement = useRef(null);
   const userId = useSelector((state: any) => state.persist.user.user.id);
+  const geoCode = useSelector((state: any) => state.persist.user.user.geoCode);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mungple, setMungple] = useState('ON');
@@ -50,6 +56,7 @@ function MapPage() {
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [selectedCert, setSelectedCert] = useState<Cert>(certDefault);
   const [selectedId, setSelectedId] = useState(idDefault);
+  const [flagClicked, setFlagClicked] = useState(false);
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [test, setTest] = useState({ value: 1 });
@@ -65,6 +72,30 @@ function MapPage() {
   });
 
   let map: naver.maps.Map;
+
+  const {isLoading: getTopRankingListIsLoading, data: topRankingDataList} = useQuery(
+    GET_TOP_RANKING_LIST,
+    () => getTopRankingList(Number(geoCode)),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      onError: (error:any) => {
+        useErrorHandlers(dispatch, error);
+      }
+    }
+  )
+
+  const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
+    GET_MY_PET_RANKING_DATA,
+    () => getMyPetRanking(userId),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
+    },
+  );
 
   const clearSelectedId = () => {
     setSelectedId((prev) => {
@@ -146,8 +177,11 @@ function MapPage() {
     naver.maps.Event.addListener(map, 'tap', () => {
       clearSelectedId();
       setSelectedCert(certDefault);
+      setFlagClicked(false);
     });
   }, []);
+
+  console.log(flagClicked);
 
   useEffect(() => {
     if (wardOffice) {
@@ -157,7 +191,7 @@ function MapPage() {
         icon: {
           content: [
             `<div class="wardOffice" style="z-index:9998">`,
-            `<div class="wardOffice-name">${wardOffice.name}</div>`,
+            `<div class="wardOffice-name">${wardOffice.name.slice(0, -1)}</div>`,
             `<img src=${Flag} style="z-index:9999" alt="pin"/>`,
             `</div>`,
           ].join(''),
@@ -166,6 +200,11 @@ function MapPage() {
         },
       };
       const marker = new naver.maps.Marker(markerOptions);
+      marker.addListener('click', () => {
+        setFlagClicked(true);
+        clearSelectedId();
+        setSelectedCert(certDefault);
+      });
     }
     if (mungple === 'OFF') {
       deleteMungpleList();
@@ -556,10 +595,12 @@ function MapPage() {
   const mungpleButtonHandler = () => {
     setMungple('OFF');
     setSelectedId(idDefault);
+    setFlagClicked(false);
   };
   const munpleOnButtonHandler = () => {
     setMungple('ON');
     setSelectedCert(certDefault);
+    setFlagClicked(false);
   };
 
   const setCenterUserLocation = () => {
@@ -586,12 +627,22 @@ function MapPage() {
     });
   };
 
+  const moveToRankingPage = () => {
+    console.log(topRankingDataList, myPetRankingData);
+    navigate(NEIGHBOR_RANKING_PATH, {
+      state: {
+        topRankingDataList: topRankingDataList?.data,
+        myPetRankingData: myPetRankingData?.data,
+      }
+    })
+  };
+
   return (
     <div>
       <RecordHeader />
       <div className="map" ref={mapElement} style={{ position: 'absolute' }}>
         <div aria-hidden="true" className="userLocation" onClick={setCenterUserLocation}>
-          <img src={UserLocation} alt="user-location"/>
+          <img src={UserLocation} alt="user-location" />
         </div>
         <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler} />
       </div>
@@ -613,6 +664,7 @@ function MapPage() {
           description={selectedCert.description}
         />
       )}
+      {flagClicked && <FlagCard place={wardOffice!.name.slice(0, -1)} onClick={moveToRankingPage}/>}
       {/* <FooterNavigation /> */}
     </div>
   );

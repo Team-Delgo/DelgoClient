@@ -5,7 +5,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 async function getMungPlaceList(categoryCode: string) {
   const accessToken = localStorage.getItem('accessToken') || '';
   const { data } = await axios.get(
-    `${process.env.REACT_APP_API_URL}/mungple/category-data?categoryCode=${categoryCode}`,
+    `${process.env.REACT_APP_API_URL}/mungple/category/${categoryCode}`,
   );
   return data;
 }

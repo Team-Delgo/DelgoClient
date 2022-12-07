@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
@@ -12,6 +14,20 @@ import reportWebVitals from './reportWebVitals';
 
 const persistor = persistStore(store);
 window.Kakao.init('1fc2794c1008fd96115d7f57e7f68e04');
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAbcJl2QUduGjVvoHE7d39yhQvTso0QVTw",
+  authDomain: "delgo-c49bc.firebaseapp.com",
+  projectId: "delgo-c49bc",
+  storageBucket: "delgo-c49bc.appspot.com",
+  messagingSenderId: "184505678344",
+  appId: "1:184505678344:web:278a572efd70815b0bafbd",
+  measurementId: "G-FYKR1QWZ8V"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // const initVConsole = () => {
 //   const config: any = {
