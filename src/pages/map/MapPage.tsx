@@ -9,7 +9,6 @@ import FooterNavigation from '../../common/components/FooterNavigation';
 import RecordHeader from '../../common/components/RecordHeader';
 import './MapPage.scss';
 import park from './park.jpg';
-import { dummyData } from './dummypin';
 import { getMapData } from '../../common/api/record';
 import { Mungple, Cert, certDefault, idDefault, WardOffice } from './MapType';
 import { markerRender } from './MarkerRender';
@@ -61,14 +60,13 @@ function MapPage() {
   const [flagClicked, setFlagClicked] = useState(false);
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
   const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
-  const [test, setTest] = useState({ value: 1 });
   const [markerList, setMarkerList] = useState<MakerItem[]>([]);
   const [wardOffice, setWardOffice] = useState<WardOffice>();
   const [certMarkerList, setCertMarkerList] = useState<naver.maps.Marker[]>([]);
   const [certMungpleMarkerList, setCertMungpleMarkerList] = useState<naver.maps.Marker[]>([]);
   const [currentLocation, setCurrentLocation] = useState({
-    lat: dummyData[0].lat,
-    lng: dummyData[0].lng,
+    lat: 37.5626571,
+    lng: 127.00086,
     zoom: 17,
     option: { zoom: 2, size: 70 },
   });

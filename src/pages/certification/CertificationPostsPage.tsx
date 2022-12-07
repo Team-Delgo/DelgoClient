@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
@@ -13,6 +14,7 @@ import { RootState } from '../../redux/store';
 import CertificationPost from '../../common/components/CertificationPost';
 import Loading from '../../common/utils/Loading';
 import PrevArrow from '../../common/icons/prev-arrow-black.svg';
+import {analytics} from "../../index";
 
 interface userType {
   address: string;
@@ -57,6 +59,7 @@ function CertificationPostsPage() {
   const { scroll, pageSize } = useSelector((state: RootState) => state.persist.scroll.posts);
   const [pageSizeCount, setPageSizeCount] = useState(0);
   const dispatch = useDispatch();
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
   const location = useLocation();
   const { ref, inView } = useInView();
   const navigate = useNavigate();
@@ -67,6 +70,15 @@ function CertificationPostsPage() {
       getNextPageParam: (lastPage: any) => (!lastPage.last ? lastPage.nextPage : undefined),
     },
   );
+
+  useEffect(()=>{
+    mutation.mutate({
+      params: {
+        firebase_screen: "FriendsCeritfications",
+        firebase_screen_class: "FriendsCeritficationsPage"
+      }
+    });
+  },[]);
 
   useEffect(() => {
     console.log('data',data)

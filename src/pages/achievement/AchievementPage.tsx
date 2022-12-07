@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useDispatch,useSelector } from 'react-redux';
 import {
@@ -23,6 +24,7 @@ import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import { RootState } from '../../redux/store';
 import MainAchievment from './components/MainAchievment';
 import Achievment from './components/Achievement';
+import {analytics} from "../../index";
 
 interface AchievementType {
   achievementsId: number;
@@ -43,9 +45,16 @@ function AchievementPage() {
   const [achievementListCount,setAchievementListCount] = useState(0)
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
 
   useEffect(() => {
     getgetAchievementDataList();
+    mutation.mutate({
+      params: {
+        firebase_screen: "Achievement",
+        firebase_screen_class: "AchievementPage"
+      }
+    });
   }, []);
 
   const getgetAchievementDataList = () => {
