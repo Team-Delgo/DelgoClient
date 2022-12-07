@@ -39,7 +39,7 @@ async function setMainAchievements(
 ) {
   try {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/achievements/main/set`, {
+    const result = await axios.put(`${process.env.REACT_APP_API_URL}/achievements/main`, {
       userId,
       first: firstAchievementsId,
       second: secondAchievementsId,

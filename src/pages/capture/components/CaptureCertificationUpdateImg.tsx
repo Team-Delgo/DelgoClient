@@ -16,7 +16,7 @@ function CaptureCertificationUpdateImg() {
 
   return (
     <>
-      <img src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
+      <img className="capture-update-img" src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
       <img
         src={WhiteX}
         className="capture-category-update-page-prev-arrow"

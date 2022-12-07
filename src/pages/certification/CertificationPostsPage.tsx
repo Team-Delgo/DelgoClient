@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import './CertificationPostsPage.scss';
 import { RootState } from '../../redux/store';
 import CertificationPost from '../../common/components/CertificationPost';
 import Loading from '../../common/utils/Loading';
+import PrevArrow from '../../common/icons/prev-arrow-black.svg';
 
 interface userType {
   address: string;
@@ -58,6 +59,7 @@ function CertificationPostsPage() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { ref, inView } = useInView();
+  const navigate = useNavigate();
   const { data, status, fetchNextPage, isFetchingNextPage, refetch, isLoading } = useInfiniteQuery(
     'posts',
     ({ pageParam = 0 }) => getCertificationPostAll(pageParam, user.id, pageSize, dispatch),
@@ -81,13 +83,27 @@ function CertificationPostsPage() {
     if (inView) fetchNextPage();
   }, [inView]);
 
+
+  const moveToHomePage = () => {
+    navigate(-1)
+  }
+
   if (isLoading) {
     return <Loading />;
   }
 
   return (
     <div className="certificationPostsPage">
-      <div className="other-dog-history">친구들의 기록</div>
+      <div className="certificationPostsPage-header">
+        <img
+          src={PrevArrow}
+          alt="back"
+          aria-hidden="true"
+          onClick={moveToHomePage}
+        />
+        <div className="certificationPostsPage-header-text">친구들의 기록</div>
+      </div>
+      {/* <div className="other-dog-history">친구들의 기록</div> */}
       {data?.pages?.map((page) => (
         <>
           {page?.content?.map((post: postType) => (
@@ -96,7 +112,6 @@ function CertificationPostsPage() {
         </>
       ))}
       <div ref={ref}>&nbsp;</div>
-      {/* <FooterNavigation /> */}
     </div>
   );
 }

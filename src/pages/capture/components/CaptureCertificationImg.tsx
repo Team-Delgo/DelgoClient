@@ -22,7 +22,7 @@ function CaptureCertificationImg() {
   };
   return (
     <>
-      <img src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
+      <img className='capture-certification-img' src={img} width={window.innerWidth} height={window.innerWidth} alt="caputeImg" />
       <img
         src={PrevArrowWhite}
         className="capture-page-prev-arrow"

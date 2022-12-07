@@ -43,12 +43,12 @@ function CameraFrontPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (camera.current !== null) {
-        console.log('camera.current',camera.current)
+        console.log('camera.current', camera.current);
         const img = camera.current.getScreenshot();
-        console.log('img',img)
+        console.log('img', img);
         if (img.includes('data') === true) {
           console.log(img);
-          setCameraLoading(false)
+          setCameraLoading(false);
           clearInterval(interval);
         }
       }

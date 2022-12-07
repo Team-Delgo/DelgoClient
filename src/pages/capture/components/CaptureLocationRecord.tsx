@@ -75,7 +75,7 @@ function CaptureLocationRecord() {
   const [manualChecked, setManualChecked] = useState(false);
   const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
-  const categoryKo = useSelector((state: RootState) => state.persist.upload.categoryKo);
+  const { categoryKo } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -102,7 +102,6 @@ function CaptureLocationRecord() {
   const writeTitle = useCallback((e) => {
     setPlaceName(e.target.value.trim());
   }, []);
-
 
   const selectMongPlace = (place: MungPlaceType) => (event: React.MouseEvent) => {
     const { mungpleId, placeName } = place;
@@ -152,10 +151,14 @@ function CaptureLocationRecord() {
         <Sheet.Content>
           <main className="capture-img-record">
             <header className="capture-img-record-container">
-              <img src={categoryIcon[categoryKo]} alt="category-img" width={48} height={48} />
+              <img src={categoryIcon[categoryKo]} alt="category-img" />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
-                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
+                <div
+                  className="capture-img-record-category-rechoice"
+                  aria-hidden="true"
+                  onClick={moveToCapturePage}
+                >
                   다시선택
                 </div>
               </div>
