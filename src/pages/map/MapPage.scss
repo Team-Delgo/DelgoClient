@@ -4,14 +4,16 @@
 }
 
 .wardOffice{
+  // box-shadow: 0px 0px 2.30214px rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0px 0px 2.3px rgba(0, 0, 0, 0.1));
   position: relative;
   &-name{
     left: 10px;
     top: 12px;
     position: absolute;
     font-weight: 700;
-    font-size: 13.81px;
-    color: #6836f9;
+    font-size: 9.8px;
+    color: #3f3f3f;
   }
 }
 
@@ -80,7 +82,7 @@
   border: 1px solid #565656;
   border-radius: 100%;
   background-color: white;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2));
   img {
     position: absolute;
     top: 50%;
@@ -232,7 +234,7 @@
   font-weight: 700;
 }
 .mungple{
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2));
   position: absolute;
   width: 20px;
   height: 20px;
