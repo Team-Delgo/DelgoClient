@@ -11,7 +11,6 @@ import './MapPage.scss';
 import park from './park.jpg';
 import { getMapData } from '../../common/api/record';
 import { Mungple, Cert, certDefault, idDefault, WardOffice } from './MapType';
-import { markerRender } from './MarkerRender';
 import UserLocation from '../../common/icons/user-location.svg';
 import Bath from '../../common/icons/bath-map.svg';
 import Cafe from '../../common/icons/cafe-map.svg';
