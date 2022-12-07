@@ -1,5 +1,6 @@
 import React, { ChangeEvent, TouchEventHandler, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +23,7 @@ import { getCategoryCount, getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 import { RECORD_PATH } from '../../common/constants/path.const';
 import Loading from '../../common/utils/Loading';
+import {analytics} from "../../index";
 
 const categoryCode: categoryType = {
   산책: 'CA0001',
@@ -47,6 +49,7 @@ interface categoryType {
 const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 
 function Photo() {
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
   const navigate = useNavigate();
   const userId = useSelector((state: any) => state.persist.user.user.id);
   const ref = useOnclickOutside(() => {
@@ -71,6 +74,12 @@ function Photo() {
   );
 
   useEffect(() => {
+    mutation.mutate({
+      params: {
+        firebase_screen: "Album",
+        firebase_screen_class: "AlbumPage"
+      }
+    });
     getCategoryCountList();
     if (location?.state?.from === 'home') {
       console.log('location.state', location.state);
