@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
@@ -11,6 +12,7 @@ import { RootState } from '../../redux/store';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { userActions } from '../../redux/slice/userSlice';
 import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
+import {analytics} from "../../index";
 
 interface rankingType {
   geoCode: string;
@@ -30,8 +32,15 @@ function MyAccountPage() {
   const user = useSelector((state: RootState) => state.persist.user.user);
   const { address, registDt } = user;
   const { name, image } = pet;
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
   const location: any = useLocation();
   useEffect(() => {
+    mutation.mutate({
+      params: {
+        firebase_screen: "MyAccount",
+        firebase_screen_class: "MyAccountPage"
+      }
+    });
     window.scroll(0, 0);
   }, []);
 

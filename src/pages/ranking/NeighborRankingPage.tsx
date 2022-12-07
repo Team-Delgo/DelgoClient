@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import './NeighborRankingPage.scss';
 import { RootState } from '../../redux/store';
+import {analytics} from "../../index";
 
 interface rankingType {
   geoCode: string;
@@ -21,14 +23,22 @@ function NeighborRankingPage() {
   const location: any = useLocation();
   const navigate = useNavigate();
   const {user,pet} = useSelector((state: RootState) => state.persist.user);
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
   
   useEffect(() => {
+    mutation.mutate({
+      params: {
+        firebase_screen: "NeighborRanking",
+        firebase_screen_class: "NeighborRankingPage"
+      }
+    });
     window.scroll(0, 0);
   }, []);
 
   const moveToHomePage = () => {
     navigate(-1);
   };
+
   return (
     <div className="neighbor-ranking-page">
       <header className="neighbor-ranking-page-header">
