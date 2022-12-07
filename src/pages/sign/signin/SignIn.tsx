@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './SignIn.scss';
+import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { createBrowserHistory } from 'history';
 import AppleLogin from 'react-apple-login';
@@ -8,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as KakaoButton } from '../../../common/icons/kakao.svg';
 import { ReactComponent as Naver } from '../../../common/icons/naver.svg';
+import {analytics} from "../../../index";
 import { ReactComponent as Apple } from '../../../common/icons/apple.svg';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../common/constants/path.const';
 import { KAKAO, NAVER } from '../../../common/constants/url.cosnt';
@@ -33,12 +35,20 @@ function SignIn() {
   const history = createBrowserHistory();
   const dispatch = useDispatch();
   
+  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
+
   const preventGoBack = () => {
     window.history.pushState(null, '', window.location.href);
     console.log('prevent go back!');
   };
 
   useEffect(() => {
+    mutation.mutate({
+      params: {
+        firebase_screen: "SignIn",
+        firebase_screen_class: "SignInPage"
+      }
+    });
     console.log(window.Kakao.isInitialized());
     if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
       navigation('/');

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-query-firebase/analytics": "^0.1.2-alpha.0",
     "@reduxjs/toolkit": "^1.8.0",
     "@types/navermaps": "^3.0.17",
     "@types/node": "^16.11.26",
