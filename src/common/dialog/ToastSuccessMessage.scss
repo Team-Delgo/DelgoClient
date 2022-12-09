@@ -1,0 +1,33 @@
+@keyframes upMove {
+  from {
+    transform: translatey(0px);
+  }
+
+  to {
+    transform: translatey(20px);
+  }
+}
+  
+  .toast-success-message {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    width: 80%;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 5.8px;
+    font-weight: 500;
+    animation-name: upMove;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-out;
+    background-color: #AA93EC;
+    z-index: 999;
+    &-text {
+      color:white;
+      font-size: 14px;
+    }
+  }
+  

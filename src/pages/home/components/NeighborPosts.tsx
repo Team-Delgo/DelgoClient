@@ -46,7 +46,6 @@ function NeighborPosts() {
   );
 
   const moveToPostsPage = () => {
-    console.log(1);
     navigate(POSTS_PATH);
   };
 

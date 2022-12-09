@@ -10,7 +10,7 @@ import './HomePage.scss';
 import { SIGN_IN_PATH } from '../../common/constants/path.const';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 
-function HomePage() { 
+function HomePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

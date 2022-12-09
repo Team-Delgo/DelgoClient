@@ -12,6 +12,7 @@ import MainAchievment from './components/MainAchievment';
 import Achievment from './components/Achievement';
 import { analytics } from '../../index';
 import Loading from '../../common/utils/Loading';
+import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
 
 interface AchievementType {
   achievementsId: number;
@@ -26,8 +27,8 @@ interface AchievementType {
 function AchievementPage() {
   const [achievementList, setAchievementList] = useState<AchievementType[]>([]);
   const [mainAchievementList, setMainAchievementList] = useState<AchievementType[]>([]);
-  const [showAchievementCompletionAlert, setShowAchievementCompletionAlert] = useState(false);
-  const [showAchievementLimitAlert, setShowAchievementLimitAlert] = useState(false);
+  const [mainAchievementSuccessToastIsOpen, setMainAchievementSuccessToastIsOpen] = useState(false);
+  const [mainAchievementLimitToastIsOpen, setMainAchievementLimitToastIsOpen] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
   const [achievementListCount, setAchievementListCount] = useState(0);
   const dispatch = useDispatch();
@@ -44,6 +45,23 @@ function AchievementPage() {
       },
     });
   }, []);
+
+  useEffect(() => {
+    if (mainAchievementSuccessToastIsOpen) {
+      setTimeout(() => {
+        closeAchievementCompletionToast()
+      }, 2500);
+    }
+  }, [mainAchievementSuccessToastIsOpen]);
+
+  useEffect(() => {
+    if (mainAchievementLimitToastIsOpen) {
+      setTimeout(() => {
+        closeAchievementLimitToast()
+      }, 2500);
+    }
+  }, [mainAchievementLimitToastIsOpen]);
+
 
   const getgetAchievementDataList = () => {
     setIsLoading(true);
@@ -80,7 +98,7 @@ function AchievementPage() {
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         if (code === 200) {
-          openAchievementCompletionAlert();
+          openAchievementCompletionToast();
         }
       },
       dispatch,
@@ -103,7 +121,7 @@ function AchievementPage() {
         setAchievementList(newAchievementList);
       }, 300);
     } else {
-      openAchievementLimitAlert();
+      openAchievementLimitToast();
     }
   };
 
@@ -116,20 +134,20 @@ function AchievementPage() {
     setEditActivation(false);
   };
 
-  const openAchievementCompletionAlert = () => {
-    setShowAchievementCompletionAlert(true);
+  const openAchievementCompletionToast = () => {
+    setMainAchievementSuccessToastIsOpen(true);
   };
 
-  const closeAchievementCompletionAlert = () => {
-    setShowAchievementCompletionAlert(false);
+  const closeAchievementCompletionToast = () => {
+    setMainAchievementSuccessToastIsOpen(false);
   };
 
-  const openAchievementLimitAlert = () => {
-    setShowAchievementLimitAlert(true);
+  const openAchievementLimitToast = () => {
+    setMainAchievementLimitToastIsOpen(true);
   };
 
-  const closeAchievementLimitAlert = () => {
-    setShowAchievementLimitAlert(false);
+  const closeAchievementLimitToast = () => {
+    setMainAchievementLimitToastIsOpen(false);
   };
 
   if (isLoading) {
@@ -151,12 +169,14 @@ function AchievementPage() {
         selectRepresentativeAchievements={selectRepresentativeAchievements}
         achievementListCount={achievementListCount}
       />
-      {showAchievementCompletionAlert && (
+      {mainAchievementSuccessToastIsOpen && <ToastSuccessMessage message="대표업적 설정이 성공했습니다." />}
+      {mainAchievementLimitToastIsOpen && <ToastSuccessMessage message="업적 최대 3개까지만 설정 가능합니다." />}
+      {/* {showAchievementCompletionAlert && (
         <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />
       )}
       {showAchievementLimitAlert && (
         <AlertConfirmOne text="업적 최대 3개까지만 설정 가능합니다" buttonHandler={closeAchievementLimitAlert} />
-      )}
+      )} */}
     </>
   );
 }

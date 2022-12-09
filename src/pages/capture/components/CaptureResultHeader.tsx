@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import { RootState } from '../../../redux/store';
-import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
+import { CAMERA_PATH, POSTS_PATH, ROOT_PATH } from '../../../common/constants/path.const';
 import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
 import AlertConfirm from '../../../common/dialog/AlertConfirm';
@@ -33,14 +33,13 @@ const weekDay: weekDayType = {
 };
 
 function CaptureResultHeader() {
-  const [showDeleteCompleteAlert, setShowDeleteCompleteAlert] = useState(false);
-  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { registDt, certificationId } = useSelector((state: RootState) => state.persist.upload);
   const { user } = useSelector((state: RootState) => state.persist.user);
-
+  const location: any = useLocation();
+  
   const deleteCertification = () => {
     closeBottomSheet();
     deleteCertificationPost(
@@ -50,9 +49,7 @@ function CaptureResultHeader() {
         const { code } = response.data;
         console.log(response);
         if (code === 200) {
-          openDeleteCompleteAlert();
-        } else {
-          openDeleteErrorAlert();
+          moveToHomePage();
         }
       },
       dispatch,
@@ -67,16 +64,8 @@ function CaptureResultHeader() {
     navigate(ROOT_PATH);
   };
 
-  const openDeleteCompleteAlert = ()=>{
-    setShowDeleteCompleteAlert(true);
-  }
-
-  const openDeleteErrorAlert = () => {
-    setShowDeleteErrorAlert(true);
-  };
-
-  const closeDelteErrorAlert = () => {
-    setShowDeleteErrorAlert(false);
+  const moveToPostsPage = () => {
+    navigate(POSTS_PATH);
   };
 
   const openBottomSheet = () => {
@@ -104,11 +93,15 @@ function CaptureResultHeader() {
               삭제
             </div>
           </div>
-          <img src={X} className="capture-page-x" alt="capture-page-x" aria-hidden="true" onClick={moveToHomePage} />
+          <img
+            src={X}
+            className="capture-page-x"
+            alt="capture-page-x"
+            aria-hidden="true"
+            onClick={location?.state?.prevPath?.includes('result') ? moveToHomePage : moveToPostsPage}
+          />
         </div>
       </header>
-      {showDeleteCompleteAlert && <AlertConfirmOne text="삭제를 성공하였습니다" buttonHandler={moveToHomePage} />}
-      {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
         description="지우면 다시 볼 수 없어요"

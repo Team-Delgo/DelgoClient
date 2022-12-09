@@ -51,7 +51,7 @@ function Ranking() {
     },
   );
 
-  const moveToAchievementPage = () => {
+  const moveToNeighborRankingPage = () => {
     navigate(NEIGHBOR_RANKING_PATH, {
       state: {
         topRankingDataList: topRankingDataList?.data,
@@ -68,7 +68,7 @@ function Ranking() {
           <div
             className="home-page-dog-history-body-ranking-header-all"
             aria-hidden="true"
-            onClick={moveToAchievementPage}
+            onClick={moveToNeighborRankingPage}
           >
             더보기
           </div>
