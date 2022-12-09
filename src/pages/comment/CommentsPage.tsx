@@ -7,7 +7,7 @@ import './CommentsPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import { RootState } from '../../redux/store';
-import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import ConfirmBottomSheet from '../../common/utils/ConfirmBottomSheet';
 import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
 
 interface Comment {
@@ -197,7 +197,7 @@ function CommentsPage() {
           </div>
         </div>
       </div>
-      <DeleteBottomSheet
+      <ConfirmBottomSheet
         text="댓글을 삭제하실건가요?"
         description="지우면 다시 볼 수 없어요"
         cancelText="취소"

@@ -171,12 +171,6 @@ function AchievementPage() {
       />
       {mainAchievementSuccessToastIsOpen && <ToastSuccessMessage message="대표업적 설정이 성공했습니다." />}
       {mainAchievementLimitToastIsOpen && <ToastSuccessMessage message="업적 최대 3개까지만 설정 가능합니다." />}
-      {/* {showAchievementCompletionAlert && (
-        <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />
-      )}
-      {showAchievementLimitAlert && (
-        <AlertConfirmOne text="업적 최대 3개까지만 설정 가능합니다" buttonHandler={closeAchievementLimitAlert} />
-      )} */}
     </>
   );
 }
