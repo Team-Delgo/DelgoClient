@@ -81,7 +81,6 @@ function CaptureLocationRecord() {
   const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
   const { categoryKo } = useSelector((state: RootState) => state.persist.upload);
-  const { width, height } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -154,10 +153,10 @@ function CaptureLocationRecord() {
       isOpen
       onClose={closeBottomSheet}
       snapPoints={[
-        height - width + 10,
-        height - width + 10,
-        height - width + 10,
-        height - width+ 10,
+        window.screen.height - window.screen.width + 10,
+        window.screen.height - window.screen.width + 10,
+        window.screen.height - window.screen.width + 10,
+        window.screen.height - window.screen.width+ 10,
       ]}
       // ref={ref}
       disableDrag
