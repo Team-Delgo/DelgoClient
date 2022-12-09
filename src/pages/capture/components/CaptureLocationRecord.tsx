@@ -85,8 +85,10 @@ function CaptureLocationRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log('width',width)
-  console.log('height',height)
+  useEffect(() => {
+    console.log('screen.width', window.screen.width);
+    console.log('screen.height', window.screen.height);
+  }, []);
 
   const { isLoading: getMungPlaceListIsLoading, data: mungPlaceList } = useQuery(
     GET_MUNG_PLACE_LIST,

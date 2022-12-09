@@ -34,6 +34,13 @@ function CameraFrontPage() {
   const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
+    const heightOutput = document.querySelector("#height");
+    const widthOutput = document.querySelector("#width");
+
+    console.log('heightOutput',heightOutput)
+    console.log('widthOutput',widthOutput)
+
+
     dispatch(uploadAction.setUploadInit);
     return () => {
       camera.current = null;
