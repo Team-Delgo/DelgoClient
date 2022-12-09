@@ -54,7 +54,6 @@ enum Id {
   BIRTH = 'birth',
   TYPE = 'type',
 }
-const reviewImgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
 
 function PetInfo() {
   const dispatch = useDispatch();
@@ -72,17 +71,12 @@ function PetInfo() {
     birth: false,
     type: false,
   });
-  const [reviewImgExtensionAlert, setReviewImgExtensionAlert] = useState(false);
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
   const formData = new FormData();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
-      setReviewImgExtensionAlert(true);
-      return;
-    }
     const reader = new FileReader();
     reader.onload = function () {
       setImage(reader.result);
@@ -321,10 +315,6 @@ function PetInfo() {
     }
   };
 
-  const alertReviewImgExtensionClose = useCallback(() => {
-    setReviewImgExtensionAlert(false);
-  }, []);
-
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
@@ -490,9 +480,6 @@ function PetInfo() {
       >
         저장하기
       </button>
-      {reviewImgExtensionAlert && (
-        <AlertConfirmOne text="이미지 확장자 파일만 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
-      )}
     </div>
   );
 }
