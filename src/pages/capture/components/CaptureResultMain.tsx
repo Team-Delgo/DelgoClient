@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import BottomButton from '../../../common/components/BottomButton';
 import Restorant from '../../../common/icons/restorant.svg';
 import Bath from '../../../common/icons/bath.svg';
 import Beauty from '../../../common/icons/beauty.svg';

@@ -61,14 +61,15 @@
   &-post{
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    // align-items: center;
     position: fixed;
     width: 100%;
     bottom: 0;
     font-size: 14px;
-    height: 65px;
+    min-height: 50px;
     box-shadow: 0 -5px 5px -5px rgb(208, 206, 206);
     background-color: white;
+    padding: 15px 0;
 
     img{
       width: 41px;
@@ -88,10 +89,12 @@
     &-button{
       font-weight: 600;
       padding-right: 5%;
+      margin-top: 12px;
     }
     &-button-disabled{
       font-weight: 600;
       padding-right: 5%;
+      margin-top: 12px;
       color:#8a8a8a
     }
   }

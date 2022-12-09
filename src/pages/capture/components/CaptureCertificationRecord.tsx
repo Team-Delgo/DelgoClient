@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import imageCompression from 'browser-image-compression';
@@ -23,6 +23,8 @@ import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../common/utils/CropHandle';
+import ToastSuccessMessage from '../../../common/dialog/ToastSuccessMessage';
+import Loading from '../../../common/utils/Loading';
 
 interface categoryType {
   산책: string;
@@ -33,6 +35,11 @@ interface categoryType {
   병원: string;
   기타: string;
   [prop: string]: any;
+}
+
+interface CaptureCertificationRecordType {
+  postCertificationIsLoading: boolean;
+  setPostCertificationIsLoading: (params:boolean) => void;
 }
 
 const categoryCode: categoryType = {
@@ -56,14 +63,13 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [470, 470, 470, 470];
 
-function CaptureCertificationRecord() {
+
+function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertificationIsLoading }: CaptureCertificationRecordType) {
   const [certificationPostContent, setCertificationPostContent] = useState('');
-  const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
+  const [certificateErrorToastMessage, setCertificateErrorToastMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
-  const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
-  const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
+  const [showCertificateErrorToast, setShowCertificateErrorToast] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const { categoryKo, img, latitude, longitude, mongPlaceId, title, tool, file } = useSelector(
     (state: RootState) => state.persist.upload,
@@ -73,12 +79,22 @@ function CaptureCertificationRecord() {
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
   const formData = new FormData();
-  
+  const location = useLocation()
+
+  useEffect(() => {
+    if (showCertificateErrorToast) {
+      setTimeout(() => {
+        closeCertificateErrorToast();
+      }, 2500);
+    }
+  }, [showCertificateErrorToast]);
+
   const uploadCameraImgCertification = () => {
-    if (buttonDisabled) {
+    if (postCertificationIsLoading) {
       return;
     }
     setButtonDisabled(true);
+    setPostCertificationIsLoading(true);
     registerCameraCertificationPost(
       {
         userId: user.id,
@@ -102,38 +118,40 @@ function CaptureCertificationRecord() {
               address: data.address,
             }),
           );
-          openCertificateCompletionAlert();
+          setPostCertificationIsLoading(false);
+          moveToCaptureResultPage();
         } else if (code === 314) {
-          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
-          openCertificateErrorAlert();
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('카테고리당 하루 5번까지 인증 가능합니다');
+          openCertificateErrorToast();
         } else if (code === 313) {
-          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
-          openCertificateErrorAlert();
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
+          openCertificateErrorToast();
         } else if (code === 312) {
-          setCertificateErrorAlertMessage('인증 가능한 장소에 있지 않습니다');
-          openCertificateErrorAlert();
-        }
-        else if (code === 316) {
-          setCertificateErrorAlertMessage('GPS가 켜져 있지 않거나 권한 설정이 되어있지 않습니다');
-          openCertificateErrorAlert();
-        } 
-        else {
-          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-          openCertificateErrorAlert();
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('인증 가능한 장소에 있지 않습니다');
+          openCertificateErrorToast();
+        } else if (code === 316) {
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('GPS가 켜져 있지 않거나 권한 설정이 되어있지 않습니다');
+          openCertificateErrorToast();
+        } else {
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('서버 장애가 발생했습니다');
+          openCertificateErrorToast();
         }
       },
       dispatch,
     );
-    setTimeout(() => {
-      setButtonDisabled(false);
-    }, 5000);
   };
 
   const uploadGalleryImgCertification = () => {
-    if (buttonDisabled) {
+    if (postCertificationIsLoading) {
       return;
     }
     setButtonDisabled(true);
+    setPostCertificationIsLoading(true);
     registerGalleryCertificationPost(
       {
         userId: user.id,
@@ -144,7 +162,7 @@ function CaptureCertificationRecord() {
         latitude: latitude.toString(),
         longitude: longitude.toString(),
       },
-       async (response: AxiosResponse) => {
+      async (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
@@ -155,13 +173,13 @@ function CaptureCertificationRecord() {
               useWebWorker: true,
             };
 
-            formData.append('photo',file)
-            console.log('formData',formData)
+            formData.append('photo', file);
+            console.log('formData', formData);
             registerGalleryCertificationImg(
               formData,
               data.certificationId,
               (response: AxiosResponse) => {
-                console.log('2번째',response);
+                console.log('2번째', response);
                 const { code, codeMsg } = response.data;
                 if (code === 200) {
                   dispatch(
@@ -169,13 +187,13 @@ function CaptureCertificationRecord() {
                       content: certificationPostContent,
                       registDt: data.registDt,
                       certificationId: data.certificationId,
-                      address:data.address
+                      address: data.address,
                     }),
                   );
-                  openCertificateCompletionAlert();
+                  moveToCaptureResultPage();
                 } else {
-                  setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-                  openCertificateErrorAlert();
+                  setCertificateErrorToastMessage('서버 장애가 발생했습니다');
+                  openCertificateErrorToast();
                 }
               },
               dispatch,
@@ -189,9 +207,9 @@ function CaptureCertificationRecord() {
             //   const base64data = reader.result;
             //   console.log('base64data',base64data)
             //   const formData = await handlingDataForm(base64data);
-  
+
             //   console.log(formData)
-  
+
             //   registerGalleryCertificationImg(
             //     formData,
             //     data.certificationId,
@@ -207,7 +225,7 @@ function CaptureCertificationRecord() {
             //     },
             //     dispatch,
             //   );
-  
+
             //   dispatch(
             //     uploadAction.setContentRegistDtCertificationId({
             //       content: certificationPostContent,
@@ -218,24 +236,24 @@ function CaptureCertificationRecord() {
             //   openCertificateCompletionAlert();
             // };
           } catch (err: any) {
-            console.log('err',err);
+            console.log('err', err);
           }
         } else if (code === 314) {
-          setCertificateErrorAlertMessage('카테고리당 하루 5번까지 인증 가능합니다');
-          openCertificateErrorAlert();
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('카테고리당 하루 5번까지 인증 가능합니다');
+          openCertificateErrorToast();
         } else if (code === 313) {
-          setCertificateErrorAlertMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
-          openCertificateErrorAlert();
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
+          openCertificateErrorToast();
         } else {
-          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-          openCertificateErrorAlert();
+          setPostCertificationIsLoading(false);
+          setCertificateErrorToastMessage('서버 장애가 발생했습니다');
+          openCertificateErrorToast();
         }
       },
       dispatch,
     );
-    setTimeout(() => {
-      setButtonDisabled(false);
-    }, 5000);
   };
 
   const handlingDataForm = async (dataURI: any) => {
@@ -254,7 +272,7 @@ function CaptureCertificationRecord() {
     const formData = new FormData();
     formData.append('photo', file);
 
-    console.log(formData,formData)
+    console.log(formData, formData);
 
     return formData;
   };
@@ -267,27 +285,24 @@ function CaptureCertificationRecord() {
     setBottomSheetIsOpen(false);
   };
 
-  const openCertificateErrorAlert = () => {
-    setShowCertificateErrorAlert(true);
+  const openCertificateErrorToast = () => {
+    setShowCertificateErrorToast(true);
   };
 
-  const closeCertificateErrorAlert = () => {
-    setShowCertificateErrorAlert(false);
-  };
-
-  const openCertificateCompletionAlert = () => {
-    setShowCertificateCompletionAlert(true);
-  };
-
-  const closeCertificateCompletionAlert = () => {
-    setShowCertificateCompletionAlert(false);
-    setTimeout(() => {
-      navigate(CAMERA_PATH.RESULT);
-    }, 500);
+  const closeCertificateErrorToast = () => {
+    setShowCertificateErrorToast(false);
   };
 
   const moveToCapturePage = () => {
     navigate(CAMERA_PATH.CAPTURE);
+  };
+
+  const moveToCaptureResultPage = () => {
+    navigate(CAMERA_PATH.RESULT, {
+      state: {
+        prevPath: location?.pathname,
+      },
+    });
   };
 
   return (
@@ -342,12 +357,7 @@ function CaptureCertificationRecord() {
           </Sheet.Content>
         </Sheet.Container>
       </Sheet>
-      {showCertificateErrorAlert && (
-        <AlertConfirmOne text={certificateErrorAlertMessage} buttonHandler={closeCertificateErrorAlert} />
-      )}
-      {showCertificateCompletionAlert && (
-        <AlertConfirmOne text="인증이 성공하였습니다" buttonHandler={closeCertificateCompletionAlert} />
-      )}
+      {showCertificateErrorToast && <ToastSuccessMessage message={certificateErrorToastMessage}/>}
     </>
   );
 }

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React,{useEffect, useState} from 'react';
+import React,{useEffect, useRef, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import { RootState } from '../../redux/store';
 import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
 
 interface Comment {
   certificationId: number;
@@ -31,16 +32,24 @@ function CommentsPage() {
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const profile = useSelector((state: RootState) => state.persist.user.pet.image);
   const { OS } = useSelector((state: any) => state.persist.device);
-  const {certificationId,posterId} = useLocation()?.state as StateType
+  const { certificationId, posterId } = useLocation()?.state as StateType;
   const [enteredInput, setEnteredInput] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>([]);
-  const [deleteCommentId,setDeleteCommentId] = useState(-1)
+  const [deleteCommentId, setDeleteCommentId] = useState(-1);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
-
+  const [deleteCommentSuccessToastIsOpen, setDeleteCommentSuccessToastIsOpen] = useState(false);
 
   useEffect(() => {
     getComments();
   }, []);
+
+  useEffect(() => {
+    if (deleteCommentSuccessToastIsOpen) {
+      setTimeout(() => {
+        closeToastSuccessMessage()
+      }, 2500);
+    }
+  }, [deleteCommentSuccessToastIsOpen]);
 
   const getComments = () => {
     getCommentList(
@@ -75,26 +84,36 @@ function CommentsPage() {
       deleteCommentId,
       certificationId,
       (response: AxiosResponse) => {
-        console.log(response)
+        console.log(response);
         if (response.data.code === 200) {
-          closeBottomSheet()
+          oepnToastSuccessMessage();
+          closeBottomSheet();
           getComments();
-        }
-        else{
-          closeBottomSheet()
+        } else {
+          closeBottomSheet();
         }
       },
       dispatch,
     );
-    deleteCommentToastMessage()
   };
 
-  const deleteCommentToastMessage = () => {
-    if (OS === 'android') {
-      window.BRIDGE.deleteComment();
-    } else {
-      console.log(1);
+  const textRef = useRef<any>(null);
+  const handleResizeHeight = () => {
+    if (textRef.current) {
+      if (textRef.current.scrollHeight <= 203) {
+        console.log('textRef.current.scrollHeight', textRef.current.scrollHeight);
+        textRef.current.style.height = 'auto';
+        textRef.current.style.height = `${textRef.current.scrollHeight - 9}px`;
+      }
     }
+  };
+
+  const oepnToastSuccessMessage = () => {
+    setDeleteCommentSuccessToastIsOpen(true)
+  };
+
+  const closeToastSuccessMessage = () => {
+    setDeleteCommentSuccessToastIsOpen(false)
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -161,7 +180,10 @@ function CommentsPage() {
         <div className="comments-post">
           <img src={profile} alt="myprofile" />
           <textarea
+            ref={textRef}
             value={enteredInput}
+            onInput={handleResizeHeight}
+            onAbort={handleResizeHeight}
             onChange={inputChangeHandler}
             placeholder="댓글 남기기..."
             className="comments-post-input"
@@ -177,13 +199,14 @@ function CommentsPage() {
       </div>
       <DeleteBottomSheet
         text="댓글을 삭제하실건가요?"
-        description='지우면 다시 볼 수 없어요'
-        cancelText='취소'
-        acceptText='삭제'
+        description="지우면 다시 볼 수 없어요"
+        cancelText="취소"
+        acceptText="삭제"
         acceptButtonHandler={deleteCommentOnCert}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
+      {deleteCommentSuccessToastIsOpen && <ToastSuccessMessage message="댓글이 삭제 되었습니다." />}
     </>
   );
 }

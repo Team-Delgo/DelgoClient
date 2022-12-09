@@ -15,7 +15,7 @@ interface AchievementType {
 
 function Achievement({ editActivation, achievementList, selectRepresentativeAchievements,achievementListCount }: any) {
 
-  console.log('achievementListCount',achievementListCount)
+  console.log('achievementList',achievementList)
   return (
     <body className="achievement-page-body">
       <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
@@ -29,7 +29,7 @@ function Achievement({ editActivation, achievementList, selectRepresentativeAchi
             <div
               className="achievement-page-body-achievements-image-container"
               aria-hidden="true"
-              onClick={editActivation === true ? selectRepresentativeAchievements(achievement) : undefined}
+              onClick={achievement.isActive === true ? selectRepresentativeAchievements(achievement) : undefined}
             >
               <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
                 <img src={achievement.imgUrl} alt="post-img" width={107} height={143} />

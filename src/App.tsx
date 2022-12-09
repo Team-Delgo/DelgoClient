@@ -66,6 +66,7 @@ import AlertConfirmOne from './common/dialog/AlertConfirmOne';
 import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
+import ToastSuccessMessage from './common/dialog/ToastSuccessMessage';
 
 declare global {
   interface Window {
@@ -92,12 +93,38 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const varUA = navigator.userAgent.toLowerCase();
+    if (varUA.indexOf('android') > -1) {
+      dispatch(deviceAction.android());
+    } else if (varUA.indexOf('iphone') > -1 || varUA.indexOf('ipad') > -1 || varUA.indexOf('ipod') > -1) {
+      dispatch(deviceAction.ios());
+    }
+  }, []);
 
-  const alertButtonHandler = () => {
+  useEffect(() => {
+    console.log('hasError',hasError)
+    if (hasError) {
+      setTimeout(() => {
+        ConfirmNetworkError();
+      }, 2300);
+    }
+  }, [hasError]);
+
+  useEffect(() => {
+    if (tokenExpriedError) {
+      setTimeout(() => {
+        ConfirmLoginSessionExpried();
+      }, 2300);
+    }
+  }, [tokenExpriedError]);
+
+
+  const ConfirmNetworkError = () => {
     dispatch(errorActions.setFine());
   };
 
-  const AlertLoginSessionExpried = () => {
+  const ConfirmLoginSessionExpried = () => {
     dispatch(errorActions.setTokenFine());
     dispatch(userActions.signout());
     localStorage.removeItem('accessToken');
@@ -107,10 +134,8 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {hasError && <AlertConfirmOne text="네트워크를 확인해주세요" buttonHandler={alertButtonHandler} />}
-      {tokenExpriedError && (
-        <AlertConfirmOne text="로그인 세션이 만료되었습니다." buttonHandler={AlertLoginSessionExpried} />
-      )}
+      {hasError && <ToastSuccessMessage message="네트워크를 확인해주세요" />}
+      {tokenExpriedError && <ToastSuccessMessage message="로그인 세션이 만료되었습니다." />}
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
         <Route path={SIGN_IN_PATH.MAIN} element={<SignIn />} />

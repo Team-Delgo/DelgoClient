@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import BottomButton from '../../../common/components/BottomButton';
@@ -51,19 +51,16 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [470, 470, 470, 470];
 
 function CaptureCategoryUpdateRecord() {
   const { categoryKo, title, certificationId, content } = useSelector((state: RootState) => state.persist.upload);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const [certificationPostContent, setCertificationPostContent] = useState(content);
-  const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
-  const [showCertificateErrorAlert, setShowCertificateErrorAlert] = useState(false);
-  const [showCertificateCompletionAlert, setShowCertificateCompletionAlert] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation()
 
   const writeContent = useCallback((e) => {
     setCertificationPostContent(e.target.value.trim());
@@ -93,10 +90,7 @@ function CaptureCategoryUpdateRecord() {
               content: data.description,
             }),
           );
-          openCertificateCompletionAlert();
-        } else {
-          setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-          openCertificateErrorAlert();
+          moveToCaptureResultPage();
         }
       },
       dispatch,
@@ -105,27 +99,17 @@ function CaptureCategoryUpdateRecord() {
       setButtonDisabled(false);
     }, 5000);
   };
-  const openCertificateErrorAlert = () => {
-    setShowCertificateErrorAlert(true);
-  };
 
-  const closeCertificateErrorAlert = () => {
-    setShowCertificateErrorAlert(false);
-  };
 
-  const openCertificateCompletionAlert = () => {
-    setShowCertificateCompletionAlert(true);
-  };
-
-  const closeCertificateCompletionAlert = () => {
-    setShowCertificateCompletionAlert(false);
-    setTimeout(() => {
-      navigate(CAMERA_PATH.RESULT);
-    }, 500);
+  const moveToCaptureResultPage = () => {
+    navigate(CAMERA_PATH.RESULT, {
+      state: {
+        prevPath: location.pathname,
+      },
+    });
   };
 
   return (
-    <>
       <Sheet
         isOpen
         onClose={closeBottomSheet}
@@ -173,13 +157,6 @@ function CaptureCategoryUpdateRecord() {
           </Sheet.Content>
         </Sheet.Container>
       </Sheet>
-      {showCertificateErrorAlert && (
-        <AlertConfirmOne text={certificateErrorAlertMessage} buttonHandler={closeCertificateErrorAlert} />
-      )}
-      {showCertificateCompletionAlert && (
-        <AlertConfirmOne text="인증 수정이 성공하였습니다" buttonHandler={closeCertificateCompletionAlert} />
-      )}
-    </>
   );
 }
 

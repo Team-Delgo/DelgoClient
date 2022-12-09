@@ -15,6 +15,7 @@ import CertificationPost from '../../common/components/CertificationPost';
 import Loading from '../../common/utils/Loading';
 import PrevArrow from '../../common/icons/prev-arrow-black.svg';
 import {analytics} from "../../index";
+import { ROOT_PATH } from '../../common/constants/path.const';
 
 interface userType {
   address: string;
@@ -97,8 +98,8 @@ function CertificationPostsPage() {
 
 
   const moveToHomePage = () => {
-    navigate(-1)
-  }
+    navigate(ROOT_PATH);
+  };
 
   if (isLoading) {
     return <Loading />;
