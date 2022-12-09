@@ -296,7 +296,12 @@ function CaptureCertificationRecord() {
       <Sheet
         isOpen
         onClose={closeBottomSheet}
-        snapPoints={[height - width + 10, height - width + 10, height - width + 10, height - width + 10]}
+        snapPoints={[
+          window.screen.height - window.screen.width + 10,
+          window.screen.height - window.screen.width + 10,
+          window.screen.height - window.screen.width + 10,
+          window.screen.height - window.screen.width + 10,
+        ]}
         // ref={ref}
         disableDrag
         className="modal-bottom-sheet"

@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  OS : '',
-  width:window.innerWidth,
-  height:window.innerHeight
+  OS : ''
 };
 
 const deviceSlice = createSlice({
@@ -12,13 +10,11 @@ const deviceSlice = createSlice({
   reducers: {
     android() {
       return {
-        ...initialState,
         OS : 'android'
       };
     },
     ios() {
       return {
-        ...initialState,
         OS : 'ios',
       };
     },
