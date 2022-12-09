@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
@@ -21,7 +21,6 @@ function CaptureImgRecord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedCateogory, setSelectedCateogory] = useState('');
-  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const categoryRef = useRef<any>();
 
@@ -37,39 +36,12 @@ function CaptureImgRecord() {
     },
   );
 
-  useEffect(() => {
-    setTimeout(() => {
-      setBottomSheetIsOpen(true);
-    }, 1000);
-  }, [bottomSheetIsOpen]);
-
-  const moveToCategoryPage = (category: string) => (e: React.MouseEvent) => {
-    console.log(1);
-    dispatch(uploadAction.setCategory({ category }));
-    navigate(CAMERA_PATH.LOCATION);
-  };
-
-  const closeBottomSheet = () => {
-    setBottomSheetIsOpen(false);
-  };
 
   const moveToCategoryLeftScroll = (category: string) => (e: React.MouseEvent) => {
     setSelectedCateogory(category);
     console.log(selectedCateogory);
     categoryRef.current.scrollTo({
       left: categoryRef.current.scrollLeft - categoryRef.current.offsetWidth,
-      behavior: 'smooth',
-    });
-    setTimeout(() => {
-      dispatch(uploadAction.setCategory({ category }));
-      navigate(CAMERA_PATH.LOCATION);
-    }, 800);
-  };
-
-  const moveToCategoryCenterScroll = (category: string) => (e: React.MouseEvent) => {
-    setSelectedCateogory(category);
-    categoryRef.current.scrollTo({
-      left: categoryRef.current.offsetWidth / 2,
       behavior: 'smooth',
     });
     setTimeout(() => {

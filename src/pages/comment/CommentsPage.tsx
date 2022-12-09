@@ -7,7 +7,7 @@ import './CommentsPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import { RootState } from '../../redux/store';
-import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
+import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
 
 interface Comment {
   certificationId: number;

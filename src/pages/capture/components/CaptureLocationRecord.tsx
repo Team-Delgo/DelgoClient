@@ -66,7 +66,12 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [470, 470, 470, 470];
+const sheetSnapPoints = [
+  window.innerHeight - window.innerWidth+10,
+  window.innerHeight - window.innerWidth+10,
+  window.innerHeight - window.innerWidth+10,
+  window.innerHeight - window.innerWidth+10,
+];
 
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
@@ -142,7 +147,12 @@ function CaptureLocationRecord() {
     <Sheet
       isOpen
       onClose={closeBottomSheet}
-      snapPoints={sheetSnapPoints}
+      snapPoints={[
+        window.innerHeight - window.innerWidth + 10,
+        window.innerHeight - window.innerWidth + 10,
+        window.innerHeight - window.innerWidth + 10,
+        window.innerHeight - window.innerWidth + 10,
+      ]}
       // ref={ref}
       disableDrag
       className="modal-bottom-sheet"
@@ -154,11 +164,7 @@ function CaptureLocationRecord() {
               <img src={categoryIcon[categoryKo]} alt="category-img" />
               <div className="capture-img-record-category">
                 <div className="capture-img-record-category-label">{categoryKo}</div>
-                <div
-                  className="capture-img-record-category-rechoice"
-                  aria-hidden="true"
-                  onClick={moveToCapturePage}
-                >
+                <div className="capture-img-record-category-rechoice" aria-hidden="true" onClick={moveToCapturePage}>
                   다시선택
                 </div>
               </div>

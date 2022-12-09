@@ -7,7 +7,7 @@ import { ReactComponent as Arrow } from '../../common/icons/left-arrow.svg';
 import './Setting.scss';
 import { MY_ACCOUNT_PATH, SIGN_IN_PATH } from '../../common/constants/path.const';
 import { RootState } from '../../redux/store';
-import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
+import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
 import { deleteUser } from '../../common/api/signup';
 import { userActions } from '../../redux/slice/userSlice';
 

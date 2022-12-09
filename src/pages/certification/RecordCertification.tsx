@@ -23,7 +23,7 @@ import { CAMERA_PATH, RECORD_PATH } from '../../common/constants/path.const';
 import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
-import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
+import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
 
 interface categoryType {
   CA0001: string;
