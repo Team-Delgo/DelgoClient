@@ -2,21 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
-import { useDispatch,useSelector } from 'react-redux';
-import {
-  SpinningCircles,
-  Audio,
-  BallTriangle,
-  Bars,
-  Circles,
-  Grid,
-  Hearts,
-  Oval,
-  Puff,
-  Rings,
-  TailSpin,
-  ThreeDots,
-} from 'react-loading-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import FooterNavigation from '../../common/components/FooterNavigation';
 import { getAchievementList, setMainAchievements } from '../../common/api/achievement';
 import './AchievementPage.scss';
@@ -24,7 +10,7 @@ import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import { RootState } from '../../redux/store';
 import MainAchievment from './components/MainAchievment';
 import Achievment from './components/Achievement';
-import {analytics} from "../../index";
+import { analytics } from '../../index';
 import Loading from '../../common/utils/Loading';
 
 interface AchievementType {
@@ -43,24 +29,24 @@ function AchievementPage() {
   const [showAchievementCompletionAlert, setShowAchievementCompletionAlert] = useState(false);
   const [showAchievementLimitAlert, setShowAchievementLimitAlert] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
-  const [achievementListCount,setAchievementListCount] = useState(0)
+  const [achievementListCount, setAchievementListCount] = useState(0);
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
-  const [isLoading,setIsLoading] = useState(true)
+  const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getgetAchievementDataList();
     mutation.mutate({
       params: {
-        firebase_screen: "Achievement",
-        firebase_screen_class: "AchievementPage"
-      }
+        firebase_screen: 'Achievement',
+        firebase_screen_class: 'AchievementPage',
+      },
     });
   }, []);
 
   const getgetAchievementDataList = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     getAchievementList(
       user.id,
       (response: AxiosResponse) => {
@@ -79,11 +65,13 @@ function AchievementPage() {
       },
       dispatch,
     );
-    setIsLoading(false)
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 100);
   };
 
   const selectionRepresentativeAchievementsCompletion = () => {
-    console.log('mainAchievementList',mainAchievementList)
+    console.log('mainAchievementList', mainAchievementList);
     setMainAchievements(
       user.id,
       mainAchievementList[0] !== undefined ? mainAchievementList[0].achievementsId : 0,
@@ -101,9 +89,7 @@ function AchievementPage() {
 
   const filterRepresentativeAchievements = (achievement: AchievementType) => (event: React.MouseEvent) => {
     setTimeout(() => {
-      const newMainAchievementList = mainAchievementList.filter(
-        (element: AchievementType) => element !== achievement,
-      );
+      const newMainAchievementList = mainAchievementList.filter((element: AchievementType) => element !== achievement);
       setMainAchievementList(newMainAchievementList);
       setAchievementList([...achievementList, achievement]);
     }, 300);
@@ -146,7 +132,6 @@ function AchievementPage() {
     setShowAchievementLimitAlert(false);
   };
 
-
   if (isLoading) {
     return <Loading />;
   }
@@ -164,7 +149,7 @@ function AchievementPage() {
         editActivation={editActivation}
         achievementList={achievementList}
         selectRepresentativeAchievements={selectRepresentativeAchievements}
-        achievementListCount = {achievementListCount}
+        achievementListCount={achievementListCount}
       />
       {showAchievementCompletionAlert && (
         <AlertConfirmOne text="대표업적 설정이 성공했습니다" buttonHandler={closeAchievementCompletionAlert} />
