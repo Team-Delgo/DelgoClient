@@ -6,16 +6,16 @@ import './CaptureCertificationUpatePage.scss';
 import { analytics } from '../../index';
 
 function CaptureCertificationUpatePage() {
-  const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
+  // const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
 
-  useEffect(() => {
-    mutation.mutate({
-      params: {
-        firebase_screen: 'CaptureCertificationUpdate',
-        firebase_screen_class: 'CaptureCertificationUpdatePage',
-      },
-    });
-  });
+  // useEffect(() => {
+  //   mutation.mutate({
+  //     params: {
+  //       firebase_screen: 'CaptureCertificationUpdate',
+  //       firebase_screen_class: 'CaptureCertificationUpdatePage',
+  //     },
+  //   });
+  // });
 
   return (
     <>

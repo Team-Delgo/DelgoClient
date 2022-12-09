@@ -69,6 +69,7 @@ function CaptureCertificationRecord() {
     (state: RootState) => state.persist.upload,
   );
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const { width, height } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ref = useRef<SheetRef>();
@@ -295,7 +296,7 @@ function CaptureCertificationRecord() {
       <Sheet
         isOpen
         onClose={closeBottomSheet}
-        snapPoints={sheetSnapPoints}
+        snapPoints={[height - width + 10, height - width + 10, height - width + 10, height - width + 10]}
         // ref={ref}
         disableDrag
         className="modal-bottom-sheet"

@@ -56,6 +56,7 @@ const sheetSnapPoints = [470, 470, 470, 470];
 function CaptureCategoryUpdateRecord() {
   const { categoryKo, title, certificationId, content } = useSelector((state: RootState) => state.persist.upload);
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const { width, height } = useSelector((state: RootState) => state.persist.device);
   const [certificationPostContent, setCertificationPostContent] = useState(content);
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
@@ -126,7 +127,13 @@ function CaptureCategoryUpdateRecord() {
 
   return (
     <>
-      <Sheet isOpen onClose={closeBottomSheet} snapPoints={sheetSnapPoints} disableDrag className="modal-bottom-sheet">
+      <Sheet
+        isOpen
+        onClose={closeBottomSheet}
+        snapPoints={[height - width + 10, height - width + 10, height - width + 10, height - width + 10]}
+        disableDrag
+        className="modal-bottom-sheet"
+      >
         <Sheet.Container style={sheetStyle}>
           <Sheet.Content>
             <main className="capture-img-record">
