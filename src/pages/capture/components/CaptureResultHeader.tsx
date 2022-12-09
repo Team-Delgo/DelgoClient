@@ -9,7 +9,7 @@ import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
 import AlertConfirm from '../../../common/dialog/AlertConfirm';
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
-import DeleteBottomSheet from '../../../common/utils/DeleteBottomSheet';
+import DeleteBottomSheet from '../../../common/utils/ConfirmBottomSheet';
 
 interface weekDayType {
   Mon: string;
@@ -111,9 +111,9 @@ function CaptureResultHeader() {
       {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
-        description='지우면 다시 볼 수 없어요'
-        cancelText='취소'
-        acceptText='삭제'
+        description="지우면 다시 볼 수 없어요"
+        cancelText="취소"
+        acceptText="삭제"
         acceptButtonHandler={deleteCertification}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}

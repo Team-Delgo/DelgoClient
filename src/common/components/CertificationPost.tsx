@@ -18,7 +18,7 @@ import AlertConfirmOne from '../dialog/AlertConfirmOne';
 import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
-import DeleteBottomSheet from '../utils/DeleteBottomSheet';
+import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
 
 interface userType {
   address: string;

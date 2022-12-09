@@ -11,7 +11,7 @@ import { MY_ACCOUNT_PATH, ROOT_PATH, SIGN_IN_PATH } from '../../common/constants
 import { RootState } from '../../redux/store';
 import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { userActions } from '../../redux/slice/userSlice';
-import DeleteBottomSheet from '../../common/utils/DeleteBottomSheet';
+import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
 import {analytics} from "../../index";
 
 interface rankingType {
