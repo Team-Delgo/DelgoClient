@@ -56,7 +56,6 @@ const sheetSnapPoints = [470, 470, 470, 470];
 function CaptureCategoryUpdateRecord() {
   const { categoryKo, title, certificationId, content } = useSelector((state: RootState) => state.persist.upload);
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const { width, height } = useSelector((state: RootState) => state.persist.device);
   const [certificationPostContent, setCertificationPostContent] = useState(content);
   const [certificateErrorAlertMessage, setCertificateErrorAlertMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
