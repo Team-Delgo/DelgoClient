@@ -70,7 +70,7 @@ function MainAchievment({
               onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
             >
               <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                <img src={achievement.imgUrl} alt="post-img" />
+                <img src={achievement.imgUrl} alt="post-img" width={107} height={143} />
               </div>
               {editActivation === true ? (
                 <img

@@ -72,7 +72,6 @@ declare global {
   interface Window {
     BRIDGE: any;
     webkit: any;
-    Kakao: any;
   }
 }
 

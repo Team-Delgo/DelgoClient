@@ -47,7 +47,7 @@ function CommentsPage() {
     if (deleteCommentSuccessToastIsOpen) {
       setTimeout(() => {
         closeToastSuccessMessage()
-      }, 2500);
+      }, 2000);
     }
   }, [deleteCommentSuccessToastIsOpen]);
 

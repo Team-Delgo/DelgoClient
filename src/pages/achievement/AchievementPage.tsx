@@ -50,7 +50,7 @@ function AchievementPage() {
     if (mainAchievementSuccessToastIsOpen) {
       setTimeout(() => {
         closeAchievementCompletionToast()
-      }, 2500);
+      }, 2000);
     }
   }, [mainAchievementSuccessToastIsOpen]);
 
@@ -58,7 +58,7 @@ function AchievementPage() {
     if (mainAchievementLimitToastIsOpen) {
       setTimeout(() => {
         closeAchievementLimitToast()
-      }, 2500);
+      }, 2000);
     }
   }, [mainAchievementLimitToastIsOpen]);
 

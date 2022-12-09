@@ -85,7 +85,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
     if (showCertificateErrorToast) {
       setTimeout(() => {
         closeCertificateErrorToast();
-      }, 2500);
+      }, 2000);
     }
   }, [showCertificateErrorToast]);
 
@@ -247,9 +247,11 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
           setCertificateErrorToastMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
           openCertificateErrorToast();
         } else {
+          console.log(1)
           setPostCertificationIsLoading(false);
           setCertificateErrorToastMessage('서버 장애가 발생했습니다');
-          openCertificateErrorToast();
+          setShowCertificateErrorToast(true);
+          // openCertificateErrorToast();
         }
       },
       dispatch,
