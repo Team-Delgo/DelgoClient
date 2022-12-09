@@ -16,8 +16,8 @@ function CaptureLocationPage() {
   useEffect(() => {
     mutation.mutate({
       params: {
-        firebase_screen: 'NeighborRanking',
-        firebase_screen_class: 'NeighborRankingPage',
+        firebase_screen: 'CaptureLocation',
+        firebase_screen_class: 'CaptureLocationPage',
       },
     });
   }, []);

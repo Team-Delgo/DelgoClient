@@ -8,7 +8,6 @@ import { CAMERA_PATH } from '../../../common/constants/path.const';
 function CaptureCertificationUpdateImg() {
   const img = useSelector((state: RootState) => state.persist.upload.img);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const moveToPreviousPage = () => {
     navigate(-1);

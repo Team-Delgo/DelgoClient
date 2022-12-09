@@ -25,6 +25,7 @@ import { RootState } from '../../redux/store';
 import MainAchievment from './components/MainAchievment';
 import Achievment from './components/Achievement';
 import {analytics} from "../../index";
+import Loading from '../../common/utils/Loading';
 
 interface AchievementType {
   achievementsId: number;
@@ -46,6 +47,7 @@ function AchievementPage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
+  const [isLoading,setIsLoading] = useState(true)
 
   useEffect(() => {
     getgetAchievementDataList();
@@ -58,6 +60,7 @@ function AchievementPage() {
   }, []);
 
   const getgetAchievementDataList = () => {
+    setIsLoading(true)
     getAchievementList(
       user.id,
       (response: AxiosResponse) => {
@@ -76,6 +79,7 @@ function AchievementPage() {
       },
       dispatch,
     );
+    setIsLoading(false)
   };
 
   const selectionRepresentativeAchievementsCompletion = () => {
@@ -141,6 +145,11 @@ function AchievementPage() {
   const closeAchievementLimitAlert = () => {
     setShowAchievementLimitAlert(false);
   };
+
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

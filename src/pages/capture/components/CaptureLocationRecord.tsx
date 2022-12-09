@@ -81,8 +81,12 @@ function CaptureLocationRecord() {
   const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
   const { categoryKo } = useSelector((state: RootState) => state.persist.upload);
+  const { width, height } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  console.log('width',width)
+  console.log('height',height)
 
   const { isLoading: getMungPlaceListIsLoading, data: mungPlaceList } = useQuery(
     GET_MUNG_PLACE_LIST,
@@ -148,10 +152,10 @@ function CaptureLocationRecord() {
       isOpen
       onClose={closeBottomSheet}
       snapPoints={[
-        window.innerHeight - window.innerWidth + 10,
-        window.innerHeight - window.innerWidth + 10,
-        window.innerHeight - window.innerWidth + 10,
-        window.innerHeight - window.innerWidth + 10,
+        height - width + 10,
+        height - width + 10,
+        height - width + 10,
+        height - width+ 10,
       ]}
       // ref={ref}
       disableDrag
