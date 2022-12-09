@@ -1,33 +1,32 @@
-@keyframes upMove {
-  from {
-    transform: translatey(0px);
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
   }
-
-  to {
-    transform: translatey(20px);
+  100% {
+    opacity: 0;
   }
 }
-  
-  .toast-success-message {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    width: 80%;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-radius: 5.8px;
-    font-weight: 500;
-    animation-name: upMove;
-    animation-duration: 2.5s;
-    animation-timing-function: ease-out;
-    background-color: #AA93EC;
-    z-index: 999;
-    &-text {
-      color:white;
-      font-size: 14px;
+    
+    .toast-success-message {
+      position: absolute;
+      top: 40px;
+      left: 5%;
+      right: 5%;
+      width: 90%;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 5.8px;
+      font-weight: 500;
+      // animation-name: fadeOut;
+      animation-duration: 2.5s;
+      background-color: #AA93EC;
+      z-index: 30;
+
+      &-text {
+        color: white;
+        font-size: 14px;
+      }
     }
-  }
-  

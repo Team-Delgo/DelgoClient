@@ -18,12 +18,12 @@ function CaptureResult() {
       setShowCertificateSuccessToast(true);
       setTimeout(() => {
         setShowCertificateSuccessToast(false);
-      }, 2500);
+      }, 2000);
     } else {
       setShowCertificateUpdateSuccessToast(true);
       setTimeout(() => {
         setShowCertificateUpdateSuccessToast(false);
-      }, 2500);
+      }, 2000);
     }
   }, []);
 
