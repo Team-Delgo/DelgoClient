@@ -14,6 +14,8 @@ function CaptureResult() {
   const location: any = useLocation();
 
   useEffect(() => {
+    console.log('location?.state?.prevPath?', location?.state?.prevPath);
+    console.log('location?.state?.prevPath?.includes', location?.state?.prevPath?.includes('result'));
     if (location?.state?.prevPath?.includes('result')) {
       setShowCertificateSuccessToast(true);
       setTimeout(() => {
