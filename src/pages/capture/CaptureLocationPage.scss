@@ -53,37 +53,37 @@
     margin-top: -20px;
 }
 
-.capture-location-record-container{
-    display: flex;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #E5E5E5;
-    position: relative;
+// .capture-location-record-container{
+//     display: flex;
+//     padding-bottom: 15px;
+//     border-bottom: 2px solid #E5E5E5;
+//     position: relative;
 
-    .capture-location-record-category{
-        display: flex;
-        flex-direction: column; 
-        justify-content: center; 
-        padding-left: 25px;
-        &-label{
-            color:#3F3F3F;
-            font-size: 18px;
-            font-weight: 700;
-            // margin-bottom: 5px;
+//     .capture-location-record-category{
+//         display: flex;
+//         flex-direction: column; 
+//         justify-content: center; 
+//         padding-left: 25px;
+//         &-label{
+//             color:#3F3F3F;
+//             font-size: 18px;
+//             font-weight: 700;
+//             // margin-bottom: 5px;
             
-        }
-        &-rechoice{
-            color:#C4C4C4;
-            font-size: 12px;
-            font-weight: 500;
-            padding-top: 4px;
-        }
-    }
-    .writting-button{
-        position: absolute;
-        right:1px;
-        top:12px;
-    }
-}
+//         }
+//         &-rechoice{
+//             color:#C4C4C4;
+//             font-size: 12px;
+//             font-weight: 500;
+//             padding-top: 4px;
+//         }
+//     }
+//     .writting-button{
+//         position: absolute;
+//         right:1px;
+//         top:12px;
+//     }
+// }
 
 .review-container{
     .review-place-name{

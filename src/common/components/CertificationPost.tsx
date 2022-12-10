@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unused-prop-types */
 import { AxiosResponse } from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Sheet, { SheetRef } from 'react-modal-sheet';
@@ -19,6 +19,7 @@ import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
+import ToastSuccessMessage from '../dialog/ToastSuccessMessage';
 
 interface userType {
   address: string;
@@ -120,11 +121,19 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
+  const [deletePostSuccessToastIsOpen, setDeletePostSuccessToastIsOpen] = useState(false);
   const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const { OS } = useSelector((state: any) => state.persist.device);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (deletePostSuccessToastIsOpen) {
+      setTimeout(() => {
+        closeToastSuccessMessage()
+      }, 2000);
+    }
+  }, [deletePostSuccessToastIsOpen]);
 
   const setCertificationLike = () => {
     certificationLike(
@@ -147,24 +156,15 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
+          oepnToastSuccessMessage()
           closeBottomSheet();
           refetch();
         } else {
           closeBottomSheet();
-          openDeleteErrorAlert();
         }
       },
       dispatch,
     );
-    deletePostToastMessage()
-  };
-
-  const deletePostToastMessage = () => {
-    if (OS === 'android') {
-      window.BRIDGE.deleteCertification();
-    } else {
-      console.log(1);
-    }
   };
 
   const moveToCommentPage = () => {
@@ -188,12 +188,12 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
     navigate(CAMERA_PATH.UPDATE);
   };
 
-  const openDeleteErrorAlert = () => {
-    setShowDeleteErrorAlert(true);
+  const oepnToastSuccessMessage = () => {
+    setDeletePostSuccessToastIsOpen(true)
   };
 
-  const closeDelteErrorAlert = () => {
-    setShowDeleteErrorAlert(false);
+  const closeToastSuccessMessage = () => {
+    setDeletePostSuccessToastIsOpen(false)
   };
 
   const openBottomSheet = () => {
@@ -263,7 +263,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         </footer>
       </main>
       <div className="border-line" />
-      {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
+      {deletePostSuccessToastIsOpen && <ToastSuccessMessage message="게시물이 삭제 되었습니다." />}
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
         description='지우면 다시 볼 수 없어요'
