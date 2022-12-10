@@ -118,6 +118,13 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
               address: data.address,
             }),
           );
+          if (data.isAchievements) {
+            dispatch(
+              uploadAction.setAchievements({
+                setAchievements: data.setAchievements,
+              }),
+            );
+          }
           setPostCertificationIsLoading(false);
           moveToCaptureResultPage();
         } else if (code === 314) {
@@ -359,6 +366,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
           </Sheet.Content>
         </Sheet.Container>
       </Sheet>
+      {showCertificateErrorToast && <ToastSuccessMessage message={certificateErrorToastMessage}/>}
       {showCertificateErrorToast && <ToastSuccessMessage message={certificateErrorToastMessage}/>}
     </>
   );

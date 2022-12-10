@@ -1,6 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+interface initialStateType {
+  img: string,
+  latitude: string,
+  longitude: string,
+  categoryKo: string,
+  title: string,
+  content: string,
+  registDt: string,
+  mongPlaceId: number,
+  certificationId: number,
+  tool: string,
+  file: string,
+  address: string,
+  achievements:Array<achievementType>
+}
+interface achievementType {
+  achievementsId: number,
+  imgUrl: string,
+  isActive: boolean,
+  isMain: number,
+  isMungple: boolean,
+  name: string,
+  registDt: string,
+}
+
+const initialState:initialStateType = {
   img: '',
   latitude: '',
   longitude: '',
@@ -12,7 +37,18 @@ const initialState = {
   certificationId: 0,
   tool: '',
   file: '',
-  address:'',
+  address: '',
+  achievements: [
+    // {
+    //   achievementsId: 0,
+    //   imgUrl: '',
+    //   isActive: false,
+    //   isMain: 0,
+    //   isMungple: false,
+    //   name: '',
+    //   registDt: '',
+    // },
+  ],
   // file: {} as Blob,
 };
 
@@ -60,6 +96,12 @@ const uploadSlice = createSlice({
         registDt: action.payload.registDt,
         certificationId: action.payload.certificationId,
         address: action.payload.address,
+      };
+    },
+    setAchievements(state, action) {
+      return {
+        ...state,
+        achievements: action.payload.achievements,
       };
     },
     setContent(state, action) {

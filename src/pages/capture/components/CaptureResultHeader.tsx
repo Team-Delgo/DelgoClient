@@ -98,7 +98,7 @@ function CaptureResultHeader() {
             className="capture-page-x"
             alt="capture-page-x"
             aria-hidden="true"
-            onClick={location?.state?.prevPath?.includes('result') ? moveToHomePage : moveToPostsPage}
+            onClick={moveToHomePage}
           />
         </div>
       </header>

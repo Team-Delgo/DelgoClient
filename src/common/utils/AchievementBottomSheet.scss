@@ -1,0 +1,49 @@
+.confirm-bottom-sheet-container{
+    z-index: 100;
+    overflow-y: hidden;
+}
+
+.confirm-bottom-sheet{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    &-title{
+        &-text{
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        &-sub-text{
+            font-weight: 400;
+            font-size: 12px;
+            color:#3F3F3F;
+        }
+    }
+    &-button{
+        display: flex;
+        justify-content: space-around;
+        padding: 0 30px;
+        &-cancle{
+            width: 146px;
+            height: 53px;
+            border-radius: 7px;
+            background-color: #C4C4C4;
+            color:white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        &-delete{
+            width: 146px;
+            height: 53px;
+            border-radius: 7px;
+            background-color: #3F3F3F;
+            color:white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
