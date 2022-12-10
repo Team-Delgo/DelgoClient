@@ -52,8 +52,6 @@ function RecordCertification(props: { certification: Cert }) {
   const [selfHeart, setSelfHeart] = useState(certification.isLike);
   const [count, setCount] = useState(certification.likeCount);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
-  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
-  const [showDeleteCompleteAlert, setShowDeleteCompleteAlert] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
 
@@ -77,9 +75,7 @@ function RecordCertification(props: { certification: Cert }) {
         const { code } = response.data;
         console.log(response);
         if (code === 200) {
-          openDeleteCompleteAlert()
-        } else {
-          openDeleteErrorAlert();
+          moveToPhotoPage()
         }
       },
       dispatch,
@@ -104,10 +100,6 @@ function RecordCertification(props: { certification: Cert }) {
     navigate(CAMERA_PATH.UPDATE);
   };
 
-  const openDeleteCompleteAlert = ()=>{
-    setShowDeleteCompleteAlert(true);
-  }
-
   const openBottomSheet = () => {
     setBottomSheetIsOpen(true);
   };
@@ -116,13 +108,6 @@ function RecordCertification(props: { certification: Cert }) {
     setBottomSheetIsOpen(false);
   };
 
-  const closeDelteErrorAlert = () => {
-    setShowDeleteErrorAlert(false);
-  };
-
-  const openDeleteErrorAlert = () =>{
-    setShowDeleteErrorAlert(true)
-  }
 
   let icon;
   if (certification.categoryCode === 'CA0001') icon = Walk;
@@ -196,8 +181,6 @@ function RecordCertification(props: { certification: Cert }) {
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
       
-      {showDeleteCompleteAlert && <AlertConfirmOne text="삭제를 성공하였습니다" buttonHandler={moveToPhotoPage} />}
-      {showDeleteErrorAlert && <AlertConfirmOne text="서버 장애가 발생했습니다" buttonHandler={closeDelteErrorAlert} />}
     </>
   );
 }

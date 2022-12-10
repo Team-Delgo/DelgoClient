@@ -16,6 +16,7 @@ import Loading from '../../common/utils/Loading';
 import PrevArrow from '../../common/icons/prev-arrow-black.svg';
 import {analytics} from "../../index";
 import { ROOT_PATH } from '../../common/constants/path.const';
+import { scrollActions } from '../../redux/slice/scrollSlice';
 
 interface userType {
   address: string;
@@ -81,6 +82,7 @@ function CertificationPostsPage() {
     });
   },[]);
 
+
   useEffect(() => {
     console.log('data',data)
     if (typeof data?.pages[0]?.content?.length === 'number') {
@@ -98,6 +100,7 @@ function CertificationPostsPage() {
 
 
   const moveToHomePage = () => {
+    dispatch(scrollActions.scrollInit());
     navigate(ROOT_PATH);
   };
 
@@ -116,7 +119,6 @@ function CertificationPostsPage() {
         />
         <div className="certificationPostsPage-header-text">친구들의 기록</div>
       </div>
-      {/* <div className="other-dog-history">친구들의 기록</div> */}
       {data?.pages?.map((page) => (
         <>
           {page?.content?.map((post: postType) => (

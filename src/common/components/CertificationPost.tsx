@@ -121,19 +121,19 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
+  const [deletePostSuccessToastIsOpen, setDeletePostSuccessToastIsOpen] = useState(false);
+  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
-  const [showCertificateDeleteSuccessToast,setShowCertificateDeleteSuccessToast]= useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const { OS } = useSelector((state: any) => state.persist.device);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (showCertificateDeleteSuccessToast) {
+    if (deletePostSuccessToastIsOpen) {
       setTimeout(() => {
-        setShowCertificateDeleteSuccessToast(false);
+        closeToastSuccessMessage()
       }, 2000);
     }
-  }, [showCertificateDeleteSuccessToast]);
+  }, [deletePostSuccessToastIsOpen]);
 
   const setCertificationLike = () => {
     certificationLike(
@@ -156,10 +156,12 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
+          oepnToastSuccessMessage()
           closeBottomSheet();
           refetch();
-          openDeleteSuccessToast()
-        } 
+        } else {
+          closeBottomSheet();
+        }
       },
       dispatch,
     );
@@ -186,8 +188,12 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
     navigate(CAMERA_PATH.UPDATE);
   };
 
-  const openDeleteSuccessToast = () => {
-    setShowCertificateDeleteSuccessToast(true);
+  const oepnToastSuccessMessage = () => {
+    setDeletePostSuccessToastIsOpen(true)
+  };
+
+  const closeToastSuccessMessage = () => {
+    setDeletePostSuccessToastIsOpen(false)
   };
 
   const openBottomSheet = () => {
@@ -257,7 +263,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         </footer>
       </main>
       <div className="border-line" />
-      {showCertificateDeleteSuccessToast && <ToastSuccessMessage message="기록이 삭제 되었습니다" />}
+      {deletePostSuccessToastIsOpen && <ToastSuccessMessage message="게시물이 삭제 되었습니다." />}
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
         description='지우면 다시 볼 수 없어요'

@@ -13,9 +13,20 @@ interface AchievementType {
   registDt: string;
 }
 
-function Achievement({ editActivation, achievementList, selectRepresentativeAchievements,achievementListCount }: any) {
+interface AchievementPropsType {
+  editActivation: boolean;
+  achievementList: Array<AchievementType>;
+  selectRepresentativeAchievements: (param: AchievementType) => (event: React.MouseEvent) => void;
+  achievementListCount: number;
+}
 
-  console.log('achievementList',achievementList)
+function Achievement({
+  editActivation,
+  achievementList,
+  selectRepresentativeAchievements,
+  achievementListCount,
+}: AchievementPropsType) {
+  console.log('achievementList', achievementList);
   return (
     <body className="achievement-page-body">
       <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>
@@ -27,15 +38,16 @@ function Achievement({ editActivation, achievementList, selectRepresentativeAchi
             <div
               className="achievement-page-body-achievements-image-container"
               aria-hidden="true"
-              onClick={achievement.isActive === true ? selectRepresentativeAchievements(achievement) : undefined}
+              onClick={
+                editActivation
+                  ? achievement.isActive === true
+                    ? selectRepresentativeAchievements(achievement)
+                    : undefined
+                  : undefined
+              }
             >
               <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
-                <img
-                  src={achievement.imgUrl}
-                  alt="post-img"
-                  width={107}
-                  height={143}
-                />
+                <img src={achievement.imgUrl} alt="post-img" width={107} height={143} />
                 <div className="achievement-page-body-achievements-image-name">{achievement.name}</div>
               </div>
               {editActivation ? (
