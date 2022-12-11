@@ -67,6 +67,7 @@ import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
 import ToastSuccessMessage from './common/dialog/ToastSuccessMessage';
+import PetType from './pages/sign/signup/pettype/PetType';
 
 declare global {
   interface Window {
@@ -147,6 +148,7 @@ function App() {
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
         <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo />} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
+        <Route path={SIGN_UP_PATH.UER_PET_TYPE} element={<PetType />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
         <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist />} />
         <Route path="/preventback" element={<PreventBack />} />
