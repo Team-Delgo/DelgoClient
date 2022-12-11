@@ -8,7 +8,7 @@ import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import { RootState } from '../../redux/store';
 import ConfirmBottomSheet from '../../common/utils/ConfirmBottomSheet';
-import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
+import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 
 interface Comment {
   certificationId: number;
@@ -206,7 +206,7 @@ function CommentsPage() {
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
-      {deleteCommentSuccessToastIsOpen && <ToastSuccessMessage message="댓글이 삭제 되었습니다." />}
+      {deleteCommentSuccessToastIsOpen && <ToastPurpleMessage message="댓글이 삭제 되었습니다." />}
     </>
   );
 }

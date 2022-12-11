@@ -66,7 +66,8 @@ import AlertConfirmOne from './common/dialog/AlertConfirmOne';
 import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
-import ToastSuccessMessage from './common/dialog/ToastSuccessMessage';
+import ToastPurpleMessage from './common/dialog/ToastPurpleMessage';
+import PetType from './pages/sign/signup/pettype/PetType';
 
 declare global {
   interface Window {
@@ -133,8 +134,8 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {hasError && <ToastSuccessMessage message="네트워크를 확인해주세요" />}
-      {tokenExpriedError && <ToastSuccessMessage message="로그인 세션이 만료되었습니다." />}
+      {hasError && <ToastPurpleMessage message="네트워크를 확인해주세요" />}
+      {tokenExpriedError && <ToastPurpleMessage message="로그인 세션이 만료되었습니다." />}
       <Routes location={location}>
         <Route path={ROOT_PATH} element={<HomePage />} />
         <Route path={SIGN_IN_PATH.MAIN} element={<SignIn />} />
@@ -147,6 +148,7 @@ function App() {
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
         <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo />} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
+        <Route path={SIGN_UP_PATH.UER_PET_TYPE} element={<PetType />} />
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
         <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist />} />
         <Route path="/preventback" element={<PreventBack />} />

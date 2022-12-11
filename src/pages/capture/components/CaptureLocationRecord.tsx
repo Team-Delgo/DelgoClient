@@ -66,12 +66,6 @@ const categoryIcon: categoryType = {
 };
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
-const sheetSnapPoints = [
-  window.innerHeight - window.innerWidth+10,
-  window.innerHeight - window.innerWidth+10,
-  window.innerHeight - window.innerWidth+10,
-  window.innerHeight - window.innerWidth+10,
-];
 
 function CaptureLocationRecord() {
   const [placeName, setPlaceName] = useState('');
@@ -83,11 +77,6 @@ function CaptureLocationRecord() {
   const { categoryKo } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log('screen.width', window.screen.width);
-    console.log('screen.height', window.screen.height);
-  }, []);
 
   const { isLoading: getMungPlaceListIsLoading, data: mungPlaceList } = useQuery(
     GET_MUNG_PLACE_LIST,

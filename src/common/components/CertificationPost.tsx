@@ -19,7 +19,7 @@ import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
-import ToastSuccessMessage from '../dialog/ToastSuccessMessage';
+import ToastPurpleMessage from '../dialog/ToastPurpleMessage';
 
 interface userType {
   address: string;
@@ -263,7 +263,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         </footer>
       </main>
       <div className="border-line" />
-      {deletePostSuccessToastIsOpen && <ToastSuccessMessage message="게시물이 삭제 되었습니다." />}
+      {deletePostSuccessToastIsOpen && <ToastPurpleMessage message="게시물이 삭제 되었습니다." />}
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
         description='지우면 다시 볼 수 없어요'

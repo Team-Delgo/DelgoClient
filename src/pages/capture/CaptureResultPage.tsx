@@ -6,7 +6,7 @@ import CaptureResultHeader from './components/CaptureResultHeader';
 import CaptureResultMain from './components/CaptureResultMain';
 import './CaptureResultPage.scss';
 import { analytics } from '../../index';
-import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
+import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 import { RootState } from '../../redux/store';
 import AchievementBottomSheet from '../../common/utils/AchievementBottomSheet';
 
@@ -69,8 +69,8 @@ function CaptureResult() {
         }}
         bottomSheetIsOpen={achievementBottomSheetIsOpen2}
       />
-      {showCertificateSuccessToast && <ToastSuccessMessage message="인증에 성공하였습니다" />}
-      {showCertificateUpdateSuccessToast && <ToastSuccessMessage message="인증 수정에 성공하였습니다" />}
+      {showCertificateSuccessToast && <ToastPurpleMessage message="인증에 성공하였습니다" />}
+      {showCertificateUpdateSuccessToast && <ToastPurpleMessage message="인증 수정에 성공하였습니다" />}
     </>
   );
 }
