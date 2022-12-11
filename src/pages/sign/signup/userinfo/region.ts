@@ -26,7 +26,7 @@ export const GetRegion = async () => {
   const regionArray: regionType[] = [];
   let currentCode = 0;
   let currentIndex = -1;
-  const response = await axios.get(`${process.env.REACT_APP_API_URL}/code/geo-data`);
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/code/geo`);
   const { data } = response.data;
   data.forEach((each: responseType) => {
     if (currentCode !== each.n_pCode) {

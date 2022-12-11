@@ -20,17 +20,21 @@ function AchievementBottomSheet({ name, cancelButtonHandler, bottomSheetIsOpen }
       <Sheet.Container style={sheetStyle}>
         {/* <Sheet.Header /> */}
         <Sheet.Content>
-          <div className="confirm-bottom-sheet">
-            <div className="confirm-bottom-sheet-title">
-              <div className="confirm-bottom-sheet-title-text">업적획득</div>
-              <div className="confirm-bottom-sheet-title-sub-text">{name}</div>
+          <div className="achievement-bottom-sheet">
+            <div className="achievement-bottom-sheet-first-line">
+              <div className="achievement-bottom-sheet-first-line-title">업적획득</div>
+              <div className="achievement-bottom-sheet-first-line-name">{name}</div>
             </div>
-            <img
+            <div className="achievement-bottom-sheet-second-line">
+              <div className="achievement-bottom-sheet-second-line-sub-text">카페 10회 방문</div>
+              <div className="achievement-bottom-sheet-second-line-text">커피를 즐기는 강아지</div>
+            </div>
+            {/* <img
               src=""
               className="achievement-page-header-prev-arrow"
-              alt="achievement-page-prev-arrow"
+              // alt="achievement-page-prev-arrow"
               aria-hidden="true"
-            />
+            /> */}
           </div>
         </Sheet.Content>
       </Sheet.Container>

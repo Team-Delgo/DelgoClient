@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
+import Sheet, { SheetRef } from 'react-modal-sheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { Ring } from 'react-css-spinners';
@@ -346,31 +347,45 @@ function Photo() {
         )}
         {photoContext}
       </div>
-      {buttonIsClicked && (
-        <div className="photo-sort-option" ref={ref}>
-          <div
-            className={classNames('photo-sort-option-item', { selected: sortOption })}
-            aria-hidden="true"
-            onClick={() => {
-              setSortOption(true);
-              setButtonIsClicked(false);
-            }}
-          >
-            최신순
-          </div>
-          <div className="photo-sort-option-devider" />
-          <div
-            className={classNames('photo-sort-option-item', { selected: !sortOption })}
-            aria-hidden="true"
-            onClick={() => {
-              setSortOption(false);
-              setButtonIsClicked(false);
-            }}
-          >
-            오래된순
-          </div>
-        </div>
-      )}
+      <Sheet
+        className="confirm-bottom-sheet-container"
+        isOpen={buttonIsClicked}
+        disableDrag
+        onClose={() => {
+          setButtonIsClicked(false);
+        }}
+        snapPoints={[160, 160, 160, 160]}
+      >
+        <Sheet.Container>
+          {/* <Sheet.Header /> */}
+          <Sheet.Content>
+            <div className="photo-sort-option" ref={ref}>
+              <div
+                className={classNames('photo-sort-option-item', { selected: sortOption })}
+                aria-hidden="true"
+                onClick={() => {
+                  setSortOption(true);
+                  setButtonIsClicked(false);
+                }}
+              >
+                최신순
+              </div>
+              <div className="photo-sort-option-devider" />
+              <div
+                className={classNames('photo-sort-option-item', { selected: !sortOption })}
+                aria-hidden="true"
+                onClick={() => {
+                  setSortOption(false);
+                  setButtonIsClicked(false);
+                }}
+              >
+                오래된순
+              </div>
+            </div>
+          </Sheet.Content>
+        </Sheet.Container>
+        <Sheet.Backdrop />
+      </Sheet>
     </div>
   );
 }
