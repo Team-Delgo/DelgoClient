@@ -1,15 +1,16 @@
 import React from 'react';
 import Sheet, { SheetRef } from 'react-modal-sheet';
+import X from '../icons/xx.svg';
 import './AchievementBottomSheet.scss';
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
 interface achievementBottomSheetType {
-  name: string;
+  achievement: any;
   cancelButtonHandler: () => void;
   bottomSheetIsOpen: boolean;
 }
-function AchievementBottomSheet({ name, cancelButtonHandler, bottomSheetIsOpen }: achievementBottomSheetType) {
+function AchievementBottomSheet({ achievement, cancelButtonHandler, bottomSheetIsOpen }: achievementBottomSheetType) {
   return (
     <Sheet
       className="confirm-bottom-sheet-container"
@@ -23,18 +24,26 @@ function AchievementBottomSheet({ name, cancelButtonHandler, bottomSheetIsOpen }
           <div className="achievement-bottom-sheet">
             <div className="achievement-bottom-sheet-first-line">
               <div className="achievement-bottom-sheet-first-line-title">업적획득</div>
-              <div className="achievement-bottom-sheet-first-line-name">{name}</div>
+              <div className="achievement-bottom-sheet-first-line-name">{achievement?.name}</div>
             </div>
             <div className="achievement-bottom-sheet-second-line">
-              <div className="achievement-bottom-sheet-second-line-sub-text">카페 10회 방문</div>
-              <div className="achievement-bottom-sheet-second-line-text">커피를 즐기는 강아지</div>
+              <div className="achievement-bottom-sheet-second-line-sub-text">{achievement?.subtext}</div>
+              <div className="achievement-bottom-sheet-second-line-text">{achievement?.subtext}</div>
             </div>
-            {/* <img
-              src=""
-              className="achievement-page-header-prev-arrow"
-              // alt="achievement-page-prev-arrow"
+            <img
+              src={achievement?.imgUrl}
+              className="achievement-bottom-sheet-img"
+              alt="achievement-bottom-sheet-img"
+            />
+            <img
+              src={X}
+              className="achievement-bottom-sheet-x"
+              alt="achievement-bottom-sheet-x"
               aria-hidden="true"
-            /> */}
+              onClick={cancelButtonHandler}
+              width={21}
+              height={21}
+            />
           </div>
         </Sheet.Content>
       </Sheet.Container>
