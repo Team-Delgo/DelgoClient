@@ -10,7 +10,6 @@ import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
 import { RootState } from '../../redux/store';
 import AchievementBottomSheet from '../../common/utils/AchievementBottomSheet';
 
-
 function CaptureResult() {
   const [showCertificateSuccessToast, setShowCertificateSuccessToast] = useState(false);
   const [showCertificateUpdateSuccessToast, setShowCertificateUpdateSuccessToast] = useState(false);
@@ -23,8 +22,7 @@ function CaptureResult() {
   useEffect(() => {
     if (achievements.length === 1) {
       setAchievementBottomSheetIsOpen1(true);
-    }
-    else if (achievements.length === 2) {
+    } else if (achievements.length === 2) {
       setAchievementBottomSheetIsOpen1(true);
       setAchievementBottomSheetIsOpen2(true);
     }
@@ -58,16 +56,16 @@ function CaptureResult() {
       <CaptureResultHeader />
       <CaptureResultMain />
       <AchievementBottomSheet
-        name={achievements[0]?.name}
+        name="바리스타명"
         cancelButtonHandler={() => {
-          console.log(1);
+          setAchievementBottomSheetIsOpen1(false);
         }}
-        bottomSheetIsOpen={achievementBottomSheetIsOpen1}
+        bottomSheetIsOpen
       />
       <AchievementBottomSheet
-        name="댓글을 삭제하실건가요?"
+        name={achievements[1]?.name}
         cancelButtonHandler={() => {
-          console.log(1);
+          setAchievementBottomSheetIsOpen2(false);
         }}
         bottomSheetIsOpen={achievementBottomSheetIsOpen2}
       />

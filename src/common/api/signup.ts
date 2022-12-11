@@ -88,7 +88,7 @@ async function deleteUser(userId: number, success: (data: AxiosResponse) => void
 
 async function getRegion(success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/code/geo-data`)
+    .get(`${process.env.REACT_APP_API_URL}/code/geo`)
     .then((data) => {
       success(data);
     })

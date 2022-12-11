@@ -44,13 +44,13 @@ function MyAccountPage() {
     window.scroll(0, 0);
   }, []);
 
-  // const moveToKakaoPlusFriend = useCallback(() => {
-  //   if (OS === 'android') {
-  //     window.BRIDGE.goToPlusFriends();
-  //   } else {
-  //     window.webkit.messageHandlers.goToPlusFriends.postMessage('');
-  //   }
-  // },[])
+  const moveToKakaoPlusFriend = useCallback(() => {
+    if (OS === 'android') {
+      window.BRIDGE.goToPlusFriends();
+    } else {
+      window.webkit.messageHandlers.goToPlusFriends.postMessage('');
+    }
+  },[])
 
   const logoutHandler = () => {
     window.localStorage.removeItem('accessToken');
@@ -100,7 +100,7 @@ function MyAccountPage() {
           설정
           <img src={RightArrow} alt="more" />
         </div>
-        <div className="my-account-page-body-item">
+        <div className="my-account-page-body-item" aria-hidden="true" onClick={moveToKakaoPlusFriend}>
           <div className="my-account-page-body-item-wrapper">
             <div className="my-account-page-body-item-wrapper-title">문의</div>
             <div className="my-account-page-body-item-wrapper-sub">카카오 플러스친구로 이동</div>
