@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import MagnifyingGlass from '../../../../common/icons/magnifying-glass.svg';

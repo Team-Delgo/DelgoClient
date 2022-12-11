@@ -1,7 +1,7 @@
 import React from 'react';
-import './ToastSuccessMessage.scss';
+import './ToastPurpleMessage.scss';
 
-function ToastSuccessMessage(props: { message: string }) {
+function ToastPurpleMessage(props: { message: string }) {
   const { message } = props;
   return (
     <div className="toast-success-message">
@@ -10,4 +10,4 @@ function ToastSuccessMessage(props: { message: string }) {
   );
 }
 
-export default ToastSuccessMessage;
+export default ToastPurpleMessage;

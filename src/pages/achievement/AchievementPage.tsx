@@ -12,7 +12,7 @@ import MainAchievment from './components/MainAchievment';
 import Achievment from './components/Achievement';
 import { analytics } from '../../index';
 import Loading from '../../common/utils/Loading';
-import ToastSuccessMessage from '../../common/dialog/ToastSuccessMessage';
+import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 
 interface AchievementType {
   achievementsId: number;
@@ -169,8 +169,8 @@ function AchievementPage() {
         selectRepresentativeAchievements={selectRepresentativeAchievements}
         achievementListCount={achievementListCount}
       />
-      {mainAchievementSuccessToastIsOpen && <ToastSuccessMessage message="대표업적 설정이 성공했습니다." />}
-      {mainAchievementLimitToastIsOpen && <ToastSuccessMessage message="업적 최대 3개까지만 설정 가능합니다." />}
+      {mainAchievementSuccessToastIsOpen && <ToastPurpleMessage message="대표업적 설정이 성공했습니다." />}
+      {mainAchievementLimitToastIsOpen && <ToastPurpleMessage message="업적 최대 3개까지만 설정 가능합니다." />}
     </>
   );
 }

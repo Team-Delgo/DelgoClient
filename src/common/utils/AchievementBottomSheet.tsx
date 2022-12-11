@@ -5,6 +5,16 @@ import './AchievementBottomSheet.scss';
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
+interface achievementType {
+  achievementsId: number;
+  imgUrl: string;
+  isActive: boolean;
+  isMain: number;
+  isMungple: boolean;
+  name: string;
+  registDt: string;
+}
+
 interface achievementBottomSheetType {
   achievement: any;
   cancelButtonHandler: () => void;
@@ -31,9 +41,11 @@ function AchievementBottomSheet({ achievement, cancelButtonHandler, bottomSheetI
               <div className="achievement-bottom-sheet-second-line-text">{achievement?.subtext}</div>
             </div>
             <img
-              src={achievement?.imgUrl}
+              src={achievement.imgUrl}
               className="achievement-bottom-sheet-img"
               alt="achievement-bottom-sheet-img"
+              width={107}
+              height={143}
             />
             <img
               src={X}

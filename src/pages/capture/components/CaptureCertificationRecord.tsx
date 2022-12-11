@@ -23,7 +23,7 @@ import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../common/utils/CropHandle';
-import ToastSuccessMessage from '../../../common/dialog/ToastSuccessMessage';
+import ToastPurpleMessage from '../../../common/dialog/ToastPurpleMessage';
 import Loading from '../../../common/utils/Loading';
 
 interface categoryType {
@@ -366,8 +366,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
           </Sheet.Content>
         </Sheet.Container>
       </Sheet>
-      {showCertificateErrorToast && <ToastSuccessMessage message={certificateErrorToastMessage}/>}
-      {showCertificateErrorToast && <ToastSuccessMessage message={certificateErrorToastMessage}/>}
+      {showCertificateErrorToast && <ToastPurpleMessage message={certificateErrorToastMessage}/>}
     </>
   );
 }
