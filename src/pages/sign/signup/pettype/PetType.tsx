@@ -10,6 +10,17 @@ import './PetType.scss';
 const 강아지종류 = [
   { name: '시츄', id: '1', active: false },
   { name: '시츄2', id: '2', active: false },
+  { name: '시츄2', id: '3', active: false },
+  { name: '시츄2', id: '4', active: false },
+  { name: '시츄2', id: '5', active: false },
+  { name: '시츄2', id: '6', active: false },
+  { name: '시츄2', id: '7', active: false },
+  { name: '시츄2', id: '8', active: false },
+  { name: '시츄2', id: '9', active: false },
+  { name: '시츄2', id: '10', active: false },
+  { name: '시츄2', id: '11', active: false },
+  { name: '시츄2', id: '12', active: false },
+  { name: '시츄2', id: '13', active: false },
 ];
 
 function PetType() {
@@ -47,26 +58,28 @@ function PetType() {
         <input type="text" className="pet-type-search-name" placeholder="강아지 종류" onChange={wirtePetTypeName} />
         <img className="pet-type-search-magnifying-glass-img" src={MagnifyingGlass} alt="magnifying-glass-img" />
       </div>
-      {강아지종류.map((dog: any) => {
-        if (searchPetTypeName.length > 0) {
-          if (dog.name.includes(searchPetTypeName)) {
-            return (
-              <div className="pet-type-search-result" aria-hidden="true" onClick={selectPetType(dog)}>
-                <div
-                  className={
-                    checkedPetTypeId === dog.id ? 'pet-type-search-result-active-name' : 'pet-type-search-result-name'
-                  }
-                >
-                  {dog.name}
+      <div className="pet-type-search-result-container">
+        {강아지종류.map((dog: any) => {
+          if (searchPetTypeName.length > 0) {
+            if (dog.name.includes(searchPetTypeName)) {
+              return (
+                <div className="pet-type-search-result" aria-hidden="true" onClick={selectPetType(dog)}>
+                  <div
+                    className={
+                      checkedPetTypeId === dog.id ? 'pet-type-search-result-active-name' : 'pet-type-search-result-name'
+                    }
+                  >
+                    {dog.name}
+                  </div>
+                  {checkedPetTypeId === dog.id ? (
+                    <img className="pet-type-search-result-check" src={Check} alt="category-img" />
+                  ) : null}
                 </div>
-                {checkedPetTypeId === dog.id ? (
-                  <img className="pet-type-search-result-check" src={Check} alt="category-img" />
-                ) : null}
-              </div>
-            );
+              );
+            }
           }
-        }
-      })}
+        })}
+      </div>
       <button
         type="button"
         disabled={checkedPetTypeId === -1}
