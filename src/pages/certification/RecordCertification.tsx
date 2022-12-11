@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Certification } from './RecordCertificationPage';
 import VerticalDevider from '../../common/icons/vertical-devide.svg';
 import Cafe from '../../common/icons/cafe.svg';
@@ -54,6 +54,7 @@ function RecordCertification(props: { certification: Cert }) {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const location = useLocation()
 
   const setCertificationLike = async () => {
     certificationLike(

@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
-import Sheet, { SheetRef } from 'react-modal-sheet';
 import { RootState } from '../../../redux/store';
-import { CAMERA_PATH, POSTS_PATH, ROOT_PATH } from '../../../common/constants/path.const';
+import { CAMERA_PATH, POSTS_PATH, ROOT_PATH,RECORD_PATH } from '../../../common/constants/path.const';
 import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
-import AlertConfirm from '../../../common/dialog/AlertConfirm';
-import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
 import DeleteBottomSheet from '../../../common/utils/ConfirmBottomSheet';
 
 interface weekDayType {
@@ -40,7 +37,7 @@ function CaptureResultHeader() {
   const { user } = useSelector((state: RootState) => state.persist.user);
   const location: any = useLocation();
 
-  console.log('location', location?.state?.prevPrevPath === '/posts');
+  console.log('location', location?.state?.prevPrevPath);
 
   const deleteCertification = () => {
     closeBottomSheet();
