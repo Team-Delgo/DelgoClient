@@ -42,28 +42,28 @@ function CaptureResult() {
     }
   }, []);
 
-  useEffect(() => {
-    mutation.mutate({
-      params: {
-        firebase_screen: 'CaptureResult',
-        firebase_screen_class: 'CaptureResultPage',
-      },
-    });
-  }, []);
+  // useEffect(() => {
+  //   mutation.mutate({
+  //     params: {
+  //       firebase_screen: 'CaptureResult',
+  //       firebase_screen_class: 'CaptureResultPage',
+  //     },
+  //   });
+  // }, []);
 
   return (
     <>
       <CaptureResultHeader />
       <CaptureResultMain />
       <AchievementBottomSheet
-        name="바리스타명"
+         achievement={achievements[0]}
         cancelButtonHandler={() => {
           setAchievementBottomSheetIsOpen1(false);
         }}
-        bottomSheetIsOpen
+        bottomSheetIsOpen={achievementBottomSheetIsOpen1}
       />
       <AchievementBottomSheet
-        name={achievements[1]?.name}
+        achievement={achievements[1]}
         cancelButtonHandler={() => {
           setAchievementBottomSheetIsOpen2(false);
         }}

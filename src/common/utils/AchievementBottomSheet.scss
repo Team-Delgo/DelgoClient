@@ -1,14 +1,8 @@
-.achievement-bottom-sheet-container {
-    z-index: 100;
-    overflow-y: hidden;
-}
-
 .achievement-bottom-sheet {
     text-align: center;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: space-evenly;
     height: 100%;
+    z-index: 100;
+    overflow-y: hidden;
 
     &-first-line {
         &-title {
@@ -33,5 +27,10 @@
             margin-bottom: 2px;
 
         }
+    }
+    &-x{
+        position: absolute;
+        top:30px;
+        right: 20px;
     }
 }
