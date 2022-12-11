@@ -60,7 +60,7 @@ function CaptureCategoryUpdateRecord() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation()
+  const location: any = useLocation()
 
   const writeContent = useCallback((e) => {
     setCertificationPostContent(e.target.value.trim());
@@ -105,6 +105,7 @@ function CaptureCategoryUpdateRecord() {
     navigate(CAMERA_PATH.RESULT, {
       state: {
         prevPath: location.pathname,
+        prevPrevPath: location?.state?.prevPath,
       },
     });
   };

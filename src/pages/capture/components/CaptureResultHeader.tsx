@@ -39,7 +39,9 @@ function CaptureResultHeader() {
   const { registDt, certificationId } = useSelector((state: RootState) => state.persist.upload);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const location: any = useLocation();
-  
+
+  console.log('location', location?.state?.prevPrevPath === '/posts');
+
   const deleteCertification = () => {
     closeBottomSheet();
     deleteCertificationPost(
@@ -98,7 +100,7 @@ function CaptureResultHeader() {
             className="capture-page-x"
             alt="capture-page-x"
             aria-hidden="true"
-            onClick={moveToHomePage}
+            onClick={location?.state?.prevPrevPath === POSTS_PATH ? moveToPostsPage : moveToHomePage}
           />
         </div>
       </header>

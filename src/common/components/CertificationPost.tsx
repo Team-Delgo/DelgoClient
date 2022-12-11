@@ -2,7 +2,7 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
@@ -14,7 +14,6 @@ import Heart from '../icons/heart-empty.svg';
 import FillHeart from '../icons/heart.svg';
 import Comments from '../icons/comments.svg';
 import { RootState } from '../../redux/store';
-import AlertConfirmOne from '../dialog/AlertConfirmOne';
 import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
@@ -126,6 +125,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
+  const location = useLocation()
 
   useEffect(() => {
     if (deletePostSuccessToastIsOpen) {
@@ -185,7 +185,11 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         content: post?.description,
       }),
     );
-    navigate(CAMERA_PATH.UPDATE);
+    navigate(CAMERA_PATH.UPDATE, {
+      state: {
+        prevPath: location.pathname,
+      },
+    });
   };
 
   const oepnToastSuccessMessage = () => {
