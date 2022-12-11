@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import NotChecked from '../../../common/icons/not-checked.svg';
 import AchievementBottomSheet from '../../../common/utils/AchievementBottomSheet';
 
-interface AchievementType {
+interface achievementType {
   achievementsId: number;
   imgUrl: string;
   isActive: boolean;
@@ -16,8 +16,8 @@ interface AchievementType {
 
 interface AchievementPropsType {
   editActivation: boolean;
-  achievementList: Array<AchievementType>;
-  selectRepresentativeAchievements: (param: AchievementType) => (event: React.MouseEvent) => void;
+  achievementList: Array<achievementType>;
+  selectRepresentativeAchievements: (param: achievementType) => (event: React.MouseEvent) => void;
   achievementListCount: number;
 }
 
@@ -28,9 +28,9 @@ function Achievement({
   achievementListCount,
 }: AchievementPropsType) {
   const [achievementBottomSheetIsOpen, setAchievementBottomSheetIsOpen] = useState(false);
-  const [selectedAchievement, setSelectedAchievement] = useState<AchievementType>();
+  const [selectedAchievement, setSelectedAchievement] = useState<achievementType>();
 
-  const openBottomSheet = (achievement: AchievementType) => (event: React.MouseEvent) => {
+  const openBottomSheet = (achievement: achievementType) => (event: React.MouseEvent) => {
     setSelectedAchievement(achievement);
     setTimeout(() => {
       setAchievementBottomSheetIsOpen(true);
@@ -48,8 +48,8 @@ function Achievement({
         <div className="achievement-page-body-achievements-count">총 {achievementListCount}개 획득</div>
         <div className="achievement-page-body-achievements-images">
           {achievementList
-            .sort((a: AchievementType, b: AchievementType) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1))
-            .map((achievement: AchievementType) => (
+            .sort((a: achievementType, b: achievementType) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1))
+            .map((achievement: achievementType) => (
               <div
                 className="achievement-page-body-achievements-image-container"
                 aria-hidden="true"

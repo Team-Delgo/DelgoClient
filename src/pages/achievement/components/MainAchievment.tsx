@@ -7,7 +7,7 @@ import { RootState } from '../../../redux/store';
 import Checked from '../../../common/icons/checked.svg';
 import AchievementBottomSheet from '../../../common/utils/AchievementBottomSheet';
 
-interface AchievementType {
+interface achievementType {
   achievementsId: number;
   imgUrl: string;
   isActive: boolean;
@@ -17,15 +17,23 @@ interface AchievementType {
   registDt: string;
 }
 
+interface mainAchievmentType {
+  editActivation: boolean;
+  editRepresentativeAchievementsOn: () => void;
+  editRepresentativeAchievementsOff: () => void;
+  mainAchievementList: Array<achievementType>;
+  filterRepresentativeAchievements: (param: achievementType) => (event: React.MouseEvent) => void;
+}
+
 function MainAchievment({
   editActivation,
   editRepresentativeAchievementsOn,
   editRepresentativeAchievementsOff,
   mainAchievementList,
   filterRepresentativeAchievements,
-}: any) {
+}: mainAchievmentType) {
   const [achievementBottomSheetIsOpen, setAchievementBottomSheetIsOpen] = useState(false);
-  const [selectedAchievement,setSelectedAchievement] = useState<AchievementType>()
+  const [selectedAchievement,setSelectedAchievement] = useState<achievementType>()
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
 
@@ -33,7 +41,7 @@ function MainAchievment({
     navigate(ROOT_PATH);
   };
 
-  const openBottomSheet = (achievement: AchievementType)=> (event:React.MouseEvent) => {
+  const openBottomSheet = (achievement: achievementType)=> (event:React.MouseEvent) => {
     setSelectedAchievement(achievement);
     setTimeout(() => {
       setAchievementBottomSheetIsOpen(true);
@@ -79,7 +87,7 @@ function MainAchievment({
             최대 3개까지 선택 할 수 있어요
           </div>
           <div className="achievement-page-header-achievements-images">
-            {mainAchievementList.map((achievement: AchievementType) => (
+            {mainAchievementList.map((achievement: achievementType) => (
               <div
                 className="achievement-page-header-achievements-image-container"
                 aria-hidden="true"

@@ -41,7 +41,7 @@ function AchievementBottomSheet({ achievement, cancelButtonHandler, bottomSheetI
               <div className="achievement-bottom-sheet-second-line-text">{achievement?.subtext}</div>
             </div>
             <img
-              src={achievement.imgUrl}
+              src={achievement?.imgUrl}
               className="achievement-bottom-sheet-img"
               alt="achievement-bottom-sheet-img"
               width={107}
