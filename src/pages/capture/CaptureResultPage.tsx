@@ -56,13 +56,15 @@ function CaptureResult() {
       <CaptureResultHeader />
       <CaptureResultMain />
       <AchievementBottomSheet
-         achievement={achievements[0]}
+        text="업적 획득"
+        achievement={achievements[0]}
         cancelButtonHandler={() => {
           setAchievementBottomSheetIsOpen1(false);
         }}
         bottomSheetIsOpen={achievementBottomSheetIsOpen1}
       />
       <AchievementBottomSheet
+        text="업적 획득"
         achievement={achievements[1]}
         cancelButtonHandler={() => {
           setAchievementBottomSheetIsOpen2(false);

@@ -6,10 +6,11 @@ import AchievementBottomSheet from '../../../common/utils/AchievementBottomSheet
 
 interface achievementType {
   achievementsId: number;
+  desc: string;
   imgUrl: string;
   isActive: boolean;
   isMain: number;
-  isMungple: number;
+  isMungple: boolean;
   name: string;
   registDt: string;
 }
@@ -89,6 +90,7 @@ function Achievement({
         </div>
       </body>
       <AchievementBottomSheet
+        text=""
         achievement={selectedAchievement}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={achievementBottomSheetIsOpen}
