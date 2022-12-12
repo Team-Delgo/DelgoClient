@@ -9,10 +9,11 @@ import AchievementBottomSheet from '../../../common/utils/AchievementBottomSheet
 
 interface achievementType {
   achievementsId: number;
+  desc: string;
   imgUrl: string;
   isActive: boolean;
   isMain: number;
-  isMungple: number;
+  isMungple: boolean;
   name: string;
   registDt: string;
 }
@@ -33,7 +34,7 @@ function MainAchievment({
   filterRepresentativeAchievements,
 }: mainAchievmentType) {
   const [achievementBottomSheetIsOpen, setAchievementBottomSheetIsOpen] = useState(false);
-  const [selectedAchievement,setSelectedAchievement] = useState<achievementType>()
+  const [selectedAchievement, setSelectedAchievement] = useState<achievementType>();
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ function MainAchievment({
     navigate(ROOT_PATH);
   };
 
-  const openBottomSheet = (achievement: achievementType)=> (event:React.MouseEvent) => {
+  const openBottomSheet = (achievement: achievementType) => (event: React.MouseEvent) => {
     setSelectedAchievement(achievement);
     setTimeout(() => {
       setAchievementBottomSheetIsOpen(true);
@@ -100,7 +101,7 @@ function MainAchievment({
                     width={107}
                     height={143}
                     aria-hidden="true"
-                    onClick={ editActivation === false ? openBottomSheet(achievement): undefined}
+                    onClick={editActivation === false ? openBottomSheet(achievement) : undefined}
                   />
                 </div>
                 {editActivation === true ? (
@@ -118,6 +119,7 @@ function MainAchievment({
         </div>
       </header>
       <AchievementBottomSheet
+        text=""
         achievement={selectedAchievement}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={achievementBottomSheetIsOpen}

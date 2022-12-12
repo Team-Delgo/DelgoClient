@@ -16,10 +16,11 @@ import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 
 interface AchievementType {
   achievementsId: number;
+  desc: string;
   imgUrl: string;
   isActive: boolean;
   isMain: number;
-  isMungple: number;
+  isMungple: boolean;
   name: string;
   registDt: string;
 }

@@ -16,13 +16,14 @@ interface initialStateType {
   achievements:Array<achievementType>
 }
 interface achievementType {
-  achievementsId: number,
-  imgUrl: string,
-  isActive: boolean,
-  isMain: number,
-  isMungple: boolean,
-  name: string,
-  registDt: string,
+  achievementsId: number;
+  desc: string;
+  imgUrl: string;
+  isActive: boolean;
+  isMain: number;
+  isMungple: boolean;
+  name: string;
+  registDt: string;
 }
 
 const initialState:initialStateType = {

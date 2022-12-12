@@ -3,6 +3,7 @@ import Sheet, { SheetRef } from 'react-modal-sheet';
 import './ConfirmBottomSheet.scss';
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
+const sheetSnapPoints = [300,300,100,0]
 
 interface confirmBottomSheetType {
   text: string;
@@ -27,7 +28,7 @@ function ConfirmBottomSheet({
       className="confirm-bottom-sheet-container"
       isOpen={bottomSheetIsOpen}
       onClose={cancelButtonHandler}
-      snapPoints={[300, 300, 100, 0]}
+      snapPoints={sheetSnapPoints}
     >
       <Sheet.Container style={sheetStyle}>
         {/* <Sheet.Header /> */}

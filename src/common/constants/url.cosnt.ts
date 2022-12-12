@@ -11,5 +11,3 @@ export const NAVER = {
   CALL_BACK_URL: `${process.env.REACT_APP_BASE_URL}/oauth/callback/naver`,
   NAVER_AUTH_URL: `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&state=${process.env.REACT_APP_NAVER_STATE_STRING}&redirect_uri=${process.env.REACT_APP_BASE_URL}/oauth/callback/naver`,
 };
-
-export const DELGO_REWARD_URL = 'http://reward.delgo.pet:8080';

@@ -1,4 +1,7 @@
 .achievement-bottom-sheet {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     text-align: center;
     height: 100%;
     z-index: 100;
@@ -6,7 +9,7 @@
 
     &-first-line {
         &-title {
-            margin: 30px 0 5px 0;
+            margin: 10px 0 5px 0;
             font-weight: 400;
             font-size: 12px;
             color: #3F3F3F;
@@ -19,18 +22,17 @@
     }
 
     &-second-line {
-        margin: 15px 0;
+        margin-top: -10px;
         font-weight: 400;
         font-size: 12px;
         color: #3F3F3F;
-        &-sub-text {
-            margin-bottom: 2px;
-
-        }
     }
     &-x{
         position: absolute;
         top:30px;
         right: 20px;
+    }
+    &-img{
+        text-align: center;
     }
 }

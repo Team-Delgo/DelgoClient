@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import { useErrorHandlers } from './useErrorHandlers';
-import { DELGO_REWARD_URL } from '../constants/url.cosnt';
 
 async function getMapData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
