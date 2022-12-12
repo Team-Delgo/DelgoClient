@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable array-callback-return */
 import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
@@ -43,11 +44,11 @@ function PetType() {
 
 
   const wirtePetTypeName = useCallback((e) => {
-    setSearchPetTypeName(e.target.value.trim());
+    e.target.value === '' ? setCheckedPetTypeId('') : setSearchPetTypeName(e.target.value.trim());
   }, []);
 
   const selectPetType = (pet: petType) => (event: React.MouseEvent) => {
-    setCheckedPetTypeId(pet.code);
+    pet.code === checkedPetTypeId ? setCheckedPetTypeId('') : setCheckedPetTypeId(pet.code);
   };
 
   if (getCertificationPostsByMainIsLoading) {
