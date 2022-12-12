@@ -167,6 +167,13 @@ async function petImageUpload(
     });
 }
 
+async function getPetType() {
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/code/dog`);
+  console.log('data', data);
+  return data;
+}
+
 export {
   emailCheck,
   nicknameCheck,
@@ -176,5 +183,6 @@ export {
   phoneCheckNumber,
   phoneSendMessage,
   petImageUpload,
-  getRegion
+  getRegion,
+  getPetType
 };

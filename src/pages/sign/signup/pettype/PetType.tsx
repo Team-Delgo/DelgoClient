@@ -1,44 +1,58 @@
 /* eslint-disable array-callback-return */
 import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getPetType } from '../../../../common/api/signup';
+import { useErrorHandlers } from '../../../../common/api/useErrorHandlers';
+import { CACHE_TIME, GET_PET_TYPE_DATA_LIST, STALE_TIME } from '../../../../common/constants/queryKey.const';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import MagnifyingGlass from '../../../../common/icons/magnifying-glass.svg';
 import Check from '../../../../common/icons/place-check.svg';
 import './PetType.scss';
 
-const 강아지종류 = [
-  { name: '시츄', id: '1', active: false },
-  { name: '시츄2', id: '2', active: false },
-  { name: '시츄2', id: '3', active: false },
-  { name: '시츄2', id: '4', active: false },
-  { name: '시츄2', id: '5', active: false },
-  { name: '시츄2', id: '6', active: false },
-  { name: '시츄2', id: '7', active: false },
-  { name: '시츄2', id: '8', active: false },
-  { name: '시츄2', id: '9', active: false },
-  { name: '시츄2', id: '10', active: false },
-  { name: '시츄2', id: '11', active: false },
-  { name: '시츄2', id: '12', active: false },
-  { name: '시츄2', id: '13', active: false },
-];
+interface petType {
+  code: string;
+  codeDesc: string;
+  codeName: string;
+  n_code: null;
+  n_pCode: null;
+  pcode: string;
+  registDt: string;
+  type: string;
+}
 
 function PetType() {
   const navigation = useNavigate();
   const [searchPetTypeName, setSearchPetTypeName] = useState('');
-  const [checkedPetTypeId, setCheckedPetTypeId] = useState(-1);
+  const [checkedPetTypeId, setCheckedPetTypeId] = useState('');
+  const dispatch = useDispatch();
+
+  const { isLoading: getCertificationPostsByMainIsLoading, data: certificationPostsDataList } = useQuery(
+    GET_PET_TYPE_DATA_LIST,
+    () => getPetType(),
+    {
+      cacheTime: CACHE_TIME,
+      staleTime: STALE_TIME,
+      onError: (error: any) => {
+        useErrorHandlers(dispatch, error);
+      },
+    },
+  );
+
 
   const wirtePetTypeName = useCallback((e) => {
     setSearchPetTypeName(e.target.value.trim());
-
-    if (e.target.value.trim() === '') {
-      setCheckedPetTypeId(-1);
-    }
   }, []);
 
-  const selectPetType = (dog: any) => (event: React.MouseEvent) => {
-    setCheckedPetTypeId(dog.id);
+  const selectPetType = (pet: petType) => (event: React.MouseEvent) => {
+    setCheckedPetTypeId(pet.code);
   };
+
+  if (getCertificationPostsByMainIsLoading) {
+    return <div className="login"> &nbsp;</div>;
+  }
 
   return (
     <div className="login">
@@ -59,19 +73,19 @@ function PetType() {
         <img className="pet-type-search-magnifying-glass-img" src={MagnifyingGlass} alt="magnifying-glass-img" />
       </div>
       <div className="pet-type-search-result-container">
-        {강아지종류.map((dog: any) => {
+        {certificationPostsDataList?.data?.map((pet: petType) => {
           if (searchPetTypeName.length > 0) {
-            if (dog.name.includes(searchPetTypeName)) {
+            if (pet.codeName.includes(searchPetTypeName)) {
               return (
-                <div className="pet-type-search-result" aria-hidden="true" onClick={selectPetType(dog)}>
+                <div className="pet-type-search-result" aria-hidden="true" onClick={selectPetType(pet)}>
                   <div
                     className={
-                      checkedPetTypeId === dog.id ? 'pet-type-search-result-active-name' : 'pet-type-search-result-name'
+                      checkedPetTypeId === pet.code ? 'pet-type-search-result-active-name' : 'pet-type-search-result-name'
                     }
                   >
-                    {dog.name}
+                    {pet.codeName}
                   </div>
-                  {checkedPetTypeId === dog.id ? (
+                  {checkedPetTypeId === pet.code ? (
                     <img className="pet-type-search-result-check" src={Check} alt="category-img" />
                   ) : null}
                 </div>
@@ -82,8 +96,8 @@ function PetType() {
       </div>
       <button
         type="button"
-        disabled={checkedPetTypeId === -1}
-        className={classNames('login-button', { active: checkedPetTypeId !== -1 })}
+        disabled={checkedPetTypeId === ''}
+        className={classNames('login-button', { active: checkedPetTypeId !== '' })}
         // onClick={() => {
         //   setTimeout(() => {
         //     submitHandler();
