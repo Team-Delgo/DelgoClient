@@ -236,6 +236,7 @@ function PetInfo() {
               },
               dispatch,
             );
+            window.BRIDGE.sendFcmToken(data.user.userId);
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);
@@ -290,10 +291,8 @@ function PetInfo() {
                 },
               }),
             );
-            console.log(1, userId);
+            window.BRIDGE.sendFcmToken(data.user.userId);
             formData.append('photo', sendingImage[0]);
-            console.log(sendingImage[0]);
-            console.log(formData);
             await petImageUpload(
               { formData, userId },
               (response: AxiosResponse) => {

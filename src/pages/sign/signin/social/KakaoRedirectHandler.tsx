@@ -66,6 +66,7 @@ function KakaoRedirectHandler() {
           const refreshToken = response.headers.authorization_refresh;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
+          window.BRIDGE.sendFcmToken(data.user.userId);
           navigate(ROOT_PATH, { replace: true });
         } else if (code === 370) {
           console.log('소셜 회원가입');

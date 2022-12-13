@@ -104,6 +104,7 @@ function Login() {
           const refreshToken = response.headers.authorization_refresh;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
+          window.BRIDGE.sendFcmToken(data.user.userId);
           navigation(ROOT_PATH, { replace: true });
         } else if (code === 304) {
           console.log(2);
