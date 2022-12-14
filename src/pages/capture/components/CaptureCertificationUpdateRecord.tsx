@@ -88,6 +88,7 @@ function CaptureCategoryUpdateRecord() {
           dispatch(
             uploadAction.setContent({
               content: data.description,
+              achievements: []
             }),
           );
           moveToCaptureResultPage();

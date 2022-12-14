@@ -35,6 +35,7 @@ function NeighborRankingPage() {
     window.scroll(0, 0);
   }, []);
 
+
   const moveToHomePage = () => {
     navigate(-1);
   };

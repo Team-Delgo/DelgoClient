@@ -24,7 +24,7 @@ import CameraFrontPage from './pages/camera/CameraFrontPage';
 import CameraRearPage from './pages/camera/CameraRearPage';
 import CapturePage from './pages/capture/CapturePage';
 import CaptureCertificationPage from './pages/capture/CaptureCertificationPage';
-import CaptureResultPage from './pages/capture/CaptureResultPage';
+import CaptureCertificationResultPage from './pages/capture/CaptureCertificationResultPage';
 import CaptureLocationPage from './pages/capture/CaptureLocationPage';
 import CaptureCertificationUpatePage from './pages/capture/CaptureCertificationUpatePage';
 import Photo from './pages/photo/Photo';
@@ -62,7 +62,6 @@ import Setting from './pages/myaccount/Setting';
 import ChangeUserInfo from './pages/myaccount/ChangeUserInfo';
 import ChangePasswordCheck from './pages/myaccount/ChangePasswordCheck';
 import ChangePassword from './pages/myaccount/ChangePassword';
-import AlertConfirmOne from './common/dialog/AlertConfirmOne';
 import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
@@ -83,15 +82,6 @@ function App() {
   const navigation = useNavigate();
   const hasError = useSelector((state: RootState) => state.persist.error.hasError);
   const tokenExpriedError = useSelector((state: RootState) => state.persist.error.tokenExpried);
-
-  useEffect(() => {
-    const varUA = navigator.userAgent.toLowerCase();
-    if (varUA.indexOf('android') > -1) {
-      dispatch(deviceAction.android());
-    } else if (varUA.indexOf('iphone') > -1 || varUA.indexOf('ipad') > -1 || varUA.indexOf('ipod') > -1) {
-      dispatch(deviceAction.ios());
-    }
-  }, []);
 
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
@@ -163,7 +153,7 @@ function App() {
         <Route path={CAMERA_PATH.CERTIFICATION} element={<CaptureCertificationPage />} />
         <Route path={CAMERA_PATH.LOCATION} element={<CaptureLocationPage />} />
         <Route path={CAMERA_PATH.UPDATE} element={<CaptureCertificationUpatePage />} />
-        <Route path={CAMERA_PATH.RESULT} element={<CaptureResultPage />} />
+        <Route path={CAMERA_PATH.RESULT} element={<CaptureCertificationResultPage />} />
         <Route path={POSTS_PATH} element={<PostsPage />} />
         <Route path={ACHIEVEMENT_PATH} element={<AchievementPage />} />
         <Route path={NEIGHBOR_RANKING_PATH} element={<NeighborRankingPage />} />

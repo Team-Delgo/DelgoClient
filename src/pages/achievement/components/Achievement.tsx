@@ -64,7 +64,11 @@ function Achievement({
               >
                 <div className="achievement-page-body-achievements-image" key={achievement.achievementsId}>
                   <img
-                    src={achievement.imgUrl}
+                    src={
+                      achievement.isActive
+                        ? achievement.imgUrl
+                        : 'https://kr.object.ncloudstorage.com/reward-achivements/%EC%9E%A0%EA%B8%88%ED%99%94%EB%A9%B4.png'
+                    }
                     alt="post-img"
                     width={107}
                     height={143}
