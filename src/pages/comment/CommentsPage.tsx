@@ -69,6 +69,7 @@ function CommentsPage() {
       certificationId,
       enteredInput,
       (response: AxiosResponse) => {
+        console.log('response',response)
         if (response.data.code === 200) {
           setEnteredInput('');
           getComments();

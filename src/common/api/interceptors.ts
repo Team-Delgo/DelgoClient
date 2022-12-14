@@ -6,9 +6,9 @@ const accessToken = localStorage.getItem('accessToken') || '';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
-  headers: {
-    Authorization: accessToken,
-  },
+  // headers: {
+  //   Authorization: accessToken,
+  // },
 });
 
 axiosInstance.interceptors.response.use(
