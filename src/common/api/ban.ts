@@ -9,7 +9,7 @@ async function blockUser(
   dispatch: any,
 ) {
   try {
-    const result = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/ban/${myUserId}/${blockedUserId}`);
+    const result = await axiosInstance.post(`/ban/${myUserId}/${blockedUserId}`);
     console.log(result);
     success(result);
   } catch (err: any) {

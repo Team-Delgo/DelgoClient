@@ -3,7 +3,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 import axiosInstance from './interceptors';
 
 async function getMyAccountDataList(userId: number) {
-  const { data } = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/myAccount`, {
+  const { data } = await axiosInstance.get(`/myAccount`, {
     params: { userId },
   });
   console.log(data);
@@ -15,9 +15,9 @@ async function changePetInfo(
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
-  const { email, name, birthday, size } = data;
+  const { email, name, birthday, breed } = data;
   await axiosInstance
-    .post(`${process.env.REACT_APP_API_URL}/changePetInfo`, {
+    .post(`/changePetInfo`, {
       email,
       name,
       birthday,
@@ -33,7 +33,7 @@ async function changePetInfo(
 
 async function changePassword(email: string, password: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .post(`${process.env.REACT_APP_API_URL}/changePassword`, {
+    .post(`/changePassword`, {
       email,
       newPassword: password,
     })
@@ -47,7 +47,7 @@ async function changePassword(email: string, password: string, success: (data: A
 
 async function changeGeoCode(email: string, geoCode:string, pGeoCode:string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .post(`${process.env.REACT_APP_API_URL}/changeUserInfo`, {
+    .post(`/changeUserInfo`, {
       email,
       geoCode,
       pGeoCode
@@ -62,7 +62,7 @@ async function changeGeoCode(email: string, geoCode:string, pGeoCode:string, suc
 
 async function changeName(email: string, name:string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .post(`${process.env.REACT_APP_API_URL}/changeUserInfo`, {
+    .post(`/changeUserInfo`, {
       email,
       name
     })
