@@ -141,7 +141,7 @@ function ChangePetInfo() {
   const chagneBirthHandler = (year: number, month: number, day: number) => {
     const birthday = `${year}-${`0${month}`.slice(-2)}-${`0${day}`.slice(-2)}`;
     setEnteredInput((prev: Input) => {
-      return { ...prev, birthday };
+      return { ...prev, birth:birthday };
     });
     setIsValid((prev: IsValid) => {
       return { ...prev, birth: true };
