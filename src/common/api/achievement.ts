@@ -11,7 +11,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 
 async function getAchievementList(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`)
+    .get(`/achievements/user/${userId}`)
     .then((data) => {
       console.log(data)
       success(data);
@@ -22,7 +22,7 @@ async function getAchievementList(userId: number, success: (data: AxiosResponse)
 }
 
 async function getAchievementListByMain(userId: number) {
-  const { data } = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`);
+  const { data } = await axiosInstance.get(`/achievements/user/${userId}`);
   console.log(data);
   return data;
 }
@@ -36,7 +36,7 @@ async function setMainAchievements(
   dispatch: any,
 ) {
   try {
-    const result = await axiosInstance.put(`${process.env.REACT_APP_API_URL}/achievements/main`, {
+    const result = await axiosInstance.put(`/achievements/main`, {
       userId,
       first: firstAchievementsId,
       second: secondAchievementsId,

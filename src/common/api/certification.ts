@@ -4,20 +4,20 @@ import { useErrorHandlers } from './useErrorHandlers';
 
 async function getMungPlaceList(categoryCode: string) {
   const { data } = await axiosInstance.get(
-    `${process.env.REACT_APP_API_URL}/mungple/category/${categoryCode}`,
+    `/mungple/category/${categoryCode}`,
   );
   return data;
 }
 
 async function getCertificationDataCount(userId: number) {
   const { data } = await axiosInstance.get(
-    `${process.env.REACT_APP_API_URL}/certification/category/count/${userId}`,
+    `/certification/category/count/${userId}`,
   );
   return data;
 }
 
 async function certificationLike(userId: number, certificationId:number, success: (data: AxiosResponse) => void, dispatch: any){
-  await axiosInstance.post(`${process.env.REACT_APP_API_URL}/certification/like/${userId}/${certificationId}`)
+  await axiosInstance.post(`/certification/like/${userId}/${certificationId}`)
     .then((data) => {
       success(data);
     })
@@ -42,7 +42,7 @@ async function registerCameraCertificationPost(
   dispatch: any
 ) {
   try {
-    const result = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/certification/live`, {
+    const result = await axiosInstance.post(`/certification/live`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -73,7 +73,7 @@ async function registerGalleryCertificationPost(
   dispatch: any,
 ) {
   try {
-    const result = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/certification/past`, {
+    const result = await axiosInstance.post(`/certification/past`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -98,7 +98,7 @@ async function registerGalleryCertificationImg(
 ) {
   try {
     const result = await axiosInstance.post(
-      `${process.env.REACT_APP_API_URL}/photo/upload/certification/${certificationId}`,
+      `/photo/upload/certification/${certificationId}`,
       formdata,
       {
         headers: {
@@ -122,7 +122,7 @@ async function updateCertificationPost(
   dispatch: any,
 ) {
   try {
-    const result = await axiosInstance.put(`${process.env.REACT_APP_API_URL}/certification`, {
+    const result = await axiosInstance.put(`/certification`, {
       certificationId: data.certificationId,
       description: data.description,
       userId:data.userId,
@@ -135,7 +135,7 @@ async function updateCertificationPost(
 }
 
 async function getCertificationPostsByMain(userId: number) {
-  const { data } = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/certification/main?userId=${userId}`);
+  const { data } = await axiosInstance.get(`/certification/main?userId=${userId}`);
   console.log('data', data);
   return data;
 }
@@ -143,7 +143,7 @@ async function getCertificationPostsByMain(userId: number) {
 async function getCertificationPostAll(pageParam: number, userId: number, pageSize: number, dispatch: any) {
   try {
     const res = await axiosInstance.get(
-      `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`,
+      `/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`,
     );
     const { content, last } = res.data.data;
     return { content, nextPage: pageParam + 1, last };
@@ -160,7 +160,7 @@ async function deleteCertificationPost(
 ) {
   try {
     const result = await axiosInstance.delete(
-      `${process.env.REACT_APP_API_URL}/certification/${userId}/${certificationId}`,
+      `/certification/${userId}/${certificationId}`,
     );
     success(result);
   } catch (error: any) {
