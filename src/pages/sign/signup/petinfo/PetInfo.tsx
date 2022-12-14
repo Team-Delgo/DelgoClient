@@ -20,6 +20,7 @@ import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import { RootState } from '../../../../redux/store';
+import PetType from '../pettype/PetType';
 
 interface LocationState {
   phone: string;
@@ -34,7 +35,7 @@ interface LocationState {
 interface Input {
   name: string;
   birth: string | undefined;
-  type: string;
+  type: BreedType;
 }
 
 interface IsValid {
@@ -50,6 +51,11 @@ interface croppendAreaPixelType {
   y: number;
 }
 
+interface BreedType {
+  breed: string;
+  code: string;
+}
+
 enum Id {
   NAME = 'name',
   BIRTH = 'birth',
@@ -63,10 +69,14 @@ function PetInfo() {
   const { email, password, nickname, phone, isSocial, geoCode, pGeoCode } = state;
   const [image, setImage] = useState<any>();
   const [sendingImage, setSendingImage] = useState<any>([]);
-  const [enteredInput, setEnteredInput] = useState<Input>({ name: '', birth: undefined, type: '' });
+  const [enteredInput, setEnteredInput] = useState<Input>({
+    name: '',
+    birth: undefined,
+    type: { breed: '', code: '' },
+  });
   const [nameFeedback, setNameFeedback] = useState('');
   const [modalActive, setModalActive] = useState(false);
-  const [isOpenDogType, setIsOpenDogType] = useState(false);
+  const [typeModalActive, setTypeModalActive] = useState(false);
   const [isValid, setIsValid] = useState<IsValid>({
     name: false,
     birth: false,
@@ -77,9 +87,6 @@ function PetInfo() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
   const { OS } = useSelector((state: RootState) => state.persist.device);
-
-
-  
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
@@ -141,13 +148,13 @@ function PetInfo() {
     setNameFeedback(response.message);
   };
 
-  const typeChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id } = event.target;
-    setEnteredInput((prev: Input) => {
-      return { ...prev, type: id };
-    });
-    requireInputCheck(Id.TYPE, id);
-  };
+  // const typeChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const { id } = event.target;
+  //   setEnteredInput((prev: Input) => {
+  //     return { ...prev, type: id };
+  //   });
+  //   requireInputCheck(Id.TYPE, id);
+  // };
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -195,7 +202,7 @@ function PetInfo() {
         geoCode,
         pGeoCode,
         petName: enteredInput.name,
-        petSize: enteredInput.type,
+        breed: enteredInput.type.code,
         birthday: enteredInput.birth,
         userSocial: isSocial,
       };
@@ -258,9 +265,9 @@ function PetInfo() {
           phoneNo: phone,
           geoCode,
           pGeoCode,
-          
+
           petName: enteredInput.name,
-          petSize: enteredInput.type,
+          breed: enteredInput.type.code,
           birthday: enteredInput.birth,
           userSocial: isSocial,
         },
@@ -352,21 +359,40 @@ function PetInfo() {
       reader.onloadend = () => {
         const base64data = reader.result;
         setSendingImage(base64data);
-        setImage(undefined)
+        setImage(undefined);
       };
     } catch (e) {
       console.error(e);
     }
   };
 
+  const openTypeModal = () => {
+    setTypeModalActive(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeTypeModal = () => {
+    setTypeModalActive(false);
+    document.body.style.overflow = 'unset';
+  };
+
+  const setDogType = (breed: BreedType) => {
+    setEnteredInput((prev) => {
+      return { ...prev, type: breed };
+    });
+    setIsValid((prev) => {
+      return { ...prev, type: true };
+    });
+  };
+
   const openModal = () => {
     setModalActive(true);
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setModalActive(false);
-    document.body.style.overflow = "unset";
+    document.body.style.overflow = 'unset';
   };
 
   if (image !== undefined) {
@@ -381,7 +407,7 @@ function PetInfo() {
   }
 
   return (
-    <div className="login">
+    <div className="login petinfo">
       <div
         aria-hidden="true"
         className="login-back"
@@ -411,16 +437,13 @@ function PetInfo() {
       </div>
       {modalActive && (
         <div>
-          <div
-            aria-hidden="true"
-            className="backdrop"
-            onClick={closeModal}
-          />
+          <div aria-hidden="true" className="backdrop" onClick={closeModal} />
           <div className="modal">
-            <BirthSelector changeBirth={chagneBirthHandler} close={closeModal}/>
+            <BirthSelector changeBirth={chagneBirthHandler} close={closeModal} />
           </div>
         </div>
       )}
+      {typeModalActive && <PetType closeModal={closeTypeModal} setType={setDogType} />}
       <div className="login-input-box">
         <input
           className={classNames('login-input petname', { invalid: nameFeedback.length })}
@@ -444,38 +467,17 @@ function PetInfo() {
           onChange={inputChangeHandler}
         />
       </div>
-      <div className="dogtype">
-        <div
-          className="dogtype-help"
-          aria-hidden="true"
-          onClick={() => {
-            setIsOpenDogType(!isOpenDogType);
-          }}
-        >
-          ?
-          <DogType mount={isOpenDogType} />
-        </div>
-        <label htmlFor="S">
-          <input checked={enteredInput.type === 'S'} type="radio" id="S" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
-          <span className="dogtype-button">
-            <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
-          </span>
-          소형견
-        </label>
-        <label htmlFor="M">
-          <input checked={enteredInput.type === 'M'} type="radio" id="M" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
-          <span className="dogtype-button">
-            <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
-          </span>
-          중형견
-        </label>
-        <label htmlFor="L">
-          <input checked={enteredInput.type === 'L'} type="radio" id="L" name="dogtype" className="dogtype-input" onChange={typeChangeHandler} />
-          <span className="dogtype-button">
-            <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
-          </span>
-          대형견
-        </label>
+      <div className="login-input-wrapper">
+        <input
+          className={classNames('login-input input-birth')}
+          placeholder="견종"
+          value={enteredInput.type.breed}
+          id={Id.TYPE}
+          onClick={openTypeModal}
+          onFocus={openTypeModal}
+          required
+          onChange={inputChangeHandler}
+        />
       </div>
 
       <button

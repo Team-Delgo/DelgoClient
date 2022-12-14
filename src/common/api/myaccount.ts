@@ -10,17 +10,17 @@ async function getMyAccountDataList(userId: number) {
 }
 
 async function changePetInfo(
-  data: { email: string; name: string; birthday: string | undefined; size: string },
+  data: { email: string; name: string; birthday: string | undefined; breed: string },
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
-  const { email, name, birthday, size } = data;
+  const { email, name, birthday, breed } = data;
   await axios
     .post(`${process.env.REACT_APP_API_URL}/changePetInfo`, {
       email,
       name,
       birthday,
-      size,
+      breed,
     })
     .then((data) => {
       success(data);
