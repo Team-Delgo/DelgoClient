@@ -250,16 +250,16 @@ function ChangePetInfo() {
     }
   };
 
-  if (image !== petImage) {
-    return (
-      <Crop
-        img={image}
-        cancleImgCrop={cancleImgCrop}
-        showCroppedImage={showCroppedImage}
-        onCropComplete={onCropComplete}
-      />
-    );
-  }
+  // if (image !== petImage) {
+  //   return (
+  //     <Crop
+  //       img={image}
+  //       cancleImgCrop={cancleImgCrop}
+  //       showCroppedImage={showCroppedImage}
+  //       onCropComplete={onCropComplete}
+  //     />
+  //   );
+  // }
 
   return (
     <div>
