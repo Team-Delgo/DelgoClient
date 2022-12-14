@@ -19,6 +19,7 @@ import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
 import ToastPurpleMessage from '../dialog/ToastPurpleMessage';
+import { blockUser } from '../api/ban';
 
 interface userType {
   address: string;
@@ -120,20 +121,30 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
+  const [blockedUserName, setBlockedUserName] = useState(post?.likeCount);
   const [deletePostSuccessToastIsOpen, setDeletePostSuccessToastIsOpen] = useState(false);
-  const [showDeleteErrorAlert, setShowDeleteErrorAlert] = useState(false);
+  const [blockUserSuccessToastIsOpen, setBlockUserSuccessToastIsOpen] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
+  const [blockUserbottomSheetIsOpen, setBlockUserBottomSheetIsOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     if (deletePostSuccessToastIsOpen) {
       setTimeout(() => {
-        closeToastSuccessMessage()
+        closeToastSuccessMessage();
       }, 2000);
     }
   }, [deletePostSuccessToastIsOpen]);
+
+  useEffect(() => {
+    if (blockUserSuccessToastIsOpen) {
+      setTimeout(() => {
+        closeBlockToastSuccessMessage();
+      }, 2000);
+    }
+  }, [blockUserSuccessToastIsOpen]);
 
   const setCertificationLike = () => {
     certificationLike(
@@ -156,11 +167,30 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       (response: AxiosResponse) => {
         const { code } = response.data;
         if (code === 200) {
-          oepnToastSuccessMessage()
+          oepnToastSuccessMessage();
           closeBottomSheet();
           refetch();
         } else {
           closeBottomSheet();
+        }
+      },
+      dispatch,
+    );
+  };
+
+  const handleBlockUser = () => {
+    blockUser(
+      user.id,
+      post?.user?.userId,
+      (response: AxiosResponse) => {
+        const { code, data } = response.data;
+        if (code === 200) {
+          setBlockedUserName(data?.user?.name);
+          oepnBlockToastSuccessMessage();
+          closeBlockBottomSheet();
+          refetch();
+        } else {
+          closeBlockBottomSheet();
         }
       },
       dispatch,
@@ -193,11 +223,11 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   };
 
   const oepnToastSuccessMessage = () => {
-    setDeletePostSuccessToastIsOpen(true)
+    setDeletePostSuccessToastIsOpen(true);
   };
 
   const closeToastSuccessMessage = () => {
-    setDeletePostSuccessToastIsOpen(false)
+    setDeletePostSuccessToastIsOpen(false);
   };
 
   const openBottomSheet = () => {
@@ -206,6 +236,22 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
 
   const closeBottomSheet = () => {
     setBottomSheetIsOpen(false);
+  };
+
+  const oepnBlockToastSuccessMessage = () => {
+    setBlockUserSuccessToastIsOpen(true);
+  };
+
+  const closeBlockToastSuccessMessage = () => {
+    setBlockUserSuccessToastIsOpen(false);
+  };
+
+  const openBlockBottomSheet = () => {
+    setBlockUserBottomSheetIsOpen(true);
+  };
+
+  const closeBlockBottomSheet = () => {
+    setBlockUserBottomSheetIsOpen(false);
   };
 
   return (
@@ -225,7 +271,9 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
           </div>
         </div>
         {user.id !== post?.user.userId ? (
-          <div className="post-img-result-header-report">신고</div>
+          <div className="post-img-result-header-report" aria-hidden="true" onClick={openBlockBottomSheet}>
+            차단
+          </div>
         ) : (
           <div className="post-img-result-header-report">
             <div aria-hidden="true" onClick={moveToUpdatePage}>
@@ -250,7 +298,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         <footer className="post-img-result-main-footer">
           <img
             className="post-img-result-main-footer-heart"
-            src={isLike  ? FillHeart : Heart}
+            src={isLike ? FillHeart : Heart}
             alt="heart"
             aria-hidden="true"
             onClick={setCertificationLike}
@@ -270,12 +318,23 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       {deletePostSuccessToastIsOpen && <ToastPurpleMessage message="게시물이 삭제 되었습니다." />}
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
-        description='지우면 다시 볼 수 없어요'
-        cancelText='취소'
-        acceptText='삭제'
+        description="지우면 다시 볼 수 없어요"
+        cancelText="취소"
+        acceptText="삭제"
         acceptButtonHandler={deleteCertification}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
+      />
+
+      {blockUserSuccessToastIsOpen && <ToastPurpleMessage message={`${blockedUserName}님을 차단하였습니다`} />}
+      <DeleteBottomSheet
+        text={`${blockedUserName} 님을 차단하시겠어요?`}
+        description={`앞으로 ${blockedUserName} 님의 게시물을 볼 수 없어요`}
+        cancelText="취소"
+        acceptText="삭제"
+        acceptButtonHandler={handleBlockUser}
+        cancelButtonHandler={closeBlockBottomSheet}
+        bottomSheetIsOpen={blockUserbottomSheetIsOpen}
       />
     </>
   );

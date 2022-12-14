@@ -95,14 +95,17 @@ function MainAchievment({
                 onClick={editActivation === true ? filterRepresentativeAchievements(achievement) : undefined}
               >
                 <div className="achievement-page-header-achievements-image" key={achievement.achievementsId}>
-                  <img
-                    src={achievement.imgUrl}
-                    alt="post-img"
-                    width={107}
-                    height={143}
-                    aria-hidden="true"
-                    onClick={editActivation === false ? openBottomSheet(achievement) : undefined}
-                  />
+                  <div>
+                    <img
+                      src={achievement.imgUrl}
+                      alt="post-img"
+                      width={103}
+                      height={113}
+                      aria-hidden="true"
+                      onClick={editActivation === false ? openBottomSheet(achievement) : undefined}
+                    />
+                    <div className="achievement-page-header-achievements-image-name">{achievement.name}</div>
+                  </div>
                 </div>
                 {editActivation === true ? (
                   <img

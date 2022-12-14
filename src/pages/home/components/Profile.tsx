@@ -162,7 +162,10 @@ function Profile() {
             {ahievementList?.data
               .filter((ahievement: AchievementType) => ahievement.isMain > 0)
               .map((achievement: AchievementType) => (
-                <img src={achievement.imgUrl} alt="bath-img" />
+                <div>
+                  <img src={achievement.imgUrl} alt="bath-img" width={103} height={113} />
+                  <div className="home-page-dog-history-header-achievements-images-name">{achievement.name}</div>
+                </div>
               ))}
           </div>
         )}

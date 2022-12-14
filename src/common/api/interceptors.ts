@@ -1,9 +1,14 @@
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useErrorHandlers } from './useErrorHandlers';
+
+const accessToken = localStorage.getItem('accessToken') || '';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
+  headers: {
+    Authorization: accessToken,
+  },
 });
 
 axiosInstance.interceptors.response.use(
@@ -29,6 +34,12 @@ axiosInstance.interceptors.response.use(
           Authorization_Refresh: refreshToken,
         },
       });
+
+      if (response.data.code === 333) {
+        console.log('refresh token 만료');
+        throw new Error('token exprired');
+      }
+
       console.log('response', response);
       console.log('config', config);
       const originalRequest = config;

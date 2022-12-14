@@ -1,6 +1,6 @@
 .achievement-page {
     &-header {
-        padding: 5% 5% 30px 5%;
+        padding: 5% 5% 20px 5%;
         background-color: #3F3F3F;
 
         &-prev-arrow {
@@ -12,7 +12,7 @@
                 display: flex;
                 justify-content: space-between;
                 color: #FFFFFF;
-                padding: 30px 5px 2px 0;
+                padding: 40px 5px 2px 0;
 
                 &-text {
                     font-weight: 400;
@@ -32,11 +32,12 @@
             }
 
             &-images {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                row-gap: 5px;
-                column-gap: 10px;
-                padding-top: 10px;
+                // display: grid;
+                // grid-template-columns: 1fr 1fr 1fr;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                padding: 10px 0;
 
                 .achievement-page-header-achievements-image-container:active {
                     transform: scale(0.93);
@@ -48,10 +49,12 @@
                     .achievement-page-header-achievements-image {
                         width: 100%;
 
-                        img {
-                            width: 100%;
-                            object-fit: cover;
-                            border-radius: 6.5px;
+                        &-name{
+                            text-align: center;
+                            font-size: 14px;
+                            font-weight: 400;
+                            padding-top: 5px;
+                            color:#FFFFFF
                         }
 
                         &-check-img {
@@ -84,10 +87,13 @@
 
         }
         &-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            row-gap: 5px;
-            column-gap: 10px;
+            // display: grid;
+            // grid-template-columns: 1fr 1fr 1fr;
+            // row-gap: 5px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; // 복수의 행
+            text-align: center;
 
             .achievement-page-body-achievements-image-container:active {
                 transform: scale(0.93);
@@ -95,15 +101,8 @@
 
             .achievement-page-body-achievements-image-container {
                 position: relative;
-
                 .achievement-page-body-achievements-image {
                     padding-bottom: 20px;
-
-                    img {
-                        width: 100%;
-                        border-radius: 16px;
-                    }
-
                     &-check-img {
                         position: absolute;
                         top: -3px;
