@@ -3,25 +3,21 @@ import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
 async function getMungPlaceList(categoryCode: string) {
-  const accessToken = localStorage.getItem('accessToken') || '';
-  const { data } = await axios.get(
+  const { data } = await axiosInstance.get(
     `${process.env.REACT_APP_API_URL}/mungple/category/${categoryCode}`,
   );
   return data;
 }
 
 async function getCertificationDataCount(userId: number) {
-  const accessToken = localStorage.getItem('accessToken') || '';
-
-  const { data } = await axios.get(
+  const { data } = await axiosInstance.get(
     `${process.env.REACT_APP_API_URL}/certification/category/count/${userId}`,
   );
   return data;
 }
 
 async function certificationLike(userId: number, certificationId:number, success: (data: AxiosResponse) => void, dispatch: any){
-  const accessToken = localStorage.getItem('accessToken') || '';
-  await axios.post(`${process.env.REACT_APP_API_URL}/certification/like/${userId}/${certificationId}`)
+  await axiosInstance.post(`${process.env.REACT_APP_API_URL}/certification/like/${userId}/${certificationId}`)
     .then((data) => {
       success(data);
     })
@@ -46,8 +42,7 @@ async function registerCameraCertificationPost(
   dispatch: any
 ) {
   try {
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/live`, {
+    const result = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/certification/live`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -78,8 +73,7 @@ async function registerGalleryCertificationPost(
   dispatch: any,
 ) {
   try {
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/certification/past`, {
+    const result = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/certification/past`, {
       userId: data.userId,
       categoryCode: data.categoryCode,
       mungpleId: data.mungpleId,
@@ -103,8 +97,7 @@ async function registerGalleryCertificationImg(
   dispatch: any,
 ) {
   try {
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.post(
+    const result = await axiosInstance.post(
       `${process.env.REACT_APP_API_URL}/photo/upload/certification/${certificationId}`,
       formdata,
       {
@@ -129,11 +122,7 @@ async function updateCertificationPost(
   dispatch: any,
 ) {
   try {
-    console.log('data.certificationId',data.certificationId)
-    console.log('data.description',data.description)
-    console.log('data.userId',data.userId)
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.put(`${process.env.REACT_APP_API_URL}/certification`, {
+    const result = await axiosInstance.put(`${process.env.REACT_APP_API_URL}/certification`, {
       certificationId: data.certificationId,
       description: data.description,
       userId:data.userId,
@@ -146,19 +135,16 @@ async function updateCertificationPost(
 }
 
 async function getCertificationPostsByMain(userId: number) {
-  const accessToken = localStorage.getItem('accessToken') || '';
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/certification/main?userId=${userId}`);
+  const { data } = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/certification/main?userId=${userId}`);
   console.log('data', data);
   return data;
 }
 
 async function getCertificationPostAll(pageParam: number, userId: number, pageSize: number, dispatch: any) {
   try {
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const res = await axios.get(
+    const res = await axiosInstance.get(
       `${process.env.REACT_APP_API_URL}/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`,
     );
-    // console.log(res.data.data);
     const { content, last } = res.data.data;
     return { content, nextPage: pageParam + 1, last };
   } catch (error: any) {
@@ -173,8 +159,7 @@ async function deleteCertificationPost(
   dispatch: any,
 ) {
   try {
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.delete(
+    const result = await axiosInstance.delete(
       `${process.env.REACT_APP_API_URL}/certification/${userId}/${certificationId}`,
     );
     success(result);

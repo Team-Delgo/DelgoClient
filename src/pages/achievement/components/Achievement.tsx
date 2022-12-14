@@ -67,11 +67,11 @@ function Achievement({
                     src={
                       achievement.isActive
                         ? achievement.imgUrl
-                        : 'https://kr.object.ncloudstorage.com/reward-achivements/%EC%9E%A0%EA%B8%88%ED%99%94%EB%A9%B4.png'
+                        : 'https://kr.object.ncloudstorage.com/reward-achivements/%EC%9E%A0%EA%B8%88.png'
                     }
                     alt="post-img"
-                    width={107}
-                    height={143}
+                    width={103}
+                    height={113}
                     aria-hidden="true"
                     onClick={editActivation === false ? openBottomSheet(achievement) : undefined}
                   />

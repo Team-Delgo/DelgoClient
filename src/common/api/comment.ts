@@ -4,7 +4,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 
 async function getCommentList(certificationId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   try {
-    const result = await axios.get(`${process.env.REACT_APP_API_URL}/comment?certificationId=${certificationId}`);
+    const result = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/comment?certificationId=${certificationId}`);
     success(result);
   } catch (error: any | AxiosError) {
     useErrorHandlers(dispatch, error);
@@ -19,7 +19,7 @@ async function postComment(
   dispatch: any,
 ) {
   try {
-    const result = await axios.post(`${process.env.REACT_APP_API_URL}/comment`, {
+    const result = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/comment`, {
       userId,
       certificationId,
       isReply: false,
@@ -39,7 +39,7 @@ async function deleteComment(
   dispatch: any,
 ) {
   try {
-    const result = await axios.post(
+    const result = await axiosInstance.post(
       `${process.env.REACT_APP_API_URL}/comment/delete/${commentId}/${userId}/${certificationId}`,
     );
     success(result);

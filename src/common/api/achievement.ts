@@ -10,8 +10,7 @@ import { useErrorHandlers } from './useErrorHandlers';
 // }
 
 async function getAchievementList(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  const accessToken = localStorage.getItem('accessToken') || '';
-  await axios
+  await axiosInstance
     .get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`)
     .then((data) => {
       console.log(data)
@@ -23,8 +22,7 @@ async function getAchievementList(userId: number, success: (data: AxiosResponse)
 }
 
 async function getAchievementListByMain(userId: number) {
-  const accessToken = localStorage.getItem('accessToken') || '';
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`);
+  const { data } = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/achievements/user/${userId}`);
   console.log(data);
   return data;
 }
@@ -38,8 +36,7 @@ async function setMainAchievements(
   dispatch: any,
 ) {
   try {
-    const accessToken = localStorage.getItem('accessToken') || '';
-    const result = await axios.put(`${process.env.REACT_APP_API_URL}/achievements/main`, {
+    const result = await axiosInstance.put(`${process.env.REACT_APP_API_URL}/achievements/main`, {
       userId,
       first: firstAchievementsId,
       second: secondAchievementsId,

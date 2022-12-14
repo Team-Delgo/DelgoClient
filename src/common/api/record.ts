@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
+import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
 async function getMapData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+  await axiosInstance
     .get(`${process.env.REACT_APP_API_URL}/map/${userId}`)
     .then((data) => {
       success(data);
@@ -13,7 +14,7 @@ async function getMapData(userId: number, success: (data: AxiosResponse) => void
 }
 
 async function getCalendarData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+  await axiosInstance
     .get(`${process.env.REACT_APP_API_URL}/calendar/${userId}`)
     .then((data) => {
       success(data);

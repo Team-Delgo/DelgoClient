@@ -52,8 +52,8 @@ function AchievementBottomSheet({
                 src={achievement?.imgUrl}
                 className="achievement-bottom-sheet-img"
                 alt="achievement-bottom-sheet-img"
-                width={107}
-                height={143}
+                width={103}
+                height={113}
               />
             </div>
             <img
