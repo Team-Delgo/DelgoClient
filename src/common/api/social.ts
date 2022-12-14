@@ -26,14 +26,14 @@ async function oAuthSignup(
     geoCode: number;
     pGeoCode: number;
     petName: string;
-    petSize: string;
+    breed: string;
     birthday: string | undefined;
     userSocial: string;
   },
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
-  const { email, geoCode, pGeoCode, userName, phoneNo, petName, petSize, birthday, userSocial } = data;
+  const { email, geoCode, pGeoCode, userName, phoneNo, petName, breed, birthday, userSocial } = data;
   await axios
     .post(`${process.env.REACT_APP_API_URL}/signup/oauth `, {
       email,
@@ -42,7 +42,7 @@ async function oAuthSignup(
       geoCode: geoCode.toString(),
       pGeoCode: pGeoCode.toString(),
       petName,
-      petSize,
+      breed,
       birthday,
       userSocial,
     })

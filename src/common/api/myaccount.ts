@@ -11,7 +11,7 @@ async function getMyAccountDataList(userId: number) {
 }
 
 async function changePetInfo(
-  data: { email: string; name: string; birthday: string | undefined; size: string },
+  data: { email: string; name: string; birthday: string | undefined; breed: string },
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
@@ -21,7 +21,7 @@ async function changePetInfo(
       email,
       name,
       birthday,
-      size,
+      breed,
     })
     .then((data) => {
       success(data);

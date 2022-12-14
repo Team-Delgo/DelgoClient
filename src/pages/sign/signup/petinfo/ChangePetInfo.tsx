@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState,useCallback } from 'react';
+import React, { ChangeEvent, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,11 +22,12 @@ import PrevArrowWhite from '../../../../common/icons/prev-arrow-white.svg';
 import WhiteCheck from '../../../../common/icons/white-check.svg';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
+import PetType from '../pettype/PetType';
 
 interface Input {
   name: string;
-  birthday: string | undefined;
-  type: string;
+  birth: string | undefined;
+  type: BreedType;
 }
 
 interface IsValid {
@@ -48,7 +49,12 @@ enum Id {
   TYPE = 'type',
 }
 
-const reviewImgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
+interface BreedType {
+  breed: string;
+  code: string;
+}
+
+const reviewImgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
 
 function ChangePetInfo() {
   const dispatch = useDispatch();
@@ -58,10 +64,14 @@ function ChangePetInfo() {
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const userEmail = useSelector((state: RootState) => state.persist.user.user.email);
   const { petId, birthday, name, size, image: petImage } = state;
-
+  const [typeModalActive, setTypeModalActive] = useState(false);
   const [image, setImage] = useState<any>(petImage);
   const [sendingImage, setSendingImage] = useState<any>(petImage);
-  const [enteredInput, setEnteredInput] = useState<Input>({ name, birthday, type: size });
+  const [enteredInput, setEnteredInput] = useState<Input>({
+    name: '',
+    birth: undefined,
+    type: { breed: '', code: '' },
+  });
   const [nameFeedback, setNameFeedback] = useState('');
   const [modalActive, setModalActive] = useState(false);
   const [isOpenDogType, setIsOpenDogType] = useState(false);
@@ -71,24 +81,17 @@ function ChangePetInfo() {
     birth: true,
     type: true,
   });
-  const [reviewImgExtensionAlert,setReviewImgExtensionAlert]=useState(false)
+  const [reviewImgExtensionAlert, setReviewImgExtensionAlert] = useState(false);
   const pageIsValid = isValid.name && isValid.birth && isValid.type;
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
-  
+
   const isChecked = { s: false, m: false, l: false };
-  if (enteredInput.type === 'S') {
-    isChecked.s = true;
-  } else if (enteredInput.type === 'M') {
-    isChecked.m = true;
-  } else {
-    isChecked.l = true;
-  }
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
-    if(!reviewImgExtension.includes((event.target.files as FileList)[0].type)){
-      setReviewImgExtensionAlert(true)
-      return
+    if (!reviewImgExtension.includes((event.target.files as FileList)[0].type)) {
+      setReviewImgExtensionAlert(true);
+      return;
     }
     const reader = new FileReader();
     reader.onload = function () {
@@ -104,10 +107,10 @@ function ChangePetInfo() {
     const compressedFile = await imageCompression(event.target.files![0], options);
     reader.readAsDataURL(compressedFile);
     reader.onloadend = () => {
-    const base64data = reader.result;
-    console.log(compressedFile.type);
-    setSendingImage(base64data);
-    }
+      const base64data = reader.result;
+      console.log(compressedFile.type);
+      setSendingImage(base64data);
+    };
     setImageIsChanged(true);
   };
 
@@ -119,21 +122,21 @@ function ChangePetInfo() {
     }
   };
 
-  const handlingDataForm = async (dataURI:any) => {
-    const byteString = atob(dataURI.split(",")[1]);
-  
+  const handlingDataForm = async (dataURI: any) => {
+    const byteString = atob(dataURI.split(',')[1]);
+
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i+=1) {
+    for (let i = 0; i < byteString.length; i += 1) {
       ia[i] = byteString.charCodeAt(i);
     }
     const blob = new Blob([ia], {
-      type: "image/jpeg"
+      type: 'image/jpeg',
     });
-    const file = new File([blob], "image.jpg");
-  
+    const file = new File([blob], 'image.jpg');
+
     const formData = new FormData();
-    formData.append("photo", file);
+    formData.append('photo', file);
 
     return formData;
   };
@@ -150,14 +153,6 @@ function ChangePetInfo() {
       });
     }
     setNameFeedback(response.message);
-  };
-
-  const typeChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id } = event.target;
-    setEnteredInput((prev: Input) => {
-      return { ...prev, type: id };
-    });
-    requireInputCheck(Id.TYPE, id);
   };
 
   const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -185,23 +180,19 @@ function ChangePetInfo() {
   const submitHandler = async () => {
     const petInfo = {
       name: enteredInput.name,
-      birthday: enteredInput.birthday,
-      size: enteredInput.type,
+      birthday: enteredInput.birth,
+      breed: enteredInput.type.code,
     };
     const data = {
       email: userEmail,
       name: enteredInput.name,
-      birthday: enteredInput.birthday,
-      size: enteredInput.type,
+      birthday: enteredInput.birth,
+      breed: enteredInput.type.code,
     };
     console.log(imageisChanged);
-    changePetInfo(
-      data,
-      dispatch,
-      (response: AxiosResponse) => {
-        console.log(response);
-      },
-    );
+    changePetInfo(data, dispatch, (response: AxiosResponse) => {
+      console.log(response);
+    });
     if (imageisChanged) {
       const formData = await handlingDataForm(sendingImage);
       petImageUpload(
@@ -216,7 +207,7 @@ function ChangePetInfo() {
     dispatch(
       userActions.changepetinfo({
         name: enteredInput.name,
-        birth: enteredInput.birthday,
+        birth: enteredInput.birth,
         size: enteredInput.type,
         image: sendingImage,
       }),
@@ -228,8 +219,8 @@ function ChangePetInfo() {
   };
 
   const alertReviewImgExtensionClose = useCallback(() => {
-    setReviewImgExtensionAlert(false)
-  },[])
+    setReviewImgExtensionAlert(false);
+  }, []);
 
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -237,6 +228,25 @@ function ChangePetInfo() {
 
   const cancleImgCrop = () => {
     setImage(petImage);
+  };
+
+  const openTypeModal = () => {
+    setTypeModalActive(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeTypeModal = () => {
+    setTypeModalActive(false);
+    document.body.style.overflow = 'unset';
+  };
+
+  const setDogType = (breed: BreedType) => {
+    setEnteredInput((prev) => {
+      return { ...prev, type: breed };
+    });
+    setIsValid((prev) => {
+      return { ...prev, type: true };
+    });
   };
 
   const showCroppedImage = async () => {
@@ -247,7 +257,6 @@ function ChangePetInfo() {
       const metadata = { type: `image/jpeg` };
       const newFile = new File([blobFile as Blob], compressedFileName, metadata);
       // const croppedImage = URL.createObjectURL(newFile);
-
 
       const reader = new FileReader();
       const options = {
@@ -260,9 +269,9 @@ function ChangePetInfo() {
       reader.onloadend = () => {
         const base64data = reader.result;
         console.log(compressedFile.type);
-        console.log('base64data',base64data)
+        console.log('base64data', base64data);
         setSendingImage(base64data);
-        setImage(petImage)
+        setImage(petImage);
       };
     } catch (e) {
       console.error(e);
@@ -311,10 +320,16 @@ function ChangePetInfo() {
             }}
           />
           <div className="modal">
-            <BirthSelector changeBirth={chagneBirthHandler} close={()=>{setModalActive(false)}}/>
+            <BirthSelector
+              changeBirth={chagneBirthHandler}
+              close={() => {
+                setModalActive(false);
+              }}
+            />
           </div>
         </div>
       )}
+      {typeModalActive && <PetType closeModal={closeTypeModal} setType={setDogType} />}
       <div className="login-input-box">
         <input
           className={classNames('login-input petname', { invalid: nameFeedback.length })}
@@ -330,7 +345,7 @@ function ChangePetInfo() {
         <input
           className={classNames('login-input input-birth')}
           placeholder="생일"
-          value={enteredInput.birthday}
+          value={enteredInput.birth}
           id={Id.BIRTH}
           autoComplete="off"
           onClick={() => {
@@ -343,59 +358,17 @@ function ChangePetInfo() {
           onChange={inputChangeHandler}
         />
       </div>
-      <div className="dogtype">
-        <div
-          className="dogtype-help"
-          aria-hidden="true"
-          onClick={() => {
-            setIsOpenDogType(!isOpenDogType);
-          }}
-        >
-          ?
-          <DogType mount={isOpenDogType} />
-        </div>
-        <label htmlFor="S">
-          <input
-            type="radio"
-            checked={isChecked.s}
-            id="S"
-            name="dogtype"
-            className="dogtype-input"
-            onChange={typeChangeHandler}
-          />
-          <span className="dogtype-button">
-            <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
-          </span>
-          소형견
-        </label>
-        <label htmlFor="M">
-          <input
-            type="radio"
-            checked={isChecked.m}
-            id="M"
-            name="dogtype"
-            className="dogtype-input"
-            onChange={typeChangeHandler}
-          />
-          <span className="dogtype-button">
-            <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
-          </span>
-          중형견
-        </label>
-        <label htmlFor="L">
-          <input
-            type="radio"
-            checked={isChecked.l}
-            id="L"
-            name="dogtype"
-            className="dogtype-input"
-            onChange={typeChangeHandler}
-          />
-          <span className="dogtype-button">
-            <img className={classNames('checkbox-icon', { invisible: modalActive })} src={Check} alt="check" />
-          </span>
-          대형견
-        </label>
+      <div className="login-input-wrapper">
+        <input
+          className={classNames('login-input input-birth')}
+          placeholder="견종"
+          value={enteredInput.type.breed}
+          id={Id.TYPE}
+          onClick={openTypeModal}
+          onFocus={openTypeModal}
+          required
+          onChange={inputChangeHandler}
+        />
       </div>
 
       <button
@@ -406,7 +379,9 @@ function ChangePetInfo() {
       >
         저장하기
       </button>
-      {reviewImgExtensionAlert && <AlertConfirmOne text="이미지 확장자 파일만 올려주세요" buttonHandler={alertReviewImgExtensionClose} />}
+      {reviewImgExtensionAlert && (
+        <AlertConfirmOne text="이미지 확장자 파일만 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
+      )}
     </div>
   );
 }

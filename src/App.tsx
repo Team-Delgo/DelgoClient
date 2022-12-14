@@ -138,7 +138,7 @@ function App() {
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
         <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo />} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
-        <Route path={SIGN_UP_PATH.UER_PET_TYPE} element={<PetType />} />
+        {/* <Route path={SIGN_UP_PATH.UER_PET_TYPE} element={<PetType />} /> */}
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
         <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist />} />
         <Route path="/preventback" element={<PreventBack />} />
