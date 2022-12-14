@@ -25,7 +25,7 @@ async function getCalendarData(userId: number, success: (data: AxiosResponse) =>
 }
 
 async function getCategoryCount(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+  await axiosInstance
     .get(`/certification/category/count/${userId}`)
     .then((data) => {
       success(data);
@@ -44,9 +44,9 @@ async function getPhotoData(
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
-  await axios
+  await axiosInstance
     .get(
-      `${process.env.REACT_APP_API_URL}/certification/category?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}&isDesc=${isDesc}`,
+      `/certification/category?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}&isDesc=${isDesc}`,
     )
     .then((data) => {
       success(data);
