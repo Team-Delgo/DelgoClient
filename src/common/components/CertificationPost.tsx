@@ -185,7 +185,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       (response: AxiosResponse) => {
         const { code, data } = response.data;
         if (code === 200) {
-          setBlockedUserName(data?.user?.name);
+          setBlockedUserName(data?.name);
           oepnBlockToastSuccessMessage();
           closeBlockBottomSheet();
           refetch();
@@ -328,8 +328,8 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
 
       {blockUserSuccessToastIsOpen && <ToastPurpleMessage message={`${blockedUserName}님을 차단하였습니다`} />}
       <DeleteBottomSheet
-        text={`${blockedUserName} 님을 차단하시겠어요?`}
-        description={`앞으로 ${blockedUserName} 님의 게시물을 볼 수 없어요`}
+        text={`${post?.user?.name} 님을 차단하시겠어요?`}
+        description={`앞으로 ${post?.user?.name} 님의 게시물을 볼 수 없어요`}
         cancelText="취소"
         acceptText="삭제"
         acceptButtonHandler={handleBlockUser}
