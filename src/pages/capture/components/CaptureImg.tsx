@@ -15,7 +15,7 @@ function CaptureImg() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
 
   const moveToPreviousPage = () => {
-    if (location.pathname === CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.FRONT);
+    if (location.pathname === CAMERA_PATH.CAPTURE) navigate(CAMERA_PATH.REAR);
     else navigate(CAMERA_PATH.CAPTURE);
   };
 
