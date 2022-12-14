@@ -58,7 +58,8 @@ function KakaoRedirectHandler() {
               pet: {
                 petId: data.pet.petId,
                 birthday: data.pet.birthday,
-                size: data.pet.size,
+                breed: data.pet.breed,
+                breedName: data.pet.breedName,
                 name: data.pet.name,
                 image: data.user.profile,
               },
