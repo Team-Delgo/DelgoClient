@@ -21,46 +21,7 @@ import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import { RootState } from '../../../../redux/store';
 import PetType from '../pettype/PetType';
-
-interface LocationState {
-  phone: string;
-  email: string;
-  nickname: string;
-  password: string;
-  isSocial: string;
-  geoCode: number;
-  pGeoCode: number;
-}
-
-interface Input {
-  name: string;
-  birth: string | undefined;
-  type: BreedType;
-}
-
-interface IsValid {
-  name: boolean;
-  birth: boolean;
-  type: boolean;
-}
-
-interface croppendAreaPixelType {
-  height: number;
-  width: number;
-  x: number;
-  y: number;
-}
-
-interface BreedType {
-  breed: string;
-  code: string;
-}
-
-enum Id {
-  NAME = 'name',
-  BIRTH = 'birth',
-  TYPE = 'type',
-}
+import {LocationState, Input, IsValid, croppendAreaPixelType, BreedType, Id} from "./petInfoType";
 
 function PetInfo() {
   const dispatch = useDispatch();
@@ -231,7 +192,8 @@ function PetInfo() {
                 pet: {
                   petId: data.pet.petId,
                   birthday: data.pet.birthday,
-                  size: data.pet.size,
+                  breed: data.pet.breed,
+                  breedName: data.pet.breedName,
                   name: data.pet.name,
                   image: '',
                 },
@@ -297,7 +259,8 @@ function PetInfo() {
                 pet: {
                   petId: data.pet.petId,
                   birthday: data.pet.birthday,
-                  size: data.pet.size,
+                  breed: data.pet.breed,
+                  breedName: data.pet.breedName,
                   name: data.pet.name,
                   image: '',
                 },
@@ -407,7 +370,8 @@ function PetInfo() {
   }
 
   return (
-    <div className="login petinfo">
+    <div>
+    {!typeModalActive && <div className="login petinfo">
       <div
         aria-hidden="true"
         className="login-back"
@@ -443,7 +407,7 @@ function PetInfo() {
           </div>
         </div>
       )}
-      {typeModalActive && <PetType closeModal={closeTypeModal} setType={setDogType} />}
+      
       <div className="login-input-box">
         <input
           className={classNames('login-input petname', { invalid: nameFeedback.length })}
@@ -492,6 +456,8 @@ function PetInfo() {
       >
         저장하기
       </button>
+    </div>}
+    {typeModalActive && <PetType closeModal={closeTypeModal} setType={setDogType} />}
     </div>
   );
 }

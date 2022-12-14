@@ -23,36 +23,7 @@ import WhiteCheck from '../../../../common/icons/white-check.svg';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import PetType from '../pettype/PetType';
-
-interface Input {
-  name: string;
-  birth: string | undefined;
-  type: BreedType;
-}
-
-interface IsValid {
-  name: boolean;
-  birth: boolean;
-  type: boolean;
-}
-
-interface croppendAreaPixelType {
-  height: number;
-  width: number;
-  x: number;
-  y: number;
-}
-
-enum Id {
-  NAME = 'name',
-  BIRTH = 'birth',
-  TYPE = 'type',
-}
-
-interface BreedType {
-  breed: string;
-  code: string;
-}
+import { LocationState, Input, IsValid, Id, croppendAreaPixelType, BreedType } from './petInfoType';
 
 const reviewImgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
 
@@ -63,14 +34,14 @@ function ChangePetInfo() {
   const state = useSelector((state: RootState) => state.persist.user.pet);
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const userEmail = useSelector((state: RootState) => state.persist.user.user.email);
-  const { petId, birthday, name, size, image: petImage } = state;
+  const { petId, birthday, name, breed, breedName, image: petImage } = state;
   const [typeModalActive, setTypeModalActive] = useState(false);
   const [image, setImage] = useState<any>(petImage);
   const [sendingImage, setSendingImage] = useState<any>(petImage);
   const [enteredInput, setEnteredInput] = useState<Input>({
-    name: '',
-    birth: undefined,
-    type: { breed: '', code: '' },
+    name,
+    birth: birthday,
+    type: { breed: breedName, code: breed },
   });
   const [nameFeedback, setNameFeedback] = useState('');
   const [modalActive, setModalActive] = useState(false);
@@ -208,7 +179,8 @@ function ChangePetInfo() {
       userActions.changepetinfo({
         name: enteredInput.name,
         birth: enteredInput.birth,
-        size: enteredInput.type,
+        breed: enteredInput.type.code,
+        breedName: enteredInput.type.breed,
         image: sendingImage,
       }),
     );
@@ -290,7 +262,8 @@ function ChangePetInfo() {
   }
 
   return (
-    <div className="login">
+    <div>
+    {!typeModalActive && <div className="login">
       <div aria-hidden="true" className="login-back" onClick={() => navigation(-1)}>
         <Arrow />
       </div>
@@ -382,6 +355,8 @@ function ChangePetInfo() {
       {reviewImgExtensionAlert && (
         <AlertConfirmOne text="이미지 확장자 파일만 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
       )}
+    </div>}
+    {typeModalActive && <PetType closeModal={closeTypeModal} setType={setDogType} />}
     </div>
   );
 }

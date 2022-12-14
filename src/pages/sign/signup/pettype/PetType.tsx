@@ -12,22 +12,7 @@ import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg
 import MagnifyingGlass from '../../../../common/icons/magnifying-glass.svg';
 import Check from '../../../../common/icons/place-check.svg';
 import './PetType.scss';
-
-interface petType {
-  code: string;
-  codeDesc: string;
-  codeName: string;
-  n_code: null;
-  n_pCode: null;
-  pcode: string;
-  registDt: string;
-  type: string;
-}
-
-interface BreedType {
-  breed: string;
-  code: string;
-}
+import {petType, BreedType} from "../petinfo/petInfoType";
 
 function PetType(props: { closeModal: () => void, setType: (breed:BreedType) => void }) {
   const { closeModal, setType } = props;

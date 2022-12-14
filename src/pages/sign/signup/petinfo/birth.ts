@@ -1,5 +1,3 @@
-import React from 'react';
-
 function Birth(yearStart: number, yearEnd: number, forSelector: boolean) {
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();

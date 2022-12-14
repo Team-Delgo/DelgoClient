@@ -13,7 +13,7 @@ const initialState = {
     pGeoCode: 0,
     registDt: '',
   },
-  pet: { name: '', petId: 0, birthday: '', size: '', image: '' },
+  pet: { name: '', petId: 0, birthday: '', breed: '', breedName:'', image: '' },
 };
 
 const userSlice = createSlice({
@@ -47,7 +47,8 @@ const userSlice = createSlice({
         pet: {
           name: action.payload.name,
           birthday: action.payload.birth,
-          size: action.payload.size,
+          breed: action.payload.breed,
+          breedName: action.payload.breedName,
           petId: state.pet.petId,
           image: action.payload.image,
         },

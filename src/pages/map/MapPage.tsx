@@ -201,8 +201,8 @@ function MapPage() {
             `<img src=${Flag} style="z-index:9999" alt="pin"/>`,
             `</div>`,
           ].join(''),
-          size: new naver.maps.Size(63, 75),
-          origin: new naver.maps.Point(0, 0),
+          size: new naver.maps.Size(46, 54),
+          origin: new naver.maps.Point(-24, -27),
         },
       };
       const marker = new naver.maps.Marker(markerOptions);
