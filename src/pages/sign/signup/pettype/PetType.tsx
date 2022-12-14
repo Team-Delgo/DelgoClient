@@ -24,8 +24,15 @@ interface petType {
   type: string;
 }
 
-function PetType() {
+interface BreedType {
+  breed: string;
+  code: string;
+}
+
+function PetType(props: { closeModal: () => void, setType: (breed:BreedType) => void }) {
+  const { closeModal, setType } = props;
   const navigation = useNavigate();
+  const [petTypeName, setPetTypeName] = useState('');
   const [searchPetTypeName, setSearchPetTypeName] = useState('');
   const [checkedPetTypeId, setCheckedPetTypeId] = useState('');
   const dispatch = useDispatch();
@@ -42,13 +49,18 @@ function PetType() {
     },
   );
 
-
   const wirtePetTypeName = useCallback((e) => {
     e.target.value === '' ? setCheckedPetTypeId('') : setSearchPetTypeName(e.target.value.trim());
   }, []);
 
   const selectPetType = (pet: petType) => (event: React.MouseEvent) => {
+    pet.code === checkedPetTypeId ? setPetTypeName('') : setPetTypeName(pet.codeName);
     pet.code === checkedPetTypeId ? setCheckedPetTypeId('') : setCheckedPetTypeId(pet.code);
+  };
+
+  const submitHandler = () => {
+    setType({breed:petTypeName, code:checkedPetTypeId});
+    closeModal();
   };
 
   if (getCertificationPostsByMainIsLoading) {
@@ -56,15 +68,11 @@ function PetType() {
   }
 
   return (
-    <div className="login">
+    <div className="login pettype">
       <div
         aria-hidden="true"
         className="login-back"
-        onClick={() => {
-          setTimeout(() => {
-            navigation(-1);
-          }, 200);
-        }}
+        onClick={closeModal}
       >
         <Arrow />
       </div>
@@ -81,7 +89,9 @@ function PetType() {
                 <div className="pet-type-search-result" aria-hidden="true" onClick={selectPetType(pet)}>
                   <div
                     className={
-                      checkedPetTypeId === pet.code ? 'pet-type-search-result-active-name' : 'pet-type-search-result-name'
+                      checkedPetTypeId === pet.code
+                        ? 'pet-type-search-result-active-name'
+                        : 'pet-type-search-result-name'
                     }
                   >
                     {pet.codeName}
@@ -99,11 +109,7 @@ function PetType() {
         type="button"
         disabled={checkedPetTypeId === ''}
         className={classNames('login-button', { active: checkedPetTypeId !== '' })}
-        // onClick={() => {
-        //   setTimeout(() => {
-        //     submitHandler();
-        //   }, 300);
-        // }}
+        onClick={submitHandler}
       >
         저장하기
       </button>
