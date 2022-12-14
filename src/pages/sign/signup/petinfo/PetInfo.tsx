@@ -52,6 +52,7 @@ function PetInfo() {
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
     reader.onload = function () {
+      console.log('reader.result',reader.result)
       setImage(reader.result);
     };
     const { files } = event.target;
