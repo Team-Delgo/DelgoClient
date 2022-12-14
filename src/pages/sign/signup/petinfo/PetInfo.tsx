@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { AxiosResponse } from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cropper from 'react-easy-crop';
 import { checkPetName } from '../../validcheck';
@@ -19,6 +19,7 @@ import { oAuthSignup } from '../../../../common/api/social';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
+import { RootState } from '../../../../redux/store';
 
 interface LocationState {
   phone: string;
@@ -75,6 +76,10 @@ function PetInfo() {
   const formData = new FormData();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
+  const { OS } = useSelector((state: RootState) => state.persist.device);
+
+
+  
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
@@ -236,7 +241,7 @@ function PetInfo() {
               },
               dispatch,
             );
-            window.BRIDGE.sendFcmToken(data.user.userId);
+            sendFcmTokenHandler(data.user.userId);
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);
@@ -291,7 +296,7 @@ function PetInfo() {
                 },
               }),
             );
-            window.BRIDGE.sendFcmToken(data.user.userId);
+            sendFcmTokenHandler(data.user.userId);
             formData.append('photo', sendingImage[0]);
             await petImageUpload(
               { formData, userId },
@@ -311,6 +316,12 @@ function PetInfo() {
         },
         dispatch,
       );
+    }
+  };
+
+  const sendFcmTokenHandler = (userId: number) => {
+    if (OS === 'android') {
+      window.BRIDGE.sendFcmToken(userId);
     }
   };
 

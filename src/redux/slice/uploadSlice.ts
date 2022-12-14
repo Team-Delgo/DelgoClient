@@ -109,6 +109,7 @@ const uploadSlice = createSlice({
       return {
         ...state,
         content: action.payload.content,
+        achievements: action.payload.achievements,
       };
     },
     setCertificationUpdate(state, action) {

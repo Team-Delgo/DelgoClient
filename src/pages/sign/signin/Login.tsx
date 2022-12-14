@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from 'react';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { userActions } from '../../../redux/slice/userSlice';
 import { ReactComponent as Arrow } from '../../../common/icons/left-arrow.svg';
@@ -13,6 +13,7 @@ import { checkEmail, checkPasswordLogin } from '../validcheck';
 import Loading from '../../../common/utils/Loading';
 import { ROOT_PATH } from '../../../common/constants/path.const';
 import {analytics} from "../../../index";
+import { RootState } from '../../../redux/store';
 
 interface Input {
   email: string;
@@ -32,6 +33,7 @@ function Login() {
   const dispatch = useDispatch();
   const state = useLocation().state as State;
   const { email } = state;
+  const { OS } = useSelector((state: RootState) => state.persist.device);
 
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
 
@@ -104,7 +106,7 @@ function Login() {
           const refreshToken = response.headers.authorization_refresh;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-          window.BRIDGE.sendFcmToken(data.user.userId);
+          sendFcmTokenHandler(data.user.userId);
           navigation(ROOT_PATH, { replace: true });
         } else if (code === 304) {
           console.log(2);
@@ -117,6 +119,12 @@ function Login() {
       },
       dispatch,
     );
+  };
+
+  const sendFcmTokenHandler = (userId: number) => {
+    if (OS === 'android') {
+      window.BRIDGE.sendFcmToken(userId);
+    }
   };
 
   const loginButtonHandler = () => {

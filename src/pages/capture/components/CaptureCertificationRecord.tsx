@@ -116,12 +116,13 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
               registDt: data.registDt,
               certificationId: data.certificationId,
               address: data.address,
+              achievements: []
             }),
           );
           if (data.isAchievements) {
             dispatch(
               uploadAction.setAchievements({
-                setAchievements: data.setAchievements,
+                achievements: data.achievements,
               }),
             );
           }
@@ -142,10 +143,6 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
         } else if (code === 316) {
           setPostCertificationIsLoading(false);
           setCertificateErrorToastMessage('GPS가 켜져 있지 않거나 권한 설정이 되어있지 않습니다');
-          openCertificateErrorToast();
-        } else {
-          setPostCertificationIsLoading(false);
-          setCertificateErrorToastMessage('서버 장애가 발생했습니다');
           openCertificateErrorToast();
         }
       },
@@ -173,7 +170,6 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
-          try {
             const options = {
               maxSizeMB: 0.2,
               maxWidthOrHeight: 1920,
@@ -195,56 +191,22 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
                       registDt: data.registDt,
                       certificationId: data.certificationId,
                       address: data.address,
+                      achievements: []
                     }),
                   );
+                  if (data.isAchievements) {
+                    dispatch(
+                      uploadAction.setAchievements({
+                        achievements: data.achievements,
+                      }),
+                    );
+                  }
+                  setPostCertificationIsLoading(false);
                   moveToCaptureResultPage();
-                } else {
-                  setCertificateErrorToastMessage('서버 장애가 발생했습니다');
-                  openCertificateErrorToast();
                 }
               },
               dispatch,
             );
-            // console.log('이미지압축전');
-            // const compressedFile = await imageCompression(file as unknown as File, options);
-            // console.log('이미지압축후');
-            // const reader = new FileReader();
-            // reader.readAsDataURL(compressedFile);
-            // reader.onloadend = async () => {
-            //   const base64data = reader.result;
-            //   console.log('base64data',base64data)
-            //   const formData = await handlingDataForm(base64data);
-
-            //   console.log(formData)
-
-            //   registerGalleryCertificationImg(
-            //     formData,
-            //     data.certificationId,
-            //     (response: AxiosResponse) => {
-            //       console.log('2번째',response);
-            //       const { code, codeMsg } = response.data;
-            //       if (code === 200) {
-            //         openCertificateCompletionAlert();
-            //       } else {
-            //         setCertificateErrorAlertMessage('서버 장애가 발생했습니다');
-            //         openCertificateErrorAlert();
-            //       }
-            //     },
-            //     dispatch,
-            //   );
-
-            //   dispatch(
-            //     uploadAction.setContentRegistDtCertificationId({
-            //       content: certificationPostContent,
-            //       registDt: data.registDt,
-            //       certificationId: data.certificationId,
-            //     }),
-            //   );
-            //   openCertificateCompletionAlert();
-            // };
-          } catch (err: any) {
-            console.log('err', err);
-          }
         } else if (code === 314) {
           setPostCertificationIsLoading(false);
           setCertificateErrorToastMessage('카테고리당 하루 5번까지 인증 가능합니다');
@@ -253,12 +215,6 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
           setPostCertificationIsLoading(false);
           setCertificateErrorToastMessage('6시간 이내 같은 장소에서 인증 불가능합니다');
           openCertificateErrorToast();
-        } else {
-          console.log(1)
-          setPostCertificationIsLoading(false);
-          setCertificateErrorToastMessage('서버 장애가 발생했습니다');
-          setShowCertificateErrorToast(true);
-          // openCertificateErrorToast();
         }
       },
       dispatch,

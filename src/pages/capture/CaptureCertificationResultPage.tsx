@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
-import CaptureResultHeader from './components/CaptureResultHeader';
-import CaptureResultMain from './components/CaptureResultMain';
-import './CaptureResultPage.scss';
+import CaptureResultHeader from './components/CaptureCertificationResultHeader';
+import CaptureResultMain from './components/CaptureCertificationResultMain';
+import './CaptureCertificationResultPage.scss';
 import { analytics } from '../../index';
 import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 import { RootState } from '../../redux/store';
@@ -20,6 +20,7 @@ function CaptureResult() {
   const { achievements } = useSelector((state: RootState) => state.persist.upload);
 
   useEffect(() => {
+    console.log('achievements',achievements)
     if (achievements.length === 1) {
       setAchievementBottomSheetIsOpen1(true);
     } else if (achievements.length === 2) {
@@ -42,6 +43,10 @@ function CaptureResult() {
     }
   }, []);
 
+  useEffect(() => {
+    preventGoBack()
+  }, []);
+
   // useEffect(() => {
   //   mutation.mutate({
   //     params: {
@@ -50,6 +55,16 @@ function CaptureResult() {
   //     },
   //   });
   // }, []);
+
+
+  const preventGoBack = () => {
+    window.history.pushState(null, '', location.href);
+
+    window.onpopstate = function (event) {
+      window.history.go(1);
+      console.log('prevent go back!');
+    };
+  };
 
   return (
     <>

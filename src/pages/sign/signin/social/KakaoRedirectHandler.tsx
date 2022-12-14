@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAccessCode } from '../../../../common/api/social';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import AlertConfirm from '../../../../common/dialog/AlertConfirm';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import Loading from '../../../../common/utils/Loading';
+import { RootState } from '../../../../redux/store';
 
 declare global {
   interface Window {
@@ -22,6 +23,7 @@ function KakaoRedirectHandler() {
   const [signUp, setSignUp] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const navigate = useNavigate();
+  const { OS } = useSelector((state: RootState) => state.persist.device);
 
   useEffect(() => {
     if (code == null) {
@@ -66,7 +68,7 @@ function KakaoRedirectHandler() {
           const refreshToken = response.headers.authorization_refresh;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-          window.BRIDGE.sendFcmToken(data.user.userId);
+          sendFcmTokenHandler(data.user.userId);
           navigate(ROOT_PATH, { replace: true });
         } else if (code === 370) {
           console.log('소셜 회원가입');
@@ -86,6 +88,12 @@ function KakaoRedirectHandler() {
       () => { console.log(1); },
       dispatch,
     );
+  };
+
+  const sendFcmTokenHandler = (userId: number) => {
+    if (OS === 'android') {
+      window.BRIDGE.sendFcmToken(userId);
+    }
   };
 
   const moveToPreviousPage = () => {

@@ -42,7 +42,7 @@ export const CAMERA_PATH = {
   CAPTURE: '/camera/captureImg',
   LOCATION: '/camera/captureImg/location',
   CERTIFICATION: '/camera/captureImg/certification',
-  RESULT: '/camera/captureImg/result',
+  RESULT: '/camera/captureImg/certification/result',
   UPDATE: '/camera/captureImg/certification/update',
 };
 
