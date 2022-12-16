@@ -34,7 +34,7 @@ import FlagCard from './FlagCard';
 import { CACHE_TIME, GET_MY_PET_RANKING_DATA, GET_TOP_RANKING_LIST, STALE_TIME } from '../../common/constants/queryKey.const';
 import { getMyPetRanking, getTopRankingList } from '../../common/api/ranking';
 import { useErrorHandlers } from '../../common/api/useErrorHandlers';
-import {analytics} from "../../index";
+import { analytics } from "../../index";
 
 interface MakerItem {
   id: number;
@@ -73,13 +73,13 @@ function MapPage() {
 
   let map: naver.maps.Map;
 
-  const {isLoading: getTopRankingListIsLoading, data: topRankingDataList} = useQuery(
+  const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
     GET_TOP_RANKING_LIST,
     () => getTopRankingList(Number(geoCode)),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
-      onError: (error:any) => {
+      onError: (error: any) => {
         useErrorHandlers(dispatch, error);
       }
     }
@@ -202,7 +202,8 @@ function MapPage() {
             `</div>`,
           ].join(''),
           size: new naver.maps.Size(46, 54),
-          origin: new naver.maps.Point(-24, -27),
+          origin: new naver.maps.Point(0, 0),
+          anchor: new naver.maps.Point(3, 54)
         },
       };
       const marker = new naver.maps.Marker(markerOptions);
@@ -670,7 +671,7 @@ function MapPage() {
           description={selectedCert.description}
         />
       )}
-      {flagClicked && <FlagCard place={wardOffice!.name.slice(0, -1)} onClick={moveToRankingPage}/>}
+      {flagClicked && <FlagCard place={wardOffice!.name.slice(0, -1)} onClick={moveToRankingPage} />}
       {/* <FooterNavigation /> */}
     </div>
   );
