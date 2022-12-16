@@ -8,7 +8,7 @@ async function setAccessCode(
   dispatch: any,
 ) {
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/kakao/access-code/${code}`)
+    .post(`${process.env.REACT_APP_API_URL}/oauth/kakao/${code}`)
     .then((data) => {
       success(data);
     })
@@ -62,7 +62,7 @@ async function setStateCode(
 ) {
   const { code, state } = data;
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/naver/state-code/${state}/${code}`)
+    .post(`${process.env.REACT_APP_API_URL}/oauth/naver/${state}/${code}`)
     .then((data) => {
       success(data);
     })
@@ -75,7 +75,7 @@ async function setStateCode(
 
 async function appleSendToken(token: string | null, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/apple/id_token/${token}`)
+    .post(`${process.env.REACT_APP_API_URL}/oauth/apple/${token}`)
     .then((data) => {
       success(data);
     })
