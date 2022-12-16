@@ -3,13 +3,11 @@ import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactComponent as Exit } from '../icons/exit.svg';
 import './Calender.scss';
-import park from './park.jpg';
 import { getCalendarData } from '../api/record';
 import { Cert } from '../../pages/map/MapType';
 import { DateType } from './CalendarType';
-import {Certification} from '../../pages/certification/RecordCertificationPage';
+import { Certification } from '../../pages/certification/RecordCertificationPage';
 import { RECORD_PATH } from '../constants/path.const';
 
 interface CalenderProps {
@@ -25,7 +23,7 @@ Calender.defaultProps = {
 function Calender() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const userId = useSelector((state:any)=>state.persist.user.user.id);
+  const userId = useSelector((state: any) => state.persist.user.user.id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -66,26 +64,25 @@ function Calender() {
     );
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (touchStart - touchEnd > 200) {
       navigate(RECORD_PATH.MAP, { state: 'map' });
     }
     else if (touchStart - touchEnd < - 200) {
       navigate(RECORD_PATH.PHOTO, { state: 'photo' });
     }
-  },[touchEnd]);
+  }, [touchEnd]);
 
-  useEffect(()=>{
-    scrollRef.current?.scrollIntoView({block:'end'});
-  },[dateList]);
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ block: 'end' });
+  }, [dateList]);
 
   const getDateContext = (prev: number) => {
     const date = new Date();
 
     let currentYear = date.getFullYear();
     let currentMonth: string | number = date.getMonth() + prev;
-    console.log(currentMonth, prev);
-    if(currentMonth <= -1) {
+    if (currentMonth <= -1) {
       currentMonth = 12 + prev + date.getMonth();
       currentYear -= 1;
     }
@@ -142,7 +139,7 @@ function Calender() {
       let achieve = false;
       let isCertificated = false;
       let imageSrc;
-      let certification:Cert[];
+      let certification: Cert[];
       // let dateId;
       dateList.forEach((date) => {
         if (date.date === id) {
@@ -162,8 +159,8 @@ function Calender() {
           onClick={
             isCertificated
               ? () => {
-                navigate('/certs',{state:{certifications:certification,pageFrom:RECORD_PATH.CALENDAR}})
-                }
+                navigate('/certs', { state: { certifications: certification, pageFrom: RECORD_PATH.CALENDAR } })
+              }
               : undefined
           }
         >
