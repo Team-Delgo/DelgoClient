@@ -78,18 +78,6 @@ function Profile() {
     },
   );
 
-  const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
-    GET_MY_PET_RANKING_DATA,
-    () => getMyPetRanking(user.id),
-    {
-      cacheTime: CACHE_TIME,
-      staleTime: STALE_TIME,
-      onError: (error: any) => {
-        useErrorHandlers(dispatch, error);
-      },
-    },
-  );
-
 
   
   useEffect(() => {

@@ -45,7 +45,10 @@ function AchievementBottomSheet({
               <div className="achievement-bottom-sheet-first-line-name">{achievement?.name}</div>
             </div>
             <div className="achievement-bottom-sheet-second-line">
-              <div className="achievement-bottom-sheet-second-line-text">{achievement?.desc}</div>
+              <div className="achievement-bottom-sheet-second-line-text">{achievement?.desc.split('/')[0]}</div>
+            </div>
+            <div className="achievement-bottom-sheet-second-line">
+              <div className="achievement-bottom-sheet-second-line-text">{achievement?.desc.split('/')[1]}</div>
             </div>
             <div>
               <img

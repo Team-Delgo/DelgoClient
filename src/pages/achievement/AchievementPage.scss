@@ -39,7 +39,7 @@
             &-images {
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
-                padding: 5px;
+                padding-top: 5px;
                 overflow-y: scroll;
 
                 .achievement-page-header-achievements-image-container:active {
@@ -63,7 +63,7 @@
                         &-check-img {
                             position: absolute;
                             top: -3px;
-                            right: -3px;
+                            right: 2px;
                             z-index: 10;
                         }
                     }
@@ -99,7 +99,8 @@
             grid-template-columns: 1fr 1fr 1fr;
             text-align: center;
             overflow-y: scroll;
-            padding: 5px;
+            padding-top: 5px;
+            // margin:0 -5%;
 
 
             .achievement-page-body-achievements-image-container:active {
@@ -119,7 +120,7 @@
                     &-check-img {
                         position: absolute;
                         top: -3px;
-                        right: -3px;
+                        right: 2px;
                         z-index: 10;
                     }
 

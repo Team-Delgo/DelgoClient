@@ -1,8 +1,7 @@
 .neighbor-ranking-page {
     &-header {
         background-color: #FFFFFF;
-        height: 25vh;
-        margin-bottom: 10px;
+        padding-bottom: 30px;
 
         &-title {
             color: #8A8A8A;
@@ -19,7 +18,7 @@
         &-my-pet {
             display: flex;
             justify-content: space-between;
-            margin: 30px 5% 30px 5%;
+            margin: 30px 5% 0 5%;
 
             &-img {
                 width: 100px;

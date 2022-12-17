@@ -106,14 +106,14 @@ function MainAchievment({
                     />
                     <div className="achievement-page-header-achievements-image-name">{achievement.name}</div>
                     {editActivation === true ? (
-                  <img
-                    src={Checked}
-                    className="achievement-page-header-achievements-image-check-img"
-                    alt="post-img"
-                    width={20}
-                    height={20}
-                  />
-                ) : null}
+                      <img
+                        src={Checked}
+                        className="achievement-page-header-achievements-image-check-img"
+                        alt="post-img"
+                        width={20}
+                        height={20}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
