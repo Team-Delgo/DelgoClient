@@ -9,6 +9,9 @@ const initialState = {
     scroll: 0,
     pageSize: 3,
   },
+  calendar: {
+    scroll: 0,
+  },
 };
 
 const scrollSlice = createSlice({
@@ -30,6 +33,14 @@ const scrollSlice = createSlice({
         photos: {
           scroll: action.payload.scroll,
           pageSize: action.payload.pageSize,
+        },
+      };
+    },
+    calendarScroll(state, action) {
+      return {
+        ...initialState,
+        calendar: {
+          scroll: action.payload.scroll,
         },
       };
     },
