@@ -105,9 +105,7 @@ function MainAchievment({
                       onClick={editActivation === false ? openBottomSheet(achievement) : undefined}
                     />
                     <div className="achievement-page-header-achievements-image-name">{achievement.name}</div>
-                  </div>
-                </div>
-                {editActivation === true ? (
+                    {editActivation === true ? (
                   <img
                     src={Checked}
                     className="achievement-page-header-achievements-image-check-img"
@@ -116,6 +114,8 @@ function MainAchievment({
                     height={20}
                   />
                 ) : null}
+                  </div>
+                </div>
               </div>
             ))}
           </div>

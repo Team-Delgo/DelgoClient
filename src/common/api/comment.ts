@@ -39,8 +39,8 @@ async function deleteComment(
   dispatch: any,
 ) {
   try {
-    const result = await axiosInstance.post(
-      `/comment/delete/${commentId}/${userId}/${certificationId}`,
+    const result = await axiosInstance.delete(
+      `/comment/${commentId}/${userId}/${certificationId}`,
     );
     success(result);
   } catch (error: any | AxiosError) {

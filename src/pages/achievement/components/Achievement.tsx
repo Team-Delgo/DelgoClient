@@ -76,8 +76,7 @@ function Achievement({
                     onClick={editActivation === false ? openBottomSheet(achievement) : undefined}
                   />
                   <div className="achievement-page-body-achievements-image-name">{achievement.name}</div>
-                </div>
-                {editActivation ? (
+                  {editActivation ? (
                   achievement.isActive ? (
                     <img
                       src={NotChecked}
@@ -89,6 +88,7 @@ function Achievement({
                     />
                   ) : null
                 ) : null}
+                </div>
               </div>
             ))}
         </div>
