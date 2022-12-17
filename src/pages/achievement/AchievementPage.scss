@@ -31,23 +31,26 @@
                 }
             }
 
+            &-images::-webkit-scrollbar {
+                display: none;
+                /* Chrome, Safari, Opera*/
+            }
+
             &-images {
-                // display: grid;
-                // grid-template-columns: 1fr 1fr 1fr;
-                display: flex;
-                justify-content: space-between;
-                flex-wrap: wrap;
-                padding: 10px 0;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                padding: 5px;
+                overflow-y: scroll;
 
                 .achievement-page-header-achievements-image-container:active {
-                    transform: scale(0.93);
-                }
-
-                .achievement-page-header-achievements-image-container {
-                    position: relative;
-
+                        transform: scale(0.93);
+                    }
+                
+                    .achievement-page-header-achievements-image-container {
+                        position: relative;
                     .achievement-page-header-achievements-image {
                         width: 100%;
+                        text-align: center;
 
                         &-name{
                             text-align: center;
@@ -70,7 +73,7 @@
     }
 
     &-body {
-        margin: 40px 5% 0 5%;
+        padding: 40px 5% 0 5%;
 
         &-achievements{
            &-title {
@@ -86,14 +89,18 @@
             color: #8A8A8A
 
         }
+        &-images::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera*/
+        }
+
         &-images {
-            // display: grid;
-            // grid-template-columns: 1fr 1fr 1fr;
-            // row-gap: 5px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap; // 복수의 행
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             text-align: center;
+            overflow-y: scroll;
+            padding: 5px;
+
 
             .achievement-page-body-achievements-image-container:active {
                 transform: scale(0.93);
@@ -103,6 +110,12 @@
                 position: relative;
                 .achievement-page-body-achievements-image {
                     padding-bottom: 20px;
+
+                    &-wrapper{
+                        background-color: red;
+                        position: relative;
+                    }
+
                     &-check-img {
                         position: absolute;
                         top: -3px;

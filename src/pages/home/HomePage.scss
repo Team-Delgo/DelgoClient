@@ -57,16 +57,24 @@
             }
         }
     }
+    
 
     &-achievements {
         padding: 10px 0;
         font-size: 14px;
         color:#8A8A8A;
 
+        &-images::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera*/
+        }
+        
         &-images {
             margin: 15px 5% 20px 0;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            overflow: scroll;
+            text-align: center;
 
             &-name{
                 text-align: center;
