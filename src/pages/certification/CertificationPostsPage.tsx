@@ -69,7 +69,7 @@ function CertificationPostsPage() {
     'posts',
     ({ pageParam = 0 }) => getCertificationPostAll(pageParam, user.id, pageSize, dispatch),
     {
-      getNextPageParam: (lastPage: any) => (!lastPage.last ? lastPage.nextPage : undefined),
+      getNextPageParam: (lastPage: any) => (!lastPage?.last ? lastPage?.nextPage : undefined),
     },
   );
 
@@ -84,7 +84,6 @@ function CertificationPostsPage() {
 
 
   useEffect(() => {
-    console.log('data',data)
     if (typeof data?.pages[0]?.content?.length === 'number') {
       setPageSizeCount(data?.pages[0]?.content?.length + pageSizeCount);
     }
