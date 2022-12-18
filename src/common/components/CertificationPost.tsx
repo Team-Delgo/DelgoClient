@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unused-prop-types */
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Sheet, { SheetRef } from 'react-modal-sheet';
-import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
+import { useMutation } from "react-query";
+import { certificationLike2,certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
 import Cafe from '../icons/cafe.svg';
@@ -20,6 +20,7 @@ import { scrollActions } from '../../redux/slice/scrollSlice';
 import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
 import ToastPurpleMessage from '../dialog/ToastPurpleMessage';
 import { blockUser } from '../api/ban';
+import axiosInstance from '../api/interceptors';
 
 interface userType {
   address: string;
@@ -126,6 +127,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const [blockUserSuccessToastIsOpen, setBlockUserSuccessToastIsOpen] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const [blockUserbottomSheetIsOpen, setBlockUserBottomSheetIsOpen] = useState(false);
+  const [likeIsLoading,setLikeIsLoading] = useState(false)
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,7 +148,19 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
     }
   }, [blockUserSuccessToastIsOpen]);
 
+
+  // const { mutate, isLoading, isError, error, isSuccess } = useMutation(() => {
+  //   return axiosInstance.post(
+  //     `/certification/like/${user.id}/${post?.certificationId}`,
+  //   );
+  // },
+  // onSuccess: (data, variables, context) => {
+  //   // I will fire first
+  // },);
+
   const setCertificationLike = () => {
+    if (likeIsLoading) return;
+    setLikeIsLoading(true);
     certificationLike(
       user.id,
       post?.certificationId,
@@ -158,6 +172,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       },
       dispatch,
     );
+    setLikeIsLoading(false);
   };
 
   const deleteCertification = () => {
