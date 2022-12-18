@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ import {
   STALE_TIME,
   GET_MY_PET_RANKING_DATA,
 } from '../../../common/constants/queryKey.const';
+import { analytics } from '../../../index';
 import { RootState } from '../../../redux/store';
 
 interface rankingType {
@@ -26,6 +28,7 @@ function Ranking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, pet } = useSelector((state: RootState) => state.persist.user);
+  const rankingEvent = useAnalyticsCustomLogEvent(analytics, 'home_ranking');
 
   const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
     GET_TOP_RANKING_LIST,
@@ -52,6 +55,7 @@ function Ranking() {
   );
 
   const moveToNeighborRankingPage = () => {
+    rankingEvent.mutate();
     navigate(NEIGHBOR_RANKING_PATH, {
       state: {
         topRankingDataList: topRankingDataList?.data,

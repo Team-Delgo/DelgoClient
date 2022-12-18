@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React,{useEffect, useRef, useState} from 'react';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { getCommentList, postComment,deleteComment } from '../../common/api/comm
 import { RootState } from '../../redux/store';
 import ConfirmBottomSheet from '../../common/utils/ConfirmBottomSheet';
 import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
+import { analytics } from "../../index";
 
 interface Comment {
   certificationId: number;
@@ -38,6 +40,7 @@ function CommentsPage() {
   const [deleteCommentId, setDeleteCommentId] = useState(-1);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const [deleteCommentSuccessToastIsOpen, setDeleteCommentSuccessToastIsOpen] = useState(false);
+  const commentEvent = useAnalyticsCustomLogEvent(analytics, "cert_comment_post");
 
   useEffect(() => {
     getComments();
@@ -63,6 +66,7 @@ function CommentsPage() {
   };
 
   const postCommentOnCert = () => {
+    commentEvent.mutate();
     setEnteredInput('');
     postComment(
       userId,

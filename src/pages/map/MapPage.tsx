@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
+import { useAnalyticsLogEvent, useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import axios, { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import classNames from 'classnames';
@@ -70,6 +70,11 @@ function MapPage() {
     option: { zoom: 2, size: 70 },
   });
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
+  const mungpleClickEvent = useAnalyticsCustomLogEvent(analytics, "map_mungple");
+  const toggleClickEvent = useAnalyticsCustomLogEvent(analytics, "map_toggle");
+  const certClickEvent = useAnalyticsCustomLogEvent(analytics, "map_cert");
+  const flagClickEvent = useAnalyticsCustomLogEvent(analytics, "map_flag");
+
 
   let map: naver.maps.Map;
 
@@ -208,6 +213,7 @@ function MapPage() {
       };
       const marker = new naver.maps.Marker(markerOptions);
       marker.addListener('click', () => {
+        flagClickEvent.mutate();
         setFlagClicked(true);
         clearSelectedId();
         setSelectedCert(certDefault);
@@ -268,6 +274,7 @@ function MapPage() {
         };
         const marker = new naver.maps.Marker(markerOptions);
         marker.addListener('click', () => {
+          certClickEvent.mutate();
           setSelectedCert((prev) => {
             return {
               ...prev,
@@ -388,6 +395,7 @@ function MapPage() {
         // - 기억했던 마커 찾기
         // - 기억했던 마커 바꾸기
         marker.addListener('click', () => {
+          mungpleClickEvent.mutate();
           setSelectedId((prev) => {
             return {
               img: data.photoUrl,
@@ -600,11 +608,13 @@ function MapPage() {
   }, [selectedId]);
 
   const mungpleButtonHandler = () => {
+    toggleClickEvent.mutate();
     setMungple('OFF');
     setSelectedId(idDefault);
     setFlagClicked(false);
   };
   const munpleOnButtonHandler = () => {
+    toggleClickEvent.mutate();
     setMungple('ON');
     setSelectedCert(certDefault);
     setFlagClicked(false);

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from "react-query";
@@ -20,7 +21,9 @@ import { scrollActions } from '../../redux/slice/scrollSlice';
 import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
 import ToastPurpleMessage from '../dialog/ToastPurpleMessage';
 import { blockUser } from '../api/ban';
+import { analytics } from "../../index";
 import axiosInstance from '../api/interceptors';
+
 
 interface userType {
   address: string;
@@ -131,6 +134,8 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const location = useLocation();
+  const heartEvent = useAnalyticsCustomLogEvent(analytics, "cert_like");
+  const commentEvent = useAnalyticsCustomLogEvent(analytics, "cert_comment_view");
 
   useEffect(() => {
     if (deletePostSuccessToastIsOpen) {
@@ -166,6 +171,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       post?.certificationId,
       (response: AxiosResponse) => {
         if (response.data.code === 200) {
+          heartEvent.mutate();
           setLikeCount(isLike ? likeCount - 1 : likeCount + 1);
           setIsLike(!isLike);
         }
@@ -213,6 +219,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   };
 
   const moveToCommentPage = () => {
+    commentEvent.mutate();
     dispatch(scrollActions.postsScroll({ scroll: window.scrollY, pageSize }));
     navigate(`/comments/${post?.certificationId}`, {
       state: { certificationId: post?.certificationId, posterId: post?.userId },
