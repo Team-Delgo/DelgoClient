@@ -7,7 +7,7 @@ const initialState = {
   },
   photos: {
     scroll: 0,
-    pageSize: 6,
+    pageSize: 0,
   },
   calendar: {
     scroll: 0,
