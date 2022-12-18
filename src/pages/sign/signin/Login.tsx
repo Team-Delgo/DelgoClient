@@ -128,7 +128,7 @@ function Login() {
       window.BRIDGE.sendFcmToken(userId);
     }
     else{
-      console.log(1)
+      window.webkit.messageHandlers.sendFcmToken.postMessage(userId);
     }
   };
 
