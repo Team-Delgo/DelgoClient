@@ -16,7 +16,7 @@ interface SignUpData {
 
 async function emailCheck(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/emailCheck`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/email/check`, {
       params: { email },
     })
     .then((data) => {
@@ -29,7 +29,7 @@ async function emailCheck(email: string, success: (data: AxiosResponse) => void,
 
 async function nicknameCheck(name: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/nameCheck`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/name/check`, {
       params: { name },
     })
     .then((data) => {
@@ -77,7 +77,7 @@ async function signup(info: SignUpData, success: (data: AxiosResponse) => void, 
 
 async function deleteUser(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .delete(`${process.env.REACT_APP_API_URL}/user/${userId}`)
+    .delete(`${process.env.REACT_APP_API_URL}/account/user/${userId}`)
     .then((data) => {
       success(data);
     })
@@ -99,7 +99,7 @@ async function getRegion(success: (data: AxiosResponse) => void, dispatch: any) 
 
 async function phoneSendMessage(phone: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/phoneNoAuth`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/sms?isJoin=false`, {
       params: {
         phoneNo: phone,
       },
@@ -114,7 +114,7 @@ async function phoneSendMessage(phone: string, success: (data: AxiosResponse) =>
 
 async function phoneSendMessageForFind(phone: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/phoneNoCheck`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/sms?isJoin=true`, {
       params: {
         phoneNo: phone,
       },
@@ -134,7 +134,7 @@ async function phoneCheckNumber(
 ) {
   const { number, smsId } = data;
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/authRandNum`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/sms/check`, {
       params: {
         smsId,
         enterNum: number,

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Camera } from 'react-camera-pro';
@@ -11,6 +12,7 @@ import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../common/utils/CropHandle';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import Crop from '../../common/utils/Crop';
+import { analytics } from '../../index';
 import './CameraPage.scss';
 
 const imgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
@@ -32,6 +34,8 @@ function CameraRearPage() {
   const dispatch = useDispatch();
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const camera2 = useRef<any>(null);
+  const cameraCaptureEvent = useAnalyticsCustomLogEvent(analytics, 'cert_capture_camera');
+  const albumCaptrueEvent = useAnalyticsCustomLogEvent(analytics, "cert_capture_album");
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -77,6 +81,7 @@ function CameraRearPage() {
       return;
     }
     if (camera2.current) {
+      cameraCaptureEvent.mutate();
       const imageSrc = camera2.current.takePhoto();
       dispatch(uploadAction.setImg({ img: imageSrc, tool: 'camera' }));
       moveToNextPage();
@@ -84,6 +89,7 @@ function CameraRearPage() {
   };
 
   const handleOpenFileUpload = () => {
+    albumCaptrueEvent.mutate();
     if (fileUploadRef.current) {
       fileUploadRef.current.click();
     }

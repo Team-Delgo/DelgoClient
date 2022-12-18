@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './SignIn.scss';
-import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
+import { useAnalyticsLogEvent, useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { createBrowserHistory } from 'history';
 import AppleLogin from 'react-apple-login';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as KakaoButton } from '../../../common/icons/kakao.svg';
 import { ReactComponent as Naver } from '../../../common/icons/naver.svg';
-import {analytics} from "../../../index";
+import { analytics } from '../../../index';
 import { ReactComponent as Apple } from '../../../common/icons/apple.svg';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../common/constants/path.const';
 import { KAKAO, NAVER } from '../../../common/constants/url.cosnt';
@@ -34,24 +34,24 @@ function SignIn() {
   const navigation = useNavigate();
   const history = createBrowserHistory();
   const dispatch = useDispatch();
-  
-  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
+
+  const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
+  const signUpStartEvent = useAnalyticsCustomLogEvent(analytics, 'delgo_signup_start');
 
   useEffect(() => {
     mutation.mutate({
       params: {
-        firebase_screen: "SignIn",
-        firebase_screen_class: "SignInPage"
-      }
+        firebase_screen: 'SignIn',
+        firebase_screen_class: 'SignInPage',
+      },
     });
     console.log(window.Kakao.isInitialized());
-    if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
+    if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
       navigation('/');
     }
     setTimeout(() => {
       setLoading(false);
     }, 700);
-    
   }, []);
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +76,15 @@ function SignIn() {
     );
   };
 
-  const kakaoIntentUrl = `intent://${KAKAO.KAKAO_AUTH_URL.replace(/https?:\/\//i, '')}#Intent;scheme=http;package=com.android.chrome;end`
+  const signupButtonClick = () => {
+    signUpStartEvent.mutate();
+    navigation(SIGN_UP_PATH.TERMS, { state: { isSocial: false } });
+  };
+
+  const kakaoIntentUrl = `intent://${KAKAO.KAKAO_AUTH_URL.replace(
+    /https?:\/\//i,
+    '',
+  )}#Intent;scheme=http;package=com.android.chrome;end`;
 
   return (
     <div className="login-signin">
@@ -106,23 +114,20 @@ function SignIn() {
               계속
             </button>
             <div className="login-signup-wrapper">
-              <div
-                aria-hidden="true"
-                className="login-signup-text"
-                onClick={() => {
-                  navigation(SIGN_UP_PATH.TERMS, { state: { isSocial: false } });
-                }}
-              >
+              <div aria-hidden="true" className="login-signup-text" onClick={signupButtonClick}>
                 회원가입
               </div>
             </div>
             <div className="login-social-header">소셜 로그인</div>
             <div className="login-social">
-              <div aria-hidden="true" onClick={()=>{
-                window.Kakao.Auth.authorize({
-                  redirectUri: `${process.env.REACT_APP_BASE_URL}/oauth/callback/kakao`
-                })
-                }}>
+              <div
+                aria-hidden="true"
+                onClick={() => {
+                  window.Kakao.Auth.authorize({
+                    redirectUri: `${process.env.REACT_APP_BASE_URL}/oauth/callback/kakao`,
+                  });
+                }}
+              >
                 <button type="button" className="login-kakao">
                   <KakaoButton className="icon" />
                 </button>
@@ -133,7 +138,7 @@ function SignIn() {
                 </button>
               </a>
               <div className="login-apple">
-              <Apple className="icon" />
+                <Apple className="icon" />
                 <AppleLoginButton />
               </div>
             </div>

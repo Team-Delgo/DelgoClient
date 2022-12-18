@@ -2,14 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import { useErrorHandlers } from './useErrorHandlers';
 import axiosInstance from './interceptors';
 
-async function getMyAccountDataList(userId: number) {
-  const { data } = await axiosInstance.get(`/myAccount`, {
-    params: { userId },
-  });
-  console.log(data);
-  return data;
-}
-
 async function changePetInfo(
   data: { email: string; name: string; birthday: string | undefined; breed: string },
   success: (data: AxiosResponse) => void,
@@ -17,7 +9,7 @@ async function changePetInfo(
 ) {
   const { email, name, birthday, breed } = data;
   await axiosInstance
-    .post(`/changePetInfo`, {
+    .put(`/account/pet`, {
       email,
       name,
       birthday,
@@ -33,7 +25,7 @@ async function changePetInfo(
 
 async function changePassword(email: string, password: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .post(`/changePassword`, {
+    .put(`/account/password`, {
       email,
       newPassword: password,
     })
@@ -47,7 +39,7 @@ async function changePassword(email: string, password: string, success: (data: A
 
 async function changeGeoCode(email: string, geoCode:string, pGeoCode:string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .post(`/changeUserInfo`, {
+    .put(`/account/user`, {
       email,
       geoCode,
       pGeoCode
@@ -62,7 +54,7 @@ async function changeGeoCode(email: string, geoCode:string, pGeoCode:string, suc
 
 async function changeName(email: string, name:string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .post(`/changeUserInfo`, {
+    .put(`/account/user`, {
       email,
       name
     })
@@ -85,4 +77,4 @@ async function setPushNotification(userId: number, success: (data: AxiosResponse
     });
 }
 
-export { getMyAccountDataList, changePetInfo, changePassword, changeGeoCode, changeName, setPushNotification };
+export { changePetInfo, changePassword, changeGeoCode, changeName, setPushNotification };

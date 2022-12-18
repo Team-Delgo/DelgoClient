@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,10 +21,12 @@ import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import { RootState } from '../../../../redux/store';
+import { analytics } from '../../../../index';
 import PetType from '../pettype/PetType';
 import {LocationState, Input, IsValid, croppendAreaPixelType, BreedType, Id} from "./petInfoType";
 
 function PetInfo() {
+  const signUpCompleteEvent = useAnalyticsCustomLogEvent(analytics, 'delgo_signup_end');
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const state = useLocation().state as LocationState;
@@ -141,6 +144,7 @@ function PetInfo() {
   };
 
   const submitHandler = async () => {
+    signUpCompleteEvent.mutate();
     const formData = await handlingDataForm(sendingImage);
     let userId = 0;
     const petInfo = {

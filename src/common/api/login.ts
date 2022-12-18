@@ -33,7 +33,7 @@ async function tokenRefresh(data: { refreshToken: string }, success: (data: Axio
 
 async function emailAuth(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/emailAuth`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/email`, {
       params: { email },
     })
     .then((data) => {
@@ -46,7 +46,7 @@ async function emailAuth(email: string, success: (data: AxiosResponse) => void, 
 
 async function changePassword(email: string, password: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/resetPassword`, {
+    .put(`${process.env.REACT_APP_API_URL}/user/password`, {
         email,
         newPassword: password,
     })
