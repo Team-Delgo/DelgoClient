@@ -1,35 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactComponent as Exit } from '../icons/exit.svg';
 import './Calender.scss';
-import park from './park.jpg';
 import { getCalendarData } from '../api/record';
 import { Cert } from '../../pages/map/MapType';
 import { DateType } from './CalendarType';
-import { Certification } from '../../pages/certification/RecordCertificationPage';
 import { RECORD_PATH } from '../constants/path.const';
 import { RootState } from '../../redux/store';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import { analytics } from "../../index";
 
-interface CalenderProps {
-  closeCalender: () => void;
-  isRoom: boolean;
-  roomId?: string;
-}
-
-Calender.defaultProps = {
-  roomId: 0,
-};
-
 function Calender() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const location = useLocation();
   const userId = useSelector((state: any) => state.persist.user.user.id);
   const scroll = useSelector((state: RootState) => state.persist.scroll.calendar.scroll);
   const dispatch = useDispatch();
@@ -51,15 +37,6 @@ function Calender() {
 
   const touchEndFunc = (e: any) => {
     setTouchEnd(e.changedTouches[0].clientX);
-  };
-
-  const getToday = () => {
-    const date = new Date();
-    let today = date.toString().slice(8, 10);
-    if (today[0] === '0') {
-      today = today.slice(1);
-    }
-    return today;
   };
 
   useEffect(() => {
@@ -134,7 +111,6 @@ function Calender() {
     const dates = prevDates.concat(thisDates, nextDates);
     const firstDateIndex = dates.indexOf(1);
     const lastDateIndex = dates.lastIndexOf(thisLastDate);
-
     currentMonth += 1;
 
     if (currentMonth < 10) {
@@ -155,7 +131,6 @@ function Calender() {
       let isCertificated = false;
       let imageSrc;
       let certification: Cert[];
-      // let dateId;
       dateList.forEach((date) => {
         if (date.date === id) {
           isCertificated = true;
@@ -237,12 +212,6 @@ function Calender() {
     <div className="calender">
       <div className="date-wrapper" ref={scrollRef} onTouchStart={touchStartFunc} onTouchEnd={touchEndFunc}>
         {datesElement}
-        {/* <div className="current-month">{`${datesElement0.currentYear}.${datesElement0.currentMonth}`}</div>
-        {weekDay}
-        <div className="date">{datesElement0.datesElement}</div>
-        <div className="current-month">{`${datesElement1.currentYear}.${datesElement1.currentMonth}`}</div>
-        {weekDay}
-        <div className="date">{datesElement1.datesElement}</div> */}
       </div>
     </div>
   );
