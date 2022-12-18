@@ -24,7 +24,9 @@ import { getCategoryCount, getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 import { RECORD_PATH } from '../../common/constants/path.const';
 import Loading from '../../common/utils/Loading';
-import {analytics} from "../../index";
+import { analytics } from '../../index';
+import { scrollActions } from '../../redux/slice/scrollSlice';
+import { RootState } from '../../redux/store';
 
 const categoryCode: categoryType = {
   산책: 'CA0001',
@@ -50,10 +52,11 @@ interface categoryType {
 const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 
 function Photo() {
-  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
+  const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
   const navigate = useNavigate();
-  const certEvent = useAnalyticsCustomLogEvent(analytics, "album_cert");
+  const certEvent = useAnalyticsCustomLogEvent(analytics, 'album_cert');
   const userId = useSelector((state: any) => state.persist.user.user.id);
+  const { pageSize, scroll } = useSelector((state: RootState) => state.persist.scroll.photos);
   const ref = useOnclickOutside(() => {
     setButtonIsClicked(false);
   });
@@ -62,6 +65,7 @@ function Photo() {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [page, setPage] = useState<number>(0);
+  const [pageSizeFor, setPageSizeFor] = useState(pageSize);
   const [buttonIsClicked, setButtonIsClicked] = useState(false);
   const [isFetching, setFetching] = useState(false);
   const [categoryCount, setCategoryCount] = useState({ 산책: 0, 카페: 0, 식당: 0, 미용: 0, 병원: 0, 기타: 0, 목욕: 0 });
@@ -78,13 +82,12 @@ function Photo() {
   useEffect(() => {
     mutation.mutate({
       params: {
-        firebase_screen: "Album",
-        firebase_screen_class: "AlbumPage"
-      }
+        firebase_screen: 'Album',
+        firebase_screen_class: 'AlbumPage',
+      },
     });
     getCategoryCountList();
     if (location?.state?.from === 'home') {
-      console.log('location.state', location.state);
       setCategoryTab(location.state.category);
       setCategory(categoryCode[location.state.category]);
       if (rightScrollCategory.includes(location.state.category)) {
@@ -101,19 +104,16 @@ function Photo() {
       }
     };
     window.addEventListener('scroll', handleScroll);
-    window.scrollTo(0, 0);
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const touchStartFunc = (e: any) => {
     setTouchStart(e.touches[0].clientX);
-    console.log(e.touches[0].clientX);
   };
 
   const touchEndFunc = (e: any) => {
     setTouchEnd(e.changedTouches[0].clientX);
-    console.log(e.changedTouches[0].clientX);
   };
 
   useEffect(() => {
@@ -147,9 +147,15 @@ function Photo() {
   };
 
   useEffect(() => {
-    console.log(cateogory);
     changePhotoData();
   }, [cateogory, sortOption]);
+
+  useEffect(() => {
+    if (!isLoading && pageSizeFor > 1 && photos.length > 0) {
+      window.scroll(0, scroll);
+      setPageSizeFor(1);
+    }
+  }, [isLoading]);
 
   const moveToCategoryLeftScroll = () => {
     categoryRef.current.scrollTo({
@@ -171,12 +177,16 @@ function Photo() {
       userId,
       cateogory,
       page,
-      6,
+      pageSizeFor > 1 ? 6 * pageSizeFor : 6,
       sortOption,
       (response: AxiosResponse) => {
         const { data } = response;
         console.log(response);
-        setPage(page + 1);
+        if (pageSizeFor > 1) {
+          setPage(pageSizeFor);
+        } else {
+          setPage(page + 1);
+        }
         setPhotos(photos.concat(data.data.content));
         setLast(data.data.last);
         setFetching(false);
@@ -187,17 +197,13 @@ function Photo() {
   };
 
   const photoContext = photos.map((photo) => {
-    return (
-      <img
-        src={photo.photoUrl}
-        alt="cert"
-        aria-hidden="true"
-        onClick={() => {
-          certEvent.mutate();
-          navigate('/certs', { state: { certifications: [photo], pageFrom: RECORD_PATH.PHOTO } });
-        }}
-      />
-    );
+    const photoClickHandler = () => {
+      dispatch(scrollActions.photosScroll({ scroll: window.scrollY, pageSize: page }));
+      certEvent.mutate();
+      navigate('/certs', { state: { certifications: [photo], pageFrom: RECORD_PATH.PHOTO } });
+    };
+
+    return <img src={photo.photoUrl} alt="cert" aria-hidden="true" onClick={photoClickHandler} />;
   });
   if (photoContext.length % 2 === 0) {
     photoContext.concat(<div className="photo-fake" />);
@@ -342,11 +348,11 @@ function Photo() {
       </div>
 
       <div className="photo-wrapper" onTouchStart={touchStartFunc} onTouchEnd={touchEndFunc}>
-        {isLoading && (
+        {/* {isLoading && (
           <div className="loader photo">
             <Ring color="#aa98ec" size={60} />
           </div>
-        )}
+        )} */}
         {photoContext}
       </div>
       <Sheet
