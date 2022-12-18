@@ -93,6 +93,7 @@ function App() {
         (response: AxiosResponse) => {
           const { code, data } = response.data;
           if (code === 200) {
+            console.log('data',data)
             const { registDt } = data.user;
             dispatch(
               userActions.signin({
