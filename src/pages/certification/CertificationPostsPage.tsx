@@ -62,7 +62,6 @@ function CertificationPostsPage() {
   const [pageSizeCount, setPageSizeCount] = useState(0);
   const dispatch = useDispatch();
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
-  const location = useLocation();
   const { ref, inView } = useInView();
   const navigate = useNavigate();
   const { data, status, fetchNextPage, isFetchingNextPage, refetch, isLoading } = useInfiniteQuery(

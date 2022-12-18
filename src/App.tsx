@@ -107,6 +107,7 @@ function App() {
                   isSocial: false,
                   geoCode: data.user.geoCode,
                   registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                  notify:data.user.notify,
                 },
                 pet: {
                   petId: data.pet.petId,

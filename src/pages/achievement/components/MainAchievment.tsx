@@ -123,6 +123,7 @@ function MainAchievment({
       </header>
       <AchievementBottomSheet
         text=""
+        allView={false}
         achievement={selectedAchievement}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={achievementBottomSheetIsOpen}

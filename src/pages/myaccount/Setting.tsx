@@ -16,10 +16,9 @@ function Setting() {
   const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(user?.notify);
   const navigate = useNavigate();
   const location: any = useLocation();
-  const { OS } = useSelector((state: RootState) => state.persist.device);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -59,8 +58,12 @@ function Setting() {
     setPushNotification(
       user.id,
       (response: AxiosResponse) => {
-        const { code } = response.data;
+        const { code,data } = response.data;
         if (code === 200) {
+          console.log('data',data)
+          dispatch(userActions.changeNotification({
+            notify: data
+          }))
           setAlert(!alert);
         }
       },
