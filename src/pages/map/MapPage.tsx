@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAnalyticsLogEvent, useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import classNames from 'classnames';
-import { useLocation, useNavigate } from 'react-router-dom';
-import FooterNavigation from '../../common/components/FooterNavigation';
+import { useNavigate } from 'react-router-dom';
 import RecordHeader from '../../common/components/RecordHeader';
 import './MapPage.scss';
-import park from './park.jpg';
 import { getMapData } from '../../common/api/record';
 import { Mungple, Cert, certDefault, idDefault, WardOffice } from './MapType';
 import UserLocation from '../../common/icons/user-location.svg';
@@ -28,13 +25,13 @@ import PlaceCard from './PlaceCard';
 import UserPin from '../../common/icons/userpin.svg';
 import MungpleToggle from './MungpleToggle';
 import CertCard from './CertCard';
-import Flag from '../../common/icons/flag.svg';
-import { NEIGHBOR_RANKING_PATH, ROOT_PATH } from '../../common/constants/path.const';
+import { NEIGHBOR_RANKING_PATH } from '../../common/constants/path.const';
 import FlagCard from './FlagCard';
 import { CACHE_TIME, GET_MY_PET_RANKING_DATA, GET_TOP_RANKING_LIST, STALE_TIME } from '../../common/constants/queryKey.const';
 import { getMyPetRanking, getTopRankingList } from '../../common/api/ranking';
 import { useErrorHandlers } from '../../common/api/useErrorHandlers';
-import { analytics } from "../../index";
+import { analytics } from '../../index';
+import { setFlagMarkerOption, setMarkerOptionBig, setMarkerOptionSmall, setMarkerOptionPrev, setCertOption } from './MapComponent';
 
 interface MakerItem {
   id: number;
@@ -49,16 +46,13 @@ function MapPage() {
   const dispatch = useDispatch();
   const [mungple, setMungple] = useState('ON');
   const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
-  const [isLoading, setIsLoading] = useState(true);
   const [globarMap, setGlobarMap] = useState<naver.maps.Map>();
   const [certNormalList, setCertNormalList] = useState<Cert[]>([]);
   const [certMungpleList, setCertMungpleList] = useState<Cert[]>([]);
-  const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [selectedCert, setSelectedCert] = useState<Cert>(certDefault);
   const [selectedId, setSelectedId] = useState(idDefault);
   const [flagClicked, setFlagClicked] = useState(false);
   const [mungpleList, setMungpleList] = useState<Mungple[]>([]);
-  const [currentZoom, setCurrentZoom] = useState({ zoom: 2, size: 70 });
   const [markerList, setMarkerList] = useState<MakerItem[]>([]);
   const [wardOffice, setWardOffice] = useState<WardOffice>();
   const [certMarkerList, setCertMarkerList] = useState<naver.maps.Marker[]>([]);
@@ -69,12 +63,11 @@ function MapPage() {
     zoom: 17,
     option: { zoom: 2, size: 70 },
   });
-  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
-  const mungpleClickEvent = useAnalyticsCustomLogEvent(analytics, "map_mungple");
-  const toggleClickEvent = useAnalyticsCustomLogEvent(analytics, "map_toggle");
-  const certClickEvent = useAnalyticsCustomLogEvent(analytics, "map_cert");
-  const flagClickEvent = useAnalyticsCustomLogEvent(analytics, "map_flag");
-
+  const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
+  const mungpleClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_mungple');
+  const toggleClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_toggle');
+  const certClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_cert');
+  const flagClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_flag');
 
   let map: naver.maps.Map;
 
@@ -86,9 +79,9 @@ function MapPage() {
       staleTime: STALE_TIME,
       onError: (error: any) => {
         useErrorHandlers(dispatch, error);
-      }
-    }
-  )
+      },
+    },
+  );
 
   const { isLoading: getMyPetRankingDataIsLoading, data: myPetRankingData } = useQuery(
     GET_MY_PET_RANKING_DATA,
@@ -138,9 +131,9 @@ function MapPage() {
   useEffect(() => {
     mutation.mutate({
       params: {
-        firebase_screen: "Map",
-        firebase_screen_class: "MapPage"
-      }
+        firebase_screen: 'Map',
+        firebase_screen_class: 'MapPage',
+      },
     });
     getMapPageData();
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -184,7 +177,6 @@ function MapPage() {
     map = new naver.maps.Map(mapElement.current, mapOptions);
 
     setGlobarMap(map);
-    setIsLoading(false);
     naver.maps.Event.addListener(map, 'tap', () => {
       clearSelectedId();
       setSelectedCert(certDefault);
@@ -196,21 +188,7 @@ function MapPage() {
 
   useEffect(() => {
     if (wardOffice) {
-      const markerOptions = {
-        position: new window.naver.maps.LatLng(parseFloat(wardOffice.latitude), parseFloat(wardOffice.longitude)),
-        map: globarMap!,
-        icon: {
-          content: [
-            `<div class="wardOffice" style="z-index:9998">`,
-            `<div class="wardOffice-name">${wardOffice.name}</div>`,
-            `<img src=${Flag} style="z-index:9999" alt="pin"/>`,
-            `</div>`,
-          ].join(''),
-          size: new naver.maps.Size(46, 54),
-          origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(3, 54)
-        },
-      };
+      const markerOptions = setFlagMarkerOption(wardOffice, globarMap);
       const marker = new naver.maps.Marker(markerOptions);
       marker.addListener('click', () => {
         flagClickEvent.mutate();
@@ -223,19 +201,7 @@ function MapPage() {
       deleteMungpleList();
       deleteCertList();
       const tempList1 = certNormalList.map((data) => {
-        const markerOptions = {
-          position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="pin${currentLocation.option.zoom}" style="z-index:${data.certificationId}">`,
-              `<img src=${data.photoUrl} style="z-index:${data.certificationId + 1}" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(currentLocation.option.size, currentLocation.option.size),
-            origin: new naver.maps.Point(0, 0),
-          },
-        };
+        const markerOptions = setCertOption(data, globarMap, currentLocation);
         const marker = new naver.maps.Marker(markerOptions);
         marker.addListener('click', () => {
           setSelectedCert((prev) => {
@@ -295,105 +261,13 @@ function MapPage() {
       deleteMungpleList();
       const tempList = mungpleList.map((data) => {
         let markerOptions;
-        if (data.categoryCode === 'CA0001') {
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div id=${data.mungpleId} class="mungple ${data.categoryCode}" >`,
-                `<img src=${WalkSmall}  style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(20, 20),
-              origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10, 10),
-            },
-          };
-        } else if (data.categoryCode === 'CA0002') {
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${CafeSmall} style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(20, 20),
-              origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10, 10),
-            },
-          };
-        } else if (data.categoryCode === 'CA0003') {
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${EatSmall} style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(20, 20),
-              origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10, 10),
-            },
-          };
-        } else if (data.categoryCode === 'CA0004') {
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${BathSmall} style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(20, 20),
-              origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10, 10),
-            },
-          };
-        } else if (data.categoryCode === 'CA0005') {
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${BeautySmall} style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(20, 20),
-              origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10, 10),
-            },
-          };
-        } else {
-          markerOptions = {
-            position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-            map: globarMap!,
-            icon: {
-              content: [
-                `<div class="mungple ${data.categoryCode}" >`,
-                `<img src=${HospitalSmall} style="" alt="pin"/>`,
-                `</div>`,
-              ].join(''),
-              size: new naver.maps.Size(20, 20),
-              origin: new naver.maps.Point(0, 0),
-              anchor: new naver.maps.Point(10, 10),
-            },
-          };
-        }
+        if (data.categoryCode === 'CA0001') markerOptions = setMarkerOptionSmall(WalkSmall, data, globarMap);
+        else if (data.categoryCode === 'CA0002') markerOptions = setMarkerOptionSmall(CafeSmall, data, globarMap);
+        else if (data.categoryCode === 'CA0003') markerOptions = setMarkerOptionSmall(EatSmall, data, globarMap);
+        else if (data.categoryCode === 'CA0004') markerOptions = setMarkerOptionSmall(BathSmall, data, globarMap);
+        else if (data.categoryCode === 'CA0005') markerOptions = setMarkerOptionSmall(BeautySmall, data, globarMap);
+        else markerOptions = setMarkerOptionSmall(HospitalSmall, data, globarMap);
         const marker = new naver.maps.Marker(markerOptions);
-        //  선택된 한개의 마커 변경
-        // - 선택된 마커 찾기
-        // - 선택된 마커 바꾸기
-        // - 선택된 마커 기억하기
-        // 다른 것을 선택하면 기존의 마커 원래대로
-        // - 기억했던 마커 찾기
-        // - 기억했던 마커 바꾸기
         marker.addListener('click', () => {
           mungpleClickEvent.mutate();
           setSelectedId((prev) => {
@@ -411,91 +285,12 @@ function MapPage() {
               prevCategoryCode: prev.categoryCode,
             };
           });
-          if (data.categoryCode === 'CA0001') {
-            markerOptions = {
-              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-              map: globarMap!,
-              icon: {
-                content: [
-                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Walk} style="" alt="pin"/>`,
-                  `</div>`,
-                ].join(''),
-                size: new naver.maps.Size(50, 59),
-                origin: new naver.maps.Point(0, 0),
-              },
-            };
-          } else if (data.categoryCode === 'CA0002') {
-            markerOptions = {
-              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-              map: globarMap!,
-              icon: {
-                content: [
-                  `<div class="mungple ${selectedId.prevCategoryCode} big">`,
-                  `<img src=${Cafe} style="" alt="pin"/>`,
-                  `</div>`,
-                ].join(''),
-                size: new naver.maps.Size(50, 59),
-                origin: new naver.maps.Point(0, 0),
-              },
-            };
-          } else if (data.categoryCode === 'CA0003') {
-            markerOptions = {
-              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-              map: globarMap!,
-              icon: {
-                content: [
-                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Eat} style="" alt="pin"/>`,
-                  `</div>`,
-                ].join(''),
-                size: new naver.maps.Size(50, 59),
-                origin: new naver.maps.Point(0, 0),
-              },
-            };
-          } else if (data.categoryCode === 'CA0004') {
-            markerOptions = {
-              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-              map: globarMap!,
-              icon: {
-                content: [
-                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Bath} style="" alt="pin"/>`,
-                  `</div>`,
-                ].join(''),
-                size: new naver.maps.Size(50, 59),
-                origin: new naver.maps.Point(0, 0),
-              },
-            };
-          } else if (data.categoryCode === 'CA0005') {
-            markerOptions = {
-              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-              map: globarMap!,
-              icon: {
-                content: [
-                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Beauty} style="" alt="pin"/>`,
-                  `</div>`,
-                ].join(''),
-                size: new naver.maps.Size(50, 59),
-                origin: new naver.maps.Point(0, 0),
-              },
-            };
-          } else {
-            markerOptions = {
-              position: new window.naver.maps.LatLng(parseFloat(data.latitude), parseFloat(data.longitude)),
-              map: globarMap!,
-              icon: {
-                content: [
-                  `<div class="mungple ${selectedId.prevCategoryCode} big" >`,
-                  `<img src=${Hospital} style="" alt="pin"/>`,
-                  `</div>`,
-                ].join(''),
-                size: new naver.maps.Size(50, 59),
-                origin: new naver.maps.Point(0, 0),
-              },
-            };
-          }
+          if (data.categoryCode === 'CA0001') markerOptions = setMarkerOptionBig(Walk, data, globarMap, selectedId.prevCategoryCode);
+          else if (data.categoryCode === 'CA0002') markerOptions = setMarkerOptionBig(Cafe, data, globarMap, selectedId.prevCategoryCode);
+          else if (data.categoryCode === 'CA0003') markerOptions = setMarkerOptionBig(Eat, data, globarMap, selectedId.prevCategoryCode);
+          else if (data.categoryCode === 'CA0004') markerOptions = setMarkerOptionBig(Bath, data, globarMap, selectedId.prevCategoryCode);
+          else if (data.categoryCode === 'CA0005') markerOptions = setMarkerOptionBig(Beauty, data, globarMap, selectedId.prevCategoryCode);
+          else markerOptions = setMarkerOptionBig(Hospital, data, globarMap, selectedId.prevCategoryCode);
           marker.setOptions(markerOptions);
         });
         return { marker, id: data.mungpleId };
@@ -511,98 +306,12 @@ function MapPage() {
         return e.id === selectedId.prevId;
       });
       let markerOptions;
-      if (selectedId.prevCategoryCode === 'CA0001') {
-        markerOptions = {
-          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${WalkSmall} style="" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(20, 20),
-            origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10, 10),
-          },
-        };
-      } else if (selectedId.prevCategoryCode === 'CA0002') {
-        markerOptions = {
-          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${CafeSmall} style="" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(20, 20),
-            origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10, 10),
-          },
-        };
-      } else if (selectedId.prevCategoryCode === 'CA0003') {
-        markerOptions = {
-          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${EatSmall} style="" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(20, 20),
-            origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10, 10),
-          },
-        };
-      } else if (selectedId.prevCategoryCode === 'CA0004') {
-        markerOptions = {
-          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${BathSmall} style="" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(20, 20),
-            origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10, 10),
-          },
-        };
-      } else if (selectedId.prevCategoryCode === 'CA0005') {
-        markerOptions = {
-          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${BeautySmall} style="" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(20, 20),
-            origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10, 10),
-          },
-        };
-      } else {
-        markerOptions = {
-          position: new window.naver.maps.LatLng(selectedId.prevLat, selectedId.prevLng),
-          map: globarMap!,
-          icon: {
-            content: [
-              `<div class="mungple ${selectedId.prevCategoryCode}" >`,
-              `<img src=${HospitalSmall} style="" alt="pin"/>`,
-              `</div>`,
-            ].join(''),
-            size: new naver.maps.Size(20, 20),
-            origin: new naver.maps.Point(0, 0),
-            anchor: new naver.maps.Point(10, 10),
-          },
-        };
-      }
-
+      if (selectedId.prevCategoryCode === 'CA0001') markerOptions = setMarkerOptionPrev(WalkSmall, selectedId, globarMap);
+      else if (selectedId.prevCategoryCode === 'CA0002') markerOptions = setMarkerOptionPrev(CafeSmall, selectedId, globarMap);
+      else if (selectedId.prevCategoryCode === 'CA0003') markerOptions = setMarkerOptionPrev(EatSmall, selectedId, globarMap);
+      else if (selectedId.prevCategoryCode === 'CA0004') markerOptions = setMarkerOptionPrev(BathSmall, selectedId, globarMap);
+      else if (selectedId.prevCategoryCode === 'CA0005') markerOptions = setMarkerOptionPrev(BeautySmall, selectedId, globarMap);
+      else markerOptions = setMarkerOptionPrev(HospitalSmall, selectedId, globarMap);
       markerList[index].marker.setOptions(markerOptions);
     }
   }, [selectedId]);
@@ -650,8 +359,8 @@ function MapPage() {
       state: {
         topRankingDataList: topRankingDataList?.data,
         myPetRankingData: myPetRankingData?.data,
-      }
-    })
+      },
+    });
   };
 
   return (
@@ -664,12 +373,7 @@ function MapPage() {
         <MungpleToggle selected={mungple !== 'ON'} on={munpleOnButtonHandler} off={mungpleButtonHandler} />
       </div>
       {selectedId.title.length > 0 && (
-        <PlaceCard
-          img={selectedId.img}
-          title={selectedId.title}
-          address={selectedId.address}
-          categoryCode={selectedId.categoryCode}
-        />
+        <PlaceCard img={selectedId.img} title={selectedId.title} address={selectedId.address} categoryCode={selectedId.categoryCode} />
       )}
       {selectedCert.placeName.length > 0 && (
         <CertCard
@@ -682,7 +386,6 @@ function MapPage() {
         />
       )}
       {flagClicked && <FlagCard place={wardOffice!.name.slice(0, -1)} onClick={moveToRankingPage} />}
-      {/* <FooterNavigation /> */}
     </div>
   );
 }
