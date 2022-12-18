@@ -13,9 +13,9 @@ interface initialStateType {
   tool: string,
   file: string,
   address: string,
-  achievements:Array<achievementType>
+  achievements:Array<AchievementType>
 }
-interface achievementType {
+interface AchievementType {
   achievementsId: number;
   desc: string;
   imgUrl: string;
@@ -23,6 +23,16 @@ interface achievementType {
   isMain: number;
   isMungple: boolean;
   name: string;
+  registDt: string;
+  achievementsCondition: Array<AchievementsConditionType>;
+}
+
+interface AchievementsConditionType {
+  achievementsConditionId: number;
+  mungpleId: number;
+  categoryCode: string;
+  count: number;
+  conditionCheck: boolean;
   registDt: string;
 }
 

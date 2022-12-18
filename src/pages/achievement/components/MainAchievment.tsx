@@ -7,7 +7,7 @@ import { RootState } from '../../../redux/store';
 import Checked from '../../../common/icons/checked.svg';
 import AchievementBottomSheet from '../../../common/utils/AchievementBottomSheet';
 
-interface achievementType {
+interface AchievementType {
   achievementsId: number;
   desc: string;
   imgUrl: string;
@@ -16,14 +16,24 @@ interface achievementType {
   isMungple: boolean;
   name: string;
   registDt: string;
+  achievementsCondition: Array<AchievementsConditionType>;
+}
+
+interface AchievementsConditionType {
+  achievementsConditionId: number;
+  mungpleId: number;
+  categoryCode: string;
+  count: number;
+  conditionCheck: boolean;
+  registDt: string;
 }
 
 interface mainAchievmentType {
   editActivation: boolean;
   editRepresentativeAchievementsOn: () => void;
   editRepresentativeAchievementsOff: () => void;
-  mainAchievementList: Array<achievementType>;
-  filterRepresentativeAchievements: (param: achievementType) => (event: React.MouseEvent) => void;
+  mainAchievementList: Array<AchievementType>;
+  filterRepresentativeAchievements: (param: AchievementType) => (event: React.MouseEvent) => void;
 }
 
 function MainAchievment({
@@ -34,7 +44,7 @@ function MainAchievment({
   filterRepresentativeAchievements,
 }: mainAchievmentType) {
   const [achievementBottomSheetIsOpen, setAchievementBottomSheetIsOpen] = useState(false);
-  const [selectedAchievement, setSelectedAchievement] = useState<achievementType>();
+  const [selectedAchievement, setSelectedAchievement] = useState<AchievementType>();
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
 
@@ -42,7 +52,7 @@ function MainAchievment({
     navigate(ROOT_PATH);
   };
 
-  const openBottomSheet = (achievement: achievementType) => (event: React.MouseEvent) => {
+  const openBottomSheet = (achievement: AchievementType) => (event: React.MouseEvent) => {
     setSelectedAchievement(achievement);
     setTimeout(() => {
       setAchievementBottomSheetIsOpen(true);
@@ -88,7 +98,7 @@ function MainAchievment({
             최대 3개까지 선택 할 수 있어요
           </div>
           <div className="achievement-page-header-achievements-images">
-            {mainAchievementList.map((achievement: achievementType) => (
+            {mainAchievementList.map((achievement: AchievementType) => (
               <div
                 className="achievement-page-header-achievements-image-container"
                 aria-hidden="true"

@@ -24,6 +24,15 @@ interface State {
   email: string;
 }
 
+
+declare global {
+  interface Window {
+    BRIDGE: any;
+    webkit: any;
+    kakao: any;
+  }
+}
+
 function Login() {
   const [enteredInput, setEnteredInput] = useState<Input>({ email: '', password: '' });
   const [loginFailed, setLoginFailed] = useState(false);
