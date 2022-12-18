@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useSelector, useDispatch } from 'react-redux';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import imageCompression from 'browser-image-compression';
@@ -24,6 +25,7 @@ import WrittingButtonActive from '../../../common/icons/writting-button-active.s
 import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../common/utils/CropHandle';
 import ToastPurpleMessage from '../../../common/dialog/ToastPurpleMessage';
+import { analytics } from '../../../index';
 import Loading from '../../../common/utils/Loading';
 
 interface categoryType {
@@ -80,6 +82,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
   const ref = useRef<SheetRef>();
   const formData = new FormData();
   const location = useLocation()
+  const certCompleteEvent = useAnalyticsCustomLogEvent(analytics, 'cert_end');
 
   useEffect(() => {
     if (showCertificateErrorToast) {
@@ -110,6 +113,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
+          certCompleteEvent.mutate();
           dispatch(
             uploadAction.setContentRegistDtCertificationIdAddress({
               content: certificationPostContent,
