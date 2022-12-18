@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ import { Certification } from '../../pages/certification/RecordCertificationPage
 import { RECORD_PATH } from '../constants/path.const';
 import { RootState } from '../../redux/store';
 import { scrollActions } from '../../redux/slice/scrollSlice';
+import { analytics } from "../../index";
 
 interface CalenderProps {
   closeCalender: () => void;
@@ -35,6 +37,7 @@ function Calender() {
   const [scrollY, setScrollY] = useState(scroll);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dateList, setDateList] = useState<DateType[]>([]);
+  const certEvent = useAnalyticsCustomLogEvent(analytics, "calendar_cert");
   const getNextYear = (currentMonth: number, currentYear: number, add: number) => {
     if (currentMonth + add > 12) {
       return currentYear + 1;
@@ -171,6 +174,7 @@ function Calender() {
           onClick={
             isCertificated
               ? () => {
+                certEvent.mutate();
                 dispatch(scrollActions.calendarScroll({ scroll: window.scrollY }));
                 navigate('/certs', { state: { certifications: certification, pageFrom: RECORD_PATH.CALENDAR } })
               }

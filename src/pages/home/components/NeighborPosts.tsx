@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCertificationPostsByMain } from '../../../common/api/certification';
@@ -7,6 +8,7 @@ import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { POSTS_PATH } from '../../../common/constants/path.const';
 import { CACHE_TIME, GET_CERTIFICATION_POSTS_LIST_BY_MAIN, STALE_TIME } from '../../../common/constants/queryKey.const';
 import { RootState } from '../../../redux/store';
+import { analytics } from '../../../index';
 
 
 interface rankingType {
@@ -32,6 +34,7 @@ function NeighborPosts() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
+  const neighborEvent = useAnalyticsCustomLogEvent(analytics, 'home_neighbor');
 
   const { isLoading: getCertificationPostsByMainIsLoading, data: certificationPostsDataList } = useQuery(
     GET_CERTIFICATION_POSTS_LIST_BY_MAIN,
@@ -46,6 +49,7 @@ function NeighborPosts() {
   );
 
   const moveToPostsPage = () => {
+    neighborEvent.mutate();
     navigate(POSTS_PATH);
   };
 

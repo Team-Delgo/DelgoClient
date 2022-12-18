@@ -1,6 +1,6 @@
 import React, { ChangeEvent, TouchEventHandler, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
+import { useAnalyticsLogEvent, useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useOnclickOutside from 'react-cool-onclickoutside';
 import Sheet, { SheetRef } from 'react-modal-sheet';
@@ -52,6 +52,7 @@ const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 function Photo() {
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
   const navigate = useNavigate();
+  const certEvent = useAnalyticsCustomLogEvent(analytics, "album_cert");
   const userId = useSelector((state: any) => state.persist.user.user.id);
   const ref = useOnclickOutside(() => {
     setButtonIsClicked(false);
@@ -192,6 +193,7 @@ function Photo() {
         alt="cert"
         aria-hidden="true"
         onClick={() => {
+          certEvent.mutate();
           navigate('/certs', { state: { certifications: [photo], pageFrom: RECORD_PATH.PHOTO } });
         }}
       />
