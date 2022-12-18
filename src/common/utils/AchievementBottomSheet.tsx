@@ -1,5 +1,7 @@
 import React from 'react';
 import Sheet, { SheetRef } from 'react-modal-sheet';
+import { useNavigate } from 'react-router-dom';
+import { ACHIEVEMENT_PATH } from '../constants/path.const';
 import X from '../icons/xx.svg';
 import './AchievementBottomSheet.scss';
 
@@ -22,14 +24,21 @@ interface achievementBottomSheetType {
   achievement: achievementType | undefined;
   cancelButtonHandler: () => void;
   bottomSheetIsOpen: boolean;
+  allView: boolean;
 }
 function AchievementBottomSheet({
   text,
   achievement,
   cancelButtonHandler,
   bottomSheetIsOpen,
+  allView,
 }: achievementBottomSheetType) {
-  console.log('achievement', achievement);
+  const navigate = useNavigate();
+
+  const moveToAchievementPage = () => {
+    navigate(ACHIEVEMENT_PATH);
+  };
+
   return (
     <Sheet
       className="confirm-bottom-sheet-container"
@@ -50,7 +59,11 @@ function AchievementBottomSheet({
             <div className="achievement-bottom-sheet-second-line">
               <div className="achievement-bottom-sheet-second-line-text">{achievement?.desc.split('/')[1]}</div>
             </div>
-            <div>
+            <div
+              className="achievement-bottom-sheet-third-line"
+              aria-hidden="true"
+              onClick={allView ? moveToAchievementPage : undefined}
+            >
               <img
                 src={achievement?.imgUrl}
                 className="achievement-bottom-sheet-img"
@@ -58,6 +71,7 @@ function AchievementBottomSheet({
                 width={103}
                 height={113}
               />
+              {allView && <div className="achievement-bottom-sheet-third-line-all">전체 업적 보기</div>}
             </div>
             <img
               src={X}

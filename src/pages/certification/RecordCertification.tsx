@@ -55,7 +55,6 @@ function RecordCertification(props: { certification: Cert }) {
   const [likeIsLoading,setLikeIsLoading] = useState(false)
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const location = useLocation()
 
   const setCertificationLike = () => {
     if (likeIsLoading) return;

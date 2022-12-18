@@ -95,6 +95,7 @@ function Achievement({
       </body>
       <AchievementBottomSheet
         text=""
+        allView={false}
         achievement={selectedAchievement}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={achievementBottomSheetIsOpen}

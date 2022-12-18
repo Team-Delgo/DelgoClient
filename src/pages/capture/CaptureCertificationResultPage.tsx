@@ -73,6 +73,7 @@ function CaptureResult() {
       <AchievementBottomSheet
         text="업적 획득"
         achievement={achievements[0]}
+        allView
         cancelButtonHandler={() => {
           setAchievementBottomSheetIsOpen1(false);
         }}
@@ -81,6 +82,7 @@ function CaptureResult() {
       <AchievementBottomSheet
         text="업적 획득"
         achievement={achievements[1]}
+        allView
         cancelButtonHandler={() => {
           setAchievementBottomSheetIsOpen2(false);
         }}

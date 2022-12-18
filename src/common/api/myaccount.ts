@@ -68,7 +68,7 @@ async function changeName(email: string, name:string, success: (data: AxiosRespo
 
 async function setPushNotification(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axiosInstance
-    .put(`/notify/${userId}`)
+    .put(`/account/notify/${userId}`)
     .then((data) => {
       success(data);
     })

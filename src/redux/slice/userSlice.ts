@@ -12,6 +12,7 @@ const initialState = {
     geoCode: 0,
     pGeoCode: 0,
     registDt: '',
+    notify: true
   },
   pet: { name: '', petId: 0, birthday: '', breed: '', breedName:'', image: '' },
 };
@@ -75,9 +76,17 @@ const userSlice = createSlice({
         },
         pet: state.pet
       }
+    },
+    changeNotification(state, action){
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          notify: action.payload.notify
+        }
+      }
     }
   },
-  
 });
 
 export const userActions = userSlice.actions;
