@@ -25,7 +25,7 @@ const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 
 function MyAccountPage() {
   const dispatch = useDispatch();
-  const { OS } = useSelector((state: RootState) => state.persist.device);
+  const { OS,device } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const pet = useSelector((state: RootState) => state.persist.user.pet);

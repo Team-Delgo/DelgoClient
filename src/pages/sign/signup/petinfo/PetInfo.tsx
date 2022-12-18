@@ -50,7 +50,7 @@ function PetInfo() {
   const formData = new FormData();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
-  const { OS } = useSelector((state: RootState) => state.persist.device);
+  const { OS,device } = useSelector((state: RootState) => state.persist.device);
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
@@ -219,7 +219,9 @@ function PetInfo() {
               },
               dispatch,
             );
-            sendFcmTokenHandler(data.user.userId);
+            if (device === 'mobile') {
+              sendFcmTokenHandler(data.user.userId);
+            }
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);
@@ -275,7 +277,9 @@ function PetInfo() {
                 },
               }),
             );
-            sendFcmTokenHandler(data.user.userId);
+            if (device === 'mobile') {
+              sendFcmTokenHandler(data.user.userId);
+            }
             formData.append('photo', sendingImage[0]);
             await petImageUpload(
               { formData, userId },

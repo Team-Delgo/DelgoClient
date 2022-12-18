@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useErrorHandlers } from './useErrorHandlers';
 
 const accessToken = localStorage.getItem('accessToken') || '';
+console.log('accessToken 동작',accessToken)
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
@@ -12,21 +13,21 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     return response;
   },
-  async (error) => {
+  async (error: any) => {
     console.log('error', error);
     const {
       config,
       response: { status },
     } = error;
-    console.log('error.response.status', error.response.status);
+    console.log('error.response.status', status);
     console.log('config', config);
     if (status === 403) {
       const refreshToken = localStorage.getItem('refreshToken') || '';
       const accessToken = localStorage.getItem('accessToken') || '';
-      console.log('refreshToken', refreshToken);
+      console.log('refreshToken', refreshToken);  
       console.log('accessToken', accessToken);
 
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/tokenReissue`, {
@@ -56,8 +57,8 @@ axiosInstance.interceptors.response.use(
 
       return axios(originalRequest);
     }
-    // return Promise.reject(error);
-    errorHandlers(error);
+    return Promise.reject(error);
+    // errorHandlers(error);
   },
 );
 

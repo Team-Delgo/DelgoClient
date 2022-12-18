@@ -127,6 +127,18 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const pcDevice = 'win16|win32|win64|mac|macintel';
+    if (navigator.platform) {
+      if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
+        dispatch(deviceAction.mobile());
+      } else {
+        dispatch(deviceAction.pc());
+      }
+    }
+  }, []);
+
+
+  useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
     if (varUA.indexOf('android') > -1) {
       dispatch(deviceAction.android());
