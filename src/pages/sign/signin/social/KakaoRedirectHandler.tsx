@@ -54,6 +54,7 @@ function KakaoRedirectHandler() {
                 registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
                 userSocial: data.user.userSocial,
                 geoCode: data.user.geoCode,
+                notify:data.user.notify,
               },
               pet: {
                 petId: data.pet.petId,
