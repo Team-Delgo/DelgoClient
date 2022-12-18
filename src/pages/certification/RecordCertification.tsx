@@ -57,12 +57,8 @@ function RecordCertification(props: { certification: Cert }) {
   const { user } = useSelector((state: RootState) => state.persist.user);
 
   const handleCertificationLike = () => {
-    if (likeIsLoading){
-      console.log(2)
-      return;
-    }
+    if (likeIsLoading) return;
     setLikeIsLoading(true);
-    console.log(1)
     certificationLike(
       certification.userId,
       certification.certificationId,
@@ -74,7 +70,7 @@ function RecordCertification(props: { certification: Cert }) {
       },
       dispatch,
     );
-    setLikeIsLoading(false)
+    setLikeIsLoading(false);
   };
 
   const deleteCertification = () => {
