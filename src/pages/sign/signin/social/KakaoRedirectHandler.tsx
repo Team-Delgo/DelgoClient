@@ -23,7 +23,7 @@ function KakaoRedirectHandler() {
   const [signUp, setSignUp] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const navigate = useNavigate();
-  const { OS } = useSelector((state: RootState) => state.persist.device);
+  const { OS, device } = useSelector((state: RootState) => state.persist.device);
 
   useEffect(() => {
     if (code == null) {
@@ -70,7 +70,9 @@ function KakaoRedirectHandler() {
           const refreshToken = response.headers.authorization_refresh;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-          sendFcmTokenHandler(data.user.userId);
+          if (device === 'mobile') {
+            sendFcmTokenHandler(data.user.userId);
+          }
           navigate(ROOT_PATH, { replace: true });
         } else if (code === 370) {
           console.log('소셜 회원가입');

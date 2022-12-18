@@ -1,24 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  OS : ''
+  OS : '',
+  device:'web'
 };
 
 const deviceSlice = createSlice({
   name: 'device',
   initialState,
   reducers: {
-    android() {
+    android(state) {
       return {
+        ...state,
         OS : 'android'
       };
     },
-    ios() {
+    ios(state) {
       return {
+        ...state,
         OS : 'ios',
       };
     },
-    
+    pc(state) {
+      return {
+        ...state,
+        device : 'pc'
+      };
+    },
+    mobile(state) {
+      return {
+        ...state,
+        device : 'mobile',
+      };
+    },
   },
 });
 
