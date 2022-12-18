@@ -45,12 +45,11 @@ function MyAccountPage() {
   }, []);
 
   const moveToKakaoPlusFriend = useCallback(() => {
-    window.BRIDGE.goToPlusFriends();
-    // if (OS === 'android') {
-    //   window.BRIDGE.goToPlusFriends();
-    // } else {
-    //   window.webkit.messageHandlers.goToPlusFriends.postMessage('');
-    // }
+    if (OS === 'android') {
+      window.BRIDGE.goToPlusFriends();
+    } else {
+      window.webkit.messageHandlers.goToPlusFriends.postMessage('');
+    }
   },[])
 
   const logoutHandler = () => {

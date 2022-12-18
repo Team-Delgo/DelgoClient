@@ -93,7 +93,12 @@ function KakaoRedirectHandler() {
   };
 
   const sendFcmTokenHandler = (userId: number) => {
-    window.BRIDGE.sendFcmToken(userId);
+    if (OS === 'android') {
+      window.BRIDGE.sendFcmToken(userId);
+    }
+    else{
+      console.log(1)
+    }
   };
 
   const moveToPreviousPage = () => {

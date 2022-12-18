@@ -295,7 +295,12 @@ function PetInfo() {
   };
 
   const sendFcmTokenHandler = (userId: number) => {
-    window.BRIDGE.sendFcmToken(userId);
+    if (OS === 'android') {
+      window.BRIDGE.sendFcmToken(userId);
+    }
+    else{
+      console.log(1)
+    }
   };
 
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
