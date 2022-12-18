@@ -22,11 +22,8 @@ import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
 import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
-import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
-import getCroppedImg from '../../../common/utils/CropHandle';
 import ToastPurpleMessage from '../../../common/dialog/ToastPurpleMessage';
 import { analytics } from '../../../index';
-import Loading from '../../../common/utils/Loading';
 
 interface categoryType {
   산책: string;
