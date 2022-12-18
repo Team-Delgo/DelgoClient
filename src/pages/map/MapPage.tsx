@@ -197,7 +197,7 @@ function MapPage() {
         icon: {
           content: [
             `<div class="wardOffice" style="z-index:9998">`,
-            `<div class="wardOffice-name">${wardOffice.name.slice(0, -1)}</div>`,
+            `<div class="wardOffice-name">${wardOffice.name}</div>`,
             `<img src=${Flag} style="z-index:9999" alt="pin"/>`,
             `</div>`,
           ].join(''),
