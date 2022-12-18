@@ -26,6 +26,11 @@ async function certificationLike(userId: number, certificationId:number, success
     });
 }
 
+async function certificationLike2(userId: number, certificationId: number) {
+  const { data } = await axiosInstance.post(`/certification /like/${userId}/${certificationId}`);
+  return data;
+}
+
 
 async function registerCameraCertificationPost(
   data: {
@@ -182,4 +187,5 @@ export {
   updateCertificationPost,
   certificationLike,
   deleteCertificationPost,
+  certificationLike2
 };
