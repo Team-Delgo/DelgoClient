@@ -33,7 +33,7 @@ async function tokenRefresh(data: { refreshToken: string }, success: (data: Axio
 
 async function emailAuth(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .get(`${process.env.REACT_APP_API_URL}/emailAuth`, {
+    .get(`${process.env.REACT_APP_API_URL}/auth/email`, {
       params: { email },
     })
     .then((data) => {

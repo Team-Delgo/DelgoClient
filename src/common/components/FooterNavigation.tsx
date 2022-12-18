@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
+import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CAMERA_PATH, RECORD_PATH, ROOT_PATH } from '../constants/path.const';
 import './FooterNavigation.scss';
 import Home from '../icons/home.svg';
 import HomeGray from '../icons/home-gray.svg';
+import { analytics } from '../../index';
 import Plus from '../icons/plus.svg';
 import DogFoot from '../icons/dog-foot.svg';
 import DogFootGray from '../icons/dog-foot-gray.svg';
 
 function FooterNavigation() {
+  const certStartEvent = useAnalyticsCustomLogEvent(analytics, 'cert_start');
   const navigate = useNavigate();
   const location = useLocation();
 
   const moveToCameraPage = () => {
+    certStartEvent.mutate();
     setTimeout(() => {
       navigate(CAMERA_PATH.REAR);
     }, 100);
