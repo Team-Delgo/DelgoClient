@@ -52,11 +52,14 @@ function RecordCertification(props: { certification: Cert }) {
   const [selfHeart, setSelfHeart] = useState(certification.isLike);
   const [count, setCount] = useState(certification.likeCount);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
+  const [likeIsLoading,setLikeIsLoading] = useState(false)
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
   const location = useLocation()
 
-  const setCertificationLike = async () => {
+  const setCertificationLike = () => {
+    if (likeIsLoading) return;
+    setLikeIsLoading(true);
     certificationLike(
       certification.userId,
       certification.certificationId,
@@ -65,6 +68,7 @@ function RecordCertification(props: { certification: Cert }) {
       },
       dispatch,
     );
+    setLikeIsLoading(false)
   };
 
   const deleteCertification = () => {

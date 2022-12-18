@@ -66,4 +66,15 @@ async function changeName(email: string, name:string, success: (data: AxiosRespo
     });
 }
 
-export { changePetInfo, changePassword, changeGeoCode,changeName };
+async function setPushNotification(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  await axiosInstance
+    .put(`/notify/${userId}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
+export { changePetInfo, changePassword, changeGeoCode, changeName, setPushNotification };

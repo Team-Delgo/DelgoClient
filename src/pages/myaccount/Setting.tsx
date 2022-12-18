@@ -10,6 +10,7 @@ import { RootState } from '../../redux/store';
 import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
 import { deleteUser } from '../../common/api/signup';
 import { userActions } from '../../redux/slice/userSlice';
+import { setPushNotification } from '../../common/api/myaccount';
 
 function Setting() {
   const [alert, setAlert] = useState(false);
@@ -23,12 +24,6 @@ function Setting() {
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
-
-  const alertToggleHandler = () => {
-    setAlert(!alert);
-    // axios api
-    // dipatch ?
-  };
 
   const moveToMyAccountMainPage = () => {
     navigate(MY_ACCOUNT_PATH.MAIN, {
@@ -60,12 +55,17 @@ function Setting() {
     setBottomSheetIsOpen(false);
   };
 
-  const moveToPhoneSetting = () => {
-    if (OS === 'android') {
-      // window.BRIDGE.setNotify()
-    } else {
-      // window.webkit.messageHandlers.setNotify.postMessage('')
-    }
+  const handleSetPushNotification = () => {
+    setPushNotification(
+      user.id,
+      (response: AxiosResponse) => {
+        const { code } = response.data;
+        if (code === 200) {
+          setAlert(!alert);
+        }
+      },
+      dispatch,
+    );
   };
 
   return (
@@ -78,14 +78,14 @@ function Setting() {
       </header>
       <div className="setting-menu">
         <div className="setting-alert">
-          <div className="setting-labels" aria-hidden="true" onClick={moveToPhoneSetting}>
+          <div className="setting-labels" aria-hidden="true" onClick={handleSetPushNotification}>
             <div className="setting-label">알림설정</div>
             <div className="setting-p">마케팅 / 이용정보 수신</div>
           </div>
           <div
             className={classNames('setting-alert-button', { on: alert })}
             aria-hidden="true"
-            onClick={alertToggleHandler}
+            onClick={handleSetPushNotification}
           >
             <div className={classNames('setting-alert-button-toggle', { on: alert })} />
           </div>

@@ -44,27 +44,27 @@ function CaptureResult() {
   }, []);
 
   useEffect(() => {
-    preventGoBack()
+    mutation.mutate({
+      params: {
+        firebase_screen: 'CaptureResult',
+        firebase_screen_class: 'CaptureResultPage',
+      },
+    });
   }, []);
 
-  // useEffect(() => {
-  //   mutation.mutate({
-  //     params: {
-  //       firebase_screen: 'CaptureResult',
-  //       firebase_screen_class: 'CaptureResultPage',
-  //     },
-  //   });
+    // useEffect(() => {
+  //   preventGoBack()
   // }, []);
 
 
-  const preventGoBack = () => {
-    window.history.pushState(null, '', location.href);
+  // const preventGoBack = () => {
+  //   window.history.pushState(null, '', location.href);
 
-    window.onpopstate = function (event) {
-      window.history.go(1);
-      console.log('prevent go back!');
-    };
-  };
+  //   window.onpopstate = function (event) {
+  //     window.history.go(1);
+  //     console.log('prevent go back!');
+  //   };
+  // };
 
   return (
     <>
