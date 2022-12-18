@@ -37,11 +37,6 @@ function SignIn() {
   
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
 
-  const preventGoBack = () => {
-    window.history.pushState(null, '', window.location.href);
-    console.log('prevent go back!');
-  };
-
   useEffect(() => {
     mutation.mutate({
       params: {
