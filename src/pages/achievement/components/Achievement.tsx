@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import NotChecked from '../../../common/icons/not-checked.svg';
 import AchievementBottomSheet from '../../../common/utils/AchievementBottomSheet';
 
-interface achievementType {
+interface AchievementType {
   achievementsId: number;
   desc: string;
   imgUrl: string;
@@ -13,12 +13,22 @@ interface achievementType {
   isMungple: boolean;
   name: string;
   registDt: string;
+  achievementsCondition: Array<AchievementsConditionType>;
+}
+
+interface AchievementsConditionType {
+  achievementsConditionId: number;
+  mungpleId: number;
+  categoryCode: string;
+  count: number;
+  conditionCheck: boolean;
+  registDt: string;
 }
 
 interface AchievementPropsType {
   editActivation: boolean;
-  achievementList: Array<achievementType>;
-  selectRepresentativeAchievements: (param: achievementType) => (event: React.MouseEvent) => void;
+  achievementList: Array<AchievementType>;
+  selectRepresentativeAchievements: (param: AchievementType) => (event: React.MouseEvent) => void;
   achievementListCount: number;
 }
 
@@ -29,9 +39,9 @@ function Achievement({
   achievementListCount,
 }: AchievementPropsType) {
   const [achievementBottomSheetIsOpen, setAchievementBottomSheetIsOpen] = useState(false);
-  const [selectedAchievement, setSelectedAchievement] = useState<achievementType>();
+  const [selectedAchievement, setSelectedAchievement] = useState<AchievementType>();
 
-  const openBottomSheet = (achievement: achievementType) => (event: React.MouseEvent) => {
+  const openBottomSheet = (achievement: AchievementType) => (event: React.MouseEvent) => {
     setSelectedAchievement(achievement);
     setTimeout(() => {
       setAchievementBottomSheetIsOpen(true);
@@ -49,8 +59,8 @@ function Achievement({
         <div className="achievement-page-body-achievements-count">총 {achievementListCount}개 획득</div>
         <div className="achievement-page-body-achievements-images">
           {achievementList
-            .sort((a: achievementType, b: achievementType) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1))
-            .map((achievement: achievementType) => (
+            .sort((a: AchievementType, b: AchievementType) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1))
+            .map((achievement: AchievementType) => (
               <div
                 className="achievement-page-body-achievements-image-container"
                 aria-hidden="true"

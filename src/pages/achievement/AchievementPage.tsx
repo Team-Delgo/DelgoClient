@@ -21,6 +21,16 @@ interface AchievementType {
   isMungple: boolean;
   name: string;
   registDt: string;
+  achievementsCondition: Array<AchievementsConditionType>;
+}
+
+interface AchievementsConditionType {
+  achievementsConditionId: number;
+  mungpleId: number;
+  categoryCode: string;
+  count: number;
+  conditionCheck: boolean;
+  registDt: string;
 }
 
 function AchievementPage() {

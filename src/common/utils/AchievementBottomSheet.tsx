@@ -8,7 +8,7 @@ import './AchievementBottomSheet.scss';
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [270, 270, 270, 270];
 
-interface achievementType {
+interface AchievementType {
   achievementsId: number;
   desc: string;
   imgUrl: string;
@@ -17,11 +17,21 @@ interface achievementType {
   isMungple: boolean;
   name: string;
   registDt: string;
+  achievementsCondition: Array<AchievementsConditionType>;
 }
 
-interface achievementBottomSheetType {
+interface AchievementsConditionType {
+  achievementsConditionId: number;
+  mungpleId: number;
+  categoryCode: string;
+  count: number;
+  conditionCheck: boolean;
+  registDt: string;
+}
+
+interface AchievementBottomSheetType {
   text: string;
-  achievement: achievementType | undefined;
+  achievement: AchievementType | undefined;
   cancelButtonHandler: () => void;
   bottomSheetIsOpen: boolean;
   allView: boolean;
@@ -32,7 +42,7 @@ function AchievementBottomSheet({
   cancelButtonHandler,
   bottomSheetIsOpen,
   allView,
-}: achievementBottomSheetType) {
+}: AchievementBottomSheetType) {
   const navigate = useNavigate();
 
   const moveToAchievementPage = () => {

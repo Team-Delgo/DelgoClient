@@ -6,9 +6,9 @@ const accessToken = localStorage.getItem('accessToken') || '';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
-  // headers: {
-  //   Authorization: accessToken,
-  // },
+  headers: {
+    Authorization_Access: accessToken,
+  },
 });
 
 axiosInstance.interceptors.response.use(
@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
         },
       });
 
-      if (response.data.code === 333) {
+      if (response.data.code === 303) {
         console.log('refresh token 만료');
         throw new Error('token exprired');
       }
@@ -43,8 +43,8 @@ axiosInstance.interceptors.response.use(
       console.log('response', response);
       console.log('config', config);
       const originalRequest = config;
-      const newAccessToken = response.headers.authorization_access;
-      const newRefreshToken = response.headers.authorization_refresh;
+      const newAccessToken = response.headers.Authorization_Access;
+      const newRefreshToken = response.headers.Authorization_Refresh;
 
       console.log('newAccessToken : ', newAccessToken);
       console.log('newRefreshToken : ', newRefreshToken);
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
 
       originalRequest.headers.Authorization_Access = newAccessToken;
 
-      return axiosInstance(originalRequest);
+      return axios(originalRequest);
     }
     // return Promise.reject(error);
     errorHandlers(error);

@@ -13,10 +13,10 @@ import { userActions } from '../../redux/slice/userSlice';
 import { setPushNotification } from '../../common/api/myaccount';
 
 function Setting() {
-  const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(user?.notify);
+  const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
+  const [alert, setAlert] = useState(user?.notify);
   const navigate = useNavigate();
   const location: any = useLocation();
 

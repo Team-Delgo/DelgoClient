@@ -168,9 +168,7 @@ async function petImageUpload(
 }
 
 async function getPetType() {
-  const accessToken = localStorage.getItem('accessToken') || '';
   const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/code/breed`);
-  console.log('data', data);
   return data;
 }
 
