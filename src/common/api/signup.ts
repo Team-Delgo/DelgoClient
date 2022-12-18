@@ -77,7 +77,7 @@ async function signup(info: SignUpData, success: (data: AxiosResponse) => void, 
 
 async function deleteUser(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   await axios
-    .delete(`${process.env.REACT_APP_API_URL}/user/${userId}`)
+    .delete(`${process.env.REACT_APP_API_URL}/account/user/${userId}`)
     .then((data) => {
       success(data);
     })

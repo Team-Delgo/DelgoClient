@@ -35,7 +35,7 @@ async function oAuthSignup(
 ) {
   const { email, geoCode, pGeoCode, userName, phoneNo, petName, breed, birthday, userSocial } = data;
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/signup/oauth `, {
+    .post(`${process.env.REACT_APP_API_URL}/user/oauth `, {
       email,
       userName,
       phoneNo,
