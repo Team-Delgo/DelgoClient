@@ -4,11 +4,16 @@ import { useErrorHandlers } from './useErrorHandlers';
 
 async function getUserInfo(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   try {
-    const result = await axiosInstance.get(`/comment?userId=${userId}`);
+    const result = await axiosInstance.get(`/user?userId=${userId}`);
     success(result);
   } catch (error: any | AxiosError) {
     useErrorHandlers(dispatch, error);
   }
 }
 
-export { getUserInfo };
+async function getMyPoint(userId: number) {
+  const { data } = await axiosInstance.get(`/account/point?userId=${userId}`);
+  return data;
+}
+
+export { getUserInfo,getMyPoint };
