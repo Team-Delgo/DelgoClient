@@ -66,12 +66,13 @@ import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
 import ToastPurpleMessage from './common/dialog/ToastPurpleMessage';
-import PetType from './pages/sign/signup/pettype/PetType';
+import { getUserInfo } from './common/api/user';
 
 declare global {
   interface Window {
     BRIDGE: any;
     webkit: any;
+    kakao: any;
   }
 }
 
@@ -82,6 +83,47 @@ function App() {
   const navigation = useNavigate();
   const hasError = useSelector((state: RootState) => state.persist.error.hasError);
   const tokenExpriedError = useSelector((state: RootState) => state.persist.error.tokenExpried);
+  const {isSignIn,user} = useSelector((state: RootState) => state.persist.user);
+
+
+  useEffect(() => {
+    if (isSignIn) {
+      getUserInfo(
+        user.id,
+        (response: AxiosResponse) => {
+          const { code, data } = response.data;
+          if (code === 200) {
+            console.log('data',data)
+            const { registDt } = data.user;
+            dispatch(
+              userActions.signin({
+                isSignIn: true,
+                user: {
+                  id: data.user.userId,
+                  address: data.user.address,
+                  nickname: data.user.name,
+                  email: data.user.email,
+                  phone: data.user.phoneNo,
+                  isSocial: false,
+                  geoCode: data.user.geoCode,
+                  registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                },
+                pet: {
+                  petId: data.pet.petId,
+                  birthday: data.pet.birthday,
+                  breed: data.pet.breed,
+                  breedName: data.pet.breedName,
+                  name: data.pet.name,
+                  image: data.user.profile,
+                },
+              }),
+            );
+          }
+        },
+        dispatch,
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();

@@ -17,21 +17,18 @@ import {
 } from 'react-loading-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Point from '../../../common/icons/point.svg';
-import AchievementHospital from '../../../common/icons/achievement-hospital.svg';
 import DelgoWhite from '../../../common/icons/delgo-white.svg';
 import RightArrow from '../../../common/icons/right-arrow.svg';
 import { ACHIEVEMENT_PATH, MY_ACCOUNT_PATH } from '../../../common/constants/path.const';
-import { getMyPoint } from '../../../common/api/point';
-import { getAchievementList, getAchievementListByMain } from '../../../common/api/achievement';
+import { getMyPoint } from '../../../common/api/user';
+import {  getAchievementListByMain } from '../../../common/api/achievement';
 import {
   CACHE_TIME,
   GET_ACHIEVEMENT_LIST,
-  GET_MY_PET_RANKING_DATA,
   STALE_TIME,
   GET_MY_POINT_DATA,
 } from '../../../common/constants/queryKey.const';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
-import { getMyPetRanking } from '../../../common/api/ranking';
 import { RootState } from '../../../redux/store';
 
 interface AchievementType {

@@ -3,10 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
 import { RootState } from '../../../redux/store';
-import { CAMERA_PATH, POSTS_PATH, ROOT_PATH,RECORD_PATH } from '../../../common/constants/path.const';
+import { CAMERA_PATH, POSTS_PATH, ROOT_PATH, RECORD_PATH } from '../../../common/constants/path.const';
 import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
 import DeleteBottomSheet from '../../../common/utils/ConfirmBottomSheet';
+import { uploadAction } from '../../../redux/slice/uploadSlice';
 
 interface weekDayType {
   Mon: string;
@@ -56,14 +57,17 @@ function CaptureResultHeader() {
   };
 
   const moveToUpdatePage = () => {
+    handleInitAchievements()
     navigate(CAMERA_PATH.UPDATE);
   };
 
   const moveToHomePage = () => {
+    handleInitAchievements()
     navigate(ROOT_PATH);
   };
 
   const moveToPostsPage = () => {
+    handleInitAchievements()
     navigate(POSTS_PATH);
   };
 
@@ -74,6 +78,10 @@ function CaptureResultHeader() {
   const closeBottomSheet = () => {
     setBottomSheetIsOpen(false);
   };
+
+  const handleInitAchievements = () =>{
+    dispatch(uploadAction.initAchievements())
+  }
 
   return (
     <>

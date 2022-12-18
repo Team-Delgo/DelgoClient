@@ -122,6 +122,12 @@ const uploadSlice = createSlice({
         content: action.payload.content,
       };
     },
+    initAchievements(state) {
+      return {
+        ...state,
+        achievements: [],
+      };
+    }
   },
 });
 
