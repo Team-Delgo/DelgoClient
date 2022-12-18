@@ -56,14 +56,21 @@ function RecordCertification(props: { certification: Cert }) {
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
 
-  const setCertificationLike = () => {
-    if (likeIsLoading) return;
+  const handleCertificationLike = () => {
+    if (likeIsLoading){
+      console.log(2)
+      return;
+    }
     setLikeIsLoading(true);
+    console.log(1)
     certificationLike(
       certification.userId,
       certification.certificationId,
       (response: AxiosResponse) => {
-        if (response.data.code === 200) setSelfHeart(!selfHeart);
+        if (response.data.code === 200) {
+          setSelfHeart(!selfHeart);
+          setCount(selfHeart ? count - 1 : count + 1);
+        }
       },
       dispatch,
     );
@@ -150,12 +157,7 @@ function RecordCertification(props: { certification: Cert }) {
             alt="heart"
             aria-hidden="true"
             onClick={() => {
-              setCertificationLike();
-              if (selfHeart) {
-                setCount(count - 1);
-              } else {
-                setCount(count + 1);
-              }
+              handleCertificationLike();
             }}
           />
           {count > 0 && <div className="record-cert-icons-count">{count}</div>}

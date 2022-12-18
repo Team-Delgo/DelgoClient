@@ -26,9 +26,10 @@ async function certificationLike(userId: number, certificationId:number, success
     });
 }
 
-async function certificationLike2(userId: number, certificationId: number) {
-  const { data } = await axiosInstance.post(`/certification /like/${userId}/${certificationId}`);
-  return data;
+ function certificationLike2(userId: number, certificationId: number) {
+  // const { data } = await axiosInstance.post(`/certification/like/${userId}/${certificationId}`);
+  // return data;
+  return axiosInstance.post(`/certification/like/${userId}/${certificationId}`)
 }
 
 
@@ -150,12 +151,9 @@ async function getCertificationPostAll(pageParam: number, userId: number, pageSi
     const res = await axiosInstance.get(
       `/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`,
     );
-    console.log('res',res)
     const { content, last } = res.data.data;
-    console.log('res.data.data',res.data.data)
     return { content, nextPage: pageParam + 1, last };
   } catch (error: any) {
-    console.log('error',error)
     useErrorHandlers(dispatch, error);
   }
 }

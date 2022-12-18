@@ -149,16 +149,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   }, [blockUserSuccessToastIsOpen]);
 
 
-  // const { mutate, isLoading, isError, error, isSuccess } = useMutation(() => {
-  //   return axiosInstance.post(
-  //     `/certification/like/${user.id}/${post?.certificationId}`,
-  //   );
-  // },
-  // onSuccess: (data, variables, context) => {
-  //   // I will fire first
-  // },);
-
-  const setCertificationLike = () => {
+  const handleCertificationLike = () => {
     if (likeIsLoading) return;
     setLikeIsLoading(true);
     certificationLike(
@@ -316,7 +307,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
             src={isLike ? FillHeart : Heart}
             alt="heart"
             aria-hidden="true"
-            onClick={setCertificationLike}
+            onClick={handleCertificationLike}
           />
           <div className="post-img-result-main-footer-count">{likeCount}</div>
           <img
