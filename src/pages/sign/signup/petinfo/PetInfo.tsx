@@ -184,15 +184,19 @@ function PetInfo() {
             userId = response.data.data.user.userId;
             console.log(response);
             console.log(userId);
+            const { registDt } = data.user;
             dispatch(
               userActions.signin({
-                couponList: [],
                 user: {
                   id: data.user.userId,
+                  address: data.user.address,
                   nickname: data.user.name,
-                  email: '',
+                  email: data.user.email,
                   phone: data.user.phoneNo,
+                  isSocial: false,
                   geoCode: data.user.geoCode,
+                  registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                  notify:data.user.notify,
                 },
                 pet: {
                   petId: data.pet.petId,
@@ -250,7 +254,6 @@ function PetInfo() {
             dispatch(
               userActions.signin({
                 isSignIn: true,
-                couponList: [],
                 user: {
                   id: data.user.userId,
                   nickname: data.user.name,
