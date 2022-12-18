@@ -43,7 +43,7 @@ async function nicknameCheck(name: string, success: (data: AxiosResponse) => voi
 async function signup(info: SignUpData, success: (data: AxiosResponse) => void, dispatch: any) {
   const { userName, email, password, phoneNo, geoCode, pGeoCode, petName, breed, birthday } = info;
   await axios
-    .post(`${process.env.REACT_APP_API_URL}/signup`, {
+    .post(`${process.env.REACT_APP_API_URL}/user`, {
       // user: {
       //   name: nickname,
       //   email,
