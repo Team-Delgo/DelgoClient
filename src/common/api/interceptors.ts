@@ -7,9 +7,9 @@ console.log('accessToken 동작',accessToken)
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
-  // headers: {
-  //   Authorization_Access: accessToken,
-  // },
+  headers: {
+    authorization_access: accessToken,
+  },
 });
 
 axiosInstance.interceptors.response.use(
@@ -32,22 +32,21 @@ axiosInstance.interceptors.response.use(
 
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/token/reissue`, {
         headers: {
-          Authorization_Refresh: refreshToken,
+          authorization_refresh: refreshToken,
         },
       });
 
-      console.log('response',response)
+      console.log('token reissue response',response)
 
       if (response.data.code === 303) {
         console.log('refresh token 만료');
         throw new Error('token exprired');
       }
 
-      console.log('response', response);
       console.log('config', config);
       const originalRequest = config;
-      const newAccessToken = response.headers.Authorization_Access;
-      const newRefreshToken = response.headers.Authorization_Refresh;
+      const newAccessToken = response.headers.authorization_access;
+      const newRefreshToken = response.headers.authorization_refresh;
 
       console.log('newAccessToken : ', newAccessToken);
       console.log('newRefreshToken : ', newRefreshToken);
@@ -55,7 +54,7 @@ axiosInstance.interceptors.response.use(
       localStorage.setItem('accessToken', newAccessToken);
       localStorage.setItem('refreshToken', newRefreshToken);
 
-      originalRequest.headers.Authorization_Access = newAccessToken;
+      originalRequest.headers.authorization_access = newAccessToken;
 
       return axios(originalRequest);
     }
