@@ -27,6 +27,7 @@ function CapturePage() {
   }, []);
 
   const getUserLocation = () => {
+    console.log(333)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         function (position) {
