@@ -7,9 +7,9 @@ console.log('accessToken 동작',accessToken)
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
-  headers: {
-    Authorization_Access: accessToken,
-  },
+  // headers: {
+  //   Authorization_Access: accessToken,
+  // },
 });
 
 axiosInstance.interceptors.response.use(
@@ -30,11 +30,13 @@ axiosInstance.interceptors.response.use(
       console.log('refreshToken', refreshToken);  
       console.log('accessToken', accessToken);
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/tokenReissue`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/token/reissue`, {
         headers: {
           Authorization_Refresh: refreshToken,
         },
       });
+
+      console.log('response',response)
 
       if (response.data.code === 303) {
         console.log('refresh token 만료');
