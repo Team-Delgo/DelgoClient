@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getCertificationPostsByMain } from '../../../common/api/certification';
+import { getCertificationPostsByHome } from '../../../common/api/certification';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { POSTS_PATH } from '../../../common/constants/path.const';
 import { CACHE_TIME, GET_CERTIFICATION_POSTS_LIST_BY_MAIN, STALE_TIME } from '../../../common/constants/queryKey.const';
@@ -38,7 +38,7 @@ function NeighborPosts() {
 
   const { isLoading: getCertificationPostsByMainIsLoading, data: certificationPostsDataList } = useQuery(
     GET_CERTIFICATION_POSTS_LIST_BY_MAIN,
-    () => getCertificationPostsByMain(user.id),
+    () => getCertificationPostsByHome(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,

@@ -20,7 +20,7 @@ import Point from '../../../common/icons/point.svg';
 import DelgoWhite from '../../../common/icons/delgo-white.svg';
 import RightArrow from '../../../common/icons/right-arrow.svg';
 import { ACHIEVEMENT_PATH, MY_ACCOUNT_PATH } from '../../../common/constants/path.const';
-import { getMyPoint } from '../../../common/api/user';
+import { getMyPoint } from '../../../common/api/myaccount';
 import {  getAchievementListByMain } from '../../../common/api/achievement';
 import {
   CACHE_TIME,

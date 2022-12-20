@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { useErrorHandlers } from './useErrorHandlers';
 
-
-async function login(data: { email: string; password: string }, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function login(data: { email: string; password: string }, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .post(`${process.env.REACT_APP_API_URL}/login`, {
       email: data.email,
       password: data.password,
@@ -16,23 +15,8 @@ async function login(data: { email: string; password: string }, success: (data: 
     });
 }
 
-async function tokenRefresh(data: { refreshToken: string }, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
-    .get(`${process.env.REACT_APP_API_URL}/tokenReissue`, {
-      headers: {
-        Authorization_Refresh: `${data.refreshToken}`,
-      },
-    })
-    .then((data) => {
-      success(data);
-    })
-    .catch((error) => {
-      useErrorHandlers(dispatch, error);
-    });
-}
-
-async function emailAuth(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function emailAuth(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .get(`${process.env.REACT_APP_API_URL}/auth/email`, {
       params: { email },
     })
@@ -44,11 +28,11 @@ async function emailAuth(email: string, success: (data: AxiosResponse) => void, 
     });
 }
 
-async function changePassword(email: string, password: string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function changePassword(email: string, password: string, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .put(`${process.env.REACT_APP_API_URL}/user/password`, {
-        email,
-        newPassword: password,
+      email,
+      newPassword: password,
     })
     .then((data) => {
       success(data);
@@ -58,4 +42,4 @@ async function changePassword(email: string, password: string, success: (data: A
     });
 }
 
-export { login, tokenRefresh, emailAuth, changePassword };
+export { login, emailAuth, changePassword };
