@@ -17,6 +17,7 @@ import PrevArrow from '../../common/icons/prev-arrow-black.svg';
 import {analytics} from "../../index";
 import { ROOT_PATH } from '../../common/constants/path.const';
 import { scrollActions } from '../../redux/slice/scrollSlice';
+import { GET_ALL_CERTIFICATION_DATA_LIST } from '../../common/constants/queryKey.const';
 
 interface userType {
   address: string;
@@ -65,7 +66,7 @@ function CertificationPostsPage() {
   const { ref, inView } = useInView();
   const navigate = useNavigate();
   const { data, status, fetchNextPage, isFetchingNextPage, refetch, isLoading } = useInfiniteQuery(
-    'posts',
+    GET_ALL_CERTIFICATION_DATA_LIST,
     ({ pageParam = 0 }) => getCertificationPostAll(pageParam, user.id, pageSize, dispatch),
     {
       getNextPageParam: (lastPage: any) => (!lastPage?.last ? lastPage?.nextPage : undefined),

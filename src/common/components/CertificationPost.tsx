@@ -5,7 +5,7 @@ import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from "react-query";
-import { certificationLike2,certificationLike, deleteCertificationPost } from '../../common/api/certification';
+import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
 import Cafe from '../icons/cafe.svg';

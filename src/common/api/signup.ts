@@ -14,8 +14,8 @@ interface SignUpData {
   userSocial: string;
 }
 
-async function emailCheck(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function emailCheck(email: string, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .get(`${process.env.REACT_APP_API_URL}/auth/email/check`, {
       params: { email },
     })
@@ -27,8 +27,8 @@ async function emailCheck(email: string, success: (data: AxiosResponse) => void,
     });
 }
 
-async function nicknameCheck(name: string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function nicknameCheck(name: string, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .get(`${process.env.REACT_APP_API_URL}/auth/name/check`, {
       params: { name },
     })
@@ -40,9 +40,9 @@ async function nicknameCheck(name: string, success: (data: AxiosResponse) => voi
     });
 }
 
-async function signup(info: SignUpData, success: (data: AxiosResponse) => void, dispatch: any) {
+function signup(info: SignUpData, success: (data: AxiosResponse) => void, dispatch: any) {
   const { userName, email, password, phoneNo, geoCode, pGeoCode, petName, breed, birthday } = info;
-  await axios
+  axios
     .post(`${process.env.REACT_APP_API_URL}/user`, {
       // user: {
       //   name: nickname,
@@ -75,8 +75,8 @@ async function signup(info: SignUpData, success: (data: AxiosResponse) => void, 
     });
 }
 
-async function deleteUser(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function deleteUser(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .delete(`${process.env.REACT_APP_API_URL}/account/user/${userId}`)
     .then((data) => {
       success(data);
@@ -86,8 +86,8 @@ async function deleteUser(userId: number, success: (data: AxiosResponse) => void
     });
 }
 
-async function getRegion(success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function getRegion(success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .get(`${process.env.REACT_APP_API_URL}/code/geo`)
     .then((data) => {
       success(data);
@@ -97,8 +97,8 @@ async function getRegion(success: (data: AxiosResponse) => void, dispatch: any) 
     });
 }
 
-async function phoneSendMessage(phone: string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function phoneSendMessage(phone: string, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .get(`${process.env.REACT_APP_API_URL}/auth/sms?isJoin=false`, {
       params: {
         phoneNo: phone,
@@ -112,8 +112,8 @@ async function phoneSendMessage(phone: string, success: (data: AxiosResponse) =>
     });
 }
 
-async function phoneSendMessageForFind(phone: string, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function phoneSendMessageForFind(phone: string, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .get(`${process.env.REACT_APP_API_URL}/auth/sms?isJoin=true`, {
       params: {
         phoneNo: phone,
@@ -127,13 +127,9 @@ async function phoneSendMessageForFind(phone: string, success: (data: AxiosRespo
     });
 }
 
-async function phoneCheckNumber(
-  data: { number: string; smsId: number },
-  success: (data: AxiosResponse) => void,
-  dispatch: any,
-) {
+function phoneCheckNumber(data: { number: string; smsId: number }, success: (data: AxiosResponse) => void, dispatch: any) {
   const { number, smsId } = data;
-  await axios
+  axios
     .get(`${process.env.REACT_APP_API_URL}/auth/sms/check`, {
       params: {
         smsId,
@@ -148,12 +144,8 @@ async function phoneCheckNumber(
     });
 }
 
-async function petImageUpload(
-  data: { formData: FormData; userId: number },
-  success: (data: AxiosResponse) => void,
-  dispatch: any,
-) {
-  await axios
+function petImageUpload(data: { formData: FormData; userId: number }, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .post(`${process.env.REACT_APP_API_URL}/photo/upload/profile/${data.userId}`, data.formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -182,5 +174,5 @@ export {
   phoneSendMessage,
   petImageUpload,
   getRegion,
-  getPetType
+  getPetType,
 };

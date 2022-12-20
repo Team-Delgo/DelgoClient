@@ -2,15 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
-// async function getAchievementList(userId: number) {
-//   const accessToken = localStorage.getItem('accessToken') || '';
-//   const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/achievements/user-data?userId=${userId}`);
-//   console.log(data);
-//   return data;
-// }
 
-async function getAchievementList(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axiosInstance
+function getAchievementList(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+   axiosInstance
     .get(`/achievements/user/${userId}`)
     .then((data) => {
       console.log(data)
