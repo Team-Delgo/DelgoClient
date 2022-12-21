@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { ROOT_PATH, SIGN_IN_PATH, SIGN_UP_PATH } from '../../../../common/constants/path.const';

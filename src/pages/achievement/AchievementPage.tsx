@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,39 +11,22 @@ import Achievment from './components/Achievement';
 import { analytics } from '../../index';
 import Loading from '../../common/utils/Loading';
 import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
-
-interface AchievementType {
-  achievementsId: number;
-  desc: string;
-  imgUrl: string;
-  isActive: boolean;
-  isMain: number;
-  isMungple: boolean;
-  name: string;
-  registDt: string;
-  achievementsCondition: Array<AchievementsConditionType>;
-}
-
-interface AchievementsConditionType {
-  achievementsConditionId: number;
-  mungpleId: number;
-  categoryCode: string;
-  count: number;
-  conditionCheck: boolean;
-  registDt: string;
-}
+import AchievementBottomSheet from '../../common/dialog/AchievementBottomSheet';
+import { achievementType } from '../../common/types/achievement';
 
 function AchievementPage() {
-  const [achievementList, setAchievementList] = useState<AchievementType[]>([]);
-  const [mainAchievementList, setMainAchievementList] = useState<AchievementType[]>([]);
+  const [achievementList, setAchievementList] = useState<achievementType[]>([]);
+  const [mainAchievementList, setMainAchievementList] = useState<achievementType[]>([]);
+  const [selectedAchievement, setSelectedAchievement] = useState<achievementType>();
   const [mainAchievementSuccessToastIsOpen, setMainAchievementSuccessToastIsOpen] = useState(false);
   const [mainAchievementLimitToastIsOpen, setMainAchievementLimitToastIsOpen] = useState(false);
   const [editActivation, setEditActivation] = useState(false);
+  const [achievementBottomSheetIsOpen, setAchievementBottomSheetIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [achievementListCount, setAchievementListCount] = useState(0);
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
   const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getgetAchievementDataList();
@@ -58,7 +41,7 @@ function AchievementPage() {
   useEffect(() => {
     if (mainAchievementSuccessToastIsOpen) {
       setTimeout(() => {
-        closeAchievementCompletionToast()
+        closeAchievementCompletionToast();
       }, 2000);
     }
   }, [mainAchievementSuccessToastIsOpen]);
@@ -66,28 +49,25 @@ function AchievementPage() {
   useEffect(() => {
     if (mainAchievementLimitToastIsOpen) {
       setTimeout(() => {
-        closeAchievementLimitToast()
+        closeAchievementLimitToast();
       }, 2000);
     }
   }, [mainAchievementLimitToastIsOpen]);
-
 
   const getgetAchievementDataList = () => {
     setIsLoading(true);
     getAchievementList(
       user.id,
       (response: AxiosResponse) => {
-        const { code, data } = response.data;
+        const { data } = response.data;
 
-        console.log('data', data);
-
-        const achievementList1 = data.filter((element: AchievementType) => element.isActive === true);
+        const achievementList1 = data.filter((element: achievementType) => element.isActive === true);
         setAchievementListCount(achievementList1.length);
 
-        const achievementList = data.filter((element: AchievementType) => element.isMain === 0);
+        const achievementList = data.filter((element: achievementType) => element.isMain === 0);
         setAchievementList(achievementList);
 
-        const mainAchievementList = data.filter((element: AchievementType) => element.isMain > 0);
+        const mainAchievementList = data.filter((element: achievementType) => element.isMain > 0);
         setMainAchievementList(mainAchievementList);
       },
       dispatch,
@@ -98,7 +78,6 @@ function AchievementPage() {
   };
 
   const selectionRepresentativeAchievementsCompletion = () => {
-    console.log('mainAchievementList', mainAchievementList);
     setMainAchievements(
       user.id,
       mainAchievementList[0] !== undefined ? mainAchievementList[0].achievementsId : 0,
@@ -114,18 +93,18 @@ function AchievementPage() {
     );
   };
 
-  const filterRepresentativeAchievements = (achievement: AchievementType) => (event: React.MouseEvent) => {
+  const filterRepresentativeAchievements = (achievement: achievementType) => (event: React.MouseEvent) => {
     setTimeout(() => {
-      const newMainAchievementList = mainAchievementList.filter((element: AchievementType) => element !== achievement);
+      const newMainAchievementList = mainAchievementList.filter((element: achievementType) => element !== achievement);
       setMainAchievementList(newMainAchievementList);
       setAchievementList([...achievementList, achievement]);
     }, 300);
   };
 
-  const selectRepresentativeAchievements = (achievement: AchievementType) => (event: React.MouseEvent) => {
+  const selectRepresentativeAchievements = (achievement: achievementType) => (event: React.MouseEvent) => {
     if (mainAchievementList.length < 3) {
       setTimeout(() => {
-        const newAchievementList = achievementList.filter((element: AchievementType) => element !== achievement);
+        const newAchievementList = achievementList.filter((element: achievementType) => element !== achievement);
         setMainAchievementList([...mainAchievementList, achievement]);
         setAchievementList(newAchievementList);
       }, 300);
@@ -134,30 +113,44 @@ function AchievementPage() {
     }
   };
 
-  const editRepresentativeAchievementsOn = () => {
+  const editRepresentativeAchievementsOn = useCallback(() => {
     setEditActivation(true);
-  };
+  }, []);
 
-  const editRepresentativeAchievementsOff = () => {
+  const editRepresentativeAchievementsOff = useCallback(() => {
     selectionRepresentativeAchievementsCompletion();
     setEditActivation(false);
-  };
+  }, []);
 
-  const openAchievementCompletionToast = () => {
+  const openAchievementCompletionToast = useCallback(() => {
     setMainAchievementSuccessToastIsOpen(true);
-  };
+  }, []);
 
-  const closeAchievementCompletionToast = () => {
+  const closeAchievementCompletionToast = useCallback(() => {
     setMainAchievementSuccessToastIsOpen(false);
-  };
+  }, []);
 
-  const openAchievementLimitToast = () => {
+  const openAchievementLimitToast = useCallback(() => {
     setMainAchievementLimitToastIsOpen(true);
-  };
+  }, []);
 
-  const closeAchievementLimitToast = () => {
+  const closeAchievementLimitToast = useCallback(() => {
     setMainAchievementLimitToastIsOpen(false);
-  };
+  }, []);
+
+  const openBottomSheet = useCallback(
+    (achievement: achievementType) => (event: React.MouseEvent) => {
+      setSelectedAchievement(achievement);
+      setTimeout(() => {
+        setAchievementBottomSheetIsOpen(true);
+      }, 200);
+    },
+    [],
+  );
+
+  const closeBottomSheet = useCallback(() => {
+    setAchievementBottomSheetIsOpen(false);
+  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -167,16 +160,25 @@ function AchievementPage() {
     <>
       <MainAchievment
         editActivation={editActivation}
+        mainAchievementList={mainAchievementList}
         editRepresentativeAchievementsOn={editRepresentativeAchievementsOn}
         editRepresentativeAchievementsOff={editRepresentativeAchievementsOff}
-        mainAchievementList={mainAchievementList}
         filterRepresentativeAchievements={filterRepresentativeAchievements}
+        openBottomSheet={openBottomSheet}
       />
       <Achievment
         editActivation={editActivation}
         achievementList={achievementList}
-        selectRepresentativeAchievements={selectRepresentativeAchievements}
         achievementListCount={achievementListCount}
+        selectRepresentativeAchievements={selectRepresentativeAchievements}
+        openBottomSheet={openBottomSheet}
+      />
+      <AchievementBottomSheet
+        text=""
+        allView={false}
+        achievement={selectedAchievement}
+        cancelButtonHandler={closeBottomSheet}
+        bottomSheetIsOpen={achievementBottomSheetIsOpen}
       />
       {mainAchievementSuccessToastIsOpen && <ToastPurpleMessage message="대표업적 설정이 성공했습니다." />}
       {mainAchievementLimitToastIsOpen && <ToastPurpleMessage message="업적 최대 3개까지만 설정 가능합니다." />}

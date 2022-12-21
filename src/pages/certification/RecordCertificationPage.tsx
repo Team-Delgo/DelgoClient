@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Cert } from '../map/MapType';
+import { Cert } from '../../common/types/map';
 import RecordCertification from './RecordCertification';
 import Back from '../../common/icons/prev-arrow-black.svg';
 import './RecordCertificationPage.scss';
 import { RECORD_PATH } from '../../common/constants/path.const';
 import Loading from '../../common/utils/Loading';
 
-export interface Certification {
-  address: string;
-  cerificationId: number;
-  description: string;
-  photoUrl: string;
-  placeName: string;
-  categoryCode: string;
-}
+// export interface Certification {
+//   address: string;
+//   cerificationId: number;
+//   description: string;
+//   photoUrl: string;
+//   placeName: string;
+//   categoryCode: string;
+// }
 
 interface LocationState {
   certifications: Cert[];

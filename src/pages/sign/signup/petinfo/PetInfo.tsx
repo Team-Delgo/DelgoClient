@@ -1,23 +1,19 @@
-import React, { ChangeEvent, useState, useCallback, useEffect } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Cropper from 'react-easy-crop';
 import { checkPetName } from '../../validcheck';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import { ReactComponent as Camera } from '../../../../common/icons/camera.svg';
 import './PetInfo.scss';
-import DogType from './DogType';
 import BirthSelector from './BirthSelector';
 import { signup, petImageUpload } from '../../../../common/api/signup';
-import Check from '../../../../common/icons/check.svg';
 import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
-import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import { RootState } from '../../../../redux/store';
@@ -244,7 +240,7 @@ function PetInfo() {
           birthday: enteredInput.birth,
           userSocial: isSocial,
         },
-        async (response: AxiosResponse) => {
+         (response: AxiosResponse) => {
           const { code, codeMsg, data } = response.data;
           if (code === 200) {
             const { registDt } = data.user;
@@ -281,7 +277,7 @@ function PetInfo() {
               sendFcmTokenHandler(data.user.userId);
             }
             formData.append('photo', sendingImage[0]);
-            await petImageUpload(
+             petImageUpload(
               { formData, userId },
               (response: AxiosResponse) => {
                 console.log(response);

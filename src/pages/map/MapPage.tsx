@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import RecordHeader from '../../common/components/RecordHeader';
 import './MapPage.scss';
 import { getMapData } from '../../common/api/record';
-import { Mungple, Cert, certDefault, idDefault, WardOffice } from './MapType';
+import { Mungple, Cert, certDefault, idDefault, WardOffice } from '../../common/types/map';
 import UserLocation from '../../common/icons/user-location.svg';
 import Bath from '../../common/icons/bath-map.svg';
 import Cafe from '../../common/icons/cafe-map.svg';
@@ -113,8 +113,8 @@ function MapPage() {
     });
   };
 
-  const getMapPageData = async () => {
-    await getMapData(
+  const getMapPageData = () => {
+    getMapData(
       userId,
       (response: AxiosResponse) => {
         const { code, data } = response.data;

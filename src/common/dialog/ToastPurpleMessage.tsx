@@ -10,4 +10,4 @@ function ToastPurpleMessage(props: { message: string }) {
   );
 }
 
-export default ToastPurpleMessage;
+export default React.memo(ToastPurpleMessage);

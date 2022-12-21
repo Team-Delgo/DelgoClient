@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,6 @@ import Gallery from '../../common/icons/gallery.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import './CameraPage.scss';
-import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../common/utils/CropHandle';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import Crop from '../../common/utils/Crop'
@@ -20,10 +19,8 @@ interface croppendAreaPixelType {
   y: number;
 }
 
-const imgExtension = ["image/jpeg","image/gif","image/png","image/jpg"]
 
 function CameraFrontPage() {
-  const [imgExtensionAlert, setImgExtensionAlert] = useState(false);
   const [compressedFileName, setCompressedFileName] = useState('');
   const [img, setImg] = useState('');
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
@@ -34,13 +31,6 @@ function CameraFrontPage() {
   const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
-    const heightOutput = document.querySelector("#height");
-    const widthOutput = document.querySelector("#width");
-
-    console.log('heightOutput',heightOutput)
-    console.log('widthOutput',widthOutput)
-
-
     dispatch(uploadAction.setUploadInit);
     return () => {
       camera.current = null;
@@ -62,21 +52,18 @@ function CameraFrontPage() {
     }, 100);
   }, [img]);
 
-  const moveToPreviousPage = () => {
+  const moveToPreviousPage = useCallback(() => {
     navigate(ROOT_PATH);
-  };
+  },[])
 
-  const swtichCamera = () => {
+  const swtichCamera = useCallback(() => {
     navigate(CAMERA_PATH.REAR);
-  };
+  },[])
 
-  const moveToNextPage = () => {
+  const moveToNextPage = useCallback(() => {
     navigate(CAMERA_PATH.CAPTURE);
-  };
+  },[])
 
-  const alertReviewImgExtensionClose = () => {
-    setImgExtensionAlert(false);
-  };
 
   const captureImg = () => {
     if (cameraLoading) {
@@ -97,10 +84,6 @@ function CameraFrontPage() {
 
   const uploadImg = (event: { target: HTMLInputElement }) => {
     if (event.target.files) {
-      if (!imgExtension.includes((event.target.files as FileList)[0].type)) {
-        setImgExtensionAlert(true);
-        return;
-      }
       setCompressedFileName(event.target.files[0].name);
       const galleryImg = URL.createObjectURL(event.target.files[0]);
       console.log('event.target.files[0]', event.target.files[0]);
@@ -108,9 +91,9 @@ function CameraFrontPage() {
     }
   };
 
-  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+  const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
-  };
+  },[])
 
   const showCroppedImage = async () => {
     try {
@@ -131,10 +114,10 @@ function CameraFrontPage() {
     }
   };
 
-  const cancleImgCrop = () => {
+  const cancleImgCrop = useCallback(() => {
     setCameraLoading(true);
     setImg('');
-  };
+  },[])
 
   if (img !== '') {
     return (
@@ -148,7 +131,6 @@ function CameraFrontPage() {
   }
 
   return (
-    <>
       <div className="camera-page-backround">
         <img
           src={PrevArrowBlack}
@@ -189,10 +171,6 @@ function CameraFrontPage() {
           style={{ display: 'none' }}
         />
       </div>
-      {imgExtensionAlert && (
-        <AlertConfirmOne text="이미지 확장자 파일을 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
-      )}
-    </>
   );
 }
 

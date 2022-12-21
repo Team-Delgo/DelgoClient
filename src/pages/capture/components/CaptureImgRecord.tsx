@@ -36,10 +36,8 @@ function CaptureImgRecord() {
     },
   );
 
-
   const moveToCategoryLeftScroll = (category: string) => (e: React.MouseEvent) => {
     setSelectedCateogory(category);
-    console.log(selectedCateogory);
     categoryRef.current.scrollTo({
       left: categoryRef.current.scrollLeft - categoryRef.current.offsetWidth,
       behavior: 'smooth',
@@ -52,7 +50,6 @@ function CaptureImgRecord() {
 
   const moveToCategoryRightScroll = (category: string) => (e: React.MouseEvent) => {
     setSelectedCateogory(category);
-    console.log(category);
     categoryRef.current.scrollTo({
       left: categoryRef.current.offsetWidth,
       behavior: 'smooth',
@@ -71,11 +68,7 @@ function CaptureImgRecord() {
           <img
             src={Walk}
             alt="category-img"
-            className={
-              selectedCateogory === '산책'
-                ? 'capture-img-record-body-walk-img-active'
-                : 'capture-img-record-body-walk-img'
-            }
+            className={selectedCateogory === '산책' ? 'capture-img-record-body-walk-img-active' : 'capture-img-record-body-walk-img'}
           />
           <div className="capture-img-record-body-walk-count">{certificationDataCount?.data.산책}</div>
         </div>
@@ -83,26 +76,16 @@ function CaptureImgRecord() {
           <img
             src={Cafe}
             alt="category-img"
-            className={
-              selectedCateogory === '카페'
-                ? 'capture-img-record-body-cafe-img-active'
-                : 'capture-img-record-body-cafe-img'
-            }
+            className={selectedCateogory === '카페' ? 'capture-img-record-body-cafe-img-active' : 'capture-img-record-body-cafe-img'}
           />
           <div className="capture-img-record-body-cafe-count">{certificationDataCount?.data.카페}</div>
         </div>
-        <div
-          className="capture-img-record-body-restaurant"
-          aria-hidden="true"
-          onClick={moveToCategoryLeftScroll('식당')}
-        >
+        <div className="capture-img-record-body-restaurant" aria-hidden="true" onClick={moveToCategoryLeftScroll('식당')}>
           <img
             src={Restorant}
             alt="category-img"
             className={
-              selectedCateogory === '식당'
-                ? 'capture-img-record-body-restaurant-img-active'
-                : 'capture-img-record-body-restaurant-img'
+              selectedCateogory === '식당' ? 'capture-img-record-body-restaurant-img-active' : 'capture-img-record-body-restaurant-img'
             }
           />
           <div className="capture-img-record-body-restaurant-count">{certificationDataCount?.data.식당}</div>
@@ -111,11 +94,7 @@ function CaptureImgRecord() {
           <img
             src={Bath}
             alt="category-img"
-            className={
-              selectedCateogory === '목욕'
-                ? 'capture-img-record-body-bath-img-active'
-                : 'capture-img-record-body-bath-img'
-            }
+            className={selectedCateogory === '목욕' ? 'capture-img-record-body-bath-img-active' : 'capture-img-record-body-bath-img'}
           />
           <div className="capture-img-record-body-bath-count">{certificationDataCount?.data.목욕}</div>
         </div>
@@ -123,26 +102,16 @@ function CaptureImgRecord() {
           <img
             src={Beauty}
             alt="category-img"
-            className={
-              selectedCateogory === '미용'
-                ? 'capture-img-record-body-beauty-img-active'
-                : 'capture-img-record-body-beauty-img'
-            }
+            className={selectedCateogory === '미용' ? 'capture-img-record-body-beauty-img-active' : 'capture-img-record-body-beauty-img'}
           />
           <div className="capture-img-record-body-beauty-count">{certificationDataCount?.data.미용}</div>
         </div>
-        <div
-          className="capture-img-record-body-hospital"
-          aria-hidden="true"
-          onClick={moveToCategoryRightScroll('병원')}
-        >
+        <div className="capture-img-record-body-hospital" aria-hidden="true" onClick={moveToCategoryRightScroll('병원')}>
           <img
             src={Hospital}
             alt="category-img"
             className={
-              selectedCateogory === '병원'
-                ? 'capture-img-record-body-hospital-img-active'
-                : 'capture-img-record-body-hospital-img'
+              selectedCateogory === '병원' ? 'capture-img-record-body-hospital-img-active' : 'capture-img-record-body-hospital-img'
             }
           />
           <div className="capture-img-record-body-hospital-count">{certificationDataCount?.data.병원}</div>
@@ -151,11 +120,7 @@ function CaptureImgRecord() {
           <img
             src={Etc}
             alt="category-img"
-            className={
-              selectedCateogory === '기타'
-                ? 'capture-img-record-body-etc-img-active'
-                : 'capture-img-record-body-etc-img'
-            }
+            className={selectedCateogory === '기타' ? 'capture-img-record-body-etc-img-active' : 'capture-img-record-body-etc-img'}
           />
           <div className="capture-img-record-body-etc-count">{certificationDataCount?.data.기타}</div>
         </div>

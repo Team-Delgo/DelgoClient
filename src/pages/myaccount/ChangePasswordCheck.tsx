@@ -16,6 +16,7 @@ function ChangePasswordCheck() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.persist.user.user.email);
+  
   const passwordCheck = () => {
     login({ email, password: enteredInput }, (res: AxiosResponse) => {
       console.log(res);

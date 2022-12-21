@@ -14,20 +14,13 @@ import {
 } from '../../../common/constants/queryKey.const';
 import { analytics } from '../../../index';
 import { RootState } from '../../../redux/store';
+import { rankingType } from '../../../common/types/ranking';
 
-interface rankingType {
-  geoCode: string;
-  ranking: number;
-  userId: number;
-  weeklyPoint: number;
-  name: string;
-  profile: string;
-}
 
 function Ranking() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, pet } = useSelector((state: RootState) => state.persist.user);
+  const { user } = useSelector((state: RootState) => state.persist.user);
   const rankingEvent = useAnalyticsCustomLogEvent(analytics, 'home_ranking');
 
   const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(

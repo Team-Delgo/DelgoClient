@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import Sheet, { SheetRef } from 'react-modal-sheet';
 import { useNavigate } from 'react-router-dom';
@@ -44,23 +45,20 @@ function AchievementBottomSheet({
   allView,
 }: AchievementBottomSheetType) {
   const navigate = useNavigate();
-
   const moveToAchievementPage = () => {
     navigate(ACHIEVEMENT_PATH);
   };
 
   return (
-    <Sheet
-      className="confirm-bottom-sheet-container"
-      isOpen={bottomSheetIsOpen}
-      onClose={cancelButtonHandler}
-      snapPoints={sheetSnapPoints}
-    >
+    <Sheet className="confirm-bottom-sheet-container" isOpen={bottomSheetIsOpen} onClose={cancelButtonHandler} snapPoints={sheetSnapPoints}>
       <Sheet.Container style={sheetStyle}>
         <Sheet.Content>
           <div className="achievement-bottom-sheet">
             <div className="achievement-bottom-sheet-first-line">
-              <div className="achievement-bottom-sheet-first-line-title">{text}</div>
+              <div className="achievement-bottom-sheet-first-line-title">
+                {text === '' ? achievement?.achievementsCondition[0]?.count : text}
+                {text !== '' ? null : achievement?.achievementsCondition[0] === undefined ? null : '회'}
+              </div>
               <div className="achievement-bottom-sheet-first-line-name">{achievement?.name}</div>
             </div>
             <div className="achievement-bottom-sheet-second-line">
@@ -69,11 +67,7 @@ function AchievementBottomSheet({
             <div className="achievement-bottom-sheet-second-line">
               <div className="achievement-bottom-sheet-second-line-text">{achievement?.desc.split('/')[1]}</div>
             </div>
-            <div
-              className="achievement-bottom-sheet-third-line"
-              aria-hidden="true"
-              onClick={allView ? moveToAchievementPage : undefined}
-            >
+            <div className="achievement-bottom-sheet-third-line" aria-hidden="true" onClick={allView ? moveToAchievementPage : undefined}>
               <img
                 src={achievement?.imgUrl}
                 className="achievement-bottom-sheet-img"
@@ -100,4 +94,4 @@ function AchievementBottomSheet({
   );
 }
 
-export default AchievementBottomSheet;
+export default React.memo(AchievementBottomSheet);

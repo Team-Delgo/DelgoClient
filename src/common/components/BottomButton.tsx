@@ -14,4 +14,4 @@ function BottomButton({ text, color = '#474747' }: BottomButtonProps) {
   );
 }
 
-export default BottomButton;
+export default React.memo(BottomButton);

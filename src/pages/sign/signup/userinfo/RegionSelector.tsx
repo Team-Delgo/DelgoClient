@@ -143,7 +143,7 @@ function RegionSelector(props: {
     }
   };
 
-  const buttonClickHandler = async () => {
+  const buttonClickHandler = () => {
     if (isChange) {
       changeGeoCode(
         email,

@@ -5,7 +5,7 @@ import CaptureCertificationImg from './components/CaptureCertificationImg';
 import CaptureLocationRecord from './components/CaptureLocationRecord';
 import './CaptureLocationPage.scss';
 import { analytics } from '../../index';
-import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../../common/dialog/ConfirmBottomSheet';
 import { ROOT_PATH } from '../../common/constants/path.const';
 
 function CaptureLocationPage() {

@@ -31,7 +31,6 @@ function ConfirmBottomSheet({
       snapPoints={sheetSnapPoints}
     >
       <Sheet.Container style={sheetStyle}>
-        {/* <Sheet.Header /> */}
         <Sheet.Content>
           <div className="confirm-bottom-sheet">
             <div className="confirm-bottom-sheet-title">
@@ -54,4 +53,4 @@ function ConfirmBottomSheet({
   );
 }
 
-export default ConfirmBottomSheet;
+export default React.memo(ConfirmBottomSheet);

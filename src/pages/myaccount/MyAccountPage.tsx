@@ -2,30 +2,22 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import FooterNavigation from '../../common/components/FooterNavigation';
 import './MyAccountPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import RightArrow from '../../common/icons/right-arrow.svg';
 import RightArrowGray from '../../common/icons/right-arrow-gray.svg';
 import { MY_ACCOUNT_PATH, ROOT_PATH, SIGN_IN_PATH } from '../../common/constants/path.const';
 import { RootState } from '../../redux/store';
-import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { userActions } from '../../redux/slice/userSlice';
-import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../../common/dialog/ConfirmBottomSheet';
 import {analytics} from "../../index";
 
-interface rankingType {
-  geoCode: string;
-  ranking: number;
-  userId: number;
-  weeklyPoint: number;
-}
 
 const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 
 function MyAccountPage() {
   const dispatch = useDispatch();
-  const { OS,device } = useSelector((state: RootState) => state.persist.device);
+  const { OS } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const pet = useSelector((state: RootState) => state.persist.user.pet);
@@ -33,7 +25,7 @@ function MyAccountPage() {
   const { address, registDt } = user;
   const { name, image } = pet;
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
-  const location: any = useLocation();
+  
   useEffect(() => {
     mutation.mutate({
       params: {
