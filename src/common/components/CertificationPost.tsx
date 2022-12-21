@@ -10,7 +10,9 @@ import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
 import Cafe from '../icons/cafe.svg';
 import Hospital from '../icons/hospital.svg';
+import Restorant from '../icons/restorant.svg';
 import Walk from '../icons/walk.svg';
+import ETC from '../icons/etc.svg';
 import Heart from '../icons/heart-empty.svg';
 import FillHeart from '../icons/heart.svg';
 import Comments from '../icons/comments.svg';
@@ -24,7 +26,38 @@ import { banUser } from '../api/ban';
 import { analytics } from "../../index";
 import { postType } from '../types/post';
 import {weekDay} from '../types/week'
-import { categoryCode,categoryIcon } from '../types/category';
+import {categoryIcon2,categoryCode2} from '../types/category'
+
+// interface categoryType {
+//   CA0001: string;
+//   CA0002: string;
+//   CA0003: string;
+//   CA0004: string;
+//   CA0005: string;
+//   CA0006: string;
+//   CA9999: string;
+//   [prop: string]: any;
+// }
+
+// const categoryIcon: categoryType2 = {
+//   CA0001: Walk,
+//   CA0002: Cafe,
+//   CA0003: Restorant,
+//   CA0004: Bath,
+//   CA0005: Beauty,
+//   CA0006: Hospital,
+//   CA9999: ETC,
+// };
+
+// const categoryCode: categoryType2 = {
+//   CA0001: '산책',
+//   CA0002: '카페',
+//   CA0003: '식당',
+//   CA0004: '목욕',
+//   CA0005: '미용',
+//   CA0006: '병원',
+//   CA9999: '기타',
+// };
 
 interface CertificationPostPropsType {
   post: postType;
@@ -47,6 +80,8 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostPropsTy
   const location = useLocation();
   const heartEvent = useAnalyticsCustomLogEvent(analytics, 'cert_like');
   const commentEvent = useAnalyticsCustomLogEvent(analytics, 'cert_comment_view');
+
+  console.log('post?.categoryCode',post?.categoryCode)
 
   useEffect(() => {
     if (deletePostSuccessToastIsOpen) {
@@ -132,7 +167,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostPropsTy
     dispatch(
       uploadAction.setCertificationUpdate({
         img: post?.photoUrl,
-        categoryKo: categoryCode[post?.categoryCode],
+        categoryKo: categoryCode2[post?.categoryCode],
         title: post?.placeName,
         certificationId: post?.certificationId,
         content: post?.description,
@@ -215,7 +250,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostPropsTy
             <div className="post-img-result-main-header-place-name">{post?.placeName}</div>
             <div className="post-img-result-main-header-place-address">{post?.address}</div>
           </div>
-          <img src={categoryIcon[post?.categoryCode]} alt="category-img" width={48} height={48} />
+          <img src={categoryIcon2[post?.categoryCode]} alt="category-img" width={48} height={48} />
         </header>
         <body className="post-img-result-main-body">{post?.description}</body>
         <footer className="post-img-result-main-footer">
