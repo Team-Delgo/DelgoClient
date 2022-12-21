@@ -36,7 +36,7 @@ interface AchievementsConditionType {
   registDt: string;
 }
 
-const initialState:initialStateType = {
+const initialState: initialStateType = {
   img: '',
   latitude: '',
   longitude: '',
@@ -49,18 +49,7 @@ const initialState:initialStateType = {
   tool: '',
   file: '',
   address: '',
-  achievements: [
-    // {
-    //   achievementsId: 0,
-    //   imgUrl: '',
-    //   isActive: false,
-    //   isMain: 0,
-    //   isMungple: false,
-    //   name: '',
-    //   registDt: '',
-    // },
-  ],
-  // file: {} as Blob,
+  achievements: [],
 };
 
 const uploadSlice = createSlice({

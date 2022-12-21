@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,14 +8,11 @@ import CameraTransition from '../../common/icons/camera-transition.svg';
 import Gallery from '../../common/icons/gallery.svg';
 import CameraButton from '../../common/icons/camera-button.svg';
 import { uploadAction } from '../../redux/slice/uploadSlice';
-import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../common/utils/CropHandle';
 import PrevArrowBlack from '../../common/icons/prev-arrow-black.svg';
 import Crop from '../../common/utils/Crop';
 import { analytics } from '../../index';
 import './CameraPage.scss';
-
-const imgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
 
 interface croppendAreaPixelType {
   height: number;
@@ -25,7 +22,6 @@ interface croppendAreaPixelType {
 }
 
 function CameraRearPage() {
-  const [imgExtensionAlert, setImgExtensionAlert] = useState(false);
   const [compressedFileName, setCompressedFileName] = useState('');
   const [img, setImg] = useState('');
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
@@ -35,7 +31,7 @@ function CameraRearPage() {
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const camera2 = useRef<any>(null);
   const cameraCaptureEvent = useAnalyticsCustomLogEvent(analytics, 'cert_capture_camera');
-  const albumCaptrueEvent = useAnalyticsCustomLogEvent(analytics, "cert_capture_album");
+  const albumCaptrueEvent = useAnalyticsCustomLogEvent(analytics, 'cert_capture_album');
 
   useEffect(() => {
     dispatch(uploadAction.setUploadInit);
@@ -59,22 +55,18 @@ function CameraRearPage() {
     }, 100);
   }, [img]);
 
-  const moveToPreviousPage = () => {
+  const moveToPreviousPage = useCallback(() => {
     navigate(ROOT_PATH);
-  };
+  }, []);
 
   const swtichCamera = () => {
     navigate(CAMERA_PATH.FRONT, { state: { prevPath: CAMERA_PATH.REAR } });
     window.location.reload();
   };
 
-  const moveToNextPage = () => {
+  const moveToNextPage = useCallback(() => {
     navigate(CAMERA_PATH.CAPTURE);
-  };
-
-  const alertReviewImgExtensionClose = () => {
-    setImgExtensionAlert(false);
-  };
+  }, []);
 
   const captureImg = () => {
     if (cameraLoading) {
@@ -97,10 +89,6 @@ function CameraRearPage() {
 
   const uploadImg = (event: { target: HTMLInputElement }) => {
     if (event.target.files) {
-      if (!imgExtension.includes((event.target.files as FileList)[0].type)) {
-        setImgExtensionAlert(true);
-        return;
-      }
       setCompressedFileName(event.target.files[0].name);
       const galleryImg = URL.createObjectURL(event.target.files[0]);
       console.log('event.target.files[0]', event.target.files[0]);
@@ -134,68 +122,50 @@ function CameraRearPage() {
     }
   };
 
-  const cancleImgCrop = () => {
+  const cancleImgCrop = useCallback(() => {
     setCameraLoading(true);
     setImg('');
-  };
+  }, []);
 
   if (img !== '') {
-    return (
-      <Crop
-        img={img}
-        cancleImgCrop={cancleImgCrop}
-        showCroppedImage={showCroppedImage}
-        onCropComplete={onCropComplete}
-      />
-    );
+    return <Crop img={img} cancleImgCrop={cancleImgCrop} showCroppedImage={showCroppedImage} onCropComplete={onCropComplete} />;
   }
 
   return (
-    <>
-      <div className="camera-page-backround">
-        <img
-          src={PrevArrowBlack}
-          className="camera-page-prev-arrow"
-          alt="camera-page-prev-arrow"
-          aria-hidden="true"
-          onClick={moveToPreviousPage}
-        />
-        <div className="web-camera" style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}>
-          <Camera
-            ref={camera2}
-            aspectRatio={1}
-            facingMode="environment"
-            errorMessages={{
-              noCameraAccessible: undefined,
-              permissionDenied: undefined,
-              switchCamera: undefined,
-              canvas: undefined,
-            }}
-          />
-        </div>
-        <div className="camera-page-icon-container">
-          <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
-          <img
-            className="camera-button"
-            src={CameraButton}
-            alt="camera-capture-button"
-            aria-hidden="true"
-            onClick={captureImg}
-          />
-          <img src={CameraTransition} alt="camera-transition-button" aria-hidden="true" onClick={swtichCamera} />
-        </div>
-        <input
-          type="file"
-          accept="image/jpeg,image/gif,image/png,image/jpg;capture=filesystem"
-          ref={fileUploadRef}
-          onChange={uploadImg}
-          style={{ display: 'none' }}
+    <div className="camera-page-backround">
+      <img
+        src={PrevArrowBlack}
+        className="camera-page-prev-arrow"
+        alt="camera-page-prev-arrow"
+        aria-hidden="true"
+        onClick={moveToPreviousPage}
+      />
+      <div className="web-camera" style={{ visibility: cameraLoading ? 'hidden' : 'visible' }}>
+        <Camera
+          ref={camera2}
+          aspectRatio={1}
+          facingMode="environment"
+          errorMessages={{
+            noCameraAccessible: undefined,
+            permissionDenied: undefined,
+            switchCamera: undefined,
+            canvas: undefined,
+          }}
         />
       </div>
-      {imgExtensionAlert && (
-        <AlertConfirmOne text="이미지 확장자 파일을 올려주세요" buttonHandler={alertReviewImgExtensionClose} />
-      )}
-    </>
+      <div className="camera-page-icon-container">
+        <img src={Gallery} alt="gallery-button" aria-hidden="true" onClick={handleOpenFileUpload} />
+        <img className="camera-button" src={CameraButton} alt="camera-capture-button" aria-hidden="true" onClick={captureImg} />
+        <img src={CameraTransition} alt="camera-transition-button" aria-hidden="true" onClick={swtichCamera} />
+      </div>
+      <input
+        type="file"
+        accept="image/jpeg,image/gif,image/png,image/jpg;capture=filesystem"
+        ref={fileUploadRef}
+        onChange={uploadImg}
+        style={{ display: 'none' }}
+      />
+    </div>
   );
 }
 

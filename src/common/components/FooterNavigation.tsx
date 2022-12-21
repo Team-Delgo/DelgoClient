@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -23,17 +23,17 @@ function FooterNavigation() {
     }, 100);
   };
 
-  const moveToHomePage = () => {
+  const moveToHomePage = useCallback(() => {
     setTimeout(() => {
       navigate(ROOT_PATH);
     }, 100);
-  };
+  }, []);
 
-  const moveToRecord = () => {
+  const moveToRecord = useCallback(() => {
     setTimeout(() => {
       navigate(RECORD_PATH.PHOTO);
     }, 100);
-  };
+  }, []);
 
   return (
     <div className="footer">
@@ -52,4 +52,4 @@ function FooterNavigation() {
   );
 }
 
-export default FooterNavigation;
+export default React.memo(FooterNavigation);

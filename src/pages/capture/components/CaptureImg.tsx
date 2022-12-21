@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate ,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import PrevArrowWhite from '../../../common/icons/prev-arrow-white.svg';
 import { CAMERA_PATH, ROOT_PATH } from '../../../common/constants/path.const';
 import PrevArrowBlack from '../../../common/icons/prev-arrow-black.svg';
 import X from '../../../common/icons/xx.svg';
-import DeleteBottomSheet from '../../../common/utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../../../common/dialog/ConfirmBottomSheet';
 
 function CaptureImg() {
   const { img } = useSelector((state: RootState) => state.persist.upload);

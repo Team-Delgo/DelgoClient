@@ -1,4 +1,4 @@
-import {Cert} from "../../pages/map/MapType";
+import {Cert} from "./map";
 
 interface DateList{
   categoryCode:string;

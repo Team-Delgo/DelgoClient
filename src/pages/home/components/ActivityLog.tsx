@@ -11,7 +11,7 @@ import { RootState } from '../../../redux/store';
 function ActivityLog() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user,pet} = useSelector((state: RootState) => state.persist.user);
+  const {user} = useSelector((state: RootState) => state.persist.user);
 
   const { isLoading: getCertificationDataCountIsLoading, data: certificationDataCount } = useQuery(
     GET_CERTIFICATION_DATA_COUNT,

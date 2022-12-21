@@ -8,7 +8,7 @@ import './CaptureCertificationResultPage.scss';
 import { analytics } from '../../index';
 import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 import { RootState } from '../../redux/store';
-import AchievementBottomSheet from '../../common/utils/AchievementBottomSheet';
+import AchievementBottomSheet from '../../common/dialog/AchievementBottomSheet';
 
 function CaptureResult() {
   const [showCertificateSuccessToast, setShowCertificateSuccessToast] = useState(false);
@@ -20,7 +20,6 @@ function CaptureResult() {
   const { achievements } = useSelector((state: RootState) => state.persist.upload);
 
   useEffect(() => {
-    console.log('achievements',achievements)
     if (achievements.length === 1) {
       setAchievementBottomSheetIsOpen1(true);
     } else if (achievements.length === 2) {
@@ -31,10 +30,12 @@ function CaptureResult() {
 
   useEffect(() => {
     if (location?.state?.prevPath?.includes('update')) {
-      setShowCertificateUpdateSuccessToast(true);
-      setTimeout(() => {
-        setShowCertificateUpdateSuccessToast(false);
-      }, 2000);
+      if (location?.state?.updateSuccess) {
+        setShowCertificateUpdateSuccessToast(true);
+        setTimeout(() => {
+          setShowCertificateUpdateSuccessToast(false);
+        }, 2000);
+      }
     } else {
       setShowCertificateSuccessToast(true);
       setTimeout(() => {
@@ -51,20 +52,6 @@ function CaptureResult() {
       },
     });
   }, []);
-
-    // useEffect(() => {
-  //   preventGoBack()
-  // }, []);
-
-
-  // const preventGoBack = () => {
-  //   window.history.pushState(null, '', location.href);
-
-  //   window.onpopstate = function (event) {
-  //     window.history.go(1);
-  //     console.log('prevent go back!');
-  //   };
-  // };
 
   return (
     <>

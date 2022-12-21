@@ -10,4 +10,4 @@ function ToastMessage(props: { message: string }) {
     </div>
   );
 }
-export default ToastMessage;
+export default React.memo(ToastMessage);

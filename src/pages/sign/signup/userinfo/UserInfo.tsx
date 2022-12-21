@@ -211,7 +211,7 @@ function UserInfo() {
     }
   };
 
-  const emailDupCheck = async () => {
+  const emailDupCheck = () => {
     if (validInput.email) {
       emailCheck(
         enteredInput.email,

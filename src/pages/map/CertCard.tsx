@@ -7,7 +7,7 @@ import BeautySmall from '../../common/icons/beauty-map-small.svg';
 import WalkSmall from '../../common/icons/walk-map-small.svg';
 import HospitalSmall from '../../common/icons/hospital-map-small.svg';
 import EatSmall from '../../common/icons/eat-map-small.svg';
-import { Cert } from './MapType';
+import { Cert } from '../../common/types/map';
 import { RECORD_PATH } from '../../common/constants/path.const';
 
 function CertCard(props: {

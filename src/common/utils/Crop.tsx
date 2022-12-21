@@ -45,4 +45,4 @@ function Crop({ img, cancleImgCrop, showCroppedImage, onCropComplete }: CropType
   );
 }
 
-export default Crop;
+export default Crop

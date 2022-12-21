@@ -1,5 +1,5 @@
-import { Mungple } from "./MapType";
-import { WardOffice, Cert } from "./MapType";
+import { Mungple } from '../../common/types/map';
+import { WardOffice, Cert } from '../../common/types/map';
 import Flag from '../../common/icons/flag.svg';
 
 export function setMarkerOptionBig(icon: string, data: Mungple, globarMap: naver.maps.Map | undefined, prevCategoryCode: string) {
