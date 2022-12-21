@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React,{useEffect, useRef, useState} from 'react';
+import React,{useCallback, useEffect, useRef, useState} from 'react';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
@@ -8,20 +8,11 @@ import './CommentsPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import { getCommentList, postComment,deleteComment } from '../../common/api/comment';
 import { RootState } from '../../redux/store';
-import ConfirmBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import ConfirmBottomSheet from '../../common/dialog/ConfirmBottomSheet';
 import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 import { analytics } from "../../index";
+import {commentType} from '../../common/types/comment';
 
-interface Comment {
-  certificationId: number;
-  content: string;
-  isReply: boolean;
-  createDt: string;
-  profile: string;
-  userId: number;
-  userName: string;
-  commentId: number;
-}
 
 interface StateType {
   certificationId: number;
@@ -33,14 +24,14 @@ function CommentsPage() {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.persist.user.user.id);
   const profile = useSelector((state: RootState) => state.persist.user.pet.image);
-  const { OS } = useSelector((state: any) => state.persist.device);
   const { certificationId, posterId } = useLocation()?.state as StateType;
   const [enteredInput, setEnteredInput] = useState('');
-  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [commentList, setCommentList] = useState<commentType[]>([]);
   const [deleteCommentId, setDeleteCommentId] = useState(-1);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const [deleteCommentSuccessToastIsOpen, setDeleteCommentSuccessToastIsOpen] = useState(false);
-  const commentEvent = useAnalyticsCustomLogEvent(analytics, "cert_comment_post");
+  const commentEvent = useAnalyticsCustomLogEvent(analytics, 'cert_comment_post');
+  const textRef = useRef<any>(null);
 
   useEffect(() => {
     getComments();
@@ -49,12 +40,12 @@ function CommentsPage() {
   useEffect(() => {
     if (deleteCommentSuccessToastIsOpen) {
       setTimeout(() => {
-        closeToastSuccessMessage()
+        closeToastSuccessMessage();
       }, 2000);
     }
   }, [deleteCommentSuccessToastIsOpen]);
 
-  const getComments = () => {
+  const getComments = useCallback(() => {
     getCommentList(
       certificationId,
       (response: AxiosResponse) => {
@@ -63,9 +54,9 @@ function CommentsPage() {
       },
       dispatch,
     );
-  };
+  }, []);
 
-  const postCommentOnCert = () => {
+  const postCommentOnCert = useCallback(() => {
     commentEvent.mutate();
     setEnteredInput('');
     postComment(
@@ -73,7 +64,7 @@ function CommentsPage() {
       certificationId,
       enteredInput,
       (response: AxiosResponse) => {
-        console.log('response',response)
+        console.log('response', response);
         if (response.data.code === 200) {
           setEnteredInput('');
           getComments();
@@ -81,9 +72,9 @@ function CommentsPage() {
       },
       dispatch,
     );
-  };
+  }, [enteredInput]);
 
-  const deleteCommentOnCert = () => {
+  const deleteCommentOnCert = useCallback(() => {
     deleteComment(
       userId,
       deleteCommentId,
@@ -100,10 +91,9 @@ function CommentsPage() {
       },
       dispatch,
     );
-  };
+  }, [deleteCommentId, certificationId]);
 
-  const textRef = useRef<any>(null);
-  const handleResizeHeight = () => {
+  const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
       if (textRef.current.scrollHeight <= 203) {
         console.log('textRef.current.scrollHeight', textRef.current.scrollHeight);
@@ -111,30 +101,33 @@ function CommentsPage() {
         textRef.current.style.height = `${textRef.current.scrollHeight - 9}px`;
       }
     }
-  };
+  }, []);
 
-  const oepnToastSuccessMessage = () => {
-    setDeleteCommentSuccessToastIsOpen(true)
-  };
+  const oepnToastSuccessMessage = useCallback(() => {
+    setDeleteCommentSuccessToastIsOpen(true);
+  }, []);
 
-  const closeToastSuccessMessage = () => {
-    setDeleteCommentSuccessToastIsOpen(false)
-  };
+  const closeToastSuccessMessage = useCallback(() => {
+    setDeleteCommentSuccessToastIsOpen(false);
+  }, []);
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const inputChangeHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEnteredInput(e.target.value);
-  };
+  }, []);
 
-  const openBottomSheet = (commentId: number) => (e: React.MouseEvent) => {
-    setBottomSheetIsOpen(true);
-    setDeleteCommentId(commentId);
-  };
+  const openBottomSheet = useCallback(
+    (commentId: number) => (e: React.MouseEvent) => {
+      setBottomSheetIsOpen(true);
+      setDeleteCommentId(commentId);
+    },
+    [],
+  );
 
-  const closeBottomSheet = () => {
+  const closeBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(false);
-  };
+  }, []);
 
-  const context = commentList.map((comment: Comment) => {
+  const context = commentList.map((comment: commentType) => {
     return (
       <div className="comment">
         <img src={comment.profile} alt="profile" />
@@ -153,9 +146,7 @@ function CommentsPage() {
                     ? openBottomSheet(comment.commentId)
                     : undefined
                 }
-                style={
-                  userId === posterId ? undefined : userId === comment.userId ? undefined : { visibility: 'hidden' }
-                }
+                style={userId === posterId ? undefined : userId === comment.userId ? undefined : { visibility: 'hidden' }}
               >
                 삭제
               </div>

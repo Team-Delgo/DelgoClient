@@ -4,26 +4,21 @@ import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import { useNavigate } from 'react-router-dom';
-import Cropper from 'react-easy-crop';
 import { checkPetName } from '../../validcheck';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import { ReactComponent as Camera } from '../../../../common/icons/camera.svg';
 import './PetInfo.scss';
-import DogType from './DogType';
 import BirthSelector from './BirthSelector';
 import { petImageUpload } from '../../../../common/api/signup';
-import Check from '../../../../common/icons/check.svg';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { MY_ACCOUNT_PATH } from '../../../../common/constants/path.const';
 import { changePetInfo } from '../../../../common/api/myaccount';
 import { RootState } from '../../../../redux/store';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
-import PrevArrowWhite from '../../../../common/icons/prev-arrow-white.svg';
-import WhiteCheck from '../../../../common/icons/white-check.svg';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import PetType from '../pettype/PetType';
-import { LocationState, Input, IsValid, Id, croppendAreaPixelType, BreedType } from './petInfoType';
+import {  Input, IsValid, Id, croppendAreaPixelType, BreedType } from './petInfoType';
 
 const reviewImgExtension = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
 

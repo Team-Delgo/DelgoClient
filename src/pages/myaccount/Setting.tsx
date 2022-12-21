@@ -7,19 +7,18 @@ import { ReactComponent as Arrow } from '../../common/icons/left-arrow.svg';
 import './Setting.scss';
 import { MY_ACCOUNT_PATH, SIGN_IN_PATH } from '../../common/constants/path.const';
 import { RootState } from '../../redux/store';
-import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../../common/dialog/ConfirmBottomSheet';
 import { deleteUser } from '../../common/api/signup';
 import { userActions } from '../../redux/slice/userSlice';
 import { setPushNotification } from '../../common/api/myaccount';
 
 function Setting() {
-  const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.persist.user);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
+  const [alert, setAlert] = useState(user?.notify);
   const navigate = useNavigate();
   const location: any = useLocation();
-  const { OS } = useSelector((state: RootState) => state.persist.device);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -59,8 +58,12 @@ function Setting() {
     setPushNotification(
       user.id,
       (response: AxiosResponse) => {
-        const { code } = response.data;
+        const { code,data } = response.data;
         if (code === 200) {
+          console.log('data',data)
+          dispatch(userActions.changeNotification({
+            notify: data
+          }))
           setAlert(!alert);
         }
       },

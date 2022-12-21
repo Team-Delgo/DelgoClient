@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unused-prop-types */
 import axios, { AxiosResponse } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from "react-query";
-import { certificationLike2,certificationLike, deleteCertificationPost } from '../../common/api/certification';
+import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
 import Bath from '../icons/bath.svg';
 import Beauty from '../icons/beauty.svg';
 import Cafe from '../icons/cafe.svg';
@@ -18,110 +18,21 @@ import { RootState } from '../../redux/store';
 import { CAMERA_PATH } from '../constants/path.const';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { scrollActions } from '../../redux/slice/scrollSlice';
-import DeleteBottomSheet from '../utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../dialog/ConfirmBottomSheet';
 import ToastPurpleMessage from '../dialog/ToastPurpleMessage';
-import { blockUser } from '../api/ban';
+import { banUser } from '../api/ban';
 import { analytics } from "../../index";
-import axiosInstance from '../api/interceptors';
+import { postType } from '../types/post';
+import {weekDay} from '../types/week'
+import { categoryCode,categoryIcon } from '../types/category';
 
-
-interface userType {
-  address: string;
-  appleUniqueNo: null;
-  email: string;
-  geoCode: string;
-  name: string;
-  password: string;
-  pgeoCode: string;
-  phoneNo: string;
-  profile: string;
-  registDt: string;
-  userId: number;
-  userSocial: string;
-}
-
-interface CertificationPostProps {
+interface CertificationPostPropsType {
   post: postType;
   refetch: () => void;
   pageSize:number;
 }
 
-interface postType {
-  address: string;
-  categoryCode: string;
-  certificationId: number;
-  commentCount: number;
-  description: string;
-  geoCode: string;
-  isAchievements: boolean;
-  isLike: boolean;
-  isLive: boolean;
-  isPhotoChecked: boolean;
-  latitude: string;
-  likeCount: number;
-  longitude: string;
-  mungpleId: number;
-  pgeoCode: string;
-  photoUrl: string;
-  placeName: string;
-  registDt: string;
-  userId: number;
-  user: userType;
-}
-
-interface weekDayType {
-  Mon: string;
-  Tue: string;
-  Wed: string;
-  Thu: string;
-  Fri: string;
-  Sat: string;
-  Sun: string;
-  [prop: string]: any;
-}
-
-const weekDay: weekDayType = {
-  Mon: '월',
-  Tue: '화',
-  Wed: '수',
-  Thu: '목',
-  Fri: '금',
-  Sat: '토',
-  Sun: '일',
-};
-
-interface categoryType {
-  CA0001: string;
-  CA0002: string;
-  CA0003: string;
-  CA0004: string;
-  CA0005: string;
-  CA0006: string;
-  CA9999: string;
-  [prop: string]: any;
-}
-
-const categoryIcon: categoryType = {
-  CA0001: Walk,
-  CA0002: Cafe,
-  CA0003: Bath,
-  CA0004: Bath,
-  CA0005: Beauty,
-  CA0006: Hospital,
-  CA9999: Hospital,
-};
-
-const categoryCode: categoryType = {
-  CA0001: '산책',
-  CA0002: '카페',
-  CA0003: '식당',
-  CA0004: '목욕',
-  CA0005: '미용',
-  CA0006: '병원',
-  CA9999: '기타',
-};
-
-function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) {
+function CertificationPost({ post, refetch, pageSize }: CertificationPostPropsType) {
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(post?.isLike);
   const [likeCount, setLikeCount] = useState(post?.likeCount);
@@ -130,12 +41,12 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
   const [blockUserSuccessToastIsOpen, setBlockUserSuccessToastIsOpen] = useState(false);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
   const [blockUserbottomSheetIsOpen, setBlockUserBottomSheetIsOpen] = useState(false);
-  const [likeIsLoading,setLikeIsLoading] = useState(false)
+  const [likeIsLoading, setLikeIsLoading] = useState(false);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const location = useLocation();
-  const heartEvent = useAnalyticsCustomLogEvent(analytics, "cert_like");
-  const commentEvent = useAnalyticsCustomLogEvent(analytics, "cert_comment_view");
+  const heartEvent = useAnalyticsCustomLogEvent(analytics, 'cert_like');
+  const commentEvent = useAnalyticsCustomLogEvent(analytics, 'cert_comment_view');
 
   useEffect(() => {
     if (deletePostSuccessToastIsOpen) {
@@ -153,17 +64,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
     }
   }, [blockUserSuccessToastIsOpen]);
 
-
-  // const { mutate, isLoading, isError, error, isSuccess } = useMutation(() => {
-  //   return axiosInstance.post(
-  //     `/certification/like/${user.id}/${post?.certificationId}`,
-  //   );
-  // },
-  // onSuccess: (data, variables, context) => {
-  //   // I will fire first
-  // },);
-
-  const setCertificationLike = () => {
+  const handleCertificationLike = () => {
     if (likeIsLoading) return;
     setLikeIsLoading(true);
     certificationLike(
@@ -181,7 +82,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
     setLikeIsLoading(false);
   };
 
-  const deleteCertification = () => {
+  const deleteCertification = useCallback(() => {
     deleteCertificationPost(
       user.id,
       post?.certificationId,
@@ -197,10 +98,10 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       },
       dispatch,
     );
-  };
+  },[])
 
-  const handleBlockUser = () => {
-    blockUser(
+  const handleBlockUser = useCallback(() => {
+    banUser(
       user.id,
       post?.user?.userId,
       (response: AxiosResponse) => {
@@ -216,7 +117,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
       },
       dispatch,
     );
-  };
+  },[])
 
   const moveToCommentPage = () => {
     commentEvent.mutate();
@@ -242,39 +143,39 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
         prevPath: location.pathname,
       },
     });
-  };
+  }
 
-  const oepnToastSuccessMessage = () => {
+  const oepnToastSuccessMessage = useCallback(() => {
     setDeletePostSuccessToastIsOpen(true);
-  };
+  }, []);
 
-  const closeToastSuccessMessage = () => {
+  const closeToastSuccessMessage = useCallback(() => {
     setDeletePostSuccessToastIsOpen(false);
-  };
+  }, []);
 
-  const openBottomSheet = () => {
+  const openBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(true);
-  };
+  }, []);
 
-  const closeBottomSheet = () => {
+  const closeBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(false);
-  };
+  }, []);
 
-  const oepnBlockToastSuccessMessage = () => {
+  const oepnBlockToastSuccessMessage = useCallback(() => {
     setBlockUserSuccessToastIsOpen(true);
-  };
+  }, []);
 
-  const closeBlockToastSuccessMessage = () => {
+  const closeBlockToastSuccessMessage = useCallback(() => {
     setBlockUserSuccessToastIsOpen(false);
-  };
+  }, []);
 
-  const openBlockBottomSheet = () => {
+  const openBlockBottomSheet = useCallback(() => {
     setBlockUserBottomSheetIsOpen(true);
-  };
+  }, []);
 
-  const closeBlockBottomSheet = () => {
+  const closeBlockBottomSheet = useCallback(() => {
     setBlockUserBottomSheetIsOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -323,7 +224,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostProps) 
             src={isLike ? FillHeart : Heart}
             alt="heart"
             aria-hidden="true"
-            onClick={setCertificationLike}
+            onClick={handleCertificationLike}
           />
           <div className="post-img-result-main-footer-count">{likeCount}</div>
           <img

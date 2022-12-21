@@ -48,4 +48,4 @@ function AlertConfirm(props: { text: string, buttonText: string, yesButtonHandle
   </div>, el);
 };
 
-export default AlertConfirm;
+export default React.memo(AlertConfirm);

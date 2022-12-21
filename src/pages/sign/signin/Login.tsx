@@ -24,6 +24,15 @@ interface State {
   email: string;
 }
 
+
+declare global {
+  interface Window {
+    BRIDGE: any;
+    webkit: any;
+    kakao: any;
+  }
+}
+
 function Login() {
   const [enteredInput, setEnteredInput] = useState<Input>({ email: '', password: '' });
   const [loginFailed, setLoginFailed] = useState(false);
@@ -33,7 +42,7 @@ function Login() {
   const dispatch = useDispatch();
   const state = useLocation().state as State;
   const { email } = state;
-  const { OS } = useSelector((state: RootState) => state.persist.device);
+  const { OS,device } = useSelector((state: RootState) => state.persist.device);
 
   const mutation = useAnalyticsLogEvent(analytics, "screen_view");
 
@@ -91,6 +100,7 @@ function Login() {
                 isSocial: false,
                 geoCode: data.user.geoCode,
                 registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                notify: data.user.notify,
               },
               pet: {
                 petId: data.pet.petId,
@@ -107,7 +117,9 @@ function Login() {
           const refreshToken = response.headers.authorization_refresh;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-          sendFcmTokenHandler(data.user.userId);
+          if (device === 'mobile') {
+            sendFcmTokenHandler(data.user.userId);
+          }
           navigation(ROOT_PATH, { replace: true });
         } else if (code === 304) {
           console.log(2);
@@ -125,6 +137,9 @@ function Login() {
   const sendFcmTokenHandler = (userId: number) => {
     if (OS === 'android') {
       window.BRIDGE.sendFcmToken(userId);
+    }
+    else{
+      window.webkit.messageHandlers.sendFcmToken.postMessage(userId);
     }
   };
 

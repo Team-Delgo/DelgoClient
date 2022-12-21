@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import  { AxiosResponse } from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -41,17 +41,12 @@ import PetInfo from './pages/sign/signup/petinfo/PetInfo';
 import KakaoRedirectHandler from './pages/sign/signin/social/KakaoRedirectHandler';
 import NaverRedirectHandler from './pages/sign/signin/social/NaverRedirectHandler';
 import AppleRedirectHandler from './pages/sign/signin/social/AppleRedirectHandler';
-
 import Login from './pages/sign/signin/Login';
 import FindPassword from './pages/sign/password/FindPassword';
 import ResetPassword from './pages/sign/password/ResetPassword';
 import PhoneAuth from './pages/sign/password/PhoneAuth';
-
 import NeighborRankingPage from './pages/ranking/NeighborRankingPage';
 import MyAccountPage from './pages/myaccount/MyAccountPage';
-
-import PreventBack from './pages/sign/signin/PreventBack';
-
 import { RootState } from './redux/store';
 import ChangePetInfo from './pages/sign/signup/petinfo/ChangePetInfo';
 import RecordCertificationPage from './pages/certification/RecordCertificationPage';
@@ -66,7 +61,7 @@ import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
 import ToastPurpleMessage from './common/dialog/ToastPurpleMessage';
-import { getUserInfo } from './common/api/user';
+import { getMyInfo } from './common/api/myaccount';
 
 declare global {
   interface Window {
@@ -88,7 +83,7 @@ function App() {
 
   useEffect(() => {
     if (isSignIn) {
-      getUserInfo(
+      getMyInfo(
         user.id,
         (response: AxiosResponse) => {
           const { code, data } = response.data;
@@ -107,6 +102,7 @@ function App() {
                   isSocial: false,
                   geoCode: data.user.geoCode,
                   registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                  notify:data.user.notify,
                 },
                 pet: {
                   petId: data.pet.petId,
@@ -124,6 +120,18 @@ function App() {
       );
     }
   }, []);
+
+  useEffect(() => {
+    const pcDevice = 'win16|win32|win64|mac|macintel';
+    if (navigator.platform) {
+      if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
+        dispatch(deviceAction.mobile());
+      } else {
+        dispatch(deviceAction.pc());
+      }
+    }
+  }, []);
+
 
   useEffect(() => {
     const varUA = navigator.userAgent.toLowerCase();
@@ -180,10 +188,9 @@ function App() {
         <Route path={SIGN_UP_PATH.USER_INFO} element={<UserInfo />} />
         <Route path={SIGN_UP_PATH.SOCIAL.NICKNAME} element={<SocialUserInfo />} />
         <Route path={SIGN_UP_PATH.USER_PET_INFO} element={<PetInfo />} />
-        {/* <Route path={SIGN_UP_PATH.UER_PET_TYPE} element={<PetType />} /> */}
         <Route path={SIGN_UP_PATH.COMPLETE} element={<SignUpComplete />} />
         <Route path={SIGN_UP_PATH.SOCIAL.OTHER} element={<SocialExist />} />
-        <Route path="/preventback" element={<PreventBack />} />
+        {/* <Route path="/preventback" element={<PreventBack />} /> */}
         <Route path={RECORD_PATH.MAP} element={<MapPage />} />
         <Route path={RECORD_PATH.CALENDAR} element={<CalendarPage />} />
         <Route path={RECORD_PATH.PHOTO} element={<Photo />} />

@@ -132,6 +132,10 @@
         &-footer{
             display: flex;
             padding:50px 0 30px 0;
+            &-heart:active{
+                transform: scale(0.96);
+                // width: 200px;
+            }
             &-count{
                 font-size: 14px;
                 font-weight: 500;

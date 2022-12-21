@@ -1,13 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { useErrorHandlers } from './useErrorHandlers';
 
-async function setAccessCode(
-  code: string | null,
-  success: (data: AxiosResponse) => void,
-  navigate: () => void,
-  dispatch: any,
-) {
-  await axios
+function setAccessCode(code: string | null, success: (data: AxiosResponse) => void, navigate: () => void, dispatch: any) {
+  axios
     .post(`${process.env.REACT_APP_API_URL}/oauth/kakao/${code}`)
     .then((data) => {
       success(data);
@@ -18,7 +13,7 @@ async function setAccessCode(
     });
 }
 
-async function oAuthSignup(
+function oAuthSignup(
   data: {
     email: string;
     userName: string;
@@ -34,7 +29,7 @@ async function oAuthSignup(
   dispatch: any,
 ) {
   const { email, geoCode, pGeoCode, userName, phoneNo, petName, breed, birthday, userSocial } = data;
-  await axios
+  axios
     .post(`${process.env.REACT_APP_API_URL}/user/oauth `, {
       email,
       userName,
@@ -54,14 +49,14 @@ async function oAuthSignup(
     });
 }
 
-async function setStateCode(
+function setStateCode(
   data: { code: string | null; state: string | null },
   success: (data: AxiosResponse) => void,
   navigate: () => void,
   dispatch: any,
 ) {
   const { code, state } = data;
-  await axios
+  axios
     .post(`${process.env.REACT_APP_API_URL}/oauth/naver/${state}/${code}`)
     .then((data) => {
       success(data);
@@ -73,8 +68,8 @@ async function setStateCode(
     });
 }
 
-async function appleSendToken(token: string | null, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axios
+function appleSendToken(token: string | null, success: (data: AxiosResponse) => void, dispatch: any) {
+  axios
     .post(`${process.env.REACT_APP_API_URL}/oauth/apple/${token}`)
     .then((data) => {
       success(data);

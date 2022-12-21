@@ -3,44 +3,46 @@ import { useDispatch } from 'react-redux';
 import { useErrorHandlers } from './useErrorHandlers';
 
 const accessToken = localStorage.getItem('accessToken') || '';
+console.log('accessToken 동작',accessToken)
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
-  // headers: {
-  //   Authorization: accessToken,
-  // },
+  headers: {
+    authorization_access: accessToken,
+  },
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     return response;
   },
-  async (error) => {
+  async (error: any) => {
     console.log('error', error);
     const {
       config,
       response: { status },
     } = error;
-    console.log('error.response.status', error.response.status);
+    console.log('error.response.status', status);
     console.log('config', config);
     if (status === 403) {
       const refreshToken = localStorage.getItem('refreshToken') || '';
       const accessToken = localStorage.getItem('accessToken') || '';
-      console.log('refreshToken', refreshToken);
+      console.log('refreshToken', refreshToken);  
       console.log('accessToken', accessToken);
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/tokenReissue`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/token/reissue`, {
         headers: {
-          Authorization_Refresh: refreshToken,
+          authorization_refresh: refreshToken,
         },
       });
 
-      if (response.data.code === 333) {
+      console.log('token reissue response',response)
+
+      if (response.data.code === 303) {
         console.log('refresh token 만료');
         throw new Error('token exprired');
       }
 
-      console.log('response', response);
       console.log('config', config);
       const originalRequest = config;
       const newAccessToken = response.headers.authorization_access;
@@ -52,12 +54,12 @@ axiosInstance.interceptors.response.use(
       localStorage.setItem('accessToken', newAccessToken);
       localStorage.setItem('refreshToken', newRefreshToken);
 
-      originalRequest.headers.Authorization_Access = newAccessToken;
+      originalRequest.headers.authorization_access = newAccessToken;
 
-      return axiosInstance(originalRequest);
+      return axios(originalRequest);
     }
-    // return Promise.reject(error);
-    errorHandlers(error);
+    return Promise.reject(error);
+    // errorHandlers(error);
   },
 );
 

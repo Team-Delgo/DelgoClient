@@ -38,4 +38,4 @@ function AlertConfirmOne(props: { text: string, buttonHandler: () => void }) {
   </div>, el);
 };
 
-export default AlertConfirmOne;
+export default React.memo(AlertConfirmOne);

@@ -13,9 +13,9 @@ interface initialStateType {
   tool: string,
   file: string,
   address: string,
-  achievements:Array<achievementType>
+  achievements:Array<AchievementType>
 }
-interface achievementType {
+interface AchievementType {
   achievementsId: number;
   desc: string;
   imgUrl: string;
@@ -24,9 +24,19 @@ interface achievementType {
   isMungple: boolean;
   name: string;
   registDt: string;
+  achievementsCondition: Array<AchievementsConditionType>;
 }
 
-const initialState:initialStateType = {
+interface AchievementsConditionType {
+  achievementsConditionId: number;
+  mungpleId: number;
+  categoryCode: string;
+  count: number;
+  conditionCheck: boolean;
+  registDt: string;
+}
+
+const initialState: initialStateType = {
   img: '',
   latitude: '',
   longitude: '',
@@ -39,18 +49,7 @@ const initialState:initialStateType = {
   tool: '',
   file: '',
   address: '',
-  achievements: [
-    // {
-    //   achievementsId: 0,
-    //   imgUrl: '',
-    //   isActive: false,
-    //   isMain: 0,
-    //   isMungple: false,
-    //   name: '',
-    //   registDt: '',
-    // },
-  ],
-  // file: {} as Blob,
+  achievements: [],
 };
 
 const uploadSlice = createSlice({

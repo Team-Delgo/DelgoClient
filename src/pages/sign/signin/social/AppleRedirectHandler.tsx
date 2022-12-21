@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import qs from 'qs';
 import { appleSendToken } from '../../../../common/api/social';
@@ -22,8 +22,8 @@ function AppleRedirectHandler() {
     getToken();
   }, []);
 
-  const getToken = async () => {
-    await appleSendToken(
+  const getToken = () => {
+    appleSendToken(
       token,
       (response: AxiosResponse) => {
         const { code } = response.data;

@@ -1,33 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getCertificationPostsByMain } from '../../../common/api/certification';
+import { getCertificationPostsByHome } from '../../../common/api/certification';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
 import { POSTS_PATH } from '../../../common/constants/path.const';
 import { CACHE_TIME, GET_CERTIFICATION_POSTS_LIST_BY_MAIN, STALE_TIME } from '../../../common/constants/queryKey.const';
 import { RootState } from '../../../redux/store';
 import { analytics } from '../../../index';
-
-
-interface rankingType {
-  categoryCode:string 
-  certificationId:number
-  description: string
-  geoCode: string
-  isAchievements: number
-  isPhotoChecked: number
-  latitude: string
-  likeCount: number
-  longitude: string
-  mungpleId: number
-  pgeoCode: string
-  photoUrl: string
-  placeName: string
-  registDt: string
-  userId: number
-}
+import { postType } from '../../../common/types/post';
 
 
 function NeighborPosts() {
@@ -38,7 +20,7 @@ function NeighborPosts() {
 
   const { isLoading: getCertificationPostsByMainIsLoading, data: certificationPostsDataList } = useQuery(
     GET_CERTIFICATION_POSTS_LIST_BY_MAIN,
-    () => getCertificationPostsByMain(user.id),
+    () => getCertificationPostsByHome(user.id),
     {
       cacheTime: CACHE_TIME,
       staleTime: STALE_TIME,
@@ -47,6 +29,8 @@ function NeighborPosts() {
       },
     },
   );
+
+    console.log('certificationPostsDataList',certificationPostsDataList)
 
   const moveToPostsPage = () => {
     neighborEvent.mutate();
@@ -62,7 +46,7 @@ function NeighborPosts() {
         </div>
       </header>
       <main className="home-page-neighbord-posts-container">
-        {certificationPostsDataList?.data?.map((post: rankingType) => (
+        {certificationPostsDataList?.data?.map((post: postType) => (
           <div className="home-page-neighbord-post" key={post.certificationId} >
             <img src={post.photoUrl} alt="post-img"  aria-hidden="true" onClick={moveToPostsPage}/>
           </div>

@@ -1,10 +1,9 @@
 /* eslint-disable array-callback-return */
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { AxiosResponse } from 'axios';
+import React, { useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from 'react-query';
-import Sheet, { SheetRef } from 'react-modal-sheet';
+import Sheet from 'react-modal-sheet';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
@@ -20,50 +19,9 @@ import Walk from '../../../common/icons/walk.svg';
 import Etc from '../../../common/icons/etc.svg';
 import Check from '../../../common/icons/place-check.svg';
 import { useErrorHandlers } from '../../../common/api/useErrorHandlers';
+import { categoryIcon,categoryCode } from '../../../common/types/category';
+import {MungPlaceType} from '../../../common/types/mungPlace'
 
-interface categoryType {
-  산책: string;
-  카페: string;
-  식당: string;
-  목욕: string;
-  미용: string;
-  병원: string;
-  기타: string;
-  [prop: string]: any;
-}
-
-interface MungPlaceType {
-  categoryCode: string;
-  geoCode: string;
-  jibunAddress: string;
-  latitude: string;
-  longitude: string;
-  mungpleId: number;
-  p_geoCode: string;
-  placeName: string;
-  registDt: string;
-  roadAddress: string;
-}
-
-const categoryCode: categoryType = {
-  산책: 'CA0001',
-  카페: 'CA0002',
-  식당: 'CA0003',
-  목욕: 'CA0004',
-  미용: 'CA0005',
-  병원: 'CA0006',
-  기타: 'CA9999',
-};
-
-const categoryIcon: categoryType = {
-  산책: Walk,
-  카페: Cafe,
-  식당: Restorant,
-  목욕: Bath,
-  미용: Beauty,
-  병원: Hospital,
-  기타: Etc,
-};
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
@@ -72,7 +30,6 @@ function CaptureLocationRecord() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [checkedPlaceId, setCheckedPlaceId] = useState(-1);
   const [manualChecked, setManualChecked] = useState(false);
-  const ref = useRef<SheetRef>();
   const inputRef = useRef<any>();
   const { categoryKo } = useSelector((state: RootState) => state.persist.upload);
   const navigate = useNavigate();
@@ -90,45 +47,44 @@ function CaptureLocationRecord() {
     },
   );
 
-  const closeBottomSheet = () => {
+  const closeBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(false);
-  };
+  }, []);
 
-  const moveToCapturePage = () => {
+  const moveToCapturePage = useCallback(() => {
     navigate(CAMERA_PATH.CAPTURE);
-  };
+  }, []);
 
   const writeTitle = useCallback((e) => {
     setPlaceName(e.target.value.trim());
   }, []);
 
-  const selectMongPlace = (place: MungPlaceType) => (event: React.MouseEvent) => {
-    const { mungpleId, placeName } = place;
-    setCheckedPlaceId(mungpleId);
-    dispatch(uploadAction.setMongPlace({ mungpleId, placeName }));
-    setTimeout(() => {
-      navigate(CAMERA_PATH.CERTIFICATION);
-    }, 1000);
-  };
+  const selectMongPlace = useCallback(
+    (place: MungPlaceType) => (event: React.MouseEvent) => {
+      const { mungpleId, placeName } = place;
+      setCheckedPlaceId(mungpleId);
+      dispatch(uploadAction.setMongPlace({ mungpleId, placeName }));
+      setTimeout(() => {
+        navigate(CAMERA_PATH.CERTIFICATION);
+      }, 1000);
+    },
+    [],
+  );
 
-  const selectManualPlace = () => {
+  const selectManualPlace = useCallback(() => {
     setManualChecked(true);
     dispatch(uploadAction.setMongPlace({ mungpleId: 0, placeName }));
     setTimeout(() => {
       navigate(CAMERA_PATH.CERTIFICATION);
     }, 500);
-  };
+  }, [placeName]);
 
   const manualPlace = () => {
     return (
       <div className="review-place-wrapper" aria-hidden="true" onClick={selectManualPlace}>
         <div>
-          <div className={manualChecked === true ? 'review-place-wrapper-active-name' : 'review-place-wrapper-name'}>
-            {placeName}
-          </div>
-          <div
-            className={manualChecked === true ? 'review-place-wrapper-active-address' : 'review-place-wrapper-address'}
-          >
+          <div className={manualChecked === true ? 'review-place-wrapper-active-name' : 'review-place-wrapper-name'}>{placeName}</div>
+          <div className={manualChecked === true ? 'review-place-wrapper-active-address' : 'review-place-wrapper-address'}>
             장소 직접추가
           </div>
         </div>
@@ -139,13 +95,13 @@ function CaptureLocationRecord() {
 
   return (
     <Sheet
-      isOpen
+      isOpen={bottomSheetIsOpen}
       onClose={closeBottomSheet}
       snapPoints={[
         window.screen.height - window.screen.width + 10,
         window.screen.height - window.screen.width + 10,
         window.screen.height - window.screen.width + 10,
-        window.screen.height - window.screen.width+ 10,
+        window.screen.height - window.screen.width + 10,
       ]}
       // ref={ref}
       disableDrag
@@ -164,13 +120,7 @@ function CaptureLocationRecord() {
               </div>
             </header>
             <body className="review-container">
-              <input
-                type="text"
-                ref={inputRef}
-                className="review-place-name"
-                placeholder="여기는 어디인가요?"
-                onChange={writeTitle}
-              />
+              <input type="text" ref={inputRef} className="review-place-name" placeholder="여기는 어디인가요?" onChange={writeTitle} />
               <img className="magnifying-glass-img" src={MagnifyingGlass} alt="magnifying-glass-img" />
               {mungPlaceList?.data.map((place: MungPlaceType) => {
                 if (placeName.length > 0) {
@@ -180,26 +130,20 @@ function CaptureLocationRecord() {
                         <div>
                           <div
                             className={
-                              checkedPlaceId === place.mungpleId
-                                ? 'review-place-wrapper-active-name'
-                                : 'review-place-wrapper-name'
+                              checkedPlaceId === place.mungpleId ? 'review-place-wrapper-active-name' : 'review-place-wrapper-name'
                             }
                           >
                             {place.placeName}
                           </div>
                           <div
                             className={
-                              checkedPlaceId === place.mungpleId
-                                ? 'review-place-wrapper-active-address'
-                                : 'review-place-wrapper-address'
+                              checkedPlaceId === place.mungpleId ? 'review-place-wrapper-active-address' : 'review-place-wrapper-address'
                             }
                           >
                             {place.roadAddress}
                           </div>
                         </div>
-                        {checkedPlaceId === place.mungpleId ? (
-                          <img className="review-place-check" src={Check} alt="category-img" />
-                        ) : null}
+                        {checkedPlaceId === place.mungpleId ? <img className="review-place-check" src={Check} alt="category-img" /> : null}
                       </div>
                     );
                   }

@@ -3,34 +3,30 @@ import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
 async function getMungPlaceList(categoryCode: string) {
-  const { data } = await axiosInstance.get(
-    `/mungple/category/${categoryCode}`,
-  );
+  const { data } = await axiosInstance.get(`/mungple/category/${categoryCode}`);
   return data;
 }
 
 async function getCertificationDataCount(userId: number) {
-  const { data } = await axiosInstance.get(
-    `/certification/category/count/${userId}`,
-  );
+  const { data } = await axiosInstance.get(`/certification/category/count/${userId}`);
   return data;
 }
 
-async function certificationLike(userId: number, certificationId:number, success: (data: AxiosResponse) => void, dispatch: any){
-  await axiosInstance.post(`/certification/like/${userId}/${certificationId}`)
-    .then((data) => {
-      success(data);
-    })
-    .catch((error) => {
-      useErrorHandlers(dispatch, error);
-    });
+async function certificationLike(userId: number, certificationId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  try {
+    const result = await axiosInstance.post(`/certification/like/${userId}/${certificationId}`);
+    console.log(result);
+    success(result);
+  } catch (err: any) {
+    useErrorHandlers(dispatch, err);
+  }
 }
 
-async function certificationLike2(userId: number, certificationId: number) {
-  const { data } = await axiosInstance.post(`/certification /like/${userId}/${certificationId}`);
-  return data;
-}
-
+//  function certificationLike2(userId: number, certificationId: number) {
+//   // const { data } = await axiosInstance.post(`/certification/like/${userId}/${certificationId}`);
+//   // return data;
+//   return axiosInstance.post(`/certification/like/${userId}/${certificationId}`)
+// }
 
 async function registerCameraCertificationPost(
   data: {
@@ -44,7 +40,7 @@ async function registerCameraCertificationPost(
     photo: string;
   },
   success: (data: AxiosResponse) => void,
-  dispatch: any
+  dispatch: any,
 ) {
   try {
     const result = await axiosInstance.post(`/certification/live`, {
@@ -60,7 +56,7 @@ async function registerCameraCertificationPost(
     console.log(result);
     success(result);
   } catch (err: any) {
-    useErrorHandlers(dispatch,err);
+    useErrorHandlers(dispatch, err);
   }
 }
 
@@ -102,15 +98,11 @@ async function registerGalleryCertificationImg(
   dispatch: any,
 ) {
   try {
-    const result = await axiosInstance.post(
-      `/photo/upload/certification/${certificationId}`,
-      formdata,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    const result = await axiosInstance.post(`/photo/upload/certification/${certificationId}`, formdata, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-    );
+    });
     success(result);
   } catch (err: any) {
     useErrorHandlers(dispatch, err);
@@ -130,7 +122,7 @@ async function updateCertificationPost(
     const result = await axiosInstance.put(`/certification`, {
       certificationId: data.certificationId,
       description: data.description,
-      userId:data.userId,
+      userId: data.userId,
     });
     console.log(result);
     success(result);
@@ -139,7 +131,7 @@ async function updateCertificationPost(
   }
 }
 
-async function getCertificationPostsByMain(userId: number) {
+async function getCertificationPostsByHome(userId: number) {
   const { data } = await axiosInstance.get(`/certification/main?userId=${userId}`);
   console.log('data', data);
   return data;
@@ -147,29 +139,17 @@ async function getCertificationPostsByMain(userId: number) {
 
 async function getCertificationPostAll(pageParam: number, userId: number, pageSize: number, dispatch: any) {
   try {
-    const res = await axiosInstance.get(
-      `/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`,
-    );
-    console.log('res',res)
+    const res = await axiosInstance.get(`/certification/all?currentPage=${pageParam}&pageSize=${pageSize}&userId=${userId}`);
     const { content, last } = res.data.data;
-    console.log('res.data.data',res.data.data)
     return { content, nextPage: pageParam + 1, last };
   } catch (error: any) {
-    console.log('error',error)
     useErrorHandlers(dispatch, error);
   }
 }
 
-async function deleteCertificationPost(
-  userId: number,
-  certificationId: number,
-  success: (data: AxiosResponse) => void,
-  dispatch: any,
-) {
+async function deleteCertificationPost(userId: number, certificationId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   try {
-    const result = await axiosInstance.delete(
-      `/certification/${userId}/${certificationId}`,
-    );
+    const result = await axiosInstance.delete(`/certification/${userId}/${certificationId}`);
     success(result);
   } catch (error: any) {
     useErrorHandlers(dispatch, error);
@@ -182,10 +162,9 @@ export {
   registerCameraCertificationPost,
   registerGalleryCertificationPost,
   registerGalleryCertificationImg,
-  getCertificationPostsByMain,
+  getCertificationPostsByHome,
   getCertificationPostAll,
   updateCertificationPost,
   certificationLike,
   deleteCertificationPost,
-  certificationLike2
 };

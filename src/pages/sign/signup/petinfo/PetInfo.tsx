@@ -1,23 +1,19 @@
-import React, { ChangeEvent, useState, useCallback, useEffect } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import classNames from 'classnames';
 import imageCompression from 'browser-image-compression';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Cropper from 'react-easy-crop';
 import { checkPetName } from '../../validcheck';
 import { ReactComponent as Arrow } from '../../../../common/icons/left-arrow.svg';
 import { ReactComponent as Camera } from '../../../../common/icons/camera.svg';
 import './PetInfo.scss';
-import DogType from './DogType';
 import BirthSelector from './BirthSelector';
 import { signup, petImageUpload } from '../../../../common/api/signup';
-import Check from '../../../../common/icons/check.svg';
 import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import { userActions } from '../../../../redux/slice/userSlice';
 import { oAuthSignup } from '../../../../common/api/social';
-import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
 import getCroppedImg from '../../../../common/utils/CropHandle';
 import Crop from '../../../../common/utils/Crop';
 import { RootState } from '../../../../redux/store';
@@ -50,7 +46,7 @@ function PetInfo() {
   const formData = new FormData();
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<croppendAreaPixelType>();
   const [compressedFileName, setCompressedFileName] = useState('');
-  const { OS } = useSelector((state: RootState) => state.persist.device);
+  const { OS,device } = useSelector((state: RootState) => state.persist.device);
 
   const handleImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
@@ -184,15 +180,19 @@ function PetInfo() {
             userId = response.data.data.user.userId;
             console.log(response);
             console.log(userId);
+            const { registDt } = data.user;
             dispatch(
               userActions.signin({
-                couponList: [],
                 user: {
                   id: data.user.userId,
+                  address: data.user.address,
                   nickname: data.user.name,
-                  email: '',
+                  email: data.user.email,
                   phone: data.user.phoneNo,
+                  isSocial: false,
                   geoCode: data.user.geoCode,
+                  registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                  notify:data.user.notify,
                 },
                 pet: {
                   petId: data.pet.petId,
@@ -215,7 +215,9 @@ function PetInfo() {
               },
               dispatch,
             );
-            sendFcmTokenHandler(data.user.userId);
+            if (device === 'mobile') {
+              sendFcmTokenHandler(data.user.userId);
+            }
             navigation(SIGN_UP_PATH.COMPLETE, { state: { name: enteredInput.name } });
           } else {
             console.log(codeMsg);
@@ -238,7 +240,7 @@ function PetInfo() {
           birthday: enteredInput.birth,
           userSocial: isSocial,
         },
-        async (response: AxiosResponse) => {
+         (response: AxiosResponse) => {
           const { code, codeMsg, data } = response.data;
           if (code === 200) {
             const { registDt } = data.user;
@@ -250,7 +252,6 @@ function PetInfo() {
             dispatch(
               userActions.signin({
                 isSignIn: true,
-                couponList: [],
                 user: {
                   id: data.user.userId,
                   nickname: data.user.name,
@@ -260,6 +261,7 @@ function PetInfo() {
                   geoCode: data.user.geoCode,
                   address: data.user.address,
                   registDt: `${registDt.slice(0, 4)}.${registDt.slice(5, 7)}.${registDt.slice(8, 10)}`,
+                  notify:data.user.notify,
                 },
                 pet: {
                   petId: data.pet.petId,
@@ -271,9 +273,11 @@ function PetInfo() {
                 },
               }),
             );
-            sendFcmTokenHandler(data.user.userId);
+            if (device === 'mobile') {
+              sendFcmTokenHandler(data.user.userId);
+            }
             formData.append('photo', sendingImage[0]);
-            await petImageUpload(
+             petImageUpload(
               { formData, userId },
               (response: AxiosResponse) => {
                 console.log(response);
@@ -297,6 +301,9 @@ function PetInfo() {
   const sendFcmTokenHandler = (userId: number) => {
     if (OS === 'android') {
       window.BRIDGE.sendFcmToken(userId);
+    }
+    else{
+      window.webkit.messageHandlers.sendFcmToken.postMessage(userId);
     }
   };
 

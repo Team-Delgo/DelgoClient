@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useSelector, useDispatch } from 'react-redux';
-import Sheet, { SheetRef } from 'react-modal-sheet';
+import Sheet from 'react-modal-sheet';
 import imageCompression from 'browser-image-compression';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
 import {
@@ -13,75 +13,30 @@ import {
 } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
-import Bath from '../../../common/icons/bath.svg';
-import Beauty from '../../../common/icons/beauty.svg';
-import Cafe from '../../../common/icons/cafe.svg';
-import Hospital from '../../../common/icons/hospital.svg';
-import Restorant from '../../../common/icons/restorant.svg';
-import Walk from '../../../common/icons/walk.svg';
-import Etc from '../../../common/icons/etc.svg';
 import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
-import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
-import getCroppedImg from '../../../common/utils/CropHandle';
 import ToastPurpleMessage from '../../../common/dialog/ToastPurpleMessage';
 import { analytics } from '../../../index';
-import Loading from '../../../common/utils/Loading';
+import { categoryCode, categoryIcon } from '../../../common/types/category';
 
-interface categoryType {
-  산책: string;
-  카페: string;
-  식당: string;
-  목욕: string;
-  미용: string;
-  병원: string;
-  기타: string;
-  [prop: string]: any;
-}
-
-interface CaptureCertificationRecordType {
+interface CaptureCertificationRecordPropsType {
   postCertificationIsLoading: boolean;
-  setPostCertificationIsLoading: (params:boolean) => void;
+  setPostCertificationIsLoading: (params: boolean) => void;
 }
-
-const categoryCode: categoryType = {
-  산책: 'CA0001',
-  카페: 'CA0002',
-  식당: 'CA0003',
-  목욕: 'CA0004',
-  미용: 'CA0005',
-  병원: 'CA0006',
-  기타: 'CA9999',
-};
-
-const categoryIcon: categoryType = {
-  산책: Walk,
-  카페: Cafe,
-  식당: Restorant,
-  목욕: Bath,
-  미용: Beauty,
-  병원: Hospital,
-  기타: Etc,
-};
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
-
-function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertificationIsLoading }: CaptureCertificationRecordType) {
+function CaptureCertificationRecord({ postCertificationIsLoading, setPostCertificationIsLoading }: CaptureCertificationRecordPropsType) {
   const [certificationPostContent, setCertificationPostContent] = useState('');
   const [certificateErrorToastMessage, setCertificateErrorToastMessage] = useState('');
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(true);
   const [showCertificateErrorToast, setShowCertificateErrorToast] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const { categoryKo, img, latitude, longitude, mongPlaceId, title, tool, file } = useSelector(
-    (state: RootState) => state.persist.upload,
-  );
+  const { categoryKo, img, latitude, longitude, mongPlaceId, title, tool, file } = useSelector((state: RootState) => state.persist.upload);
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const ref = useRef<SheetRef>();
   const formData = new FormData();
-  const location = useLocation()
+  const location = useLocation();
   const certCompleteEvent = useAnalyticsCustomLogEvent(analytics, 'cert_end');
 
   useEffect(() => {
@@ -96,7 +51,6 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
     if (postCertificationIsLoading) {
       return;
     }
-    setButtonDisabled(true);
     setPostCertificationIsLoading(true);
     registerCameraCertificationPost(
       {
@@ -120,7 +74,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
               registDt: data.registDt,
               certificationId: data.certificationId,
               address: data.address,
-              achievements: []
+              achievements: [],
             }),
           );
           if (data.isAchievements) {
@@ -158,7 +112,6 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
     if (postCertificationIsLoading) {
       return;
     }
-    setButtonDisabled(true);
     setPostCertificationIsLoading(true);
     registerGalleryCertificationPost(
       {
@@ -170,47 +123,47 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
         latitude: latitude.toString(),
         longitude: longitude.toString(),
       },
-      async (response: AxiosResponse) => {
+      (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         console.log('response', response);
         if (code === 200) {
-            const options = {
-              maxSizeMB: 0.2,
-              maxWidthOrHeight: 1920,
-              useWebWorker: true,
-            };
+          const options = {
+            maxSizeMB: 0.2,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          };
 
-            formData.append('photo', file);
-            console.log('formData', formData);
-            registerGalleryCertificationImg(
-              formData,
-              data.certificationId,
-              (response: AxiosResponse) => {
-                console.log('2번째', response);
-                const { code, codeMsg } = response.data;
-                if (code === 200) {
+          formData.append('photo', file);
+          console.log('formData', formData);
+          registerGalleryCertificationImg(
+            formData,
+            data.certificationId,
+            (response: AxiosResponse) => {
+              console.log('2번째', response);
+              const { code, codeMsg } = response.data;
+              if (code === 200) {
+                dispatch(
+                  uploadAction.setContentRegistDtCertificationIdAddress({
+                    content: certificationPostContent,
+                    registDt: data.registDt,
+                    certificationId: data.certificationId,
+                    address: data.address,
+                    achievements: [],
+                  }),
+                );
+                if (data.isAchievements) {
                   dispatch(
-                    uploadAction.setContentRegistDtCertificationIdAddress({
-                      content: certificationPostContent,
-                      registDt: data.registDt,
-                      certificationId: data.certificationId,
-                      address: data.address,
-                      achievements: []
+                    uploadAction.setAchievements({
+                      achievements: data.achievements,
                     }),
                   );
-                  if (data.isAchievements) {
-                    dispatch(
-                      uploadAction.setAchievements({
-                        achievements: data.achievements,
-                      }),
-                    );
-                  }
-                  setPostCertificationIsLoading(false);
-                  moveToCaptureResultPage();
                 }
-              },
-              dispatch,
-            );
+                setPostCertificationIsLoading(false);
+                moveToCaptureResultPage();
+              }
+            },
+            dispatch,
+          );
         } else if (code === 314) {
           setPostCertificationIsLoading(false);
           setCertificateErrorToastMessage('카테고리당 하루 5번까지 인증 가능합니다');
@@ -225,7 +178,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
     );
   };
 
-  const handlingDataForm = async (dataURI: any) => {
+  const handlingDataForm = (dataURI: any) => {
     const byteString = atob(dataURI.split(',')[1]);
 
     const ab = new ArrayBuffer(byteString.length);
@@ -277,7 +230,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
   return (
     <>
       <Sheet
-        isOpen
+        isOpen={bottomSheetIsOpen}
         onClose={closeBottomSheet}
         snapPoints={[
           window.screen.height - window.screen.width + 10,
@@ -326,7 +279,7 @@ function CaptureCertificationRecord({ postCertificationIsLoading,setPostCertific
           </Sheet.Content>
         </Sheet.Container>
       </Sheet>
-      {showCertificateErrorToast && <ToastPurpleMessage message={certificateErrorToastMessage}/>}
+      {showCertificateErrorToast && <ToastPurpleMessage message={certificateErrorToastMessage} />}
     </>
   );
 }

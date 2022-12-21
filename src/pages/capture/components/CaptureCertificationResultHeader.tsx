@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
@@ -6,29 +7,10 @@ import { RootState } from '../../../redux/store';
 import { CAMERA_PATH, POSTS_PATH, ROOT_PATH, RECORD_PATH } from '../../../common/constants/path.const';
 import { deleteCertificationPost } from '../../../common/api/certification';
 import X from '../../../common/icons/xx.svg';
-import DeleteBottomSheet from '../../../common/utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../../../common/dialog/ConfirmBottomSheet';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
+import { weekDay } from '../../../common/types/week';
 
-interface weekDayType {
-  Mon: string;
-  Tue: string;
-  Wed: string;
-  Thu: string;
-  Fri: string;
-  Sat: string;
-  Sun: string;
-  [prop: string]: any;
-}
-
-const weekDay: weekDayType = {
-  Mon: '월',
-  Tue: '화',
-  Wed: '수',
-  Thu: '목',
-  Fri: '금',
-  Sat: '토',
-  Sun: '일',
-};
 
 function CaptureResultHeader() {
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
@@ -57,18 +39,27 @@ function CaptureResultHeader() {
   };
 
   const moveToUpdatePage = () => {
-    handleInitAchievements()
-    navigate(CAMERA_PATH.UPDATE);
+    handleInitAchievements();
+    navigate(CAMERA_PATH.UPDATE, {
+      state: {
+        prevPath: location.pathname,
+      },
+    });
   };
 
   const moveToHomePage = () => {
-    handleInitAchievements()
+    handleInitAchievements();
     navigate(ROOT_PATH);
   };
 
   const moveToPostsPage = () => {
-    handleInitAchievements()
+    handleInitAchievements();
     navigate(POSTS_PATH);
+  };
+
+  const moveToPhotoPage = () => {
+    handleInitAchievements();
+    navigate(RECORD_PATH.PHOTO);
   };
 
   const openBottomSheet = () => {
@@ -79,9 +70,9 @@ function CaptureResultHeader() {
     setBottomSheetIsOpen(false);
   };
 
-  const handleInitAchievements = () =>{
-    dispatch(uploadAction.initAchievements())
-  }
+  const handleInitAchievements = () => {
+    dispatch(uploadAction.initAchievements());
+  };
 
   return (
     <>
@@ -105,7 +96,13 @@ function CaptureResultHeader() {
             className="capture-page-x"
             alt="capture-page-x"
             aria-hidden="true"
-            onClick={location?.state?.prevPrevPath === POSTS_PATH ? moveToPostsPage : moveToHomePage}
+            onClick={
+              location?.state?.prevPrevPath === POSTS_PATH
+                ? moveToPostsPage
+                : location?.state?.prevPrevPath === RECORD_PATH.PHOTO
+                ? moveToPhotoPage
+                : moveToHomePage
+            }
           />
         </div>
       </header>

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
-async function blockUser(
+async function banUser(
   myUserId: number,
   blockedUserId: number,
   success: (data: AxiosResponse) => void,
@@ -17,4 +17,4 @@ async function blockUser(
   }
 }
 
-export { blockUser };
+export { banUser };

@@ -17,14 +17,14 @@ import Bath from '../../common/icons/bath.svg';
 import Eat from '../../common/icons/eat.svg';
 import Else from '../../common/icons/else.svg';
 import UnderArrow from '../../common/icons/under-arrow-gray.svg';
-import { Cert } from '../map/MapType';
+import { Cert } from '../../common/types/map';
 import { getCategoryCount, getPhotoData } from '../../common/api/record';
 import Devider from '../../common/icons/vertical-devide.svg';
 import { RECORD_PATH } from '../../common/constants/path.const';
 import { analytics } from '../../index';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import { RootState } from '../../redux/store';
-import CategoryItem, {categoryCode, categoryType} from './CategoryItem';
+import CategoryItem, {categoryCode} from './CategoryItem';
 
 const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 
@@ -102,8 +102,8 @@ function Photo() {
     else if (isLast) setFetching(true);
   }, [isFetching]);
 
-  const changePhotoData = async () => {
-    await getPhotoData(
+  const changePhotoData = () => {
+    getPhotoData(
       userId,
       cateogory,
       0,
@@ -145,9 +145,9 @@ function Photo() {
     });
   };
 
-  const getPhotoDataList = async () => {
+  const getPhotoDataList = () => {
     setIsLoading(true);
-    await getPhotoData(
+    getPhotoData(
       userId,
       cateogory,
       page,
@@ -182,7 +182,7 @@ function Photo() {
     photoContext.concat(<div className="photo-fake" />);
   }
 
-  const getCategoryCountList = async () => {
+  const getCategoryCountList = () => {
     getCategoryCount(
       userId,
       (response: AxiosResponse) => {

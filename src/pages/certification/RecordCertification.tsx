@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosResponse } from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Certification } from './RecordCertificationPage';
+import { useNavigate } from 'react-router-dom';
 import VerticalDevider from '../../common/icons/vertical-devide.svg';
 import Cafe from '../../common/icons/cafe.svg';
 import Walk from '../../common/icons/walk.svg';
@@ -13,38 +12,15 @@ import Eat from '../../common/icons/eat.svg';
 import Heart from '../../common/icons/heart-empty.svg';
 import FillHeart from '../../common/icons/heart.svg';
 import Comments from '../../common/icons/comments.svg';
-import { Cert } from '../map/MapType';
+import { Cert } from '../../common/types/map';
 import './RecordCertification.scss';
-import { CACHE_TIME, STALE_TIME } from '../../common/constants/queryKey.const';
 import { certificationLike, deleteCertificationPost } from '../../common/api/certification';
-import { useErrorHandlers } from '../../common/api/useErrorHandlers';
 import { uploadAction } from '../../redux/slice/uploadSlice';
 import { CAMERA_PATH, RECORD_PATH } from '../../common/constants/path.const';
-import AlertConfirmOne from '../../common/dialog/AlertConfirmOne';
-import AlertConfirm from '../../common/dialog/AlertConfirm';
 import { RootState } from '../../redux/store';
-import DeleteBottomSheet from '../../common/utils/ConfirmBottomSheet';
+import DeleteBottomSheet from '../../common/dialog/ConfirmBottomSheet';
+import { categoryCode } from '../../common/types/category';
 
-interface categoryType {
-  CA0001: string;
-  CA0002: string;
-  CA0003: string;
-  CA0004: string;
-  CA0005: string;
-  CA0006: string;
-  CA9999: string;
-  [prop: string]: any;
-}
-
-const categoryCode: categoryType = {
-  CA0001: '산책',
-  CA0002: '카페',
-  CA0003: '식당',
-  CA0004: '목욕',
-  CA0005: '미용',
-  CA0006: '병원',
-  CA9999: '기타',
-};
 
 function RecordCertification(props: { certification: Cert }) {
   const { certification } = props;
@@ -52,26 +28,28 @@ function RecordCertification(props: { certification: Cert }) {
   const [selfHeart, setSelfHeart] = useState(certification.isLike);
   const [count, setCount] = useState(certification.likeCount);
   const [bottomSheetIsOpen, setBottomSheetIsOpen] = useState(false);
-  const [likeIsLoading,setLikeIsLoading] = useState(false)
+  const [likeIsLoading, setLikeIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.persist.user);
-  const location = useLocation()
 
-  const setCertificationLike = () => {
+  const handleCertificationLike = () => {
     if (likeIsLoading) return;
     setLikeIsLoading(true);
     certificationLike(
       certification.userId,
       certification.certificationId,
       (response: AxiosResponse) => {
-        if (response.data.code === 200) setSelfHeart(!selfHeart);
+        if (response.data.code === 200) {
+          setSelfHeart(!selfHeart);
+          setCount(selfHeart ? count - 1 : count + 1);
+        }
       },
       dispatch,
     );
-    setLikeIsLoading(false)
+    setLikeIsLoading(false);
   };
 
-  const deleteCertification = () => {
+  const deleteCertification = useCallback(() => {
     closeBottomSheet();
     deleteCertificationPost(
       user.id,
@@ -80,19 +58,18 @@ function RecordCertification(props: { certification: Cert }) {
         const { code } = response.data;
         console.log(response);
         if (code === 200) {
-          moveToPhotoPage()
+          moveToPhotoPage();
         }
       },
       dispatch,
     );
-  };
+  },[])
 
-
-  const moveToPhotoPage = () => {
+  const moveToPhotoPage = useCallback(() => {
     navigate(RECORD_PATH.PHOTO);
-  };
+  },[])
 
-  const moveToUpdatePage = () => {
+  const moveToUpdatePage = useCallback(() => {
     dispatch(
       uploadAction.setCertificationUpdate({
         img: certification?.photoUrl,
@@ -102,17 +79,20 @@ function RecordCertification(props: { certification: Cert }) {
         content: certification?.description,
       }),
     );
-    navigate(CAMERA_PATH.UPDATE);
-  };
+    navigate(CAMERA_PATH.UPDATE, {
+      state: {
+        prevPath: RECORD_PATH.PHOTO,
+      },
+    });
+  },[])
 
-  const openBottomSheet = () => {
+  const openBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(true);
-  };
+  },[])
 
-  const closeBottomSheet = () => {
+  const closeBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(false);
-  };
-
+  },[])
 
   let icon;
   if (certification.categoryCode === 'CA0001') icon = Walk;
@@ -150,14 +130,7 @@ function RecordCertification(props: { certification: Cert }) {
             src={selfHeart ? FillHeart : Heart}
             alt="heart"
             aria-hidden="true"
-            onClick={() => {
-              setCertificationLike();
-              if (selfHeart) {
-                setCount(count - 1);
-              } else {
-                setCount(count + 1);
-              }
-            }}
+            onClick={handleCertificationLike}
           />
           {count > 0 && <div className="record-cert-icons-count">{count}</div>}
           <img
@@ -171,21 +144,18 @@ function RecordCertification(props: { certification: Cert }) {
               });
             }}
           />
-          {certification.commentCount > 0 && (
-            <div className="record-cert-icons-count">{certification.commentCount}</div>
-          )}
+          {certification.commentCount > 0 && <div className="record-cert-icons-count">{certification.commentCount}</div>}
         </div>
       </div>
       <DeleteBottomSheet
         text="기록을 삭제하실건가요?"
-        description='지우면 다시 볼 수 없어요'
-        cancelText='취소'
-        acceptText='삭제'
+        description="지우면 다시 볼 수 없어요"
+        cancelText="취소"
+        acceptText="삭제"
         acceptButtonHandler={deleteCertification}
         cancelButtonHandler={closeBottomSheet}
         bottomSheetIsOpen={bottomSheetIsOpen}
       />
-      
     </>
   );
 }

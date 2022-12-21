@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
-async function getMapData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axiosInstance
+function getMapData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  axiosInstance
     .get(`/map/${userId}`)
     .then((data) => {
       success(data);
@@ -13,8 +13,8 @@ async function getMapData(userId: number, success: (data: AxiosResponse) => void
     });
 }
 
-async function getCalendarData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axiosInstance
+function getCalendarData(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  axiosInstance
     .get(`/calendar/${userId}`)
     .then((data) => {
       success(data);
@@ -24,8 +24,8 @@ async function getCalendarData(userId: number, success: (data: AxiosResponse) =>
     });
 }
 
-async function getCategoryCount(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  await axiosInstance
+function getCategoryCount(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  axiosInstance
     .get(`/certification/category/count/${userId}`)
     .then((data) => {
       success(data);
@@ -35,7 +35,7 @@ async function getCategoryCount(userId: number, success: (data: AxiosResponse) =
     });
 }
 
-async function getPhotoData(
+function getPhotoData(
   userId: number,
   categoryCode: string,
   currentPage: number,
@@ -44,7 +44,7 @@ async function getPhotoData(
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
-  await axiosInstance
+  axiosInstance
     .get(
       `/certification/category?categoryCode=${categoryCode}&userId=${userId}&currentPage=${currentPage}&pageSize=${pageSize}&isDesc=${isDesc}`,
     )
@@ -55,7 +55,5 @@ async function getPhotoData(
       useErrorHandlers(dispatch, error);
     });
 }
-
-
 
 export { getMapData, getCalendarData, getPhotoData, getCategoryCount };

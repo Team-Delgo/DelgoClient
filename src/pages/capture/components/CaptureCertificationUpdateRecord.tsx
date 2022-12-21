@@ -1,54 +1,16 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback} from 'react';
 import { AxiosResponse } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Sheet, { SheetRef } from 'react-modal-sheet';
-import BottomButton from '../../../common/components/BottomButton';
+import Sheet from 'react-modal-sheet';
 import { CAMERA_PATH } from '../../../common/constants/path.const';
 import {updateCertificationPost } from '../../../common/api/certification';
 import { RootState } from '../../../redux/store';
 import { uploadAction } from '../../../redux/slice/uploadSlice';
-import Bath from '../../../common/icons/bath.svg';
-import Beauty from '../../../common/icons/beauty.svg';
-import Cafe from '../../../common/icons/cafe.svg';
-import Hospital from '../../../common/icons/hospital.svg';
-import Restorant from '../../../common/icons/restorant.svg';
-import Walk from '../../../common/icons/walk.svg';
-import Etc from '../../../common/icons/etc.svg';
 import WrittingButton from '../../../common/icons/writting-button.svg';
 import WrittingButtonActive from '../../../common/icons/writting-button-active.svg';
-import AlertConfirmOne from '../../../common/dialog/AlertConfirmOne';
+import { categoryIcon } from '../../../common/types/category';
 
-interface categoryType {
-  산책: string;
-  카페: string;
-  식당: string;
-  목욕: string;
-  미용: string;
-  병원: string;
-  기타: string;
-  [prop: string]: any;
-}
-
-const categoryCode: categoryType = {
-  산책: 'CA0001',
-  카페: 'CA0002',
-  식당: 'CA0003',
-  목욕: 'CA0004',
-  미용: 'CA0005',
-  병원: 'CA0006',
-  기타: 'CA9999',
-};
-
-const categoryIcon: categoryType = {
-  산책: Walk,
-  카페: Cafe,
-  식당: Restorant,
-  목욕: Bath,
-  미용: Beauty,
-  병원: Hospital,
-  기타: Etc,
-};
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 
@@ -66,9 +28,9 @@ function CaptureCategoryUpdateRecord() {
     setCertificationPostContent(e.target.value.trim());
   }, []);
 
-  const closeBottomSheet = () => {
+  const closeBottomSheet = useCallback(() => {
     setBottomSheetIsOpen(false);
-  };
+  }, []);
 
   const uploadCertificationPost = () => {
     if (buttonDisabled) {
@@ -82,13 +44,12 @@ function CaptureCategoryUpdateRecord() {
         userId: user.id,
       },
       (response: AxiosResponse) => {
-        const { code, codeMsg, data } = response.data;
-        console.log('response', response);
+        const { code, data } = response.data;
         if (code === 200) {
           dispatch(
             uploadAction.setContent({
               content: data.description,
-              achievements: []
+              achievements: [],
             }),
           );
           moveToCaptureResultPage();
@@ -102,18 +63,19 @@ function CaptureCategoryUpdateRecord() {
   };
 
 
-  const moveToCaptureResultPage = () => {
+  const moveToCaptureResultPage = useCallback(() => {
     navigate(CAMERA_PATH.RESULT, {
       state: {
         prevPath: location.pathname,
         prevPrevPath: location?.state?.prevPath,
+        updateSuccess:true
       },
     });
-  };
+  },[])
 
   return (
       <Sheet
-        isOpen
+        isOpen={bottomSheetIsOpen}
         onClose={closeBottomSheet}
         snapPoints={[
           window.screen.height - window.screen.width + 10,
