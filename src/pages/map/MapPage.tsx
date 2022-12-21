@@ -118,7 +118,6 @@ function MapPage() {
       userId,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
-        console.log(data);
         setWardOffice(data.wardOffice);
         setCertMungpleList(data.certMungpleList);
         setCertNormalList(data.certNormalList);
@@ -183,8 +182,6 @@ function MapPage() {
       setFlagClicked(false);
     });
   }, []);
-
-  console.log(flagClicked);
 
   useEffect(() => {
     if (wardOffice) {
@@ -354,7 +351,6 @@ function MapPage() {
   };
 
   const moveToRankingPage = () => {
-    console.log(topRankingDataList, myPetRankingData);
     navigate(NEIGHBOR_RANKING_PATH, {
       state: {
         topRankingDataList: topRankingDataList?.data,
