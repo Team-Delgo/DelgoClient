@@ -24,7 +24,7 @@ import { RECORD_PATH } from '../../common/constants/path.const';
 import { analytics } from '../../index';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import { RootState } from '../../redux/store';
-import CategoryItem, {categoryCode} from './CategoryItem';
+import CategoryItem, { categoryCode } from './CategoryItem';
 
 const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 
@@ -69,7 +69,12 @@ function Photo() {
         moveToCategoryRightScroll();
       }
     }
-    if (location?.state?.from !== 'home') {
+    if (location?.state?.from !== 'home' && pageSizeFor === 1) {
+      console.log("here")
+      getPhotoDataList();
+    }
+    if(pageSizeFor > 1){
+      console.log(pageSizeFor, photos);
       getPhotoDataList();
     }
     const handleScroll = () => {
@@ -98,7 +103,10 @@ function Photo() {
   }, [touchEnd]);
 
   useEffect(() => {
-    if (isFetching && !isLast) getPhotoDataList();
+    if (isFetching && !isLast) {
+      console.log(photos, isLast, page, scroll, pageSizeFor);
+      getPhotoDataList();
+    }
     else if (isLast) setFetching(true);
   }, [isFetching]);
 
@@ -125,11 +133,12 @@ function Photo() {
   }, [cateogory, sortOption]);
 
   useEffect(() => {
-    if (!isLoading && pageSizeFor > 1 && photos.length > 0) {
+    if (!isLoading && pageSizeFor > 1 && photos.length >= pageSizeFor*6) {
+      console.log(isLoading, pageSizeFor, scroll, photos);
       window.scroll(0, scroll);
       setPageSizeFor(1);
     }
-  }, [isLoading]);
+  }, [isLoading, photos]);
 
   const moveToCategoryLeftScroll = () => {
     categoryRef.current.scrollTo({
@@ -155,6 +164,7 @@ function Photo() {
       sortOption,
       (response: AxiosResponse) => {
         const { data } = response;
+        console.log(data, pageSizeFor);
         if (pageSizeFor > 1) {
           setPage(pageSizeFor);
         } else {
