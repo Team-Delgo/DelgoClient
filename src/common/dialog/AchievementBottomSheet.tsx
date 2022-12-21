@@ -1,49 +1,23 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import Sheet, { SheetRef } from 'react-modal-sheet';
+import Sheet from 'react-modal-sheet';
 import { useNavigate } from 'react-router-dom';
 import { ACHIEVEMENT_PATH } from '../constants/path.const';
 import X from '../icons/xx.svg';
 import './AchievementBottomSheet.scss';
+import { achievementType } from '../types/achievement';
 
 const sheetStyle = { borderRadius: '18px 18px 0px 0px' };
 const sheetSnapPoints = [270, 270, 270, 270];
 
-interface AchievementType {
-  achievementsId: number;
-  desc: string;
-  imgUrl: string;
-  isActive: boolean;
-  isMain: number;
-  isMungple: boolean;
-  name: string;
-  registDt: string;
-  achievementsCondition: Array<AchievementsConditionType>;
-}
-
-interface AchievementsConditionType {
-  achievementsConditionId: number;
-  mungpleId: number;
-  categoryCode: string;
-  count: number;
-  conditionCheck: boolean;
-  registDt: string;
-}
-
-interface AchievementBottomSheetType {
+interface achievementBottomSheetType {
   text: string;
-  achievement: AchievementType | undefined;
+  achievement: achievementType | undefined;
   cancelButtonHandler: () => void;
   bottomSheetIsOpen: boolean;
   allView: boolean;
 }
-function AchievementBottomSheet({
-  text,
-  achievement,
-  cancelButtonHandler,
-  bottomSheetIsOpen,
-  allView,
-}: AchievementBottomSheetType) {
+function AchievementBottomSheet({ text, achievement, cancelButtonHandler, bottomSheetIsOpen, allView }: achievementBottomSheetType) {
   const navigate = useNavigate();
   const moveToAchievementPage = () => {
     navigate(ACHIEVEMENT_PATH);

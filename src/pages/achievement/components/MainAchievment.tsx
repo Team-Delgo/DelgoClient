@@ -7,6 +7,7 @@ import { RootState } from '../../../redux/store';
 import Checked from '../../../common/icons/checked.svg';
 import { achievementType } from '../../../common/types/achievement';
 
+
 interface mainAchievmentPropsType {
   editActivation: boolean;
   editRepresentativeAchievementsOn: () => void;
@@ -26,6 +27,9 @@ function MainAchievment({
 }: mainAchievmentPropsType) {
   const { user } = useSelector((state: RootState) => state.persist.user);
   const navigate = useNavigate();
+
+
+  console.log('mainAchievementList',mainAchievementList)
 
   const moveHomePage = () => {
     navigate(ROOT_PATH);

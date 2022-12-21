@@ -3,6 +3,7 @@ import React from 'react';
 import NotChecked from '../../../common/icons/not-checked.svg';
 import { achievementType } from '../../../common/types/achievement';
 
+
 interface achievementPropsType {
   editActivation: boolean;
   achievementList: Array<achievementType>;
@@ -18,6 +19,7 @@ function Achievement({
   achievementListCount,
   openBottomSheet,
 }: achievementPropsType) {
+
   return (
     <body className="achievement-page-body">
       <div className="achievement-page-body-achievements-title">내가 획득한 업적</div>

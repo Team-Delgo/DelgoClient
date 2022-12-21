@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useAnalyticsLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { AxiosResponse } from 'axios';
 import './MyAccountPage.scss';
 import LeftArrow from '../../common/icons/left-arrow.svg';
 import RightArrow from '../../common/icons/right-arrow.svg';
@@ -11,6 +12,8 @@ import { RootState } from '../../redux/store';
 import { userActions } from '../../redux/slice/userSlice';
 import DeleteBottomSheet from '../../common/dialog/ConfirmBottomSheet';
 import {analytics} from "../../index";
+import { logOut } from '../../common/api/myaccount';
+
 
 
 const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
@@ -45,10 +48,20 @@ function MyAccountPage() {
   },[])
 
   const logoutHandler = () => {
-    window.localStorage.removeItem('accessToken');
-    window.localStorage.removeItem('refreshToken');
-    dispatch(userActions.signout());
-    navigate(SIGN_IN_PATH.MAIN);
+    logOut(
+      user.id,
+      (response: AxiosResponse) => {
+        console.log(response);
+        const { code, codeMsg, data } = response.data;
+        if (code === 200) {
+          window.localStorage.removeItem('accessToken');
+          window.localStorage.removeItem('refreshToken');
+          dispatch(userActions.signout());
+          navigate(SIGN_IN_PATH.MAIN);
+        }
+      },
+      dispatch,
+    );
   };
 
   return (
