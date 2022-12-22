@@ -1,5 +1,5 @@
 # <b>🐕 Delgo Client Repository 🐕</b>
-<img width="30%" src="https://user-images.githubusercontent.com/54196723/203544712-8ad87cf3-23ef-408b-97d2-e1ccc21d9485.svg">
+<img width="40%" src="https://user-images.githubusercontent.com/54196723/203544712-8ad87cf3-23ef-408b-97d2-e1ccc21d9485.svg">
 
 <br/>
 
@@ -63,15 +63,14 @@
 
 ### ⚙️ Tech Stack
 
-`React`, `Redux Toolkit`, `React Query`, `SCSS`, `TypeScript`, `Eslint`, `Prettier`, `Naver Map`, `Firebase Analytics, `FCM`, `Spring Boot`, `JPA`, `Maria DB`, `Nginx`, `Apache Tomcat`, `NCP`, `Object Storage`, `JWT`, `OAuth 2.0`, `REST API`
+`React`, `Redux Toolkit`, `React Query`, `SCSS`, `TypeScript`, `Eslint`, `Prettier`, `Naver Map`, `Firebase Analytics`, `FCM`, `Spring Boot`, `JPA`, `Maria DB`, `Nginx`, `Apache Tomcat`, `NCP`, `Object Storage`, `JWT`, `OAuth 2.0`, `REST API`
 
 ### ⚙️ Architecture
 
 `MVC`
 
 ### ⚙️ ERD
-
-![KakaoTalk_20220821_120505217](https://user-images.githubusercontent.com/54196723/185776809-d8868cdb-918c-4ba9-a75e-8e568074aad2.jpg)
+<img width="70%" src="https://user-images.githubusercontent.com/54196723/209088168-6ac91aee-63f2-4d78-9f8a-d71a0a12c0df.png">
 
 <br/>
 
