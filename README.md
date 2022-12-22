@@ -23,7 +23,7 @@
     <b>💁 Service introduce</b>
 </h2>
 
-### 전국민 반려인을 위한 펫 다이어리 서비스 플랫폼
+### 인증기반 펫 다이어리 서비스 플랫폼
 
 - **펫 인증**
     - 카테고리, 인증장소 등을 선택해 인증
@@ -39,7 +39,7 @@
     - 각 업적 미션 수행시 업적 획득
     - 대표 업적과 모든 업적을 설정, 관리
 - **랭킹**
-    - 사용자 주거지 주소기반 주 단위 포인트 랭킹 표시
+    - 주거지 주소기반 주 단위 포인트 랭킹 산출
 - **푸쉬 알림**
     - 다른 사용자의 반응을 실시간으로 알려줌
 
@@ -145,8 +145,8 @@
 </p>
 
 <p float="left">  
-<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/203541559-60ce508b-6a80-48b6-abd4-9ed53b91f679.png">
-<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/203541565-9226a66d-6eca-401a-9b0a-a4fd48d49902.png">
+<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/209087451-d5dd90db-6d89-4419-a5f3-3a613c3bb207.png">
+<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/209087443-ac6620df-d93d-44c0-bfd2-dd4f77573a2a.png">
 </p>
 
 <p float="left">  
