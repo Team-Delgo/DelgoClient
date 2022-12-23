@@ -1,16 +1,30 @@
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { useErrorHandlers } from './useErrorHandlers';
-
-const accessToken = localStorage.getItem('accessToken') || '';
-console.log('accessToken 동작',accessToken)
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
-  headers: {
-    authorization_access: accessToken,
-  },
 });
+
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    try {
+      if (config.headers !== undefined && accessToken !=='') {
+        console.log('config',config)
+        console.log('accessToken',accessToken)
+        config.headers.authorization_access = accessToken;
+      }
+      return config;
+    } catch (err) {
+      console.error('err', err);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 axiosInstance.interceptors.response.use(
   (response: any) => {
@@ -59,14 +73,7 @@ axiosInstance.interceptors.response.use(
       return axios(originalRequest);
     }
     return Promise.reject(error);
-    // errorHandlers(error);
   },
 );
-
-function errorHandlers(error: any) {
-  console.log('error', error);
-  const dispatch = useDispatch();
-  useErrorHandlers(dispatch, error);
-}
 
 export default axiosInstance;

@@ -100,21 +100,19 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostPropsTy
   }, [blockUserSuccessToastIsOpen]);
 
   const handleCertificationLike = () => {
-    if (likeIsLoading) return;
-    setLikeIsLoading(true);
+    setLikeCount(isLike ? likeCount - 1 : likeCount + 1);
+    setIsLike(!isLike);
     certificationLike(
       user.id,
       post?.certificationId,
       (response: AxiosResponse) => {
         if (response.data.code === 200) {
+          console.log('좋아요 성공ㅋ')
           heartEvent.mutate();
-          setLikeCount(isLike ? likeCount - 1 : likeCount + 1);
-          setIsLike(!isLike);
         }
       },
       dispatch,
     );
-    setLikeIsLoading(false);
   };
 
   const deleteCertification = useCallback(() => {

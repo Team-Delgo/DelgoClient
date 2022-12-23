@@ -33,20 +33,18 @@ function RecordCertification(props: { certification: Cert }) {
   const { user } = useSelector((state: RootState) => state.persist.user);
 
   const handleCertificationLike = () => {
-    if (likeIsLoading) return;
-    setLikeIsLoading(true);
+    setSelfHeart(!selfHeart);
+    setCount(selfHeart ? count - 1 : count + 1);
     certificationLike(
       certification.userId,
       certification.certificationId,
       (response: AxiosResponse) => {
         if (response.data.code === 200) {
-          setSelfHeart(!selfHeart);
-          setCount(selfHeart ? count - 1 : count + 1);
+          console.log('좋아요 성공ㅋ')
         }
       },
       dispatch,
     );
-    setLikeIsLoading(false);
   };
 
   const deleteCertification = useCallback(() => {
