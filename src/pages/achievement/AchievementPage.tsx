@@ -14,6 +14,7 @@ import ToastPurpleMessage from '../../common/dialog/ToastPurpleMessage';
 import AchievementBottomSheet from '../../common/dialog/AchievementBottomSheet';
 import { achievementType } from '../../common/types/achievement';
 
+
 function AchievementPage() {
   const [achievementList, setAchievementList] = useState<achievementType[]>([]);
   const [mainAchievementList, setMainAchievementList] = useState<achievementType[]>([]);
@@ -61,6 +62,8 @@ function AchievementPage() {
       (response: AxiosResponse) => {
         const { data } = response.data;
 
+        console.log('data',data)
+
         const achievementList1 = data.filter((element: achievementType) => element.isActive === true);
         setAchievementListCount(achievementList1.length);
 
@@ -78,11 +81,17 @@ function AchievementPage() {
   };
 
   const selectionRepresentativeAchievementsCompletion = () => {
+    console.log('mainAchievementList',mainAchievementList)
+    console.log('mainAchievementList[0] ',mainAchievementList[0]?.achievementsId
+    )
+    console.log('mainAchievementList[1] ',mainAchievementList[1]?.achievementsId )
+    console.log('mainAchievementList[2] ',mainAchievementList[2]?.achievementsId )
+
     setMainAchievements(
       user.id,
-      mainAchievementList[0] !== undefined ? mainAchievementList[0].achievementsId : 0,
-      mainAchievementList[1] !== undefined ? mainAchievementList[1].achievementsId : 0,
-      mainAchievementList[2] !== undefined ? mainAchievementList[2].achievementsId : 0,
+      mainAchievementList[0] !== undefined ? mainAchievementList[0]?.achievementsId : 0,
+      mainAchievementList[1] !== undefined ? mainAchievementList[1]?.achievementsId : 0,
+      mainAchievementList[2] !== undefined ? mainAchievementList[2]?.achievementsId : 0,
       (response: AxiosResponse) => {
         const { code, codeMsg, data } = response.data;
         if (code === 200) {
@@ -117,10 +126,10 @@ function AchievementPage() {
     setEditActivation(true);
   }, []);
 
-  const editRepresentativeAchievementsOff = useCallback(() => {
+  const editRepresentativeAchievementsOff = () => {
     selectionRepresentativeAchievementsCompletion();
     setEditActivation(false);
-  }, []);
+  }
 
   const openAchievementCompletionToast = useCallback(() => {
     setMainAchievementSuccessToastIsOpen(true);

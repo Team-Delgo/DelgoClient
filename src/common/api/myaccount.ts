@@ -77,6 +77,18 @@ function setPushNotification(userId: number, success: (data: AxiosResponse) => v
     });
 }
 
+
+function logOut(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
+  axiosInstance
+    .post(`/account/logout/${userId}`)
+    .then((data) => {
+      success(data);
+    })
+    .catch((error) => {
+      useErrorHandlers(dispatch, error);
+    });
+}
+
 async function getMyInfo(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
   try {
     const result = await axiosInstance.get(`/user?userId=${userId}`);
@@ -91,4 +103,5 @@ async function getMyPoint(userId: number) {
   return data;
 }
 
-export { changePetInfo, changePassword, changeGeoCode, changeName, setPushNotification, getMyInfo, getMyPoint };
+
+export { changePetInfo, changePassword, changeGeoCode, changeName, setPushNotification, logOut, getMyInfo, getMyPoint };

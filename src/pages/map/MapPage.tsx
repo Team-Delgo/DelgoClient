@@ -32,6 +32,8 @@ import { getMyPetRanking, getTopRankingList } from '../../common/api/ranking';
 import { useErrorHandlers } from '../../common/api/useErrorHandlers';
 import { analytics } from '../../index';
 import { setFlagMarkerOption, setMarkerOptionBig, setMarkerOptionSmall, setMarkerOptionPrev, setCertOption } from './MapComponent';
+import { RootState } from '../../redux/store';
+import { scrollActions } from '../../redux/slice/scrollSlice';
 
 interface MakerItem {
   id: number;
@@ -57,10 +59,11 @@ function MapPage() {
   const [wardOffice, setWardOffice] = useState<WardOffice>();
   const [certMarkerList, setCertMarkerList] = useState<naver.maps.Marker[]>([]);
   const [certMungpleMarkerList, setCertMungpleMarkerList] = useState<naver.maps.Marker[]>([]);
+  const initMapCenter = useSelector((state: RootState) => state.persist.scroll.map);
   const [currentLocation, setCurrentLocation] = useState({
-    lat: 37.5626571,
-    lng: 127.00086,
-    zoom: 17,
+    lat: !initMapCenter.y ? 37.5626571 : initMapCenter.y,
+    lng: !initMapCenter.x ? 127.00086 : initMapCenter.x,
+    zoom: !initMapCenter.zoom ? 17 : initMapCenter.zoom,
     option: { zoom: 2, size: 70 },
   });
   const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
@@ -68,7 +71,6 @@ function MapPage() {
   const toggleClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_toggle');
   const certClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_cert');
   const flagClickEvent = useAnalyticsCustomLogEvent(analytics, 'map_flag');
-
   let map: naver.maps.Map;
 
   const { isLoading: getTopRankingListIsLoading, data: topRankingDataList } = useQuery(
@@ -118,7 +120,6 @@ function MapPage() {
       userId,
       (response: AxiosResponse) => {
         const { code, data } = response.data;
-        console.log(data);
         setWardOffice(data.wardOffice);
         setCertMungpleList(data.certMungpleList);
         setCertNormalList(data.certNormalList);
@@ -136,15 +137,29 @@ function MapPage() {
       },
     });
     getMapPageData();
-    navigator.geolocation.getCurrentPosition((pos) => {
-      setCurrentLocation({
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-        zoom: 17,
-        option: { zoom: 2, size: 70 },
+    console.log(initMapCenter);
+    if (initMapCenter.x === 0 && initMapCenter.y === 0) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setCurrentLocation({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          zoom: 17,
+          option: { zoom: 2, size: 70 },
+        });
+        setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
       });
-      setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-    });
+    } else {
+      // setCurrentLocation({
+      //   lat: initMapCenter.x,
+      //   lng: initMapCenter.y,
+      //   zoom: 17,
+      //   option: {zoom:2, size:70},
+      // })
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+      });
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -159,14 +174,17 @@ function MapPage() {
       },
     };
     const userMarker = new naver.maps.Marker(userMarkerOption);
-    globarMap?.panTo(new window.naver.maps.LatLng(userLocation.lat, userLocation.lng), {
-      duration: 500,
-      easing: 'easeOutCubic',
-    });
+    if (initMapCenter.x === 0 && initMapCenter.y === 0) {
+      globarMap?.panTo(new window.naver.maps.LatLng(userLocation.lat, userLocation.lng), {
+        duration: 500,
+        easing: 'easeOutCubic',
+      });
+    }
   }, [userLocation]);
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
+    console.log(currentLocation);
     const location = new window.naver.maps.LatLng(currentLocation.lat, currentLocation.lng);
     const mapOptions: naver.maps.MapOptions = {
       center: location,
@@ -182,9 +200,13 @@ function MapPage() {
       setSelectedCert(certDefault);
       setFlagClicked(false);
     });
-  }, []);
 
-  console.log(flagClicked);
+    return () => {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      dispatch(scrollActions.setMapCenter({ x: center?.x, y: center?.y, zoom }));
+    };
+  }, []);
 
   useEffect(() => {
     if (wardOffice) {
@@ -354,7 +376,8 @@ function MapPage() {
   };
 
   const moveToRankingPage = () => {
-    console.log(topRankingDataList, myPetRankingData);
+    
+
     navigate(NEIGHBOR_RANKING_PATH, {
       state: {
         topRankingDataList: topRankingDataList?.data,

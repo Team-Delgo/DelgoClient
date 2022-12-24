@@ -12,6 +12,11 @@ const initialState = {
   calendar: {
     scroll: 0,
   },
+  map: {
+    x: 0,
+    y: 0,
+    zoom: 0,
+  }
 };
 
 const scrollSlice = createSlice({
@@ -46,6 +51,16 @@ const scrollSlice = createSlice({
     },
     scrollInit() {
       return initialState;
+    },
+    setMapCenter(state, action) {
+      return {
+        ...initialState,
+        map: {
+          x: action.payload.x,
+          y: action.payload.y,
+          zoom: action.payload.zoom,
+        }
+      }
     },
   },
 });

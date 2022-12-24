@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import axiosInstance from './interceptors';
 import { useErrorHandlers } from './useErrorHandlers';
 
 interface SignUpData {
@@ -76,8 +77,8 @@ function signup(info: SignUpData, success: (data: AxiosResponse) => void, dispat
 }
 
 function deleteUser(userId: number, success: (data: AxiosResponse) => void, dispatch: any) {
-  axios
-    .delete(`${process.env.REACT_APP_API_URL}/account/user/${userId}`)
+  axiosInstance
+    .delete(`/account/user/${userId}`)
     .then((data) => {
       success(data);
     })
@@ -145,8 +146,8 @@ function phoneCheckNumber(data: { number: string; smsId: number }, success: (dat
 }
 
 function petImageUpload(data: { formData: FormData; userId: number }, success: (data: AxiosResponse) => void, dispatch: any) {
-  axios
-    .post(`${process.env.REACT_APP_API_URL}/photo/upload/profile/${data.userId}`, data.formData, {
+  axiosInstance
+    .post(`/photo/upload/profile/${data.userId}`, data.formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

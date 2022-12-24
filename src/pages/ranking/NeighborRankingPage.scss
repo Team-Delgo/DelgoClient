@@ -2,6 +2,8 @@
     &-header {
         background-color: #FFFFFF;
         padding-bottom: 30px;
+        min-height: 20vh;
+        border-top: none;
 
         &-title {
             color: #8A8A8A;
@@ -49,7 +51,8 @@
 
     &-body {
         background-color: #3F3F3F;
-        height: 75vh;
+        min-height: 80vh;
+        padding-bottom: 100px;
 
         &-my-pet {
             display: flex;

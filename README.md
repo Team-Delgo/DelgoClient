@@ -1,5 +1,5 @@
 # <b>🐕 Delgo Client Repository 🐕</b>
-<img width="30%" src="https://user-images.githubusercontent.com/54196723/203544712-8ad87cf3-23ef-408b-97d2-e1ccc21d9485.svg">
+<img width="40%" src="https://user-images.githubusercontent.com/54196723/203544712-8ad87cf3-23ef-408b-97d2-e1ccc21d9485.svg">
 
 <br/>
 
@@ -23,7 +23,7 @@
     <b>💁 Service introduce</b>
 </h2>
 
-### 전국민 반려인을 위한 펫 다이어리 서비스 플랫폼
+### 인증기반 펫 다이어리 서비스 플랫폼
 
 - **펫 인증**
     - 카테고리, 인증장소 등을 선택해 인증
@@ -39,7 +39,7 @@
     - 각 업적 미션 수행시 업적 획득
     - 대표 업적과 모든 업적을 설정, 관리
 - **랭킹**
-    - 사용자 주거지 주소기반 주 단위 포인트 랭킹 표시
+    - 주거지 주소기반 주 단위 포인트 랭킹 산출
 - **푸쉬 알림**
     - 다른 사용자의 반응을 실시간으로 알려줌
 
@@ -63,15 +63,14 @@
 
 ### ⚙️ Tech Stack
 
-`React`, `Redux Toolkit`, `React Query`, `SCSS`, `TypeScript`, `Eslint`, `Prettier`, `Naver Map`, `Toss Payments`, `Spring Boot`, `JPA`, `Maria DB`, `Nginx`, `Apache Tomcat`, `NCP`, `Object Storage`, `JWT`, `OAuth 2.0`, `REST API`
+`React`, `Redux Toolkit`, `React Query`, `SCSS`, `TypeScript`, `Eslint`, `Prettier`, `Naver Map`, `Firebase Analytics`, `FCM`, `Spring Boot`, `JPA`, `Maria DB`, `Nginx`, `Apache Tomcat`, `NCP`, `Object Storage`, `JWT`, `OAuth 2.0`, `REST API`
 
 ### ⚙️ Architecture
 
 `MVC`
 
 ### ⚙️ ERD
-
-![KakaoTalk_20220821_120505217](https://user-images.githubusercontent.com/54196723/185776809-d8868cdb-918c-4ba9-a75e-8e568074aad2.jpg)
+<img width="70%" src="https://user-images.githubusercontent.com/54196723/209088168-6ac91aee-63f2-4d78-9f8a-d71a0a12c0df.png">
 
 <br/>
 
@@ -145,8 +144,8 @@
 </p>
 
 <p float="left">  
-<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/203541559-60ce508b-6a80-48b6-abd4-9ed53b91f679.png">
-<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/203541565-9226a66d-6eca-401a-9b0a-a4fd48d49902.png">
+<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/209087451-d5dd90db-6d89-4419-a5f3-3a613c3bb207.png">
+<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/209087443-ac6620df-d93d-44c0-bfd2-dd4f77573a2a.png">
 </p>
 
 <p float="left">  
@@ -166,7 +165,7 @@
 
 
 <p float="left">  
-<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/203541987-5cd117c6-d8ba-4fb9-8e40-e95138710593.png">
+<img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/209088830-6e2b7536-ffda-4bf9-bd39-c9805b56f1cc.png">
 <img width="35%" height="650px" src="https://user-images.githubusercontent.com/54196723/203541995-62839b6d-efb3-4aa4-b6ac-78d0ce043269.png">
 </p>
 
