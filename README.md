@@ -51,9 +51,9 @@
 </h2>
 
 -   ### <b> <a href="https://github.com/Team-Delgo"> 🔗 Delgo-Organization </a> </b>
--   ### <b> <a href="https://github.com/Team-Delgo/DelgoRewardClient" > 🔗 Delgo-Frontend </a> </b>
+-   ### <b> <a href="https://github.com/Team-Delgo/DelgoClient" > 🔗 Delgo-Frontend </a> </b>
 -   ### <b> <a href="https://github.com/Team-Delgo/DelgoRewardServer" > 🔗 Delgo-Backend </a> </b>
--   ### <b> <a href="https://github.com/Team-Delgo/DelgoRewardAndroid" > 🔗 Delgo-Android </a> </b>
+-   ### <b> <a href="https://github.com/Team-Delgo/DelgoAndroid" > 🔗 Delgo-Android </a> </b>
 
 
 <br/>
