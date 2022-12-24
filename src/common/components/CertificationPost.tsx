@@ -228,7 +228,7 @@ function CertificationPost({ post, refetch, pageSize }: CertificationPostPropsTy
         </div>
         {user.id !== post?.user.userId ? (
           <div className="post-img-result-header-report" aria-hidden="true" onClick={openBlockBottomSheet}>
-            차단
+            신고
           </div>
         ) : (
           <div className="post-img-result-header-report">
