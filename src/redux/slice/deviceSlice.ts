@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   OS : '',
-  device:'web'
+  device:'pc'
 };
 
 const deviceSlice = createSlice({
