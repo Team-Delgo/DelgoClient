@@ -20,21 +20,21 @@ const neighborRankingPageBodyStyle = { minHeight: window.innerHeight - 260 };
 
 function MyAccountPage() {
   const dispatch = useDispatch();
-  const { OS } = useSelector((state: RootState) => state.persist.device);
+  const { OS, device } = useSelector((state: RootState) => state.persist.device);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const pet = useSelector((state: RootState) => state.persist.user.pet);
   const user = useSelector((state: RootState) => state.persist.user.user);
   const { address, registDt } = user;
   const { name, image } = pet;
-  const mutation = useAnalyticsLogEvent(analytics, "screen_view");
-  
+  const mutation = useAnalyticsLogEvent(analytics, 'screen_view');
+
   useEffect(() => {
     mutation.mutate({
       params: {
-        firebase_screen: "MyAccount",
-        firebase_screen_class: "MyAccountPage"
-      }
+        firebase_screen: 'MyAccount',
+        firebase_screen_class: 'MyAccountPage',
+      },
     });
     window.scroll(0, 0);
   }, []);
@@ -48,20 +48,27 @@ function MyAccountPage() {
   },[])
 
   const logoutHandler = () => {
-    logOut(
-      user.id,
-      (response: AxiosResponse) => {
-        console.log(response);
-        const { code, codeMsg, data } = response.data;
-        if (code === 200) {
-          window.localStorage.removeItem('accessToken');
-          window.localStorage.removeItem('refreshToken');
-          dispatch(userActions.signout());
-          navigate(SIGN_IN_PATH.MAIN);
-        }
-      },
-      dispatch,
-    );
+    if (device === 'mobile') {
+      logOut(
+        user.id,
+        (response: AxiosResponse) => {
+          console.log(response);
+          const { code, codeMsg, data } = response.data;
+          if (code === 200) {
+            window.localStorage.removeItem('accessToken');
+            window.localStorage.removeItem('refreshToken');
+            dispatch(userActions.signout());
+            navigate(SIGN_IN_PATH.MAIN);
+          }
+        },
+        dispatch,
+      );
+    } else {
+      window.localStorage.removeItem('accessToken');
+      window.localStorage.removeItem('refreshToken');
+      dispatch(userActions.signout());
+      navigate(SIGN_IN_PATH.MAIN);
+    }
   };
 
   return (

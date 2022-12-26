@@ -15,32 +15,12 @@ import { RootState } from '../../../redux/store';
 import { achievementType } from '../../../common/types/achievement';
 
 
-// interface AchievementType {
-//   achievementsId: number;
-//   desc: string;
-//   imgUrl: string;
-//   isActive: boolean;
-//   isMain: number;
-//   isMungple: boolean;
-//   name: string;
-//   registDt: string;
-//   achievementsCondition: Array<AchievementsConditionType>;
-// }
-
-// interface AchievementsConditionType {
-//   achievementsConditionId: number;
-//   mungpleId: number;
-//   categoryCode: string;
-//   count: number;
-//   conditionCheck: boolean;
-//   registDt: string;
-// }
-
 function Profile() {
   const [todayDate, SetTodayDate] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, pet } = useSelector((state: RootState) => state.persist.user);
+  
 
   useEffect(() => {
     getTodayDateStr();
