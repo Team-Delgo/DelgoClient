@@ -60,8 +60,7 @@ function UserInfo() {
   const [region, setRegion] = useState<Region>();
   const emailRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const firstPageIsValid =
-    validInput.email.length && validInput.password.length && validInput.confirm.length && !emailDuplicated;
+  const firstPageIsValid = validInput.email.length && validInput.password.length && validInput.confirm.length;
 
   const getRegionData = async () => {
     const response = await GetRegion();
@@ -172,19 +171,7 @@ function UserInfo() {
 
   const submitHandler = () => {
     //  유저정보 보내기
-    setTimeout(() => {
-      navigation(SIGN_UP_PATH.USER_PET_INFO, {
-        state: {
-          email: enteredInput.email,
-          password: enteredInput.password,
-          nickname: enteredInput.nickname,
-          phone,
-          isSocial: false,
-          geoCode: region!.geoCode,
-          pGeoCode: region!.pGeoCode
-        },
-      });
-    }, 200);
+    nicknameDupCheck();
   };
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -220,6 +207,7 @@ function UserInfo() {
           if (code === 200) {
             setEmailDuplicated(false);
             setEmailDupCheckFail(false);
+            setNextPage(true);
           } else {
             setEmailDuplicated(true);
             setEmailDupCheckFail(true);
@@ -242,6 +230,18 @@ function UserInfo() {
         if (code === 200) {
           setNicknameDuplicated(false);
           setNicknameDupCheckFail(false);
+
+          navigation(SIGN_UP_PATH.USER_PET_INFO, {
+            state: {
+              email: enteredInput.email,
+              password: enteredInput.password,
+              nickname: enteredInput.nickname,
+              phone,
+              isSocial: false,
+              geoCode: region!.geoCode,
+              pGeoCode: region!.pGeoCode,
+            },
+          });
         } else {
           setNicknameDuplicated(true);
           setNicknameDupCheckFail(true);
@@ -264,9 +264,12 @@ function UserInfo() {
     setRegion(region);
   };
 
-
   const closeModal = () => {
     setModalActive(false);
+  };
+
+  const firstPageNextButton = () => {
+    emailDupCheck();
   };
 
   return (
@@ -277,10 +280,10 @@ function UserInfo() {
         onClick={
           !nextPage
             ? () => {
-              setTimeout(() => {
-                navigation(-1);
-              }, 200);
-            }
+                setTimeout(() => {
+                  navigation(-1);
+                }, 200);
+              }
             : () => setNextPage(false)
         }
       >
@@ -309,9 +312,9 @@ function UserInfo() {
               {emailDupCheckFail ? '이미 사용중인 이메일입니다.' : feedback.email}
             </p>
 
-            <span aria-hidden="true" className="input-email-check" onClick={emailDupCheck}>
+            {/* <span aria-hidden="true" className="input-email-check" onClick={emailDupCheck}>
               중복확인
-            </span>
+            </span> */}
           </div>
           <span className="login-span">비밀번호</span>
           <input
@@ -339,9 +342,7 @@ function UserInfo() {
             type="button"
             disabled={!firstPageIsValid}
             className={classNames('login-button', { active: firstPageIsValid })}
-            onClick={() => {
-              setNextPage(true);
-            }}
+            onClick={firstPageNextButton}
           >
             다음
           </button>
@@ -391,9 +392,9 @@ function UserInfo() {
             <p className={classNames('input-feedback', { fine: !nicknameDuplicated && validInput.nickname.length })}>
               {nicknameDupCheckFail ? '이미 사용중인 닉네임입니다.' : feedback.nickname}
             </p>
-            <span aria-hidden="true" className="input-email-check" onClick={nicknameDupCheck}>
+            {/* <span aria-hidden="true" className="input-email-check" onClick={nicknameDupCheck}>
               중복확인
-            </span>
+            </span> */}
           </div>
           <span className="login-span">지역</span>
           <div className="login-input-wrapper">
@@ -413,8 +414,9 @@ function UserInfo() {
           </div>
           <button
             type="button"
-            disabled={!validInput.nickname.length || nicknameDuplicated}
-            className={classNames('login-button', { active: validInput.nickname.length && !nicknameDuplicated })}
+            // disabled={!validInput.nickname.length || nicknameDuplicated}
+            disabled={validInput.nickname.length === 0}
+            className={classNames('login-button', { active: validInput.nickname.length })}
             onClick={submitHandler}
           >
             다음
