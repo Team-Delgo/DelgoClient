@@ -10,7 +10,7 @@
     display: none;
   }
   &-preview {
-    background-color: #e5e5e5;
+    background-color: #F2F2F2;
     border-radius: 10px;
     width: 28vw;
     height: 28vw;
@@ -21,17 +21,10 @@
   &-label {
     display: block;
     position: absolute;
-    bottom: 0;
-    right: -9px;
-    width: 41px;
-    height: 41px;
+    width: 28vw;
+    height: 28vw;
     border-radius: 100%;
-    background-color: white;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    transition: 0.2s;
-    &:active {
-      transform: scale(0.9);
-    }
+
   }
   &-icon {
     position: absolute;
