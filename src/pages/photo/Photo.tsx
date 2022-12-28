@@ -24,7 +24,8 @@ import { RECORD_PATH } from '../../common/constants/path.const';
 import { analytics } from '../../index';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import { RootState } from '../../redux/store';
-import CategoryItem, { categoryCode } from './CategoryItem';
+import CategoryItem from './CategoryItem';
+import {categoryCode} from '../../common/types/category'
 
 
 const rightScrollCategory = ['목욕', '미용', '병원', '기타'];

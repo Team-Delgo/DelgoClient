@@ -19,7 +19,7 @@ import { uploadAction } from '../../redux/slice/uploadSlice';
 import { CAMERA_PATH, RECORD_PATH } from '../../common/constants/path.const';
 import { RootState } from '../../redux/store';
 import DeleteBottomSheet from '../../common/dialog/ConfirmBottomSheet';
-import { categoryCode } from '../../common/types/category';
+import { categoryCode2 } from '../../common/types/category';
 
 
 function RecordCertification(props: { certification: Cert }) {
@@ -71,7 +71,7 @@ function RecordCertification(props: { certification: Cert }) {
     dispatch(
       uploadAction.setCertificationUpdate({
         img: certification?.photoUrl,
-        categoryKo: categoryCode[certification?.categoryCode],
+        categoryKo: categoryCode2[certification?.categoryCode],
         title: certification?.placeName,
         certificationId: certification?.certificationId,
         content: certification?.description,

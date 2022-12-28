@@ -55,6 +55,7 @@ function MyAccountPage() {
           console.log(response);
           const { code, codeMsg, data } = response.data;
           if (code === 200) {
+            console.log('response',response)
             window.localStorage.removeItem('accessToken');
             window.localStorage.removeItem('refreshToken');
             dispatch(userActions.signout());

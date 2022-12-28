@@ -24,6 +24,7 @@ function CaptureCategoryUpdateRecord() {
   const dispatch = useDispatch();
   const location: any = useLocation()
 
+
   const writeContent = useCallback((e) => {
     setCertificationPostContent(e.target.value.trim());
   }, []);
