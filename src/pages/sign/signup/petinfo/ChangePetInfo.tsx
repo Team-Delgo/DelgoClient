@@ -274,7 +274,7 @@ function ChangePetInfo() {
             autoComplete="off"
             onChange={handleImage}
           />
-          <Camera className="petinfo-image-icon" />
+          {sendingImage.length === 0 && <Camera className="petinfo-image-icon" />}
         </label>
         <div className="petinfo-image-preview" style={{ backgroundImage: `url(${sendingImage})` }} />
       </div>

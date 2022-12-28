@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy } from 'react';
 import classNames from 'classnames';
 import { useAnalyticsLogEvent, useAnalyticsCustomLogEvent } from '@react-query-firebase/analytics';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,6 +25,7 @@ import { analytics } from '../../index';
 import { scrollActions } from '../../redux/slice/scrollSlice';
 import { RootState } from '../../redux/store';
 import CategoryItem, { categoryCode } from './CategoryItem';
+
 
 const rightScrollCategory = ['목욕', '미용', '병원', '기타'];
 
@@ -70,11 +71,9 @@ function Photo() {
       }
     }
     if (location?.state?.from !== 'home' && pageSizeFor === 1) {
-      console.log("here")
       getPhotoDataList();
     }
     if(pageSizeFor > 1){
-      console.log(pageSizeFor, photos);
       getPhotoDataList();
     }
     const handleScroll = () => {
@@ -104,7 +103,6 @@ function Photo() {
 
   useEffect(() => {
     if (isFetching && !isLast) {
-      console.log(photos, isLast, page, scroll, pageSizeFor);
       getPhotoDataList();
     }
     else if (isLast) setFetching(true);
@@ -134,7 +132,6 @@ function Photo() {
 
   useEffect(() => {
     if (!isLoading && pageSizeFor > 1 && photos.length >= pageSizeFor*6) {
-      console.log(isLoading, pageSizeFor, scroll, photos);
       window.scroll(0, scroll);
       setPageSizeFor(1);
     }
@@ -164,7 +161,6 @@ function Photo() {
       sortOption,
       (response: AxiosResponse) => {
         const { data } = response;
-        console.log(data, pageSizeFor);
         if (pageSizeFor > 1) {
           setPage(pageSizeFor);
         } else {
