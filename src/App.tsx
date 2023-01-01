@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import  { AxiosResponse } from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ import {
   APPLE_REDIRECT_HANDLE_PATH,
   MY_ACCOUNT_PATH,
 } from './common/constants/path.const';
-import CalendarPage from './pages/calendar/CalendarPage';
+// import CalendarPage from './pages/calendar/CalendarPage';
 import MapPage from './pages/map/MapPage';
 import CameraFrontPage from './pages/camera/CameraFrontPage';
 import CameraRearPage from './pages/camera/CameraRearPage';
@@ -57,11 +57,13 @@ import Setting from './pages/myaccount/Setting';
 import ChangeUserInfo from './pages/myaccount/ChangeUserInfo';
 import ChangePasswordCheck from './pages/myaccount/ChangePasswordCheck';
 import ChangePassword from './pages/myaccount/ChangePassword';
+import CalendarPage from './pages/calendar/CalendarPage';
 import { errorActions } from './redux/slice/errorSlice';
 import { userActions } from './redux/slice/userSlice';
 import ServiceTerm from './pages/myaccount/term/ServiceTerm';
 import ToastPurpleMessage from './common/dialog/ToastPurpleMessage';
 import { getMyInfo } from './common/api/myaccount';
+
 
 declare global {
   interface Window {

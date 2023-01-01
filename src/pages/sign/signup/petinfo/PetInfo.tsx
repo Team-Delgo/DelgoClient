@@ -22,6 +22,7 @@ import PetType from '../pettype/PetType';
 import {LocationState, Input, IsValid, croppendAreaPixelType, BreedType, Id} from "./petInfoType";
 
 function PetInfo() {
+  const appleCode = useSelector((state:RootState) => state.persist.user.appleCode);
   const signUpCompleteEvent = useAnalyticsCustomLogEvent(analytics, 'delgo_signup_end');
   const dispatch = useDispatch();
   const navigation = useNavigate();
@@ -167,6 +168,7 @@ function PetInfo() {
         breed: enteredInput.type.code,
         birthday: enteredInput.birth,
         userSocial: isSocial,
+        appleUniqueNo : appleCode,
       };
       oAuthSignup(
         requestBody,

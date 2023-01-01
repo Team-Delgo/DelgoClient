@@ -89,10 +89,12 @@ function Photo() {
   }, []);
 
   const touchStartFunc = (e: any) => {
+    e.preventDefault();
     setTouchStart(e.touches[0].clientX);
   };
 
   const touchEndFunc = (e: any) => {
+    e.preventDefault();
     setTouchEnd(e.changedTouches[0].clientX);
   };
 
