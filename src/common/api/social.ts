@@ -24,11 +24,12 @@ function oAuthSignup(
     breed: string;
     birthday: string | undefined;
     userSocial: string;
+    appleUniqueNo: string | undefined;
   },
   success: (data: AxiosResponse) => void,
   dispatch: any,
 ) {
-  const { email, geoCode, pGeoCode, userName, phoneNo, petName, breed, birthday, userSocial } = data;
+  const { email, geoCode, pGeoCode, userName, phoneNo, petName, breed, birthday, userSocial, appleUniqueNo } = data;
   axios
     .post(`${process.env.REACT_APP_API_URL}/user/oauth `, {
       email,
@@ -40,6 +41,7 @@ function oAuthSignup(
       breed,
       birthday,
       userSocial,
+      appleUniqueNo
     })
     .then((data) => {
       success(data);

@@ -195,7 +195,8 @@ function MapPage() {
     map = new naver.maps.Map(mapElement.current, mapOptions);
 
     setGlobarMap(map);
-    naver.maps.Event.addListener(map, 'tap', () => {
+    naver.maps.Event.addListener(map, 'tap', (e) => {
+      e.preventDefault();
       clearSelectedId();
       setSelectedCert(certDefault);
       setFlagClicked(false);

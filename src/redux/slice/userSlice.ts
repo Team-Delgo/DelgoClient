@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isSignIn: false,
+  appleCode:'',
   user: {
     id: 0,
     address: '',
@@ -24,6 +25,7 @@ const userSlice = createSlice({
     signin(state, action) {
       return {
         isSignIn: true,
+        appleCode:'',
         user: action.payload.user,
         pet: action.payload.pet,
       };
@@ -34,6 +36,7 @@ const userSlice = createSlice({
     setpetprofile(state, action) {
       return {
         isSignIn: state.isSignIn,
+        appleCode:'',
         user: state.user,
         pet: {
           ...state.pet,
@@ -44,6 +47,7 @@ const userSlice = createSlice({
     changepetinfo(state, action) {
       return {
         isSignIn: state.isSignIn,
+        appleCode:'',
         user: state.user,
         pet: {
           name: action.payload.name,
@@ -58,6 +62,7 @@ const userSlice = createSlice({
     changeGeoCode(state, action){
       return {
         isSignIn: state.isSignIn,
+        appleCode:'',
         user: {
           ...state.user,
           address: action.payload.address,
@@ -70,6 +75,7 @@ const userSlice = createSlice({
     changeNickName(state, action){
       return {
         isSignIn: state.isSignIn,
+        appleCode:'',
         user: {
           ...state.user,
           nickname: action.payload.name
@@ -84,6 +90,12 @@ const userSlice = createSlice({
           ...state.user,
           notify: action.payload.notify
         }
+      }
+    },
+    setAppleCode(state, action){
+      return {
+        ...state,
+        appleCode: action.payload
       }
     }
   },

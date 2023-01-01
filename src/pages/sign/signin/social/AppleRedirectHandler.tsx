@@ -8,10 +8,12 @@ import Loading from '../../../../common/utils/Loading';
 import AlertConfirm from '../../../../common/dialog/AlertConfirm';
 import { SIGN_UP_PATH } from '../../../../common/constants/path.const';
 import AlertConfirmOne from '../../../../common/dialog/AlertConfirmOne';
+import { userActions } from '../../../../redux/slice/userSlice';
 
 function AppleRedirectHandler() {
   const [signUp, setSignUp] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
+  const [appleCode, setAppleCode] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const url = window.location.href;
@@ -32,6 +34,7 @@ function AppleRedirectHandler() {
           navigate('/');
         } else if (code === 383) {
           setSignUp(true);
+          setAppleCode(response.data.data);
         } else {
           setLoginFailed(true);
         }
@@ -47,6 +50,8 @@ function AppleRedirectHandler() {
 
   const moveToSignUpPage = () => {
     navigate(SIGN_UP_PATH.TERMS, { state: { isSocial: 'A', phone: '', email: '' } });
+    dispatch(userActions.setAppleCode(appleCode));
+
   };
 
   return (
